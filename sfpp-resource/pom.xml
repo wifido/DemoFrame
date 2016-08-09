@@ -10,12 +10,19 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>sfpp.sfpp-resource</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>sfpp-resource-client</module>
+        <module>sfpp-resource-server</module>
+    </modules>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.sf</groupId>
+                <artifactId>sfpp.sfpp-common</artifactId>
+                <version>${sfpp.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.sf</groupId>
-            <artifactId>sfpp.sfpp-common</artifactId>
-            <version>${sfpp.version}</version>
-        </dependency>
-    </dependencies>
 </project>
