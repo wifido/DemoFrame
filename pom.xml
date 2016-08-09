@@ -13,6 +13,7 @@
         <module>sfpp-common</module>
         <module>sfpp-pcomp</module>
         <module>sfpp-kafka</module>
+        <module>sfpp-resource</module>
     </modules>
 
     <properties>
