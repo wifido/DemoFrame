@@ -5,15 +5,8 @@ import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.color.ColorSpace;
-import java.awt.geom.AffineTransform;
-import java.awt.image.*;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.awt.image.BufferedImage;
+import java.io.*;
 
 /**
  * @author Hash Zhang
@@ -21,70 +14,72 @@ import java.net.URL;
  * @date 2016/8/9
  */
 public class ImageUtils {
-    /**
-     * 将网络图片进行Base64位编码
-     *
-     * @param imgUrl
-     *			图片的url路径，如http://.....xx.jpg
-     * @return
-     */
-    public static String encodeImgageToBase64(URL imageUrl) {// 将图片文件转化为字节数组字符串，并对其进行Base64编码处理
-        ByteArrayOutputStream outputStream = null;
-        try {
-            BufferedImage bufferedImage = ImageIO.read(imageUrl);
-            outputStream = new ByteArrayOutputStream();
-            ImageIO.write(bufferedImage, "jpg", outputStream);
-        } catch (MalformedURLException e1) {
-            e1.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+    public final static String imageFormat = "png";
+
+    private final static int AVATAR_WIDTH = 50;
+    private final static int AVATAR_HEIGHT = 50;
+
+    private final static int CONTENT_WIDTH = 800;
+    private final static int CONTENT_HEIGHT = 600;
+    private final static int WIDTH_HEIGHT_RATIO = 2;
+
+
+    public final static ByteArrayOutputStream intelligentZip(InputStream srcImageFile, ImageKind imageKind) throws IOException {
+        BufferedImage src = ImageIO.read(srcImageFile); // 读入文件
+        int width = src.getWidth(); // 得到源图宽
+        int height = src.getHeight(); // 得到源图长
+        Image image = null;
+        BufferedImage tag = null;
+        switch (imageKind) {
+            case AVATAR:
+                image = src.getScaledInstance(AVATAR_WIDTH, AVATAR_HEIGHT,
+                        Image.SCALE_DEFAULT);
+                tag = new BufferedImage(width, height,
+                        BufferedImage.TYPE_INT_RGB);
+                break;
+            case CONTENT_IMAGE:
+//                int scale = Math.min(width / CONTENT_WIDTH, height / CONTENT_HEIGHT);
+                int scale = 1;
+                if (scale > 0) {
+                    width = width / scale;
+                    height = height / scale;
+                }
+            default:
+                image = src.getScaledInstance(width, height,
+                        Image.SCALE_DEFAULT);
+                tag = new BufferedImage(width, height,
+                        BufferedImage.TYPE_INT_RGB);
         }
+        Graphics g = tag.getGraphics();
+        g.drawImage(image, 0, 0, null); // 绘制缩小后的图
+        g.dispose();
+        ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
+        ImageIO.write(tag, imageFormat, byteOutputStream);// 输出到文件流
+        return byteOutputStream;
+    }
+
+    public static String encodeImgageToBase64(ByteArrayOutputStream outputStream) {// 将图片文件转化为字节数组字符串，并对其进行Base64编码处理
         // 对字节数组Base64编码
         BASE64Encoder encoder = new BASE64Encoder();
         return encoder.encode(outputStream.toByteArray());// 返回Base64编码过的字节数组字符串
     }
 
-    /**
-     * 将本地图片进行Base64位编码
-     *
-     * @param imgUrl
-     *			图片的url路径，如http://.....xx.jpg
-     * @return
-     */
-    public static String encodeImgageToBase64(File imageFile) {// 将图片文件转化为字节数组字符串，并对其进行Base64编码处理
-        ByteArrayOutputStream outputStream = null;
-        try {
-            BufferedImage bufferedImage = ImageIO.read(imageFile);
-            outputStream = new ByteArrayOutputStream();
-            ImageIO.write(bufferedImage, "jpg", outputStream);
-        } catch (MalformedURLException e1) {
-            e1.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        // 对字节数组Base64编码
-        BASE64Encoder encoder = new BASE64Encoder();
-        return encoder.encode(outputStream.toByteArray());// 返回Base64编码过的字节数组字符串
-    }
-
-    /**
-     * 将Base64位编码的图片进行解码，并保存到指定目录
-     *
-     * @param base64
-     *			base64编码的图片信息
-     * @return
-     */
-    public static void decodeBase64ToImage(String base64, String path,
-                                           String imgName) {
+    public static void decodeBase64ToImage(String base64, String file) throws IOException {
         BASE64Decoder decoder = new BASE64Decoder();
-        try {
-            FileOutputStream write = new FileOutputStream(new File(path
-                    + imgName));
-            byte[] decoderBytes = decoder.decodeBuffer(base64);
-            write.write(decoderBytes);
-            write.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        File file1 = new File(file);
+        if(file1.exists()){
+            throw new IOException("文件已存在！  ");
         }
+        if(!file1.getParentFile().exists()) {
+            if(!file1.getParentFile().mkdirs()) {
+                throw new IOException("文件目录创建失败  ");
+            }
+        }
+        file1.createNewFile();
+        FileOutputStream write = new FileOutputStream(file1);
+        byte[] decoderBytes = decoder.decodeBuffer(base64);
+        write.write(decoderBytes);
+        write.close();
     }
 }
+
