@@ -6,36 +6,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landing Page</title>
     <link rel="stylesheet" href="/sfpp-web/assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
     <link rel="stylesheet" href="/sfpp-web/assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="/sfpp-web/assets/css/common.css">
-    <link rel="stylesheet" href="/sfpp-web/assets/css/borderlist.css">
-    <link rel="stylesheet" href="/sfpp-web/assets/css/login-form.css">
+    <link rel="stylesheet" href="/sfpp-web/assets/css/index/common.css">
+    <link rel="stylesheet" href="/sfpp-web/assets/css/common/borderlist.css">
+    <link rel="stylesheet" href="/sfpp-web/assets/css/common/Features-Item.css">
+    <link rel="stylesheet" href="/sfpp-web/assets/css/common/animate.min.css">
+    <link rel="stylesheet" href="/sfpp-web/assets/css/common/login-form.css">
+    <link rel="stylesheet" href="/sfpp-web/assets/css/common/AdminLTE.min.css">
+    <link rel="stylesheet" href="/sfpp-web/assets/css/common/skins/_all-skins.min.css">
 </head>
 
-<body>
-    <nav class="navbar navbar-default">
-        <div class="container">
-            <div class="navbar-header"><a class="navbar-brand navbar-link" href="#"><i class="glyphicon glyphicon-home"></i>SFPP</a>
-                <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
-            </div>
-            <div class="collapse navbar-collapse" id="navcol-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="active" role="presentation"><a href="#"><i class="glyphicon glyphicon-home"></i> 主页 </a></li>
-                    <li role="presentation"><a href="#"><i class="fa fa-globe"></i> 知识网络</a></li>
-                    <li role="presentation">
-                        <a href="#"> <i class="fa fa-group"></i> 开放社区</a>
+<body class="skin-black-light">
+    
+    <div class="wrapper">
+    <header class="main-header">
+        <!-- Logo -->
+        <a href="file:///D:/Users/862911/AdminLTE-2.3.3/pages/index2.html" class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>SFPP</b></span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><b>顺丰开放平台</b></span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top">
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li class="active" role="presentation"><a href="#"><i class="glyphicon glyphicon-home"></i> 主页
+                        </a></li>
+                        <li role="presentation"><a href="#"><i class="fa fa-globe"></i> 知识网络</a></li>
+                        <li role="presentation">
+                            <a href="#"> <i class="fa fa-group"></i> 开放社区</a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#"> <i class="fa fa-gears"></i> 公共组件</a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#"> <i class="fa fa-building"></i> 技术学院</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li role="presentation"><a href="#">您好，请登录</a></li>
+                    </ul>
+
+                    <!-- User Account: style can be found in dropdown.less -->
+                    <li class="dropdown user user-menu">
+                        <a href="file:///D:/Users/862911/AdminLTE-2.3.3/pages/widgets.html#" class="dropdown-toggle"
+                           data-toggle="dropdown">
+                            <img src="./AdminLTE 2   Widgets_files/user2-160x160.jpg" class="user-image"
+                                 alt="User Image">
+                            <span class="hidden-xs">Alexander Pierce</span>
+                        </a>
                     </li>
-                    <li role="presentation">
-                        <a href="#"> <i class="fa fa-gears"></i> 公共组件</a>
-                    </li>
-                    <li role="presentation">
-                        <a href="#"> <i class="fa fa-building"></i> 技术学院</a>
-                    </li>
+
                 </ul>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </header>
+	</div>
+    
     <div class="jumbotron hero">
         <div class="container">
             <div class="row">
@@ -55,7 +84,6 @@
                                         <input type="checkbox">保持登录</label>
                                 </div>
                                 <button class="btn btn-default btn-block submit-button" type="button">登陆 </button>
-                                <button class="btn btn-default btn-block register-button" type="button">加入 </button>
                             </form>
                         </div>
                     </div>
@@ -104,12 +132,14 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <h5 class="text-center">SFPP © 2016</h5></div>
+                    <p class="text-center">SFPP © 2016</p></div>
             </div>
         </div>
     </footer>
     <script src="/sfpp-web/assets/js/jquery.min.js"></script>
     <script src="/sfpp-web/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/sfpp-web/assets/js/Features-Item.js"></script>
+    <script src="/sfpp-web/assets/js/Features-Item1.js"></script>
 </body>
 
 </html>
