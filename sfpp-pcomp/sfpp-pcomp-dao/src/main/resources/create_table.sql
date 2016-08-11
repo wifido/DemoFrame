@@ -87,23 +87,25 @@ create table pcomp_version_document_download(
   key(pcomp_version_id)
 )engine = innodb comment '公共组件文档下载与描述对应关系表';
 
-DROP TABLE IF EXISTS `pcomp_resource`;
-CREATE TABLE `pcomp_resource` (
-  `resource_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '资源ID,自增主键',
+
+DROP TABLE IF EXISTS `permission_resource`;
+CREATE TABLE `permission_resource` (
+  `resource_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '资源ID，自增主键',
   `parent_id` int(11) DEFAULT NULL COMMENT '父资源ID',
-  `resource_type` varchar(32) DEFAULT NULL COMMENT '资源类型：菜单M,按钮B,子菜单S',
+  `resource_type` varchar(32) DEFAULT NULL COMMENT '资源类型：菜单M，按钮B，子菜单S',
   `resource_url` varchar(128) DEFAULT NULL COMMENT '资源URL',
   `resource_name` varchar(32) DEFAULT NULL COMMENT '资源名称',
   `remark` varchar(128) DEFAULT NULL COMMENT '说明',
-  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除,0否1是',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除，0否1是',
   `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `modified_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`resource_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='资源表';
 
-DROP TABLE IF EXISTS `pcomp_role`;
-CREATE TABLE `pcomp_role` (
-  `role_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '角色ID,自增主键',
+
+DROP TABLE IF EXISTS `permission_role`;
+CREATE TABLE `permission_role` (
+  `role_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '角色ID，自增主键',
   `role_name` varchar(32) DEFAULT NULL COMMENT '角色名',
   `remark` varchar(128) DEFAULT NULL COMMENT '说明',
   `is_deleted` tinyint(1) DEFAULT '0' COMMENT '是否逻辑删除：0否1是',
@@ -112,8 +114,9 @@ CREATE TABLE `pcomp_role` (
   PRIMARY KEY (`role_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='角色表';
 
-DROP TABLE IF EXISTS `pcomp_role_res_rel`;
-CREATE TABLE `pcomp_role_res_rel` (
+
+DROP TABLE IF EXISTS `permission_role_res_rel`;
+CREATE TABLE `permission_role_res_rel` (
   `role_id` int(11) NOT NULL,
   `resource_id` int(11) NOT NULL,
   `created_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -123,19 +126,22 @@ CREATE TABLE `pcomp_role_res_rel` (
   PRIMARY KEY (`role_id`,`resource_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色资源对应表';
 
-DROP TABLE IF EXISTS `pcomp_user_role_rel`;
-CREATE TABLE `pcomp_user_role_rel` (
+
+
+DROP TABLE IF EXISTS `permission_user_role_rel`;
+CREATE TABLE `permission_user_role_rel` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `user_no` varchar(32) NOT NULL COMMENT '工号',
   `role_id` varchar(32) DEFAULT NULL COMMENT '角色ID',
   `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `modified_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='用户角色对应关表,一个用户可以对应多个角色';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='用户角色对应关表，一个用户可以对应多个角色';
 
-DROP TABLE IF EXISTS `pcomp_user`;
-CREATE TABLE `pcomp_user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id,自增主键',
+
+DROP TABLE IF EXISTS `permission_user`;
+CREATE TABLE `permission_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id，自增主键',
   `user_no` varchar(16) NOT NULL COMMENT '用户工号',
   `user_name` varchar(32) DEFAULT NULL COMMENT '用户姓名',
   `mobile` varchar(16) DEFAULT NULL COMMENT '用户手机号',
