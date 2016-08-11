@@ -17,8 +17,8 @@
 		</layout>
 	</appender> -->
 	
-	<appender name="tag" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="./logs/sfapp.log" />
+	<appender name="user" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="./logs/sfpp-user.log" />
 		<param name="Append" value="true" />
 		<param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -26,16 +26,16 @@
 		</layout>
 	</appender>
 	
-	<logger name="tag" additivity="false">  
+	<logger name="user" additivity="false">  
        <level value="info" />
-       <appender-ref ref="tag" />  
+       <appender-ref ref="user" />  
     </logger>
 
 
 	<root>
 		<priority value="info" />
 		<!-- <appender-ref ref="console" /> -->
-		<appender-ref ref="tag" />
+		<appender-ref ref="user" />
 	</root>
 
 </log4j:configuration>
