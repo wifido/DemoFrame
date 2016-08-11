@@ -14,6 +14,7 @@
         <module>sfpp-pcomp</module>
         <module>sfpp-kafka</module>
         <module>sfpp-resource</module>
+        <module>sfpp-user</module>
     </modules>
 
     <properties>
@@ -91,13 +92,16 @@
         <zkclient_version>0.1</zkclient_version>
         <tec_zkclient_version>0.3</tec_zkclient_version>
         <!--缓存-->
-        <ehcache_version>2.6.11</ehcache_version>
+        <ehcache_version>2.10.2</ehcache_version>
+        <ehcache-jgroupsreplication_version>1.7</ehcache-jgroupsreplication_version>
         <!-- Test libs -->
         <junit_version>4.10</junit_version>
         <easymock_version>3.0</easymock_version>
         <jmockit_version>1.24</jmockit_version>
 
         <commons-fileupload_version>1.3.1</commons-fileupload_version>
+        <!--shiro-->
+        <shiro.version>1.2.4</shiro.version>
     </properties>
 
     <dependencyManagement>
@@ -191,11 +195,6 @@
                 <groupId>com.github.sgroschupf</groupId>
                 <artifactId>zkclient</artifactId>
                 <version>${zkclient_version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.curator</groupId>
-                <artifactId>curator-framework</artifactId>
-                <version>${curator_version}</version>
             </dependency>
             <dependency>
                 <groupId>com.googlecode.xmemcached</groupId>
@@ -517,11 +516,6 @@
                 <version>${lombok_version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>net.sf.ehcache</groupId>
-                <artifactId>ehcache-core</artifactId>
-                <version>${ehcache_version}</version>
-            </dependency>
 
             <!-- test -->
             <dependency>
@@ -548,17 +542,66 @@
                 <artifactId>commons-fileupload</artifactId>
                 <version>${commons-fileupload_version}</version>
             </dependency>
+
+            <!-- apache shiro 相关jar包 -->
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-web</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-spring</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-core</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-aspectj</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-ehcache</artifactId>
+                <version>${shiro.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>ehcache-core</artifactId>
+                        <groupId>net.sf.ehcache</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.ehcache</groupId>
+                <artifactId>ehcache</artifactId>
+                <version>${ehcache_version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.ehcache</groupId>
+                <artifactId>ehcache-jgroupsreplication</artifactId>
+                <version>${ehcache-jgroupsreplication_version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>ehcache-core</artifactId>
+                        <groupId>net.sf.ehcache</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <repositories>
-        <!-- 		<repository>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                    <id>central</id>
-                    <name>libs-release</name>
-                    <url>http://10.103.14.50:8081/artifactory/repo</url>
-                </repository> -->
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>central</id>
+            <name>libs-release</name>
+            <url>http://10.103.14.50:8081/artifactory/repo</url>
+        </repository>
         <repository>
             <id>sf-private-reponsitory</id>
             <name>SF private repository</name>

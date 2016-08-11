@@ -3,21 +3,19 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>sfpp.sfpp-pcomp</artifactId>
+        <artifactId>sfpp.sfpp-user</artifactId>
         <groupId>com.sf</groupId>
         <version>${sfpp.version}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>sfpp.sfpp-pcomp-common</artifactId>
+    <artifactId>sfpp.sfpp-user-common</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>com.sf</groupId>
             <artifactId>sfpp.sfpp-common</artifactId>
+            <version>${sfpp.version}</version>
         </dependency>
-
-
     </dependencies>
-
 </project>

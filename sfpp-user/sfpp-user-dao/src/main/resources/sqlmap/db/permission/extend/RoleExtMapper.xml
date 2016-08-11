@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sf.sfpp.user.dao.mapper.permission.RoleMapper" >
+
+  <select id="countRoleByName" resultType="java.lang.Integer" parameterType="java.lang.String" >
+  select count(*) from pcomp_role where role_name = #{roleName,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getAllRole" resultMap="BaseResultMap" >
+  	select 
+    <include refid="Base_Column_List" />
+    from pcomp_role
+  	where 1=1
+  </select>
+
+	<select id="getRoleBindByUserNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+	select 
+	<include refid="Base_Column_List" />
+ 	from pcomp_role r where r.role_id in (select urr.role_id from pcomp_user_role_rel urr where urr.user_no=#{userNo})
+	</select>
+	
+	<select id="getRoleUnBindByUserNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+	select
+	<include refid="Base_Column_List" />
+	from pcomp_role r where r.role_id not in (select urr.role_id from pcomp_user_role_rel urr where urr.user_no=#{userNo})
+	</select>
+
+	<insert id="bindUserRole" parameterType="java.lang.String" >
+	insert into pcomp_user_role_rel  (user_no, role_id) values (#{userNo}, #{roleId})
+	</insert>
+	
+	<delete id="unBindUserRole" parameterType="java.lang.String" >
+	delete from pcomp_user_role_rel  where role_id=#{roleId} and user_no=#{userNo}
+	</delete>
+	
+	<select id="getUserRoleByUserNo" resultType="com.sf.sfpp.user.dao.dto.permission.UserRole" parameterType="java.lang.String">
+	SELECT r.role_id as roleId, r.role_name as roleName, r.remark as remark, r.is_deleted as isDeleted, CASE WHEN t.roleId IS NULL THEN FALSE ELSE TRUE END AS bindState
+	FROM pcomp_role r
+	LEFT JOIN (
+	SELECT rel.role_id roleId
+	FROM pcomp_user_role_rel rel
+	WHERE rel.user_no=#{userNo}) t ON r.role_id=t.roleId
+	ORDER BY r.role_id
+	</select>
+</mapper>
