@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.sf.sfpp.user.dao.mapper.permission.UserMapper" >
+<mapper namespace="com.sf.sfpp.user.dao.mapper.UserMapper" >
 <select id="getUserByUserNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from pcomp_user
+    from permission_user
     where user_no = #{userNo,jdbcType=VARCHAR}
   </select>
   
   <select id="countUsersByUserNo" resultType="java.lang.Integer" parameterType="java.lang.String" >
-  select count(*) from pcomp_user where user_no = #{userNo,jdbcType=VARCHAR}
+  select count(*) from permission_user where user_no = #{userNo,jdbcType=VARCHAR}
   </select>
   
   <select id="getAllUser" resultMap="BaseResultMap" >
   	select 
     <include refid="Base_Column_List" />
-    from pcomp_user
+    from permission_user
   	where 1=1
   </select>
   
-  <update id="updateByUserNoSelective" parameterType="com.sf.sfpp.user.dao.domain.permission.User" >
-    update pcomp_user
+  <update id="updateByUserNoSelective" parameterType="com.sf.sfpp.user.dao.domain.User" >
+    update permission_user
     <set >
       <if test="userNo != null" >
         user_no = #{userNo,jdbcType=VARCHAR},

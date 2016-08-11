@@ -12,13 +12,16 @@
     <artifactId>sfpp.sfpp-user</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>sfpp-user-common</module>
         <module>sfpp-user-client</module>
         <module>sfpp-user-dao</module>
         <module>sfpp-user-manager</module>
         <module>sfpp-user-server</module>
     </modules>
-
-
-
+    <dependencies>
+        <dependency>
+            <groupId>com.sf</groupId>
+            <artifactId>sfpp.sfpp-common</artifactId>
+            <version>${sfpp.version}</version>
+        </dependency>
+    </dependencies>
 </project>

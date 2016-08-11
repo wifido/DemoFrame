@@ -10,12 +10,4 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>sfpp.sfpp-user-client</artifactId>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.sf</groupId>
-            <artifactId>sfpp.sfpp-user-common</artifactId>
-            <version>${sfpp.version}</version>
-        </dependency>
-    </dependencies>
 </project>

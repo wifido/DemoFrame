@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.sf.sfpp.user.dao.mapper.permission.ResourceMapper" >
-  <resultMap id="BaseResultMap" type="com.sf.sfpp.user.dao.domain.permission.Resource" >
+<mapper namespace="com.sf.sfpp.user.dao.mapper.ResourceMapper" >
+  <resultMap id="BaseResultMap" type="com.sf.sfpp.user.dao.domain.Resource" >
     <id column="resource_id" property="resourceId" jdbcType="INTEGER" />
     <result column="parent_id" property="parentId" jdbcType="INTEGER" />
     <result column="resource_type" property="resourceType" jdbcType="VARCHAR" />
@@ -19,15 +19,15 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from pcomp_resource
+    from permission_resource
     where resource_id = #{resourceId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from pcomp_resource
+    delete from permission_resource
     where resource_id = #{resourceId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.sf.sfpp.user.dao.domain.permission.Resource" >
-    insert into pcomp_resource (resource_id, parent_id, resource_type, 
+  <insert id="insert" parameterType="com.sf.sfpp.user.dao.domain.Resource" >
+    insert into permission_resource (resource_id, parent_id, resource_type, 
       resource_url, resource_name, remark, 
       is_deleted, created_time, modified_time
       )
@@ -36,8 +36,8 @@
       #{isDeleted,jdbcType=BIT}, #{createdTime,jdbcType=TIMESTAMP}, #{modifiedTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.sf.sfpp.user.dao.domain.permission.Resource" >
-    insert into pcomp_resource
+  <insert id="insertSelective" parameterType="com.sf.sfpp.user.dao.domain.Resource" >
+    insert into permission_resource
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="resourceId != null" >
         resource_id,
@@ -97,8 +97,8 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.sf.sfpp.user.dao.domain.permission.Resource" >
-    update pcomp_resource
+  <update id="updateByPrimaryKeySelective" parameterType="com.sf.sfpp.user.dao.domain.Resource" >
+    update permission_resource
     <set >
       <if test="parentId != null" >
         parent_id = #{parentId,jdbcType=INTEGER},
@@ -127,8 +127,8 @@
     </set>
     where resource_id = #{resourceId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.sf.sfpp.user.dao.domain.permission.Resource" >
-    update pcomp_resource
+  <update id="updateByPrimaryKey" parameterType="com.sf.sfpp.user.dao.domain.Resource" >
+    update permission_resource
     set parent_id = #{parentId,jdbcType=INTEGER},
       resource_type = #{resourceType,jdbcType=VARCHAR},
       resource_url = #{resourceUrl,jdbcType=VARCHAR},

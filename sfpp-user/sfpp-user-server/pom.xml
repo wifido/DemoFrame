@@ -29,5 +29,6 @@
             <artifactId>sfpp.sfpp-user-manager</artifactId>
             <version>${sfpp.version}</version>
         </dependency>
+        
     </dependencies>
 </project>

@@ -29,5 +29,9 @@
             <artifactId>sfpp.sfpp-user-dao</artifactId>
             <version>${sfpp.version}</version>
         </dependency>
+        <dependency>
+        	<groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+         </dependency>
     </dependencies>
 </project>

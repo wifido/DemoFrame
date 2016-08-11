@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.sf.sfpp.user.dao.mapper.permission.RoleMapper" >
-  <resultMap id="BaseResultMap" type="com.sf.sfpp.user.dao.domain.permission.Role" >
+<mapper namespace="com.sf.sfpp.user.dao.mapper.RoleMapper" >
+  <resultMap id="BaseResultMap" type="com.sf.sfpp.user.dao.domain.Role" >
     <id column="role_id" property="roleId" jdbcType="INTEGER" />
     <result column="role_name" property="roleName" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
@@ -15,23 +15,23 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from pcomp_role
+    from permission_role
     where role_id = #{roleId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from pcomp_role
+    delete from permission_role
     where role_id = #{roleId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.sf.sfpp.user.dao.domain.permission.Role" >
-    insert into pcomp_role (role_id, role_name, remark, 
+  <insert id="insert" parameterType="com.sf.sfpp.user.dao.domain.Role" >
+    insert into permission_role (role_id, role_name, remark, 
       is_deleted, created_time, modified_time
       )
     values (#{roleId,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
       #{isDeleted,jdbcType=BIT}, #{createdTime,jdbcType=TIMESTAMP}, #{modifiedTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.sf.sfpp.user.dao.domain.permission.Role" >
-    insert into pcomp_role
+  <insert id="insertSelective" parameterType="com.sf.sfpp.user.dao.domain.Role" >
+    insert into permission_role
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="roleId != null" >
         role_id,
@@ -73,8 +73,8 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.sf.sfpp.user.dao.domain.permission.Role" >
-    update pcomp_role
+  <update id="updateByPrimaryKeySelective" parameterType="com.sf.sfpp.user.dao.domain.Role" >
+    update permission_role
     <set >
       <if test="roleName != null" >
         role_name = #{roleName,jdbcType=VARCHAR},
@@ -94,8 +94,8 @@
     </set>
     where role_id = #{roleId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.sf.sfpp.user.dao.domain.permission.Role" >
-    update pcomp_role
+  <update id="updateByPrimaryKey" parameterType="com.sf.sfpp.user.dao.domain.Role" >
+    update permission_role
     set role_name = #{roleName,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       is_deleted = #{isDeleted,jdbcType=BIT},
