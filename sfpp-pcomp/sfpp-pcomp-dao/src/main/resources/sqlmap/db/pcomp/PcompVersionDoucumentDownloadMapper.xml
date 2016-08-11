@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sf.sfpp.pcomp.dao.PcompVersionDoucumentDownloadMapper" >
+  <resultMap id="BaseResultMap" type="com.sf.sfpp.pcomp.common.model.PcompVersionDoucumentDownload" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="pcomp_version_id" property="pcompVersionId" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="download" property="download" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, pcomp_version_id, description, download
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from pcomp_version_document_download
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from pcomp_version_document_download
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.sf.sfpp.pcomp.common.model.PcompVersionDoucumentDownload" >
+    insert into pcomp_version_document_download (id, pcomp_version_id, description, 
+      download)
+    values (#{id,jdbcType=VARCHAR}, #{pcompVersionId,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{download,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sf.sfpp.pcomp.common.model.PcompVersionDoucumentDownload" >
+    insert into pcomp_version_document_download
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="pcompVersionId != null" >
+        pcomp_version_id,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="download != null" >
+        download,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="pcompVersionId != null" >
+        #{pcompVersionId,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="download != null" >
+        #{download,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sf.sfpp.pcomp.common.model.PcompVersionDoucumentDownload" >
+    update pcomp_version_document_download
+    <set >
+      <if test="pcompVersionId != null" >
+        pcomp_version_id = #{pcompVersionId,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="download != null" >
+        download = #{download,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sf.sfpp.pcomp.common.model.PcompVersionDoucumentDownload" >
+    update pcomp_version_document_download
+    set pcomp_version_id = #{pcompVersionId,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      download = #{download,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
