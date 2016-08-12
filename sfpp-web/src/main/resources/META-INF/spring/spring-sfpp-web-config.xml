@@ -39,11 +39,22 @@
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
           id="internalResourceViewResolver">
         <!-- 前缀 -->
-        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="prefix" value="/pages/jsp/"/>
         <!-- 后缀 -->
         <property name="suffix" value=".jsp"/>
     </bean>
 
     <!-- 支持上传文件 -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+
+    <bean id="propertyConfigurerForSFPPResource" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="order" value="1" />
+        <property name="ignoreUnresolvablePlaceholders" value="true" />
+        <property name="locations">
+            <list>
+                <value>classpath:redis.properties</value>
+                <value>classpath:system.properties</value>
+            </list>
+        </property>
+    </bean>
 </beans>

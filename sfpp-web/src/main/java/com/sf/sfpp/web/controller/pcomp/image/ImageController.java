@@ -1,4 +1,4 @@
-package com.sf.sfpp.web.pcomp.controller.image;
+package com.sf.sfpp.web.controller.pcomp.image;
 
 import com.alibaba.fastjson.JSON;
 import com.sf.sfpp.common.Constants;
@@ -16,11 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 /**

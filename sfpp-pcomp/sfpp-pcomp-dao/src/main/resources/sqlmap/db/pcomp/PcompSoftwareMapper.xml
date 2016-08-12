@@ -13,6 +13,7 @@
     <result column="modified_by" property="modifiedBy" jdbcType="INTEGER" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.sf.sfpp.pcomp.common.model.PcompSoftware" extends="BaseResultMap" >
+    <result column="introduction_short" property="introductionShort" jdbcType="LONGVARCHAR" />
     <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
@@ -20,7 +21,7 @@
     modified_by
   </sql>
   <sql id="Blob_Column_List" >
-    introduction
+    introduction_short, introduction
   </sql>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
     select 
@@ -38,11 +39,13 @@
     insert into pcomp_software (id, pcomp_kind_id, name, 
       avatar, is_deleted, created_time, 
       created_by, modified_time, modified_by, 
-      introduction)
+      introduction_short, introduction
+      )
     values (#{id,jdbcType=VARCHAR}, #{pcompKindId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{avatar,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}, #{createdTime,jdbcType=TIMESTAMP}, 
       #{createdBy,jdbcType=INTEGER}, #{modifiedTime,jdbcType=TIMESTAMP}, #{modifiedBy,jdbcType=INTEGER}, 
-      #{introduction,jdbcType=LONGVARCHAR})
+      #{introductionShort,jdbcType=LONGVARCHAR}, #{introduction,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.sf.sfpp.pcomp.common.model.PcompSoftware" >
     insert into pcomp_software
@@ -73,6 +76,9 @@
       </if>
       <if test="modifiedBy != null" >
         modified_by,
+      </if>
+      <if test="introductionShort != null" >
+        introduction_short,
       </if>
       <if test="introduction != null" >
         introduction,
@@ -106,6 +112,9 @@
       <if test="modifiedBy != null" >
         #{modifiedBy,jdbcType=INTEGER},
       </if>
+      <if test="introductionShort != null" >
+        #{introductionShort,jdbcType=LONGVARCHAR},
+      </if>
       <if test="introduction != null" >
         #{introduction,jdbcType=LONGVARCHAR},
       </if>
@@ -138,6 +147,9 @@
       <if test="modifiedBy != null" >
         modified_by = #{modifiedBy,jdbcType=INTEGER},
       </if>
+      <if test="introductionShort != null" >
+        introduction_short = #{introductionShort,jdbcType=LONGVARCHAR},
+      </if>
       <if test="introduction != null" >
         introduction = #{introduction,jdbcType=LONGVARCHAR},
       </if>
@@ -154,6 +166,7 @@
       created_by = #{createdBy,jdbcType=INTEGER},
       modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
       modified_by = #{modifiedBy,jdbcType=INTEGER},
+      introduction_short = #{introductionShort,jdbcType=LONGVARCHAR},
       introduction = #{introduction,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>

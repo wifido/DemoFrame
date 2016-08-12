@@ -5665,4 +5665,11 @@ table.text-center th {
 		white-space: normal !important
 	}
 }
+ul.navbar-right > li > a > strong {
+	color: #B2451E;
+}
+
+ul.navbar-right > li > a > strong:hover {
+	color: #111111;
+}
 

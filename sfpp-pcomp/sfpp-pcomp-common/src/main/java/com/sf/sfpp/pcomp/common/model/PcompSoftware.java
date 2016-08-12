@@ -22,6 +22,8 @@ public class PcompSoftware implements Serializable {
 
     private Integer modifiedBy;
 
+    private String introductionShort;
+
     private String introduction;
 
     private static final long serialVersionUID = 1L;
@@ -98,6 +100,14 @@ public class PcompSoftware implements Serializable {
         this.modifiedBy = modifiedBy;
     }
 
+    public String getIntroductionShort() {
+        return introductionShort;
+    }
+
+    public void setIntroductionShort(String introductionShort) {
+        this.introductionShort = introductionShort == null ? null : introductionShort.trim();
+    }
+
     public String getIntroduction() {
         return introduction;
     }
@@ -121,6 +131,7 @@ public class PcompSoftware implements Serializable {
         sb.append(", createdBy=").append(createdBy);
         sb.append(", modifiedTime=").append(modifiedTime);
         sb.append(", modifiedBy=").append(modifiedBy);
+        sb.append(", introductionShort=").append(introductionShort);
         sb.append(", introduction=").append(introduction);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

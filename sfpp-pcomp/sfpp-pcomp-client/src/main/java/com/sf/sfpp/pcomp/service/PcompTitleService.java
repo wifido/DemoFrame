@@ -15,6 +15,7 @@ public interface PcompTitleService {
      * Title中只包含一个name为String类型
      * 之后的方法name作为唯一键处理
      * @return
+     * @throws PcompException
      */
     List<String> fetchAllTitles() throws PcompException;
 
@@ -22,6 +23,7 @@ public interface PcompTitleService {
      * 验证title是否存在
      * @param titleName
      * @return true 已存在 false 不存在
+     * @throws PcompException
      */
     boolean existsTitle(String titleName) throws PcompException;
 
@@ -29,6 +31,7 @@ public interface PcompTitleService {
      * 新建title
      * @param newName
      * @return 失败返回false
+     * @throws PcompException
      */
     boolean addNewTitle(String newName) throws PcompException;
 
@@ -36,6 +39,7 @@ public interface PcompTitleService {
      * 批量添加，一个失败，都失败
      * @param newNames
      * @return 失败返回false
+     * @throws PcompException
      */
     boolean batchAddTitles(List<String> newNames) throws PcompException;
 
@@ -44,6 +48,7 @@ public interface PcompTitleService {
      * @param oldName
      * @param newName
      * @return 失败返回false
+     * @throws PcompException
      */
     boolean modifyTitleName(String oldName,String newName) throws PcompException;
 
@@ -51,6 +56,7 @@ public interface PcompTitleService {
      * 删除
      * @param titleName
      * @return 失败返回false
+     * @throws PcompException
      */
     boolean removeTitle(String titleName) throws PcompException;
 

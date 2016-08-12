@@ -26,9 +26,9 @@ public class ImageServiceImpl implements ImageService {
     private String getLocalPath(String ID){
         return new StringBuilder().append(localRoot)
                 .append(ID.substring(0+ IDGenerator.SYSTEM_SHARD_LENGTH,0+ IDGenerator.SYSTEM_SHARD_LENGTH+IDGenerator.SYSTEM_SHARD_LENGTH))
-                .append(Constants.FOLDER_SEPARATOR)
+                .append(Constants.FOLDER_PATH_SEPARATOR)
                 .append(ID.substring(0,0+ IDGenerator.SYSTEM_SHARD_LENGTH))
-                .append(Constants.FOLDER_SEPARATOR)
+                .append(Constants.FOLDER_PATH_SEPARATOR)
                 .append(ID)
                 .append(Constants.FILE_SEPARATOR)
                 .append(ImageUtils.imageFormat)
@@ -38,9 +38,9 @@ public class ImageServiceImpl implements ImageService {
     private String getGlobalPath(String ID){
         return new StringBuilder().append(globalRoot)
                 .append(ID.substring(0+ IDGenerator.SYSTEM_SHARD_LENGTH,0+ IDGenerator.SYSTEM_SHARD_LENGTH+IDGenerator.SYSTEM_SHARD_LENGTH))
-                .append(Constants.FOLDER_SEPARATOR)
+                .append(Constants.FOLDER_PATH_SEPARATOR)
                 .append(ID.substring(0,0+ IDGenerator.SYSTEM_SHARD_LENGTH))
-                .append(Constants.FOLDER_SEPARATOR)
+                .append(Constants.FOLDER_PATH_SEPARATOR)
                 .append(ID)
                 .append(Constants.FILE_SEPARATOR)
                 .append(ImageUtils.imageFormat)
