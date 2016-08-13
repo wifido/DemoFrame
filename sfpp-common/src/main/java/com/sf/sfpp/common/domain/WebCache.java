@@ -1,7 +1,7 @@
 package com.sf.sfpp.common.domain;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author Hash Zhang
@@ -9,7 +9,11 @@ import java.util.List;
  * @date 2016/8/12
  */
 public class WebCache {
-    private List<String> pathTree = new LinkedList<>();
+    public void setPathTree(Map<String, String> pathTree) {
+        this.pathTree = pathTree;
+    }
+
+    private Map<String, String> pathTree;
     private String Message;
     private String title;
 
@@ -24,12 +28,8 @@ public class WebCache {
     private Object user;
     private Object cacheObject;
 
-    public List<String> getPathTree() {
+    public Map<String, String> getPathTree() {
         return pathTree;
-    }
-
-    public void setPathTree(List<String> pathTree) {
-        this.pathTree = pathTree;
     }
 
     public String getMessage() {
