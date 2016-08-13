@@ -4,7 +4,9 @@
          id="WebApp_ID" version="2.5">
 
     <display-name>SFPP</display-name>
-
+    <welcome-file-list>
+        <welcome-file>index</welcome-file>
+    </welcome-file-list>
     <servlet>
         <servlet-name>spring</servlet-name>
         <servlet-class>
@@ -24,11 +26,31 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
-
+    <servlet-mapping>
+        <servlet-name>spring</servlet-name>
+        <url-pattern>/index</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>spring</servlet-name>
         <url-pattern>*.do</url-pattern>
     </servlet-mapping>
 
-
+    <!-- 缓存、gzip压缩核心过滤器 -->
+    <filter>
+        <filter-name>PageEhCacheFilter</filter-name>
+        <filter-class>com.sf.sfpp.web.filter.PageEhCacheFilter</filter-class>
+        <init-param>
+            <param-name>patterns</param-name>
+            <!-- 配置你需要缓存的url -->
+            <param-value>index.do</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>PageEhCacheFilter</filter-name>
+        <url-pattern>*.do</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>PageEhCacheFilter</filter-name>
+        <url-pattern>*.jsp</url-pattern>
+    </filter-mapping>
 </web-app>

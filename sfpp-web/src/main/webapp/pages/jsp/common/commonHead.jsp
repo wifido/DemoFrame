@@ -11,7 +11,6 @@
 </title>
 <link rel="stylesheet" href="/sfpp-web/assets/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="/sfpp-web/assets/fonts/font-awesome.min.css">
-<link rel="stylesheet" href="/sfpp-web/assets/css/index/common.css">
 <link rel="stylesheet" href="/sfpp-web/assets/css/common/borderlist.css">
 <link rel="stylesheet" href="/sfpp-web/assets/css/common/Features-Item.css">
 <link rel="stylesheet" href="/sfpp-web/assets/css/common/animate.min.css">

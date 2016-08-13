@@ -1,4 +1,4 @@
-package com.sf.sfpp.web.controller.pcomp.image;
+package com.sf.sfpp.web.controller.pcomp;
 
 import com.alibaba.fastjson.JSON;
 import com.sf.sfpp.common.Constants;

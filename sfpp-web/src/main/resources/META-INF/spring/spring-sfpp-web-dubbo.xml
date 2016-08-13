@@ -6,6 +6,7 @@
 	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
     <dubbo:reference id="imageService" interface="com.sf.sfpp.resource.client.image.ImageService" check="false"/>
+    <dubbo:reference id="pcompTitleService" interface="com.sf.sfpp.pcomp.service.PcompTitleService" check="false"/>
     <!--<dubbo:reference id="resourceService"  interface="com.sf.sfpp.user.service.ResourceService" check="false"/>-->
 	<!--<dubbo:reference id="roleService" interface="com.sf.sfpp.user.service.RoleService"  check="false"/>-->
 	<!--<dubbo:reference id="userService"  interface="com.sf.sfpp.user.service.UserService" check="false"/>-->

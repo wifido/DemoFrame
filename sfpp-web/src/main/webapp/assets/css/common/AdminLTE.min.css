@@ -180,7 +180,15 @@ h6,
 }
 
 a {
-	color: #3c8dbc
+	color: #C3C8C8;
+}
+
+a.hero{
+	color:#6f6f6f;
+}
+
+a.hero:hover{
+	color:#000000;
 }
 
 a:hover,
@@ -2542,7 +2550,7 @@ a:focus {
 
 .btn-default {
 	background-color: #f4f4f4;
-	color: #444;
+	color: #C8c3c3;
 	border-color: #ddd
 }
 
