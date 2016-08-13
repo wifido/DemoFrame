@@ -13,19 +13,18 @@ import java.util.List;
 public interface PcompTitleService {
     /**
      * Title中只包含一个name为String类型
-     * 之后的方法name作为唯一键处理
      * @return
      * @throws PcompException
      */
-    List<String> fetchAllTitles() throws PcompException;
+    List<PcompTitle> fetchAllTitles() throws PcompException;
 
     /**
      * 验证title是否存在
-     * @param titleName
+     * @param titleId
      * @return true 已存在 false 不存在
      * @throws PcompException
      */
-    boolean existsTitle(String titleName) throws PcompException;
+    boolean existsTitle(String titleId) throws PcompException;
 
     /**
      * 新建title

@@ -20,6 +20,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 	<dubbo:protocol name="dubbo" serialization="dubbo"/>
-	<dubbo:service interface="com.sf.demo.Demo" ref="demoImpl" protocol="dubbo" />
-	
+	<dubbo:service interface="com.sf.sfpp.pcomp.service.PcompTitleService" ref="pcompTitleServiceImpl" protocol="dubbo" />
+
 </beans>
