@@ -92,7 +92,8 @@
         <zkclient_version>0.1</zkclient_version>
         <tec_zkclient_version>0.3</tec_zkclient_version>
         <!--缓存-->
-        <ehcache_version>2.10.2</ehcache_version>
+        <ehcache_version>2.6.11</ehcache_version>
+        <ehcache_web_version>2.0.4</ehcache_web_version>
         <ehcache-jgroupsreplication_version>1.7</ehcache-jgroupsreplication_version>
         <!-- Test libs -->
         <junit_version>4.10</junit_version>
@@ -106,6 +107,7 @@
         <kaptcha.version>0.0.9</kaptcha.version>
         
         <sgs-framework-boot-cache.version>1.0.0</sgs-framework-boot-cache.version>
+        <common-lang_version>2.6</common-lang_version>
     </properties>
 
     <dependencyManagement>
@@ -586,6 +588,16 @@
             </dependency>
             <dependency>
                 <groupId>net.sf.ehcache</groupId>
+                <artifactId>ehcache-core</artifactId>
+                <version>${ehcache_version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.ehcache</groupId>
+                <artifactId>ehcache-web</artifactId>
+                <version>${ehcache_web_version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.ehcache</groupId>
                 <artifactId>ehcache-jgroupsreplication</artifactId>
                 <version>${ehcache-jgroupsreplication_version}</version>
                 <exclusions>
@@ -595,17 +607,14 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>${common-lang_version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <repositories>
-        <repository>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <id>central</id>
-            <name>libs-release</name>
-            <url>http://10.103.14.50:8081/artifactory/repo</url>
-        </repository>
         <repository>
             <id>sf-private-reponsitory</id>
             <name>SF private repository</name>
