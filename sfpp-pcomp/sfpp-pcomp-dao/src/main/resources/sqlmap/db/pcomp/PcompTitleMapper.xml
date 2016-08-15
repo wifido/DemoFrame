@@ -19,7 +19,11 @@
     from pcomp_title
     where id = #{id,jdbcType=VARCHAR}
   </select>
-
+  <select id="selectAllAvailable" resultMap="BaseResultMap">
+    select *
+    from pcomp_title
+    where is_deleted = 0
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from pcomp_title
     where id = #{id,jdbcType=VARCHAR}

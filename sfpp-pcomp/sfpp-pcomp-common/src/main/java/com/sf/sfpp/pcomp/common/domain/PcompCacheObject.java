@@ -5,6 +5,7 @@ import com.sf.sfpp.pcomp.common.model.PcompSoftware;
 import com.sf.sfpp.pcomp.common.model.PcompTitle;
 import com.sf.sfpp.pcomp.common.model.PcompVersion;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -18,10 +19,10 @@ public class PcompCacheObject {
     private PcompSoftware pcompSoftware;
     private PcompVersion pcompVersion;
 
-    private List<PcompTitle> pcompTitles;
-    private List<PcompKind> pcompKinds;
-    private List<PcompSoftware> pcompSoftwares;
-    private List<PcompVersion> pcompVersions;
+    private List<PcompTitle> pcompTitles = new LinkedList<>();
+    private List<PcompKind> pcompKinds = new LinkedList<>();
+    private List<PcompSoftware> pcompSoftwares = new LinkedList<>();
+    private List<PcompVersion> pcompVersions = new LinkedList<>();
 
     public PcompTitle getPcompTitle() {
         return pcompTitle;

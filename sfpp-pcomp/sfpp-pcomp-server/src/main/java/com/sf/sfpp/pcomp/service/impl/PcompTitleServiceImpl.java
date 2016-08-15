@@ -1,13 +1,12 @@
 package com.sf.sfpp.pcomp.service.impl;
 
-import com.sf.sfpp.common.Constants;
-import com.sf.sfpp.common.idgen.IDGenerator;
 import com.sf.sfpp.pcomp.common.exception.PcompException;
 import com.sf.sfpp.pcomp.common.model.PcompTitle;
+import com.sf.sfpp.pcomp.manager.PcompTitleManager;
 import com.sf.sfpp.pcomp.service.PcompTitleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -17,45 +16,18 @@ import java.util.List;
  */
 @Service
 public class PcompTitleServiceImpl implements PcompTitleService {
-    static List<PcompTitle> strings = new LinkedList<>();
-    static{
-        PcompTitle pcompTitle = new PcompTitle();
-        pcompTitle.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
-        pcompTitle.setName("基础类");
-        strings.add(pcompTitle);
-        pcompTitle = new PcompTitle();
-        pcompTitle.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
-        pcompTitle.setName("web应用前端");
-        strings.add(pcompTitle);
-        pcompTitle = new PcompTitle();
-        pcompTitle.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
-        pcompTitle.setName("web应用后端");
-        strings.add(pcompTitle);
-        pcompTitle = new PcompTitle();
-        pcompTitle.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
-        pcompTitle.setName("数据库相关");
-        strings.add(pcompTitle);
-        pcompTitle = new PcompTitle();
-        pcompTitle.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
-        pcompTitle.setName("服务器相关");
-        strings.add(pcompTitle);
-        pcompTitle = new PcompTitle();
-        pcompTitle.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
-        pcompTitle.setName("管理监控");
-        strings.add(pcompTitle);
-        pcompTitle = new PcompTitle();
-        pcompTitle.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
-        pcompTitle.setName("其他");
-        strings.add(pcompTitle);
-    }
+
+    @Autowired
+    private PcompTitleManager pcompTitleManager;
+
     @Override
     public List<PcompTitle> fetchAllTitles() throws PcompException {
-        return strings;
+        return pcompTitleManager.getAllTitles();
     }
 
     @Override
-    public boolean existsTitle(String titleId) throws PcompException {
-        return true;
+    public boolean existsTitle(String titleName) throws PcompException {
+        return false;
     }
 
     @Override
@@ -77,4 +49,6 @@ public class PcompTitleServiceImpl implements PcompTitleService {
     public boolean removeTitle(String titleName) throws PcompException {
         return false;
     }
+
+
 }

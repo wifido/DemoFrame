@@ -16,29 +16,29 @@ public interface PcompSoftwareService {
 
     /**
      * 根据title还有kind查找所有符合的software，具有分页
-     * @param kind
+     * @param kindId
      * @param pageNumber
      * @return
      * @throws PcompException
      */
-    List<PcompSoftware> fetchAllSoftwaresSeparatelyByKind(String kind, int pageNumber) throws PcompException;
+    List<PcompSoftware> fetchAllSoftwaresSeparatelyByKind(String kindId, int pageNumber) throws PcompException;
 
     /**
      * 根据software的id获取这个software的详细信息
-     * @param software
+     * @param softwareId
      * @return
      * @throws PcompException
      */
-    PcompSoftware fetchSoftware(String software) throws PcompException;
+    PcompSoftware fetchSoftware(String softwareId) throws PcompException;
 
     /**
      * 判断对应title还有对应kind下是否存在同名software
-     * @param kind
-     * @param softwareName
+     * @param kindId
+     * @param softwareId
      * @return 存在为true
      * @throws PcompException
      */
-    int existsSoftware(String kind, String softwareName) throws PcompException;
+    int existsSoftware(String kindId, String softwareId) throws PcompException;
 
     /**
      * 获取相似的software名称

@@ -19,10 +19,23 @@
     created_by, modified_time, modified_by
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from pcomp_kind
     where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAvailabeleKindsByTitleID" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from pcomp_kind
+    where pcomp_title_id = #{id,jdbcType=VARCHAR}
+    and is_deleted = 0
+  </select>
+  <select id="selectAllAvailabeleKinds" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from pcomp_kind
+    where is_deleted = 0
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from pcomp_kind

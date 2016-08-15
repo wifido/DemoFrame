@@ -12,6 +12,12 @@
 	">
 	
 	<context:component-scan base-package="com.sf.sfpp" />
-
+	<bean id="propertyConfigurerForSFPPResource" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="order" value="1" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="location">
+			<value>classpath:jdbc.properties</value>
+		</property>
+	</bean>
 
 </beans>

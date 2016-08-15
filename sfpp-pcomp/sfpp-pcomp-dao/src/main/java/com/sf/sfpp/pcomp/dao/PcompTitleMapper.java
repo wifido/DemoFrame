@@ -2,6 +2,8 @@ package com.sf.sfpp.pcomp.dao;
 
 import com.sf.sfpp.pcomp.common.model.PcompTitle;
 
+import java.util.List;
+
 public interface PcompTitleMapper {
     int deleteByPrimaryKey(String id);
 
@@ -10,6 +12,8 @@ public interface PcompTitleMapper {
     int insertSelective(PcompTitle record);
 
     PcompTitle selectByPrimaryKey(String id);
+
+    List<PcompTitle> selectAllAvailable();
 
     int updateByPrimaryKeySelective(PcompTitle record);
 

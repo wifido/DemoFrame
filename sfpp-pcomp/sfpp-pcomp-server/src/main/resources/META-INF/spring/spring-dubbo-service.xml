@@ -21,5 +21,8 @@
 	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 	<dubbo:protocol name="dubbo" serialization="dubbo"/>
 	<dubbo:service interface="com.sf.sfpp.pcomp.service.PcompTitleService" ref="pcompTitleServiceImpl" protocol="dubbo" />
+	<dubbo:service interface="com.sf.sfpp.pcomp.service.PcompKindService" ref="pcompKindServiceImpl" protocol="dubbo" />
+	<dubbo:service interface="com.sf.sfpp.pcomp.service.PcompSoftwareService" ref="pcompSoftwareServiceImpl" protocol="dubbo" />
+	<dubbo:service interface="com.sf.sfpp.pcomp.service.PcompVersionService" ref="pcompVersionServiceImpl" protocol="dubbo" />
 
 </beans>

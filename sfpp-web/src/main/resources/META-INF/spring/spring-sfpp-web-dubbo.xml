@@ -7,6 +7,9 @@
 
     <dubbo:reference id="imageService" interface="com.sf.sfpp.resource.client.image.ImageService" check="false"/>
     <dubbo:reference id="pcompTitleService" interface="com.sf.sfpp.pcomp.service.PcompTitleService" check="false"/>
+    <dubbo:reference id="pcompKindService" interface="com.sf.sfpp.pcomp.service.PcompKindService" check="false"/>
+    <dubbo:reference id="pcompSoftwareService" interface="com.sf.sfpp.pcomp.service.PcompSoftwareService" check="false"/>
+    <dubbo:reference id="pcompVersionService" interface="com.sf.sfpp.pcomp.service.PcompVersionService" check="false"/>
     <!--<dubbo:reference id="resourceService"  interface="com.sf.sfpp.user.service.ResourceService" check="false"/>-->
 	<!--<dubbo:reference id="roleService" interface="com.sf.sfpp.user.service.RoleService"  check="false"/>-->
 	<!--<dubbo:reference id="userService"  interface="com.sf.sfpp.user.service.UserService" check="false"/>-->

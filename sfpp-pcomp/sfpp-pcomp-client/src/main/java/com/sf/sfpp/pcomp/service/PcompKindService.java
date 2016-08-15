@@ -25,22 +25,29 @@ public interface PcompKindService {
     List<PcompKind> fetchAllKindsSeparatelyByTitle(String title,int pageNumber) throws PcompException;
 
     /**
+     * 根据kindID获取对应的kind
+     * @param kindID
+     * @return
+     * @throws PcompException
+     */
+    PcompKind fetchKindByKindId(String kindID) throws PcompException;
+    /**
      * 判断某一kind是否存在，顺便返回title的id
-     * @param title
+     * @param titleID
      * @param kind 名称
      * @return title id | title不存在则为-1
      * @throws PcompException
      */
-    int existsKind(String title,String kind) throws PcompException;
+    String existsKind(String titleID,String kind) throws PcompException;
 
     /**
      * 添加kind，注意，这里首先要先判断某一kind是否存在
-     * @param title
+     * @param titleID
      * @param kind
      * @return 失败返回false
      * @throws PcompException
      */
-    boolean addKind(String title,PcompKind kind) throws PcompException;
+    boolean addKind(String titleID,PcompKind kind) throws PcompException;
 
     /**
      * 批量添加kind，map的key为kind名称

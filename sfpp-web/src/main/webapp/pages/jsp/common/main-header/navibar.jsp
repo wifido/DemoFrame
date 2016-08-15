@@ -3,6 +3,7 @@
 <%@ page import="com.sf.sfpp.web.common.PagePathConstants" %>
 <%@ page import="com.sf.sfpp.web.common.utils.PathUtils" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="com.sf.sfpp.common.utils.StrUtils" %>
 <%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 
 <ul class="nav navbar-nav navbar-left">

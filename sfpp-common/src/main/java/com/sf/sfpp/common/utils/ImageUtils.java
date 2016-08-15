@@ -16,19 +16,19 @@ import java.io.*;
 public class ImageUtils {
     public final static String imageFormat = "png";
 
-    private final static int AVATAR_WIDTH = 50;
-    private final static int AVATAR_HEIGHT = 50;
+    public final static int AVATAR_WIDTH = 50;
+    public final static int AVATAR_HEIGHT = 50;
 
-    private final static int TOP_PHOTO_WIDTH = 80;
-    private final static int TOP_PHOTO_HEIGHT = 80;
+    public final static int TOP_PHOTO_WIDTH = 80;
+    public final static int TOP_PHOTO_HEIGHT = 80;
 
-    private final static int BANNER_IMAGE_WIDTH = 360;
-    private final static int BANNER_IMAGE_HEIGHT = 94;
+    public final static int BANNER_IMAGE_WIDTH = 360;
+    public final static int BANNER_IMAGE_HEIGHT = 94;
 
-    private final static int CONTENT_WIDTH = 800;
-    private final static int CONTENT_HEIGHT = 600;
+    public final static int CONTENT_WIDTH = 800;
+    public final static int CONTENT_HEIGHT = 600;
 
-    private final static int WIDTH_HEIGHT_RATIO = 2;
+    public final static int WIDTH_HEIGHT_RATIO = 2;
 
 
     public final static ByteArrayOutputStream intelligentZip(InputStream srcImageFile, ImageKind imageKind) throws IOException {

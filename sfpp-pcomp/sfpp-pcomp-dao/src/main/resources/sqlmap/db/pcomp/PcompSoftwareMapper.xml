@@ -31,6 +31,15 @@
     from pcomp_software
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="selectAllAcailableByKindId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from pcomp_software
+    where pcomp_kind_id = #{pcomp_kind_id,jdbcType=VARCHAR}
+    and is_deleted = 0
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from pcomp_software
     where id = #{id,jdbcType=VARCHAR}

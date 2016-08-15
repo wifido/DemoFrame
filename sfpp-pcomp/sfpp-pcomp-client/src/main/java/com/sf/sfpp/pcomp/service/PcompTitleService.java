@@ -20,11 +20,11 @@ public interface PcompTitleService {
 
     /**
      * 验证title是否存在
-     * @param titleId
+     * @param titleName
      * @return true 已存在 false 不存在
      * @throws PcompException
      */
-    boolean existsTitle(String titleId) throws PcompException;
+    boolean existsTitle(String titleName) throws PcompException;
 
     /**
      * 新建title

@@ -3,6 +3,7 @@ package com.sf.sfpp.web.controller.main;
 import com.sf.sfpp.common.Constants;
 import com.sf.sfpp.common.domain.WebCache;
 import com.sf.sfpp.web.common.PagePathConstants;
+import com.sf.sfpp.web.controller.common.AbstractCachedController;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,13 +20,10 @@ import java.util.LinkedList;
  * @date 2016/8/12
  */
 @Controller
-public class IndexPageController {
+public class IndexPageController extends AbstractCachedController {
     @RequestMapping(PagePathConstants.HOMEPAGE_PATH)
     public ModelAndView mainPage(HttpServletRequest request, ModelMap model) {
-        WebCache webCache = (WebCache) request.getAttribute(Constants.WEB_CACHE_KEY);
-        if(webCache==null){
-            webCache = new WebCache();
-        }
+        WebCache webCache = getWebCache(request);
         webCache.setTitle(Constants.MAIN_SYSTEM_SHORT);
         webCache.setPathTree(new LinkedHashMap<String, String>());
         model.addAttribute(Constants.WEB_CACHE_KEY, webCache);

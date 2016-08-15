@@ -2,6 +2,7 @@ package com.sf.sfpp.pcomp.service.impl;
 
 import com.sf.sfpp.pcomp.common.model.extend.PcompVersionExtend;
 import com.sf.sfpp.pcomp.service.PcompVersionService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -11,20 +12,21 @@ import java.util.List;
  * @version 1.0.0
  * @date 2016/8/12
  */
+@Service
 public class PcompVersionServiceImpl implements PcompVersionService {
 
     @Override
-    public List<PcompVersionExtend> fetchAllVersionsSeparatelyBySoftware(String software) {
+    public List<PcompVersionExtend> fetchAllVersionsSeparatelyBySoftware(String softwareId) {
         return null;
     }
 
     @Override
-    public boolean existsVersion(String software, String version) {
+    public boolean existsVersion(String softwareId, String version) {
         return false;
     }
 
     @Override
-    public boolean addVersion(String software, PcompVersionExtend version) {
+    public boolean addVersion(String softwareId, PcompVersionExtend version) {
         return false;
     }
 
@@ -34,7 +36,7 @@ public class PcompVersionServiceImpl implements PcompVersionService {
     }
 
     @Override
-    public boolean removeVersion(String version) {
+    public boolean removeVersion(String versionId) {
         return false;
     }
 }

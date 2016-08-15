@@ -10,8 +10,8 @@
     <%
         for (String key : pathTree.keySet()) {
     %>
-            <li><a href="<%out.print(pathTree.get(key));%>">
-                <%out.print(key);%>
+            <li><a href="<%=pathTree.get(key)%>">
+                <%=key%>
             </a></li>
     <%
         }

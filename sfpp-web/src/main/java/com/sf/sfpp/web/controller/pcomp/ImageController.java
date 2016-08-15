@@ -73,13 +73,13 @@ public class ImageController {
     public static void main(String[] args) throws IOException {
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
         ImageService imageService = applicationContext.getBean(ImageService.class);
-        FileInputStream fis = new FileInputStream("D:\\sfpp-stat-res\\u=761788485,855302436&fm=21&gp=0.jpg");
-        String imgageToBase64 = ImageUtils.encodeImgageToBase64(ImageUtils.intelligentZip(fis, ImageKind.BANNER_IMAGE));
+        FileInputStream fis = new FileInputStream("D:\\sfpp-stat-res\\Java1.jpg");
+        String imgageToBase64 = ImageUtils.encodeImgageToBase64(ImageUtils.intelligentZip(fis, ImageKind.AVATAR));
         ImageObject imageObject = getImageObject(Constants.PUBLIC_COMPONENT_SYSTEM, imgageToBase64);
         System.out.println(imageService.saveImage(imageObject));
-        fis = new FileInputStream("D:\\sfpp-stat-res\\221025159213722.jpg");
-        imgageToBase64 = ImageUtils.encodeImgageToBase64(ImageUtils.intelligentZip(fis, ImageKind.TOP_PHOTO));
-        imageObject = getImageObject(Constants.PUBLIC_COMPONENT_SYSTEM, imgageToBase64);
-        System.out.println(imageService.saveImage(imageObject));
+//        fis = new FileInputStream("D:\\sfpp-stat-res\\221025159213722.jpg");
+//        imgageToBase64 = ImageUtils.encodeImgageToBase64(ImageUtils.intelligentZip(fis, ImageKind.TOP_PHOTO));
+//        imageObject = getImageObject(Constants.PUBLIC_COMPONENT_SYSTEM, imgageToBase64);
+//        System.out.println(imageService.saveImage(imageObject));
     }
 }
