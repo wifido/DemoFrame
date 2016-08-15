@@ -28,7 +28,7 @@
         %>"
             <%
                 if (title != null && titleId.equals(title.getId())) out.print("class='active'");
-            %>><%
+            %> target="_self"><%
         out.print(pcompTitle.getName());
     %></a>
         <%

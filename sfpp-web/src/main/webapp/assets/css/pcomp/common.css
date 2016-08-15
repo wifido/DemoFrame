@@ -243,3 +243,9 @@ p.bannerlist > a.active{
 	
 }
 
+li.whitebk:hover,.box.box-default:hover{
+  box-shadow:0 3px 10px #000;
+}
+
+
+

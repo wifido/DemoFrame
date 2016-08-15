@@ -27,6 +27,29 @@ public interface PcompTitleService {
     boolean existsTitle(String titleName) throws PcompException;
 
     /**
+     * 通过Id获取对应的Title信息
+     * @param titleId
+     * @return
+     * @throws PcompException
+     */
+    PcompTitle fetchTitleById(String titleId) throws PcompException;
+
+    /**
+     * 通过KindId获取对应的Title信息
+     * @param kindId
+     * @return
+     * @throws PcompException
+     */
+    PcompTitle fetchTitleByKind(String kindId) throws PcompException;
+
+    /**
+     * 通过Software获取对应的Title信息
+     * @param softwareId
+     * @return
+     * @throws PcompException
+     */
+    PcompTitle fetchTitleBySoftware(String softwareId) throws PcompException;
+    /**
      * 新建title
      * @param newName
      * @return 失败返回false

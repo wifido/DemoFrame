@@ -10,8 +10,8 @@
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
             <ul class="dropdown-menu" role="menu">
-                <li><a href="/sfpp-web/pcomp/title/add.do">创建新主题</a></li>
-                <li><a href="/sfpp-web/pcomp/kind/add.do">创建新分类</a></li>
+                <li><a href="/sfpp-web/pcomp/title/add.do" target="_blank">创建新主题</a></li>
+                <li><a href="/sfpp-web/pcomp/kind/add.do" target="_blank">创建新分类</a></li>
             </ul>
         </div>
     </div>

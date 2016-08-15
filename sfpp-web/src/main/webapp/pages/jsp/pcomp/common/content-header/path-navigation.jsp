@@ -10,7 +10,7 @@
     <%
         for (String key : pathTree.keySet()) {
     %>
-            <li><a href="<%=pathTree.get(key)%>">
+            <li><a href="<%=pathTree.get(key)%>" target="_self">
                 <%=key%>
             </a></li>
     <%

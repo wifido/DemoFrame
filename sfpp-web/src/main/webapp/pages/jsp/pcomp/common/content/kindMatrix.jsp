@@ -3,12 +3,8 @@
 <%@ page import="com.sf.sfpp.common.utils.ImageUtils" %>
 <%@ page import="com.sf.sfpp.pcomp.common.domain.PcompCacheObject" %>
 <%@ page import="com.sf.sfpp.pcomp.common.model.PcompKind" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.awt.*" %>
-<%@ page import="com.sf.sfpp.web.common.PagePathConstants" %>
 <%@ page import="com.sf.sfpp.web.common.utils.PathUtils" %>
-<%@ page import="com.sf.sfpp.common.utils.StrUtils" %>
-<%@ page import="com.sf.sfpp.pcomp.common.PcompConstants" %>
+<%@ page import="java.util.List" %>
 <%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <div class="kn_column_content">
     <div class="allist clearfix" id="base_list">
@@ -26,13 +22,13 @@
                         <img src="<%=pcompKind.getBannerImage()%>" alt="" width="<%=ImageUtils.BANNER_IMAGE_WIDTH%>"
                              height="<%=ImageUtils.BANNER_IMAGE_HEIGHT%>">
                     </div>
-                    <a href="<%=link%>" target="_blank" class="topphoto">
+                    <a href="<%=link%>" target="_blank" class="topphoto" target="_self">
                         <img src="<%=pcompKind.getTopPhoto()%>" alt="" width="<%=ImageUtils.TOP_PHOTO_WIDTH%>"
                              height="<%=ImageUtils.TOP_PHOTO_HEIGHT%>">
                     </a>
                 </div>
                 <div class="divbottoms">
-                    <a href="<%=link%>" class="title"><%=pcompKind.getName()%>
+                    <a href="<%=link%>" class="title" target="_self"><%=pcompKind.getName()%>
                     </a>
 
                     <p class="pext">
@@ -40,7 +36,7 @@
                     </p>
 
                     <p class="pabtn">
-                        <a href="<%=link%>" target="_blank">立即进入</a>
+                        <a href="<%=link%>" target="_blank" target="_self">立即进入</a>
                     </p>
                 </div>
             </li>
