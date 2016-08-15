@@ -9,7 +9,7 @@
 <%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <p class="bannerlist">
 
-        <%
+    <%
         WebCache webCache = (WebCache) request.getAttribute(Constants.WEB_CACHE_KEY);
         PcompCacheObject pcompCacheObject = (PcompCacheObject) webCache.getCacheObject();
         PcompTitle title = pcompCacheObject.getPcompTitle();

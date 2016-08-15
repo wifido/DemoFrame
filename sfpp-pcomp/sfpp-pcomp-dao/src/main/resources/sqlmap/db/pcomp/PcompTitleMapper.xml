@@ -19,6 +19,7 @@
     from pcomp_title
     where id = #{id,jdbcType=VARCHAR}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from pcomp_title
     where id = #{id,jdbcType=VARCHAR}

@@ -7,10 +7,13 @@ import com.sf.sfpp.common.idgen.IDGenerator;
 import com.sf.sfpp.common.utils.ImageKind;
 import com.sf.sfpp.common.utils.ImageUtils;
 import com.sf.sfpp.resource.client.image.ImageService;
+import com.sf.sfpp.web.common.PagePathConstants;
 import com.sf.sfpp.web.common.editormd.domain.ImageUploadReturn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,7 +35,7 @@ public class ImageController {
     @Autowired
     private ImageService imageService;
 
-    @RequestMapping("/pcomp/image/upload")
+    @RequestMapping(PagePathConstants.PCOMP_SOFTWARE_CONTENT_IMAGE_UPLOAD_PATH)
     public void upload(@RequestParam("editormd-image-file") MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws IOException {
         ImageUploadReturn imageUploadReturn = new ImageUploadReturn();
 

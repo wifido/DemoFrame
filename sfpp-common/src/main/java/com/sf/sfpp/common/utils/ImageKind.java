@@ -7,6 +7,8 @@ package com.sf.sfpp.common.utils;
  */
 public enum ImageKind {
     AVATAR,
+    TOP_PHOTO,
+    BANNER_IMAGE,
     CONTENT_IMAGE,
     TRI_SIZE_IMAGE,
     SPECIAL_IMAGE
