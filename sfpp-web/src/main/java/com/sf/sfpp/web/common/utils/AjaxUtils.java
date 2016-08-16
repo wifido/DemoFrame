@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class AjaxUtils {
 
-
-
     /**
      * 判断是否为Ajax请求
      * @param request   HttpServletRequest

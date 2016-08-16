@@ -1,13 +1,14 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>监控平台</title>
+  <title>顺丰开发平台</title>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
-  <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="../assets/css/matrix-style.css" />
-  <link rel="stylesheet" href="../assets/css/matrix-media.css" />
-  <link rel="stylesheet" href="../assets/fontAwesome/css/font-awesome.css" />
+  <link rel="stylesheet" href="/sfpp-web/assets/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/sfpp-web/assets/css/matrix-style.css" />
+  <link rel="stylesheet" href="/sfpp-web/assets/css/matrix-media.css" />
+  <link rel="stylesheet" href="/sfpp-web/assets/fonts/font-awesome.min.css" />
 
 </head>
 <body>
@@ -27,7 +28,7 @@
               <h1>404</h1>
               <h3>Opps, 页面找不到啦~.</h3>
               <p>We can not find the page you're looking for.</p>
-              <a class="btn btn-warning btn-big"  href="/smp-web/main/index">回到首页</a> </div>
+              <a class="btn btn-warning btn-big"  href="/sfpp-web/pages/index">回到首页</a> </div>
           </div>
         </div>
       </div>
