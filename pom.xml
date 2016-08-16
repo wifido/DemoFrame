@@ -37,7 +37,8 @@
         <bsf_version>3.1</bsf_version>
         <sorcerer_version>0.8</sorcerer_version>
         <curator_version>2.10.0</curator_version>
-        <jedis_version>2.1.0</jedis_version>
+        <jedis_version>2.6.2</jedis_version>
+		<commons_pool2_version>2.3</commons_pool2_version>
         <xmemcached_version>1.3.6</xmemcached_version>
         <cxf_version>2.6.1</cxf_version>
         <thrift_version>0.8.0</thrift_version>
@@ -46,12 +47,14 @@
         <servlet_version>3.1.0</servlet_version>
         <jetty_version>6.1.26</jetty_version>
         <validation_version>1.0.0.GA</validation_version>
+		<jstl_version>1.2</jstl_version>
         <hibernate_validator_version>4.2.0.Final</hibernate_validator_version>
         <jcache_version>0.4</jcache_version>
         <sca_version>2.0-M5.1</sca_version>
         <guice_version>3.0</guice_version>
         <cglib_version>2.2</cglib_version>
         <webx_version>3.0.8</webx_version>
+		<jackson_version>2.3.3</jackson_version>
         <commons_pool_version>1.6</commons_pool_version>
         <tomcat_embed_version>8.0.11</tomcat_embed_version>
         <resteasy_version>3.0.7.Final</resteasy_version>
@@ -262,6 +265,11 @@
                 <groupId>javax.validation</groupId>
                 <artifactId>validation-api</artifactId>
                 <version>${validation_version}</version>
+            </dependency>
+			<dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-pool2</artifactId>
+                <version>${commons_pool2_version}</version>
             </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
