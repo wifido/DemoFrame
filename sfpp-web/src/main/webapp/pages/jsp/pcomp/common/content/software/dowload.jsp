@@ -25,7 +25,7 @@
 
         <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="" data-widget="chat-pane-toggle"
-                    data-original-title="编辑/关闭编辑" onclick="edit<%=PcompConstants.HISTORY_QUICKSTART%>()">
+                    data-original-title="编辑/关闭编辑" onclick="edit<%=PcompConstants.HISTORY_DOWNLOAD%>()">
                 <i class="fa fa-pencil"></i></button>
             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
             </button>
