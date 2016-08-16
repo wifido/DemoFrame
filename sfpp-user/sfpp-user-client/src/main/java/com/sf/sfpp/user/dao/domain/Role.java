@@ -7,8 +7,14 @@ import java.util.Date;
  * @date     2016年8月10日
  * @author   lingjie.wu
  */
-public class Role {
-    private Integer roleId;
+public class Role implements java.io.Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5957853186117626251L;
+
+	private Integer roleId;
 
     private String roleName;
 

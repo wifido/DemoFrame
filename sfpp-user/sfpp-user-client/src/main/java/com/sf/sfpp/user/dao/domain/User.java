@@ -7,8 +7,13 @@ import java.util.Date;
  * @date     2016年8月10日
  * @author   lingjie.wu
  */
-public class User {
-    private Integer id;
+public class User implements java.io.Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1841945501955196692L;
+
+	private Integer id;
 
     private String userNo;
 

@@ -275,11 +275,14 @@ public class SystemManageController {
     @ResponseBody
     public int updateRoleResource(String roleId, String resList) {
         List<Integer> resourceIdList = new ArrayList<Integer>();
-        
-        String[] resStrList = resList.split(",");
-        for (String string : resStrList) {
-            resourceIdList.add(Integer.parseInt(string));
-        }
+		if (resList != null
+				&& !"".equals(resList)) {
+			String[] resStrList = resList.split(",");
+			for (String string : resStrList) {
+				resourceIdList.add(Integer.parseInt(string));
+			}
+		}
+      
         int state = -1;
         try {
         	state =  resourceService.updateRoleResource(roleId, resourceIdList);
