@@ -32,7 +32,7 @@ public interface PcompTitleService {
      * @return
      * @throws PcompException
      */
-    PcompTitle fetchTitleById(String titleId) throws PcompException;
+    PcompTitle fetchTitleByTitleId(String titleId) throws PcompException;
 
     /**
      * 通过KindId获取对应的Title信息
@@ -40,7 +40,7 @@ public interface PcompTitleService {
      * @return
      * @throws PcompException
      */
-    PcompTitle fetchTitleByKind(String kindId) throws PcompException;
+    PcompTitle fetchTitleByKindId(String kindId) throws PcompException;
 
     /**
      * 通过Software获取对应的Title信息
@@ -48,7 +48,7 @@ public interface PcompTitleService {
      * @return
      * @throws PcompException
      */
-    PcompTitle fetchTitleBySoftware(String softwareId) throws PcompException;
+    PcompTitle fetchTitleBySoftwareId(String softwareId) throws PcompException;
     /**
      * 新建title
      * @param newName

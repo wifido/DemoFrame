@@ -11,6 +11,8 @@ public class PcompVersionPlatformDownload implements Serializable {
 
     private String download;
 
+    private Boolean isDeleted;
+
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -45,6 +47,14 @@ public class PcompVersionPlatformDownload implements Serializable {
         this.download = download == null ? null : download.trim();
     }
 
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -55,6 +65,7 @@ public class PcompVersionPlatformDownload implements Serializable {
         sb.append(", pcompVersionId=").append(pcompVersionId);
         sb.append(", platform=").append(platform);
         sb.append(", download=").append(download);
+        sb.append(", isDeleted=").append(isDeleted);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

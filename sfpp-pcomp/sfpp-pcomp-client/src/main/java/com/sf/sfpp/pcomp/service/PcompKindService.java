@@ -31,6 +31,15 @@ public interface PcompKindService {
      * @throws PcompException
      */
     PcompKind fetchKindByKindId(String kindID) throws PcompException;
+
+    /**
+     * 根据softwareId获取对应的kind
+     * @param softwareId
+     * @return
+     * @throws PcompException
+     */
+    PcompKind fetchKindBySoftwareId(String softwareId) throws PcompException;
+
     /**
      * 判断某一kind是否存在，顺便返回title的id
      * @param titleID
