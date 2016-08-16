@@ -6,9 +6,9 @@
     <!-- Logo -->
     <a href="/sfpp-web/index.do" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>SFPP</b></span>
+        <span class="logo-mini"><b><%=Constants.MAIN_SYSTEM_SHORT%></b></span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>顺丰开放平台</b></span>
+        <span class="logo-lg"><b><%=Constants.MAIN_SYSTEM%></b></span>
     </a>
     <%
         WebCache webCache = (WebCache) request.getAttribute(Constants.WEB_CACHE_KEY);

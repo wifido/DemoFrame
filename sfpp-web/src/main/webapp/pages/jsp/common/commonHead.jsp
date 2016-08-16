@@ -7,8 +7,8 @@
 <title>
     <%
         WebCache webCache = (WebCache) request.getAttribute(Constants.WEB_CACHE_KEY);
-        out.print(webCache.getTitle());
     %>
+    <%=webCache.getTitle()%>
 </title>
 <%
     String message = webCache.getMessage();

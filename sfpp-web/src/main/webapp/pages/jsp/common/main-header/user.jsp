@@ -10,6 +10,6 @@
 <!-- User Account: style can be found in dropdown.less -->
 <li class="dropdown user user-menu">
     <a href="" class="dropdown-toggle" data-toggle="dropdown">
-        <span class="hidden-xs"><%out.print(StrUtils.isNull(user.getUserName()) ? user.getUserNo() : user.getUserName());%></span>
+        <span class="hidden-xs"><%=StrUtils.isNull(user.getUserName()) ? user.getUserNo() : user.getUserName()%></span>
     </a>
 </li>

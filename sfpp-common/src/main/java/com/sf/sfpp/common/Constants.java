@@ -21,4 +21,6 @@ public interface Constants {
     static final String FILE_SEPARATOR = ".";
     static final String WEB_CACHE_KEY = "cache";
     static final String THEME = "skin-black-light";
+
+    static final String COPYRIGHT = "SFPP © 2016";
 }

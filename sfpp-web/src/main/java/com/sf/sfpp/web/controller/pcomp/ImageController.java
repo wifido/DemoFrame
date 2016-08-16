@@ -73,11 +73,11 @@ public class ImageController {
     public static void main(String[] args) throws IOException {
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
         ImageService imageService = applicationContext.getBean(ImageService.class);
-        FileInputStream fis = new FileInputStream("D:\\sfpp-stat-res\\Java1.jpg");
+        FileInputStream fis = new FileInputStream("D:\\sfpp-stat-res\\scala.jpg");
         String imgageToBase64 = ImageUtils.encodeImgageToBase64(ImageUtils.intelligentZip(fis, ImageKind.AVATAR));
         ImageObject imageObject = getImageObject(Constants.PUBLIC_COMPONENT_SYSTEM, imgageToBase64);
         System.out.println(imageService.saveImage(imageObject));
-//        fis = new FileInputStream("D:\\sfpp-stat-res\\221025159213722.jpg");
+//        fis = new FileInputStream("D:\\sfpp-stat-res\\537acbb30001a4a103500151.jpg");
 //        imgageToBase64 = ImageUtils.encodeImgageToBase64(ImageUtils.intelligentZip(fis, ImageKind.TOP_PHOTO));
 //        imageObject = getImageObject(Constants.PUBLIC_COMPONENT_SYSTEM, imgageToBase64);
 //        System.out.println(imageService.saveImage(imageObject));
