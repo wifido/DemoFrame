@@ -31,7 +31,12 @@ public class PcompKindServiceImpl implements PcompKindService {
 
     @Override
     public PcompKind fetchKindByKindId(String kindID) throws PcompException {
-        return pcompKindManager.getPcompKindById(kindID);
+        return pcompKindManager.getPcompKindByPcompKindId(kindID);
+    }
+
+    @Override
+    public PcompKind fetchKindBySoftwareId(String softwareId) throws PcompException {
+        return pcompKindManager.getPcompKindByPcompSoftwareId(softwareId);
     }
 
     @Override

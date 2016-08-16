@@ -31,6 +31,21 @@ public class PcompTitleServiceImpl implements PcompTitleService {
     }
 
     @Override
+    public PcompTitle fetchTitleByTitleId(String titleId) throws PcompException {
+        return null;
+    }
+
+    @Override
+    public PcompTitle fetchTitleByKindId(String kindId) throws PcompException {
+        return null;
+    }
+
+    @Override
+    public PcompTitle fetchTitleBySoftwareId(String softwareId) throws PcompException {
+        return null;
+    }
+
+    @Override
     public boolean addNewTitle(String newName) throws PcompException {
         return false;
     }

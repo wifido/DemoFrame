@@ -28,7 +28,7 @@ public class PcompSoftwareServiceImpl implements PcompSoftwareService {
 
     @Override
     public PcompSoftware fetchSoftware(String softwareId) throws PcompException {
-        return null;
+        return pcompSoftwareManager.getPcompSoftwareByPcompSoftwareId(softwareId);
     }
 
     @Override
