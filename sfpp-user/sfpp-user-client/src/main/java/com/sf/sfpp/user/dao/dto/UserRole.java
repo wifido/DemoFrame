@@ -14,6 +14,10 @@ import com.sf.sfpp.user.dao.domain.Role;
 public class UserRole extends Role {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7978870509101049584L;
+	/**
      * 角色-用户是否已绑定，
      */
     private Boolean bindState;

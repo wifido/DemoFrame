@@ -67,7 +67,7 @@
 	LEFT JOIN 
 	(
 	SELECT rel.role_id roleId, rel.resource_id resourceId
-	FROM permission_role_res_rel, permission_role r
+	FROM permission_role_res_rel rel, permission_role r
 	WHERE rel.role_id=#{roleId} and r.is_deleted='0' and r.role_id=rel.role_id
 	) c 
 	ON res.resource_id=c.resourceId

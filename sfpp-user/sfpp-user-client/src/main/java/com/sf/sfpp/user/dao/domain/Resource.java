@@ -7,8 +7,13 @@ import java.util.Date;
  * @date     2016年8月10日
  * @author   lingjie.wu
  */
-public class Resource {
-    private Integer resourceId;
+public class Resource implements java.io.Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4790317033687903765L;
+
+	private Integer resourceId;
 
     private Integer parentId;
 

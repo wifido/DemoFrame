@@ -24,6 +24,18 @@
     <link rel="stylesheet" href="/sfpp-web/assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="/sfpp-web/assets/css/form-elements.css">
     <link rel="stylesheet" href="/sfpp-web/assets/css/style.css">
+    
+    
+    <script src="/sfpp-web/assets/plugins/jquery/jquery-2.2.0.min.js"></script>
+	<script src="/sfpp-web/assets/plugins/jQueryUI/jquery-ui.min.js"></script>
+	<script src="/sfpp-web/assets/plugins/jquery-validate/jquery.validate.min.js"></script>
+	<script src="/sfpp-web/assets/plugins/jquery-validate/messages_zh.min.js"></script>
+	<script src="/sfpp-web/assets/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/sfpp-web/assets/plugins/bootstrap3-dialog/js/bootstrap-dialog.min.js"></script>
+	<script src="/sfpp-web/assets/plugins/treeview/bootstrap-treeview.min.js"></script>
+	<script src="/sfpp-web/assets/plugins/treeview/jquery.treegrid.min.js"></script>
+	<script src="/sfpp-web/assets/plugins/treeview/jquery.treegrid.bootstrap3.js"></script>
+	<script src="/sfpp-web/assets/plugins/ztree/js/jquery.ztree.all.min.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -193,16 +205,6 @@
 		</div>
      </div>
 </div>
-<script src="/sfpp-web/assets/plugins/jquery/jquery-2.2.0.min.js"></script>
-<script src="/sfpp-web/assets/plugins/jQueryUI/jquery-ui.min.js"></script>
-<script src="/sfpp-web/assets/plugins/jquery-validate/jquery.validate.min.js"></script>
-<script src="/sfpp-web/assets/plugins/jquery-validate/messages_zh.min.js"></script>
-<script src="/sfpp-web/assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="/sfpp-web/assets/plugins/bootstrap3-dialog/js/bootstrap-dialog.min.js"></script>
-<script src="/sfpp-web/assets/plugins/treeview/bootstrap-treeview.min.js"></script>
-<script src="/sfpp-web/assets/plugins/treeview/jquery.treegrid.min.js"></script>
-<script src="/sfpp-web/assets/plugins/treeview/jquery.treegrid.bootstrap3.js"></script>
-<script src="/sfpp-web/assets/plugins/ztree/js/jquery.ztree.all.min.js"></script>
 
 <script src="/sfpp-web/assets/js/matrix.js"></script>
 <script src="/sfpp-web/assets/js/util.js"></script>

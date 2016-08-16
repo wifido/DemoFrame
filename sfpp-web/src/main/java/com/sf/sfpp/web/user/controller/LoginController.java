@@ -52,20 +52,20 @@ public class LoginController {
             log.info("未登录状态，返回登录页面");
             Cookie cook = new Cookie("loginMessage", null);
             httpServletResponse.addCookie(cook);
-            return "pages/login";
+            return "/login";
         }
     }
     
     @RequestMapping(value = "/main/index", method = RequestMethod.GET)
     public String toindex(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         log.info("登录成功，跳转到主页");
-        return "pages/main/index";
+        return "/main/index";
     }
     
     @RequestMapping(value = "unauthorized", method = RequestMethod.GET)
     public String toUnauthorized() {
         log.info("没有权限");
-        return "pages/error/403";
+        return "/error/403";
     }
 
       
@@ -97,7 +97,7 @@ public class LoginController {
             log.info("登录失败后返回login页面");
             Cookie coo = new Cookie("loginMessage", URLEncoder.encode(errorMsg,"UTF-8"));
             httpServletResponse.addCookie(coo);
-            return "pages/login";
+            return "/login";
         }
     }
 }

@@ -11,11 +11,14 @@ import java.util.List;
  * @date     2016年8月10日
  * @author   lingjie.wu
  */
-public class ResourceTreeNode {
+public class ResourceTreeNode implements java.io.Serializable{
 
     /**
-     * 
-     */
+	 * 
+	 */
+	private static final long serialVersionUID = 5406411656247836269L;
+
+
     public ResourceTreeNode() {}
     
     /** 资源名称 */

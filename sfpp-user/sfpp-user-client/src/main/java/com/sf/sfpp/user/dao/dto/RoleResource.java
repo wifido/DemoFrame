@@ -12,8 +12,12 @@ import com.sf.sfpp.user.dao.domain.Resource;
  * @author   lingjie.wu
  */
 public class RoleResource extends Resource {
-
-    /**
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7054825622745135977L;
+	/**
      * 角色是否已绑定这个资源
      */
     private Boolean bindState;
