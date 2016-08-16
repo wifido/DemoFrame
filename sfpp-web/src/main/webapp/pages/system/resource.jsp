@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,18 +9,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>资源管理</title>
 
-	<link rel="shortcut icon" href="favicon.ico" />
-    <!-- CSS -->
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/form-elements.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+	<link rel="shortcut icon" href="/sfpp-web/favicon.ico" />
+    <link rel="stylesheet" href="/sfpp-web/assets/css/bootstrap-responsive.min.css" />
+    <link rel="stylesheet" href="/sfpp-web/assets/plugins/select2/css/select2.min.css"/>
+    <link rel="stylesheet" href="/sfpp-web/assets/css/matrix-style.css" />
+    <link rel="stylesheet" href="/sfpp-web/assets/css/matrix-media.css" />
+    <link rel="stylesheet" href="/sfpp-web/assets/plugins/tables/bootstrap-table.min.css"/>
+    <link rel="stylesheet" href="/sfpp-web/assets/plugins/treeview/bootstrap-treeview.min.css"/>
+    <link rel="stylesheet" href="/sfpp-web/assets/plugins/treeview/bootstrap-treeview.css"/>
+    <link rel="stylesheet" href="/sfpp-web/assets/plugins/treeview/jquery.treegrid.css"/>
+    <link rel="stylesheet" href="/sfpp-web/assets/plugins/ztree/css/zTreeStyle/zTreeStyle.css"/>
+    
+    <link rel="stylesheet" href="/sfpp-web/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/sfpp-web/assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="/sfpp-web/assets/css/form-elements.css">
+    <link rel="stylesheet" href="/sfpp-web/assets/css/style.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-    <script src="assets/plugin/html5shiv.min.js"></script>
-    <script src="assets/plugin/respond.min.js"></script>
+    <script src="/sfpp-web/assets/plugins/html5shiv.min.js"></script>
+    <script src="/sfpp-web/assets/plugins/respond.min.js"></script>
     <![endif]-->
 
 </head>
@@ -183,8 +193,20 @@
 		</div>
      </div>
 </div>
+<script src="/sfpp-web/assets/plugins/jquery/jquery-2.2.0.min.js"></script>
+<script src="/sfpp-web/assets/plugins/jQueryUI/jquery-ui.min.js"></script>
+<script src="/sfpp-web/assets/plugins/jquery-validate/jquery.validate.min.js"></script>
+<script src="/sfpp-web/assets/plugins/jquery-validate/messages_zh.min.js"></script>
+<script src="/sfpp-web/assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="/sfpp-web/assets/plugins/bootstrap3-dialog/js/bootstrap-dialog.min.js"></script>
+<script src="/sfpp-web/assets/plugins/treeview/bootstrap-treeview.min.js"></script>
+<script src="/sfpp-web/assets/plugins/treeview/jquery.treegrid.min.js"></script>
+<script src="/sfpp-web/assets/plugins/treeview/jquery.treegrid.bootstrap3.js"></script>
+<script src="/sfpp-web/assets/plugins/ztree/js/jquery.ztree.all.min.js"></script>
 
-<script src="../assets/js/system/resource.js"></script>
+<script src="/sfpp-web/assets/js/matrix.js"></script>
+<script src="/sfpp-web/assets/js/util.js"></script>
+<script src="/sfpp-web/assets/js/system/resource.js"></script>
 
 </body>
 

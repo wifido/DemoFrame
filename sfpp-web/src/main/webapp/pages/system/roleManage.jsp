@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,18 +9,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>角色管理</title>
 
-	<link rel="shortcut icon" href="favicon.ico" />
+	<link rel="shortcut icon" href="/sfpp-web/favicon.ico" />
     <!-- CSS -->
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/form-elements.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="/sfpp-web/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/sfpp-web/assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="/sfpp-web/assets/css/form-elements.css">
+    <link rel="stylesheet" href="/sfpp-web/assets/css/style.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-    <script src="assets/plugin/html5shiv.min.js"></script>
-    <script src="assets/plugin/respond.min.js"></script>
+    <script src="/sfpp-web/assets/plugins/html5shiv.min.js"></script>
+    <script src="/sfpp-web/assets/plugins/respond.min.js"></script>
     <![endif]-->
 
 </head>
@@ -195,7 +196,9 @@
      </div>
 </div>
 
-<script src="../assets/js/system/roleManage.js"></script>
+<script src="/sfpp-web/assets/js/matrix.js"></script>
+<script src="/sfpp-web/assets/js/util.js"></script>
+<script src="/sfpp-web/assets/js/system/roleManage.js"></script>
 
 </body>
 

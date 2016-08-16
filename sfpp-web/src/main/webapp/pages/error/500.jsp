@@ -1,14 +1,15 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>监控平台</title>
+<title>顺丰开发平台</title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css" />
-<link rel="stylesheet" href="../assets/css/bootstrap-responsive.min.css" />
-<link rel="stylesheet" href="../assets/css/matrix-style.css" />
-<link rel="stylesheet" href="../assets/css/matrix-media.css" />
-<link href="../assets/fontAwesome/css/font-awesome.css" rel="stylesheet" />
+<link rel="stylesheet" href="/sfpp-web/assets/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/sfpp-web/assets/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="/sfpp-web/assets/css/matrix-style.css" />
+<link rel="stylesheet" href="/sfpp-web/assets/css/matrix-media.css" />
+<link rel="stylesheet" href="/sfpp-web/assets/fonts/font-awesome.min.css" />
 </head>
 <body>
 
