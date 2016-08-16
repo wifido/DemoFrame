@@ -27,7 +27,7 @@ import com.sf.sfpp.user.service.ResourceService;
  */
 
 @Controller
-@RequestMapping(value = "/index") 
+@RequestMapping(value = "/index")
 public class IndexController {
 
     private static final Logger logger = LoggerFactory.getLogger(IndexController.class);

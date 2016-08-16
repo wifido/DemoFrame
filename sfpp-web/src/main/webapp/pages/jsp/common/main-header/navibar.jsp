@@ -1,6 +1,6 @@
 <%@ page import="com.sf.sfpp.common.Constants" %>
 <%@ page import="com.sf.sfpp.common.domain.WebCache" %>
-<%@ page import="com.sf.sfpp.web.common.PagePathConstants" %>
+<%@ page import="com.sf.sfpp.web.common.PathConstants" %>
 <%@ page import="com.sf.sfpp.web.common.utils.PathUtils" %>
 <%@ page import="java.util.Map" %>
 <%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
@@ -25,23 +25,23 @@
     %>
 
     <li <%=arg1%> role="presentation">
-        <a href="<%=PathUtils.makePath(PagePathConstants.HOMEPAGE_PATH)%>"><i
+        <a href="<%=PathUtils.makePath(PathConstants.INDEX_PATH)%>"><i
                 class="glyphicon glyphicon-home"></i> 主页</a>
     </li>
     <li <%=arg2%> role="presentation">
-        <a href="<%=PathUtils.makePath(PagePathConstants.KNNET_HOMEPAGE_PATH)%>"><i class="fa fa-globe"></i>
+        <a href="<%=PathUtils.makePath(PathConstants.KNNET_HOMEPAGE_PATH)%>"><i class="fa fa-globe"></i>
             <%=Constants.KNOWLEDGE_NETWORK_SYSTEM%></a>
     </li>
     <li <%=arg3%> role="presentation">
-        <a href="<%=PathUtils.makePath(PagePathConstants.COMMUNITY_HOMEPAGE_PATH)%>"> <i
+        <a href="<%=PathUtils.makePath(PathConstants.COMMUNITY_HOMEPAGE_PATH)%>"> <i
                 class="fa fa-group"></i> <%=Constants.COMMUNITY_SYSTEM%></a>
     </li>
     <li <%=arg4%> role="presentation">
-        <a href="<%=PathUtils.makePath(PagePathConstants.PCOMP_HOMEPAGE_PATH)%>"> <i class="fa fa-gears"></i>
+        <a href="<%=PathUtils.makePath(PathConstants.PCOMP_HOMEPAGE_PATH)%>"> <i class="fa fa-gears"></i>
             <%=Constants.PUBLIC_COMPONENT_SYSTEM%></a>
     </li>
     <li <%=arg5%> role="presentation">
-        <a href="<%=PathUtils.makePath(PagePathConstants.ACADEMY_HOMEPAGE_PATH)%>"> <i
+        <a href="<%=PathUtils.makePath(PathConstants.ACADEMY_HOMEPAGE_PATH)%>"> <i
                 class="fa fa-building"></i> <%=Constants.ACADEMY_SYSTEM%></a>
     </li>
 </ul>

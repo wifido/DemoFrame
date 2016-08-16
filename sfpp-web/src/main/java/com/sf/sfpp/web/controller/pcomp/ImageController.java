@@ -7,7 +7,7 @@ import com.sf.sfpp.common.idgen.IDGenerator;
 import com.sf.sfpp.common.utils.ImageKind;
 import com.sf.sfpp.common.utils.ImageUtils;
 import com.sf.sfpp.resource.client.image.ImageService;
-import com.sf.sfpp.web.common.PagePathConstants;
+import com.sf.sfpp.web.common.PathConstants;
 import com.sf.sfpp.web.common.editormd.domain.ImageUploadReturn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +35,7 @@ public class ImageController {
     @Autowired
     private ImageService imageService;
 
-    @RequestMapping(PagePathConstants.PCOMP_SOFTWARE_CONTENT_IMAGE_UPLOAD_PATH)
+    @RequestMapping(PathConstants.PCOMP_SOFTWARE_CONTENT_IMAGE_UPLOAD_PATH)
     public void upload(@RequestParam("editormd-image-file") MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws IOException {
         ImageUploadReturn imageUploadReturn = new ImageUploadReturn();
 

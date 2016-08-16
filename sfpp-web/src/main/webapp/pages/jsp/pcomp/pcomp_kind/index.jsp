@@ -7,14 +7,14 @@
 <html>
 
 <head>
-    <jsp:include page="../common/commonHead.jsp"></jsp:include>
-    <jsp:include page="./common/CSS.jsp"></jsp:include>
+    <jsp:include page="../../common/commonHead.jsp"></jsp:include>
+    <jsp:include page="../common/CSS.jsp"></jsp:include>
 </head>
 
 <body class="<%=Constants.THEME%>">
 
 <div class="wrapper">
-    <jsp:include page="../common/main-header.jsp"></jsp:include>
+    <jsp:include page="../../common/main-header.jsp"></jsp:include>
 
     <div class="jumbotron hero_kind">
         <div class="container">
@@ -35,16 +35,16 @@
         </div>
     </div>
 
-    <jsp:include page="./common/content-header.jsp"></jsp:include>
+    <jsp:include page="../common/content-header.jsp"></jsp:include>
     <section class="content">
-        <jsp:include page="./common/content/softwareMatrix.jsp"></jsp:include>
+        <jsp:include page="../common/content/softwareMatrix.jsp"></jsp:include>
     </section>
 </div>
 
 
-<jsp:include page="../common/footer.jsp"></jsp:include>
-<jsp:include page="../common/commonJS.jsp"></jsp:include>
-<jsp:include page="./common/JS.jsp"></jsp:include>
+<jsp:include page="../../common/footer.jsp"></jsp:include>
+<jsp:include page="../../common/commonJS.jsp"></jsp:include>
+<jsp:include page="../common/JS.jsp"></jsp:include>
 </body>
 
 </html>

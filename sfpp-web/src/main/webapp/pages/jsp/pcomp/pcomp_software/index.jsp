@@ -6,8 +6,8 @@
 <html>
 
 <head>
-    <jsp:include page="../common/commonHead.jsp"></jsp:include>
-    <jsp:include page="./common/CSS.jsp"></jsp:include>
+    <jsp:include page="../../common/commonHead.jsp"></jsp:include>
+    <jsp:include page="../common/CSS.jsp"></jsp:include>
 </head>
 
 <body class="<%=Constants.THEME%>">
@@ -16,32 +16,32 @@
     String pcomp_version = (String) request.getAttribute(PcompConstants.PCOMP_VERSION);
 %>
 <div class="wrapper">
-    <jsp:include page="../common/main-header.jsp"></jsp:include>
+    <jsp:include page="../../common/main-header.jsp"></jsp:include>
 
-    <jsp:include page="./common/sidebar.jsp"></jsp:include>
+    <jsp:include page="../common/sidebar.jsp"></jsp:include>
     <div class="content-wrapper">
-        <jsp:include page="./common/content-header.jsp"></jsp:include>
+        <jsp:include page="../common/content-header.jsp"></jsp:include>
         <section class="content">
             <%
             if (PcompConstants.INTRODUCTION.equals(page_nav) || StrUtils.isNull(page_nav)) {
             %>
-                <jsp:include page="./common/content/software/introduction.jsp"></jsp:include>
+                <jsp:include page="../common/content/software/introduction.jsp"></jsp:include>
             <%
             } else if (PcompConstants.HISTORY.equals(page_nav)) {
             %>
-                <jsp:include page="./common/content/software/history.jsp"></jsp:include>
+                <jsp:include page="../common/content/software/history.jsp"></jsp:include>
             <%
             } else if (PcompConstants.DOWNLOAD.equals(page_nav)) {
             %>
-                <jsp:include page="./common/content/software/dowload.jsp"></jsp:include>
+                <jsp:include page="../common/content/software/dowload.jsp"></jsp:include>
             <%
             } else if (PcompConstants.QUICKSTART.equals(page_nav)) {
             %>
-                <jsp:include page="./common/content/software/quickstart.jsp"></jsp:include>
+                <jsp:include page="../common/content/software/quickstart.jsp"></jsp:include>
             <%
             } else  {
             %>
-                <jsp:include page="./common/content/software/introduction.jsp"></jsp:include>
+                <jsp:include page="../common/content/software/introduction.jsp"></jsp:include>
             <%
             }
             %>
@@ -50,9 +50,9 @@
 </div>
 
 
-<jsp:include page="../common/footer.jsp"></jsp:include>
-<jsp:include page="../common/commonJS.jsp"></jsp:include>
-<jsp:include page="./common/JS.jsp"></jsp:include>
+<jsp:include page="../../common/footer.jsp"></jsp:include>
+<jsp:include page="../../common/commonJS.jsp"></jsp:include>
+<jsp:include page="../common/JS.jsp"></jsp:include>
 
 
 <%

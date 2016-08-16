@@ -4,7 +4,7 @@
 <%@ page import="com.sf.sfpp.pcomp.common.PcompConstants" %>
 <%@ page import="com.sf.sfpp.pcomp.common.domain.PcompCacheObject" %>
 <%@ page import="com.sf.sfpp.pcomp.common.model.PcompTitle" %>
-<%@ page import="com.sf.sfpp.web.common.PagePathConstants" %>
+<%@ page import="com.sf.sfpp.web.common.PathConstants" %>
 <%@ page import="com.sf.sfpp.web.common.utils.PathUtils" %>
 <%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <p class="bannerlist">
@@ -14,23 +14,26 @@
         PcompCacheObject pcompCacheObject = (PcompCacheObject) webCache.getCacheObject();
         PcompTitle title = pcompCacheObject.getPcompTitle();
     %>
-    <a href="<%out.print(PathUtils.makePath(PagePathConstants.PCOMP_HOMEPAGE_PATH));%>" <%
-        if (title == null) out.print("class=\"active\"");%>>全部主题</a>
+    <a href="<%=PathUtils.makePath(PathConstants.PCOMP_HOMEPAGE_PATH)%>"
+            <% if (title == null) {%>
+        class="active"<%}%>>全部主题</a>
         <%
         for(PcompTitle pcompTitle:pcompCacheObject.getPcompTitles()){
+        String titleId = pcompTitle.getId();
     %>
-    <a href="<%
-            String titleId = pcompTitle.getId();
-            out.print(StrUtils.makeString(PathUtils.makePath(PagePathConstants.PCOMP_HOMEPAGE_PATH),
+    <a href="<%=
+            StrUtils.makeString(PathUtils.makePath(PathConstants.PCOMP_HOMEPAGE_PATH),
             Constants.PARAMETER_START_SEPARATOR,
             PcompConstants.PCOMP_TITLE,
-            Constants.PARAMETER_EQUALS,titleId));
+            Constants.PARAMETER_EQUALS,titleId)
         %>"
             <%
-                if (title != null && titleId.equals(title.getId())) out.print("class='active'");
-            %> target="_self"><%
-        out.print(pcompTitle.getName());
-    %></a>
+                if (title != null && titleId.equals(title.getId())) {
+            %>
+                    class='active'
+            <%
+                }
+            %> target="_self"><%=pcompTitle.getName()%></a>
         <%
         }
     %>

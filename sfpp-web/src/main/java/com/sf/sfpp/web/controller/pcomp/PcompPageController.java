@@ -13,18 +13,18 @@ import com.sf.sfpp.pcomp.common.model.extend.PcompSoftwareExtend;
 import com.sf.sfpp.pcomp.service.PcompKindService;
 import com.sf.sfpp.pcomp.service.PcompSoftwareService;
 import com.sf.sfpp.pcomp.service.PcompTitleService;
-import com.sf.sfpp.web.common.PagePathConstants;
+import com.sf.sfpp.web.common.PathConstants;
 import com.sf.sfpp.web.common.utils.PathUtils;
 import com.sf.sfpp.web.controller.common.AbstractCachedController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -50,11 +50,11 @@ public class PcompPageController extends AbstractCachedController {
         return webCache;
     }
 
-    @RequestMapping(PagePathConstants.PCOMP_HOMEPAGE_PATH)
-    public ModelAndView mainPage(HttpServletRequest request, ModelMap model) {
+    @RequestMapping(value = PathConstants.PCOMP_HOMEPAGE_PATH, method = RequestMethod.GET)
+    public String mainPage(HttpServletRequest request, ModelMap model) {
         WebCache webCache = getWebCache(request);
         Map<String, String> pathTree = new LinkedHashMap<>();
-        pathTree.put(Constants.PUBLIC_COMPONENT_SYSTEM, PathUtils.makePath(PagePathConstants.PCOMP_HOMEPAGE_PATH));
+        pathTree.put(Constants.PUBLIC_COMPONENT_SYSTEM, PathUtils.makePath(PathConstants.PCOMP_HOMEPAGE_PATH));
         webCache.setPathTree(pathTree);
         PcompCacheObject pcompCacheObject = new PcompCacheObject();
         try {
@@ -79,11 +79,11 @@ public class PcompPageController extends AbstractCachedController {
         }
         webCache.setCacheObject(pcompCacheObject);
         model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
-        return new ModelAndView("pcomp/index");
+        return PathConstants.PCOMP_HOMEPAGE_JSP_PATH;
     }
 
-    @RequestMapping(PagePathConstants.PCOMP_KIND_PATH)
-    public ModelAndView kindPage(HttpServletRequest request, ModelMap model) {
+    @RequestMapping(value = PathConstants.PCOMP_KIND_PATH, method = RequestMethod.GET)
+    public String kindPage(HttpServletRequest request, ModelMap model) {
         WebCache webCache = getWebCache(request);
         Map<String, String> pathTree = new LinkedHashMap<>();
         String pcompKindId = request.getParameter(PcompConstants.PCOMP_KIND);
@@ -95,7 +95,7 @@ public class PcompPageController extends AbstractCachedController {
             pcompCacheObject.setPcompKind(pcompKind);
             pcompCacheObject.setPcompSoftwares(pcompSoftwares);
 
-            pathTree.put(Constants.PUBLIC_COMPONENT_SYSTEM, PathUtils.makePath(PagePathConstants.PCOMP_HOMEPAGE_PATH));
+            pathTree.put(Constants.PUBLIC_COMPONENT_SYSTEM, PathUtils.makePath(PathConstants.PCOMP_HOMEPAGE_PATH));
             pathTree.put(pcompKind.getName(), PathUtils.makeKindPath(pcompKind.getId()));
             webCache.setPathTree(pathTree);
         } catch (PcompException e) {
@@ -103,12 +103,12 @@ public class PcompPageController extends AbstractCachedController {
         }
         webCache.setCacheObject(pcompCacheObject);
         model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
-        return new ModelAndView("pcomp/kindIndex");
+        return PathConstants.PCOMP_KIND_JSP_PATH;
     }
 
 
-    @RequestMapping(PagePathConstants.PCOMP_SOFTWARE_PATH)
-    public ModelAndView softwarePage(HttpServletRequest request, ModelMap model) {
+    @RequestMapping(value = PathConstants.PCOMP_SOFTWARE_PATH, method = RequestMethod.GET)
+    public String softwarePage(HttpServletRequest request, ModelMap model) {
         WebCache webCache = getWebCache(request);
         Map<String, String> pathTree = new LinkedHashMap<>();
         String pcompSoftwareId = request.getParameter(PcompConstants.PCOMP_SOFTWARE);
@@ -116,7 +116,7 @@ public class PcompPageController extends AbstractCachedController {
         try {
             PcompSoftwareExtend pcompSoftware = (PcompSoftwareExtend) pcompSoftwareService.fetchSoftware(pcompSoftwareId);
             PcompKind pcompKind = pcompKindService.fetchKindBySoftwareId(pcompSoftwareId);
-            pathTree.put(Constants.PUBLIC_COMPONENT_SYSTEM, PathUtils.makePath(PagePathConstants.PCOMP_HOMEPAGE_PATH));
+            pathTree.put(Constants.PUBLIC_COMPONENT_SYSTEM, PathUtils.makePath(PathConstants.PCOMP_HOMEPAGE_PATH));
             pathTree.put(pcompKind.getName(), PathUtils.makeKindPath(pcompKind.getId()));
             pathTree.put(pcompSoftware.getName(), PathUtils.makeSoftwarePath(pcompSoftware.getId()));
             pcompCacheObject.setPcompSoftware(pcompSoftware);
@@ -128,7 +128,7 @@ public class PcompPageController extends AbstractCachedController {
         model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
         model.addAttribute(PcompConstants.SOFTWARE_PAGE_NAVIGATION, request.getParameter(PcompConstants.SOFTWARE_PAGE_NAVIGATION));
         model.addAttribute(PcompConstants.PCOMP_VERSION, request.getParameter(PcompConstants.PCOMP_VERSION));
-        return new ModelAndView("pcomp/softwareIndex");
+        return PathConstants.PCOMP_SOFTWARE_JSP_PATH;
     }
 
 }
