@@ -6,9 +6,10 @@
     <result column="pcomp_version_id" property="pcompVersionId" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="download" property="download" jdbcType="VARCHAR" />
+    <result column="is_deleted" property="isDeleted" jdbcType="BIT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, pcomp_version_id, description, download
+    id, pcomp_version_id, description, download, is_deleted
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -16,15 +17,22 @@
     from pcomp_version_document_download
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="selectByVersionId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from pcomp_version_document_download
+    where pcomp_version_id = #{id,jdbcType=VARCHAR}
+    and is_deleted = 0
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from pcomp_version_document_download
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.sf.sfpp.pcomp.common.model.PcompVersionDoucumentDownload" >
     insert into pcomp_version_document_download (id, pcomp_version_id, description, 
-      download)
+      download, is_deleted)
     values (#{id,jdbcType=VARCHAR}, #{pcompVersionId,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
-      #{download,jdbcType=VARCHAR})
+      #{download,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.sf.sfpp.pcomp.common.model.PcompVersionDoucumentDownload" >
     insert into pcomp_version_document_download
@@ -41,6 +49,9 @@
       <if test="download != null" >
         download,
       </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -54,6 +65,9 @@
       </if>
       <if test="download != null" >
         #{download,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -69,6 +83,9 @@
       <if test="download != null" >
         download = #{download,jdbcType=VARCHAR},
       </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -76,7 +93,8 @@
     update pcomp_version_document_download
     set pcomp_version_id = #{pcompVersionId,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
-      download = #{download,jdbcType=VARCHAR}
+      download = #{download,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=BIT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

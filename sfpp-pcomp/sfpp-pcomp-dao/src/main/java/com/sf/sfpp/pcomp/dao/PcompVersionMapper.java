@@ -2,6 +2,8 @@ package com.sf.sfpp.pcomp.dao;
 
 import com.sf.sfpp.pcomp.common.model.PcompVersion;
 
+import java.util.List;
+
 public interface PcompVersionMapper {
     int deleteByPrimaryKey(String id);
 
@@ -10,6 +12,8 @@ public interface PcompVersionMapper {
     int insertSelective(PcompVersion record);
 
     PcompVersion selectByPrimaryKey(String id);
+
+    List<PcompVersion> selectAvailableBySoftwareId(String softwareId);
 
     int updateByPrimaryKeySelective(PcompVersion record);
 

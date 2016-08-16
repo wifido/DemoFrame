@@ -16,7 +16,9 @@ public interface Constants {
     static final String FOLDER_PATH_SEPARATOR = "/";
     static final String PARAMETER_START_SEPARATOR = "?";
     static final String PARAMETER_EQUALS = "=";
+    static final String PARAMETER_SEPARATOR = "&";
     static final String NAME_SEPARATOR = "-";
     static final String FILE_SEPARATOR = ".";
     static final String WEB_CACHE_KEY = "cache";
+    static final String THEME = "skin-black-light";
 }

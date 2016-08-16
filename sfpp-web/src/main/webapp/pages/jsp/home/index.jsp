@@ -11,7 +11,7 @@
     <jsp:include page="./common/CSS.jsp"></jsp:include>
 </head>
 
-<body class="skin-black-light">
+<body class="<%=Constants.THEME%>">
 
 <div class="wrapper">
     <jsp:include page="../common/main-header.jsp"></jsp:include>

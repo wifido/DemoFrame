@@ -22,4 +22,24 @@ public class PathUtils {
                 Constants.PARAMETER_EQUALS,
                 kindId);
     }
+
+    public static String makeSoftwarePath(String softwareId) {
+        return StrUtils.makeString(PathUtils.makePath(PagePathConstants.PCOMP_SOFTWARE_PATH),
+                Constants.PARAMETER_START_SEPARATOR,
+                PcompConstants.PCOMP_SOFTWARE,
+                Constants.PARAMETER_EQUALS,
+                softwareId);
+    }
+
+    public static String makeVersionPath(String softwareId,String nav, String versionId) {
+        return StrUtils.makeString(makeSoftwarePath(softwareId),
+                Constants.PARAMETER_SEPARATOR,
+                PcompConstants.SOFTWARE_PAGE_NAVIGATION,
+                Constants.PARAMETER_EQUALS,
+                nav,
+                Constants.PARAMETER_SEPARATOR,
+                PcompConstants.PCOMP_VERSION,
+                Constants.PARAMETER_EQUALS,
+                versionId);
+    }
 }

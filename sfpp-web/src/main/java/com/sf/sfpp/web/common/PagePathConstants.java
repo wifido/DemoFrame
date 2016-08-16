@@ -12,6 +12,7 @@ public interface PagePathConstants {
     static final String HOMEPAGE_PATH = "/index";
     static final String PCOMP_HOMEPAGE_PATH = "/pcomp/index";
     static final String PCOMP_KIND_PATH = "/pcomp/kind/index";
+    static final String PCOMP_SOFTWARE_PATH = "/pcomp/software/index";
     static final String PCOMP_KIND_TOP_PHOTO_UPLOAD_PATH = "/pcomp/kind/top_photo/upload";
     static final String PCOMP_KIND_BANNER_IMAGE_UPLOAD_PATH = "/pcomp/kind/banner_image/upload";
     static final String PCOMP_SOFTWARE_CONTENT_IMAGE_UPLOAD_PATH = "/pcomp/software/content_image/upload";

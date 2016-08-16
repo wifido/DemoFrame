@@ -9,6 +9,7 @@ import com.sf.sfpp.pcomp.common.exception.PcompException;
 import com.sf.sfpp.pcomp.common.model.PcompKind;
 import com.sf.sfpp.pcomp.common.model.PcompSoftware;
 import com.sf.sfpp.pcomp.common.model.PcompTitle;
+import com.sf.sfpp.pcomp.common.model.extend.PcompSoftwareExtend;
 import com.sf.sfpp.pcomp.service.PcompKindService;
 import com.sf.sfpp.pcomp.service.PcompSoftwareService;
 import com.sf.sfpp.pcomp.service.PcompTitleService;
@@ -105,5 +106,29 @@ public class PcompPageController extends AbstractCachedController {
         return new ModelAndView("pcomp/kindIndex");
     }
 
+
+    @RequestMapping(PagePathConstants.PCOMP_SOFTWARE_PATH)
+    public ModelAndView softwarePage(HttpServletRequest request, ModelMap model) {
+        WebCache webCache = getWebCache(request);
+        Map<String, String> pathTree = new LinkedHashMap<>();
+        String pcompSoftwareId = request.getParameter(PcompConstants.PCOMP_SOFTWARE);
+        PcompCacheObject pcompCacheObject = new PcompCacheObject();
+        try {
+            PcompSoftwareExtend pcompSoftware = (PcompSoftwareExtend) pcompSoftwareService.fetchSoftware(pcompSoftwareId);
+            PcompKind pcompKind = pcompKindService.fetchKindBySoftwareId(pcompSoftwareId);
+            pathTree.put(Constants.PUBLIC_COMPONENT_SYSTEM, PathUtils.makePath(PagePathConstants.PCOMP_HOMEPAGE_PATH));
+            pathTree.put(pcompKind.getName(), PathUtils.makeKindPath(pcompKind.getId()));
+            pathTree.put(pcompSoftware.getName(), PathUtils.makeSoftwarePath(pcompSoftware.getId()));
+            pcompCacheObject.setPcompSoftware(pcompSoftware);
+        } catch (PcompException e) {
+            handleException(e, webCache);
+        }
+        webCache.setCacheObject(pcompCacheObject);
+        webCache.setPathTree(pathTree);
+        model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
+        model.addAttribute(PcompConstants.SOFTWARE_PAGE_NAVIGATION, request.getParameter(PcompConstants.SOFTWARE_PAGE_NAVIGATION));
+        model.addAttribute(PcompConstants.PCOMP_VERSION, request.getParameter(PcompConstants.PCOMP_VERSION));
+        return new ModelAndView("pcomp/softwareIndex");
+    }
 
 }
