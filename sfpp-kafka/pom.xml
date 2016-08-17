@@ -18,6 +18,11 @@
             <version>${sfpp.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.sf</groupId>
+            <artifactId>sfpp.sfpp-pcomp-common</artifactId>
+            <version>${sfpp.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
         </dependency>
