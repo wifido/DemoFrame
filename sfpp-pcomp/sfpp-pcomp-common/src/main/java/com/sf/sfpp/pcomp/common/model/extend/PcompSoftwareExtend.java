@@ -38,4 +38,20 @@ public class PcompSoftwareExtend extends PcompSoftware {
         pcompSoftwareExtend.setPcompKindId(pcompSoftware.getPcompKindId());
         return pcompSoftwareExtend;
     }
+
+    public static PcompSoftware toPcompSoftware(PcompSoftwareExtend pcompSoftwareExtend) {
+        PcompSoftware pcompSoftware = new PcompSoftware();
+        pcompSoftware.setAvatar(pcompSoftwareExtend.getAvatar());
+        pcompSoftware.setCreatedBy(pcompSoftwareExtend.getCreatedBy());
+        pcompSoftware.setCreatedTime(pcompSoftwareExtend.getCreatedTime());
+        pcompSoftware.setId(pcompSoftwareExtend.getId());
+        pcompSoftware.setIntroduction(pcompSoftwareExtend.getIntroduction());
+        pcompSoftware.setIntroductionShort(pcompSoftwareExtend.getIntroductionShort());
+        pcompSoftware.setIsDeleted(pcompSoftwareExtend.getIsDeleted());
+        pcompSoftware.setModifiedBy(pcompSoftwareExtend.getModifiedBy());
+        pcompSoftware.setModifiedTime(pcompSoftwareExtend.getModifiedTime());
+        pcompSoftware.setName(pcompSoftwareExtend.getName());
+        pcompSoftware.setPcompKindId(pcompSoftwareExtend.getPcompKindId());
+        return pcompSoftware;
+    }
 }

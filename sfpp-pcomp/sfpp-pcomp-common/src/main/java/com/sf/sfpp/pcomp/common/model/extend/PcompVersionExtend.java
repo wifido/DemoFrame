@@ -54,4 +54,19 @@ public class PcompVersionExtend extends PcompVersion {
         pcompVersionExtend.setVersionNumber(pcompVersion.getVersionNumber());
         return pcompVersionExtend;
     }
+
+    public static PcompVersion toPcompVersion(PcompVersionExtend pcompVersionExtend) {
+        PcompVersion pcompVersion = new PcompVersion();
+        pcompVersion.setCreatedBy(pcompVersionExtend.getCreatedBy());
+        pcompVersion.setCreatedTime(pcompVersionExtend.getCreatedTime());
+        pcompVersion.setId(pcompVersionExtend.getId());
+        pcompVersion.setIntroduction(pcompVersionExtend.getIntroduction());
+        pcompVersion.setIsDeleted(pcompVersionExtend.getIsDeleted());
+        pcompVersion.setModifiedBy(pcompVersionExtend.getModifiedBy());
+        pcompVersion.setModifiedTime(pcompVersionExtend.getModifiedTime());
+        pcompVersion.setPcompSoftwareId(pcompVersionExtend.getPcompSoftwareId());
+        pcompVersion.setQuickStart(pcompVersionExtend.getQuickStart());
+        pcompVersion.setVersionNumber(pcompVersionExtend.getVersionNumber());
+        return pcompVersion;
+    }
 }

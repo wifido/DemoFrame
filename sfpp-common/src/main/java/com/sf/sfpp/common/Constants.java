@@ -17,6 +17,7 @@ public interface Constants {
     static final String PARAMETER_START_SEPARATOR = "?";
     static final String PARAMETER_EQUALS = "=";
     static final String PARAMETER_SEPARATOR = "&";
+    static final String KAFKA_TYPE_SEPARATOR = "|||||";
     static final String NAME_SEPARATOR = "-";
     static final String FILE_SEPARATOR = ".";
     static final String WEB_CACHE_KEY = "cache";

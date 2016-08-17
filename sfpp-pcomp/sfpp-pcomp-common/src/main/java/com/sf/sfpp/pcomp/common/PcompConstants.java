@@ -9,7 +9,11 @@ public interface PcompConstants {
     final static String PCOMP_TITLE = "pcomp_title";
     final static String PCOMP_KIND = "pcomp_kind";
     final static String PCOMP_SOFTWARE = "pcomp_software";
+    final static String PCOMP_SOFTWARE_EXTEND = "pcomp_software_extend";
     final static String PCOMP_VERSION = "pcomp_version";
+    final static String PCOMP_VERSION_EXTEND = "pcomp_version_extend";
+    final static String PCOMP_VERSION_PLATFORM_DOWNLOAD = "pcomp_version_platform_download";
+    final static String PCOMP_VERSION_DESCRIPTION_DOCUMENT = "pcomp_version_description_document";
     final static String SOFTWARE_PAGE_NAVIGATION = "sw_nav";
     final static String INTRODUCTION = "introduction";
     final static String INTRODUCTION_CH = "介绍";

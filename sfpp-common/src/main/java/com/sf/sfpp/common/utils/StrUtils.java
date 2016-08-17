@@ -1,5 +1,7 @@
 package com.sf.sfpp.common.utils;
 
+import com.sf.sfpp.common.Constants;
+
 /**
  * @author Hash Zhang
  * @version 1.0.0
@@ -26,5 +28,13 @@ public class StrUtils {
             return true;
         }
         return false;
+    }
+
+    public static String getKafkaMessageType(String s){
+        return s.substring(0,s.indexOf(Constants.KAFKA_TYPE_SEPARATOR));
+    }
+
+    public static String getKafkaMessageContent(String s){
+        return s.substring(s.indexOf(Constants.KAFKA_TYPE_SEPARATOR) + Constants.KAFKA_TYPE_SEPARATOR.length());
     }
 }

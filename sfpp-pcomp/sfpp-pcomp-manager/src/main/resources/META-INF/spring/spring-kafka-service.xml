@@ -10,17 +10,12 @@
     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd 
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd 
 	">
-	
-	<context:component-scan base-package="com.sf.sfpp" />
-	<bean id="propertyConfigurerForSFPPResource" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="order" value="1" />
-		<property name="ignoreUnresolvablePlaceholders" value="true" />
-		<property name="locations">
-			<list>
-				<value>classpath:jdbc.properties</value>
-				<value>classpath:kafka.properties</value>
-			</list>
-		</property>
-	</bean>
 
+	<bean class="com.sf.sfpp.kafka.KafkaConnectionPool" id="kafkaConnectionPool">
+		<constructor-arg index="0" value="${kafka.topics}"></constructor-arg>
+		<constructor-arg index="1" value="${kafka.urls}"></constructor-arg>
+		<constructor-arg index="2" value="${kafka.cluster.names}"></constructor-arg>
+		<constructor-arg index="3" value="${kafka.topic.tokens}"></constructor-arg>
+		<constructor-arg index="4" value="${kafka.pool.size}"></constructor-arg>
+	</bean>
 </beans>
