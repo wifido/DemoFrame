@@ -19,7 +19,7 @@
             <div class="col-md-4 col-sm-6 wow fadeInDown">
                 <div class="feature-wrap"><i class="fa fa-bullhorn"></i>
                     <h2>建设中... </h2>
-                    <h3><a href="/sfpp-web/index.do">点击这里返回主页</a> </h3></div>
+                    <h3><a href="/sfpp-web/index">点击这里返回主页</a> </h3></div>
             </div>
         </div>
     </div>

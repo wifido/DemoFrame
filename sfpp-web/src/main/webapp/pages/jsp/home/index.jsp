@@ -33,7 +33,7 @@
             <div class=" get-it">
                 <h1><%=Constants.MAIN_SYSTEM%> </h1>
 
-                <p>顺丰科技人，交流、共享、研发平台 </p>
+                <p>顺丰IT人，交流、共享、研发平台 </p>
 
                 <p><%=new Date()%></p>
             </div>

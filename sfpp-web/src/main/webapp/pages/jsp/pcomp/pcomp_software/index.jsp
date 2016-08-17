@@ -1,6 +1,11 @@
 <%@ page import="com.sf.sfpp.common.Constants" %>
 <%@ page import="com.sf.sfpp.common.utils.StrUtils" %>
 <%@ page import="com.sf.sfpp.pcomp.common.PcompConstants" %>
+<%@ page import="com.sf.sfpp.web.common.PathConstants" %>
+<%@ page import="com.sf.sfpp.pcomp.common.model.extend.PcompSoftwareExtend" %>
+<%@ page import="com.sf.sfpp.pcomp.common.domain.PcompCacheObject" %>
+<%@ page import="com.sf.sfpp.common.domain.WebCache" %>
+<%@ page import="com.sf.sfpp.web.common.utils.PathUtils" %>
 <%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <!DOCTYPE html>
 <html>
@@ -12,6 +17,9 @@
 
 <body class="<%=Constants.THEME%>">
 <%
+    WebCache webCache = (WebCache) request.getAttribute(Constants.WEB_CACHE_KEY);
+    PcompCacheObject pcompCacheObject = (PcompCacheObject) webCache.getCacheObject();
+    PcompSoftwareExtend pcompSoftware = (PcompSoftwareExtend) pcompCacheObject.getPcompSoftware();
     String page_nav = (String) request.getAttribute(PcompConstants.SOFTWARE_PAGE_NAVIGATION);
     String pcomp_version = (String) request.getAttribute(PcompConstants.PCOMP_VERSION);
 %>
@@ -64,6 +72,7 @@
     var button<%=PcompConstants.INTRODUCTION%> = document.createElement("button");
     button<%=PcompConstants.INTRODUCTION%>.setAttribute('type','button');
     button<%=PcompConstants.INTRODUCTION%>.setAttribute('class','btn btn-default');
+    button<%=PcompConstants.INTRODUCTION%>.setAttribute('onclick','post<%=PcompConstants.INTRODUCTION%>()');
     button<%=PcompConstants.INTRODUCTION%>.innerHTML='提交';
     var editing<%=PcompConstants.INTRODUCTION%> = false;
     function edit<%=PcompConstants.INTRODUCTION%>(){
@@ -88,6 +97,9 @@
                 sequenceDiagram: true,  // 默认不解析
                 height  : 640,
                 syncScrolling : "single",
+                imageUpload : true,
+                imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                imageUploadURL : "<%=PathUtils.makePath(PathConstants.PCOMP_SOFTWARE_CONTENT_IMAGE_UPLOAD_PATH)%>",
                 path    : "/sfpp-web/assets/lib/"
             });
             <%=PcompConstants.INTRODUCTION%>_box_footer.appendChild(button<%=PcompConstants.INTRODUCTION%>);
@@ -118,6 +130,24 @@
         });
 
     });
+
+    function post<%=PcompConstants.INTRODUCTION%>() {
+        var temp = document.createElement("form");
+        temp.action ='<%=PathUtils.makePath(PathConstants.PCOMP_SOFTWARE_MODIFICATION_PATH)%>';
+        temp.method = "post";
+        temp.style.display = "none";
+        var opt = document.createElement("textarea");
+        opt.name ='<%=PathConstants.PCOMP_SOFTWARE_INTRODUCTION%>';
+        opt.value =<%=PcompConstants.INTRODUCTION%>Editor.getMarkdown();
+        temp.appendChild(opt);
+        opt = document.createElement("textarea");
+        opt.name ='<%=PathConstants.PCOMP_SOFTWARE_ID%>';
+        opt.value ='<%=pcompSoftware.getId()%>';
+        temp.appendChild(opt);
+        document.body.appendChild(temp);
+        temp.submit();
+        return temp;
+    }
 </script>
 <%
 } else if (PcompConstants.HISTORY.equals(page_nav)) {
@@ -127,6 +157,7 @@
     var button<%=PcompConstants.HISTORY_INTRODUCTION%> = document.createElement("button");
     button<%=PcompConstants.HISTORY_INTRODUCTION%>.setAttribute('type','button');
     button<%=PcompConstants.HISTORY_INTRODUCTION%>.setAttribute('class','btn btn-default');
+    button<%=PcompConstants.HISTORY_INTRODUCTION%>.setAttribute('onclick','post<%=PcompConstants.HISTORY_INTRODUCTION%>()');
     button<%=PcompConstants.HISTORY_INTRODUCTION%>.innerHTML='提交';
     var editing<%=PcompConstants.HISTORY_INTRODUCTION%> = false;
     function edit<%=PcompConstants.HISTORY_INTRODUCTION%>(){
@@ -151,6 +182,9 @@
                 sequenceDiagram: true,  // 默认不解析
                 height  : 640,
                 syncScrolling : "single",
+                imageUpload : true,
+                imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                imageUploadURL : "<%=PathUtils.makePath(PathConstants.PCOMP_SOFTWARE_CONTENT_IMAGE_UPLOAD_PATH)%>",
                 path    : "/sfpp-web/assets/lib/"
             });
             <%=PcompConstants.HISTORY_INTRODUCTION%>_box_footer.appendChild(button<%=PcompConstants.HISTORY_INTRODUCTION%>);
@@ -182,11 +216,38 @@
 
     });
 
+    function post<%=PcompConstants.HISTORY_INTRODUCTION%>() {
+        var temp = document.createElement("form");
+        temp.action ='<%=PathUtils.makePath(PathConstants.PCOMP_VERSION_MODIFICATION_PATH)%>';
+        temp.method = "post";
+        temp.style.display = "none";
+        var opt = document.createElement("textarea");
+        opt.name ='<%=PathConstants.PCOMP_VERSION_INTRODUCTION%>';
+        opt.value =<%=PcompConstants.HISTORY_INTRODUCTION%>Editor.getMarkdown();
+        temp.appendChild(opt);
+        opt = document.createElement("textarea");
+        opt.name ='<%=PathConstants.PCOMP_SOFTWARE_ID%>';
+        opt.value ='<%=pcompSoftware.getId()%>';
+        temp.appendChild(opt);
+        opt = document.createElement("textarea");
+        opt.name ='<%=PathConstants.PCOMP_VERSION_ID%>';
+        opt.value ='<%=pcomp_version%>';
+        temp.appendChild(opt);
+        opt = document.createElement("textarea");
+        opt.name ='<%=PcompConstants.SOFTWARE_PAGE_NAVIGATION%>';
+        opt.value ='<%=page_nav%>';
+        temp.appendChild(opt);
+        document.body.appendChild(temp);
+        temp.submit();
+        return temp;
+    }
+
 
     var <%=PcompConstants.HISTORY_QUICKSTART%>Editor;
     var button<%=PcompConstants.HISTORY_QUICKSTART%> = document.createElement("button");
     button<%=PcompConstants.HISTORY_QUICKSTART%>.setAttribute('type','button');
     button<%=PcompConstants.HISTORY_QUICKSTART%>.setAttribute('class','btn btn-default');
+    button<%=PcompConstants.HISTORY_QUICKSTART%>.setAttribute('onclick','post<%=PcompConstants.HISTORY_QUICKSTART%>()');
     button<%=PcompConstants.HISTORY_QUICKSTART%>.innerHTML='提交';
     var editing<%=PcompConstants.HISTORY_QUICKSTART%> = false;
     function edit<%=PcompConstants.HISTORY_QUICKSTART%>(){
@@ -211,6 +272,9 @@
                 sequenceDiagram: true,  // 默认不解析
                 height  : 640,
                 syncScrolling : "single",
+                imageUpload : true,
+                imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                imageUploadURL : "<%=PathUtils.makePath(PathConstants.PCOMP_SOFTWARE_CONTENT_IMAGE_UPLOAD_PATH)%>",
                 path    : "/sfpp-web/assets/lib/"
             });
             <%=PcompConstants.HISTORY_QUICKSTART%>_box_footer.appendChild(button<%=PcompConstants.HISTORY_QUICKSTART%>);
@@ -241,6 +305,32 @@
         });
 
     });
+
+    function post<%=PcompConstants.HISTORY_QUICKSTART%>() {
+        var temp = document.createElement("form");
+        temp.action ='<%=PathUtils.makePath(PathConstants.PCOMP_VERSION_MODIFICATION_PATH)%>';
+        temp.method = "post";
+        temp.style.display = "none";
+        var opt = document.createElement("textarea");
+        opt.name ='<%=PathConstants.PCOMP_VERSION_QUICKSTART%>';
+        opt.value =<%=PcompConstants.HISTORY_QUICKSTART%>Editor.getMarkdown();
+        temp.appendChild(opt);
+        opt = document.createElement("textarea");
+        opt.name ='<%=PathConstants.PCOMP_SOFTWARE_ID%>';
+        opt.value ='<%=pcompSoftware.getId()%>';
+        temp.appendChild(opt);
+        opt = document.createElement("textarea");
+        opt.name ='<%=PathConstants.PCOMP_VERSION_ID%>';
+        opt.value ='<%=pcomp_version%>';
+        temp.appendChild(opt);
+        opt = document.createElement("textarea");
+        opt.name ='<%=PcompConstants.SOFTWARE_PAGE_NAVIGATION%>';
+        opt.value ='<%=page_nav%>';
+        temp.appendChild(opt);
+        document.body.appendChild(temp);
+        temp.submit();
+        return temp;
+    }
 
     $(function () {
         <%=PcompConstants.HISTORY_DOWNLOAD%>Editor = editormd.markdownToHTML("<%=PcompConstants.HISTORY_DOWNLOAD%>", {
@@ -303,6 +393,9 @@
                 sequenceDiagram: true,  // 默认不解析
                 height  : 640,
                 syncScrolling : "single",
+                imageUpload : true,
+                imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                imageUploadURL : "<%=PathUtils.makePath(PathConstants.PCOMP_SOFTWARE_CONTENT_IMAGE_UPLOAD_PATH)%>",
                 path    : "/sfpp-web/assets/lib/"
             });
             <%=PcompConstants.HISTORY_QUICKSTART%>_box_footer.appendChild(button<%=PcompConstants.HISTORY_QUICKSTART%>);
@@ -366,6 +459,9 @@
                 sequenceDiagram: true,  // 默认不解析
                 height  : 640,
                 syncScrolling : "single",
+                imageUpload : true,
+                imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                imageUploadURL : "<%=PathUtils.makePath(PathConstants.PCOMP_SOFTWARE_CONTENT_IMAGE_UPLOAD_PATH)%>",
                 path    : "/sfpp-web/assets/lib/"
             });
             <%=PcompConstants.INTRODUCTION%>_box_footer.appendChild(button<%=PcompConstants.INTRODUCTION%>);
