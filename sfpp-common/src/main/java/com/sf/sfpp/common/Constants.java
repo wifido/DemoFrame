@@ -6,7 +6,7 @@ package com.sf.sfpp.common;
  * @date 2016/8/10
  */
 public interface Constants {
-    static final String MAIN_SYSTEM = "顺丰科技开放平台";
+    static final String MAIN_SYSTEM = "顺丰开发平台";
     static final String MAIN_SYSTEM_SHORT = "SFPP";
     static final String PUBLIC_COMPONENT_SYSTEM = "公共组件";
     static final String PUBLIC_COMPONENT_DESCRIPTION = "标准开源软件，共享SDK发布平台";
@@ -22,5 +22,5 @@ public interface Constants {
     static final String WEB_CACHE_KEY = "cache";
     static final String THEME = "skin-black-light";
 
-    static final String COPYRIGHT = "SFPP © 2016";
+    static final String COPYRIGHT = "SFPP © ";
 }

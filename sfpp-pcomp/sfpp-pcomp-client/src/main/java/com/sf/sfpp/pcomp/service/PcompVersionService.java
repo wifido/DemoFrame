@@ -1,5 +1,6 @@
 package com.sf.sfpp.pcomp.service;
 
+import com.sf.sfpp.pcomp.common.exception.PcompException;
 import com.sf.sfpp.pcomp.common.model.PcompVersion;
 import com.sf.sfpp.pcomp.common.model.extend.PcompVersionExtend;
 
@@ -17,7 +18,14 @@ public interface PcompVersionService {
      * @param softwareId
      * @return
      */
-    List<PcompVersionExtend> fetchAllVersionsSeparatelyBySoftware(String softwareId);
+    List<PcompVersion> fetchAllVersionsSeparatelyBySoftware(String softwareId) throws PcompException;
+
+    /**
+     * 根据id查找version信息
+     * @param versionId
+     * @return
+     */
+    PcompVersion fetchVersionById(String versionId)throws PcompException;
 
     /**
      * 根据software id判断version是否已经存在
@@ -25,7 +33,7 @@ public interface PcompVersionService {
      * @param version
      * @return
      */
-    boolean existsVersion(String softwareId, String version);
+    boolean existsVersion(String softwareId, String version)throws PcompException;
 
     /**
      * 添加软件版本以及版本相关所有信息
@@ -33,19 +41,19 @@ public interface PcompVersionService {
      * @param version
      * @return
      */
-    boolean addVersion(String softwareId, PcompVersionExtend version);
+    boolean addVersion(String softwareId, PcompVersionExtend version)throws PcompException;
 
     /**
      * 更新软件版本以及版本相关所有信息
      * @param version
      * @return
      */
-    boolean updateVersion(PcompVersionExtend version);
+    boolean updateVersion(PcompVersionExtend version)throws PcompException;
 
     /**
      * 移除对应版本id的版本
      * @param versionId
      * @return
      */
-    boolean removeVersion(String versionId);
+    boolean removeVersion(String versionId)throws PcompException;
 }

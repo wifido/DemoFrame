@@ -11,6 +11,7 @@ import com.sf.sfpp.pcomp.dao.PcompVersionPlatformDownloadMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,5 +45,10 @@ public class PcompSoftwareManager {
             pcompSoftware.getPcompVersions().add(pcompVersionExtend);
         }
         return pcompSoftware;
+    }
+
+    public boolean updatePcompSoftwareOnly(PcompSoftware pcompSoftware) {
+        pcompSoftware.setModifiedTime(new Date());
+        return pcompSoftwareMapper.updateByPrimaryKeyWithBLOBs(pcompSoftware) >= 0;
     }
 }

@@ -2,7 +2,6 @@ package com.sf.sfpp.pcomp.service.impl;
 
 import com.sf.sfpp.pcomp.common.exception.PcompException;
 import com.sf.sfpp.pcomp.common.model.PcompSoftware;
-import com.sf.sfpp.pcomp.dao.PcompSoftwareMapper;
 import com.sf.sfpp.pcomp.manager.PcompSoftwareManager;
 import com.sf.sfpp.pcomp.service.PcompSoftwareService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,36 +22,64 @@ public class PcompSoftwareServiceImpl implements PcompSoftwareService {
 
     @Override
     public List<PcompSoftware> fetchAllSoftwaresSeparatelyByKind(String kindId, int pageNumber) throws PcompException {
-        return pcompSoftwareManager.getAllAvailablePcompSoftwaresByPcompKindId(kindId);
+        try {
+            return pcompSoftwareManager.getAllAvailablePcompSoftwaresByPcompKindId(kindId);
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
     }
 
     @Override
     public PcompSoftware fetchSoftware(String softwareId) throws PcompException {
-        return pcompSoftwareManager.getPcompSoftwareByPcompSoftwareId(softwareId);
+        try {
+            return pcompSoftwareManager.getPcompSoftwareByPcompSoftwareId(softwareId);
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
     }
 
     @Override
     public int existsSoftware(String kindId, String softwareId) throws PcompException {
-        return 0;
+        try {
+            return 0;
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
     }
 
     @Override
     public List<PcompSoftware> getSimilarSofware(String softwareName) throws PcompException {
-        return null;
+        try {
+            return null;
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
     }
 
     @Override
     public boolean addSoftware(String kind, PcompSoftware software) throws PcompException {
-        return false;
+        try {
+            return false;
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
     }
 
     @Override
     public boolean updateSoftware(PcompSoftware software) throws PcompException {
-        return false;
+        try {
+            return pcompSoftwareManager.updatePcompSoftwareOnly(software);
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
     }
 
     @Override
     public boolean removeSoftware(PcompSoftware software) throws PcompException {
-        return false;
+        try {
+            return false;
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
     }
 }

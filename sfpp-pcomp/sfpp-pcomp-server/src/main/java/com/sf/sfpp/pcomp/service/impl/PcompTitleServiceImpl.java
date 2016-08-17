@@ -22,47 +22,83 @@ public class PcompTitleServiceImpl implements PcompTitleService {
 
     @Override
     public List<PcompTitle> fetchAllTitles() throws PcompException {
-        return pcompTitleManager.getAllTitles();
+        try {
+            return pcompTitleManager.getAllTitles();
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
     }
 
     @Override
     public boolean existsTitle(String titleName) throws PcompException {
-        return false;
+        try {
+            return false;
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
     }
 
     @Override
     public PcompTitle fetchTitleByTitleId(String titleId) throws PcompException {
-        return null;
+        try {
+            return null;
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
     }
 
     @Override
     public PcompTitle fetchTitleByKindId(String kindId) throws PcompException {
-        return null;
+        try {
+            return null;
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
     }
 
     @Override
     public PcompTitle fetchTitleBySoftwareId(String softwareId) throws PcompException {
-        return null;
+        try {
+            return null;
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
     }
 
     @Override
     public boolean addNewTitle(String newName) throws PcompException {
-        return false;
+        try {
+            return false;
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
     }
 
     @Override
     public boolean batchAddTitles(List<String> newNames) throws PcompException {
-        return false;
+        try {
+            return false;
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
     }
 
     @Override
     public boolean modifyTitleName(String oldName, String newName) throws PcompException {
-        return false;
+        try {
+            return false;
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
     }
 
     @Override
     public boolean removeTitle(String titleName) throws PcompException {
-        return false;
+        try {
+            return false;
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
     }
 
 

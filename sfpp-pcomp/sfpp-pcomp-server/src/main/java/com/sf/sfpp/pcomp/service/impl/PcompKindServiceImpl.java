@@ -23,46 +23,77 @@ public class PcompKindServiceImpl implements PcompKindService {
 
     @Override
     public List<PcompKind> fetchAllKindsSeparatelyByTitle(String title, int pageNumber) throws PcompException {
-        if (PcompKindService.ALL_TITLE.equals(title))
-            return pcompKindManager.getAllKinds();
-        else
-            return pcompKindManager.getKindsByTitle(title);
+        try {
+            if (PcompKindService.ALL_TITLE.equals(title))
+                return pcompKindManager.getAllKinds();
+            else
+                return pcompKindManager.getKindsByTitle(title);
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
     }
 
     @Override
     public PcompKind fetchKindByKindId(String kindID) throws PcompException {
-        return pcompKindManager.getPcompKindByPcompKindId(kindID);
+        try {
+            return pcompKindManager.getPcompKindByPcompKindId(kindID);
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
     }
 
     @Override
     public PcompKind fetchKindBySoftwareId(String softwareId) throws PcompException {
-        return pcompKindManager.getPcompKindByPcompSoftwareId(softwareId);
+        try {
+            return pcompKindManager.getPcompKindByPcompSoftwareId(softwareId);
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
     }
 
     @Override
     public String existsKind(String titleID, String kind) throws PcompException {
-        return null;
+        try {
+            return null;
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
     }
 
     @Override
     public boolean addKind(String titleID, PcompKind kind) throws PcompException {
-        return false;
+        try {
+            return false;
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
     }
 
     @Override
     public boolean batchAddKind(Map<String, PcompKind> stringPcompKindMap) throws PcompException {
-        return false;
+        try {
+            return false;
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
     }
 
     @Override
     public boolean updateKind(PcompKind kind) throws PcompException {
-        return false;
+        try {
+            return false;
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
     }
 
     @Override
     public boolean removeKind(String pcompKind) throws PcompException {
-        return false;
+        try {
+            return false;
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
     }
-
 
 }
