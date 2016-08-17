@@ -2,6 +2,9 @@ package com.sf.sfpp.web.controller.common;
 
 import com.sf.sfpp.common.Constants;
 import com.sf.sfpp.common.domain.WebCache;
+import com.sf.sfpp.user.dao.domain.User;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,11 +19,15 @@ public class AbstractCachedController {
         if (webCache == null) {
             webCache = new WebCache();
         }
+//        Subject currentUser = SecurityUtils.getSubject();
+//        User user = (User) currentUser.getPrincipal();
+//        webCache.setUser(user);
         return webCache;
     }
 
-    protected void handleException(Exception e, WebCache webCache) {
+    protected String handleException(Exception e, WebCache webCache) {
         e.printStackTrace();
         webCache.setMessage(e.getMessage());
+        return "/jsp/common/page/ErrorMessage";
     }
 }

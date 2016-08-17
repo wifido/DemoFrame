@@ -14,6 +14,8 @@ public interface PathConstants {
     String CACHED_PATH = "index";
     //因为项目用到了其他系统的用户验证登录模块，（有些地方直接用的代码），为了区分，所以本项目代码jsp文件单独放置
     String GLOBAL_JSP_PATH = "/jsp";
+    String UPDATE_PATH = "/update";
+    String CREATE_PATH = "/create";
 
     String INDEX_PATH = Constants.FOLDER_PATH_SEPARATOR + CACHED_PATH;
     String HOMEPAGE_PATH = INDEX_PATH;
@@ -28,7 +30,19 @@ public interface PathConstants {
     String PCOMP_SOFTWARE_PATH = PCOMP_PATH + Constants.FOLDER_PATH_SEPARATOR + PcompConstants.PCOMP_SOFTWARE + INDEX_PATH;
     String PCOMP_SOFTWARE_JSP_PATH =  GLOBAL_JSP_PATH + PCOMP_SOFTWARE_PATH;
 
+    String PCOMP_SOFTWARE_MODIFICATION_PATH =  PCOMP_PATH + Constants.FOLDER_PATH_SEPARATOR + PcompConstants.PCOMP_SOFTWARE + UPDATE_PATH;
+    String PCOMP_SOFTWARE_ID = PcompConstants.PCOMP_SOFTWARE +"_id";
+    String PCOMP_SOFTWARE_NAME = PcompConstants.PCOMP_SOFTWARE +"_name";
+    String PCOMP_SOFTWARE_AVATAR = PcompConstants.PCOMP_SOFTWARE +"_avatar";
+    String PCOMP_SOFTWARE_INTRODUCTION = PcompConstants.PCOMP_SOFTWARE +"_introduction";
+
     String PCOMP_SOFTWARE_CONTENT_IMAGE_UPLOAD_PATH = "/pcomp/software/content_image/upload";
+
+    String PCOMP_VERSION_MODIFICATION_PATH =  PCOMP_PATH + Constants.FOLDER_PATH_SEPARATOR + PcompConstants.PCOMP_VERSION + UPDATE_PATH;
+    String PCOMP_VERSION_ID = PcompConstants.PCOMP_VERSION +"_id";
+    String PCOMP_VERSION_NUMBER = PcompConstants.PCOMP_VERSION +"_number";
+    String PCOMP_VERSION_INTRODUCTION = PcompConstants.PCOMP_VERSION +"_introduction";
+    String PCOMP_VERSION_QUICKSTART = PcompConstants.PCOMP_VERSION +"_quickstart";
 
 
     String KNNET_PATH = "/knnet";

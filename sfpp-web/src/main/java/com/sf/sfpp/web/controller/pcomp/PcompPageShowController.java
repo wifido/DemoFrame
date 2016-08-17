@@ -34,7 +34,7 @@ import java.util.Map;
  * @date 2016/8/12
  */
 @Controller
-public class PcompPageController extends AbstractCachedController {
+public class PcompPageShowController extends AbstractCachedController {
 
     @Autowired
     private PcompTitleService pcompTitleService;
@@ -75,7 +75,8 @@ public class PcompPageController extends AbstractCachedController {
             }
 
         } catch (PcompException e) {
-            handleException(e, webCache);
+            model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
+            return handleException(e, webCache);
         }
         webCache.setCacheObject(pcompCacheObject);
         model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
@@ -99,7 +100,8 @@ public class PcompPageController extends AbstractCachedController {
             pathTree.put(pcompKind.getName(), PathUtils.makeKindPath(pcompKind.getId()));
             webCache.setPathTree(pathTree);
         } catch (PcompException e) {
-            handleException(e, webCache);
+            model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
+            return handleException(e, webCache);
         }
         webCache.setCacheObject(pcompCacheObject);
         model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
@@ -121,7 +123,8 @@ public class PcompPageController extends AbstractCachedController {
             pathTree.put(pcompSoftware.getName(), PathUtils.makeSoftwarePath(pcompSoftware.getId()));
             pcompCacheObject.setPcompSoftware(pcompSoftware);
         } catch (PcompException e) {
-            handleException(e, webCache);
+            model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
+            return handleException(e, webCache);
         }
         webCache.setCacheObject(pcompCacheObject);
         webCache.setPathTree(pathTree);
