@@ -10,7 +10,8 @@
     if (!pathTree.containsKey(Constants.PUBLIC_SEARCH)) {
 %>
 
-<form class="navbar-form navbar-left" role="search" action="<%=PathUtils.makePath(PathConstants.PCOMP_SEARCH_PATH)%> " method="get">
+<form class="navbar-form navbar-left" role="search" action="<%=PathUtils.makePath(PathConstants.PCOMP_SEARCH_PATH)%> " method="get"
+    style="padding-left: 3%">
     <div class="form-group">
         <input type="text" class="form-control" name="<%=PathConstants.PCOMP_SEARCH_KEYWORD%>" placeholder="Search">
         <button type="submit" name="search" class="btn btn-primary"><i class="fa fa-search"></i></button>

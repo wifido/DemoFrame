@@ -716,7 +716,8 @@ a:hover {
 
 .whitebk,
 .windowLayer {
-	background-color: #fff
+	background-color: #fff;
+	margin-top: 5%;
 }
 
 .windowLayer {

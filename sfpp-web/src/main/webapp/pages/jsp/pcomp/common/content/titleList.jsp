@@ -8,6 +8,7 @@
 <%@ page import="com.sf.sfpp.web.common.utils.PathUtils" %>
 <%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 
+<p style="padding-left: 2%">
 
 <%
     WebCache webCache = (WebCache) request.getAttribute(Constants.WEB_CACHE_KEY);
@@ -40,5 +41,6 @@
 <%
     }
 %>
+</p>
 
 
