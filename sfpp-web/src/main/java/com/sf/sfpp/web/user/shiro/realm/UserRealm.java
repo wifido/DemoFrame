@@ -75,46 +75,56 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken)
             throws AuthenticationException {
+    	SimpleAuthenticationInfo info = null;
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
         log.info("登录认证");
         // 通过表单接收的用户名
-        String username = token.getUsername();
+        String userNo = token.getUsername();
         String password = "";
         if (token.getPassword() != null) {
             password = new String(token.getPassword());
         }
-        if (username != null && !"".equals(username)) {
+        if(userNo == null 
+        		|| "".equals(userNo)){
+        	throw new UnknownAccountException("用户不能为空");// 没找到帐号
+        }
+        if (userNo != null 
+        		&& !"".equals(userNo)) {
+			// 是否通过 域认证
+			boolean flag = ldapAuthentication.authentication(userNo, password);
+			if(!flag){
+				log.info(userNo + "域认证失败。");
+				throw new UnknownAccountException("域认证失败");
+			}
             // 需要验证用户是否在本环境中存在
 			User user = null;
 			try {
-				user = userService.getUserByUserNo(username);
+				user = userService.getUserByUserNo(userNo);
 			} catch (Exception e) {
 				log.error("通过工号获取用户信息出错:", e);
 			}
 			if (user == null) {
-				throw new UnknownAccountException("未找到此用户，请联系管理员。");// 没找到帐号
-			}
-			if (user.getIsDeleted()) {
-				throw new UnknownAccountException("用户被锁定，请联系管理员。");// 账号锁定
-			}
-			// 是否通过 域认证
-			boolean flag = ldapAuthentication.authentication(username, password);
-
-			if (true == flag) {
-
-				// 如果身份认证验证成功，返回一个AuthenticationInfo实现；
-				SimpleAuthenticationInfo info = null;
+				user = new User();
+				user.setUserNo(userNo);
 				try {
-					info = new SimpleAuthenticationInfo(user, password.toCharArray(), user.getUserNo());
+					userService.addUser(user);
+					user = userService.getUserByUserNo(userNo);
 				} catch (Exception e) {
-					log.error(e.getMessage(), e);
+					log.error("添加用户出错", e);
+					throw new UnknownAccountException("添加用户出错，请联系管理员。");// 账号锁定
 				}
-				return info;
-			} else {
-				log.info(username + "域认证失败。");
-				throw new UnknownAccountException("域认证失败");
+			}else{
+				if (user.getIsDeleted()) {
+					throw new UnknownAccountException("用户被锁定，请联系管理员。");// 账号锁定
+				}
+			}
+			// 如果身份认证验证成功，返回一个AuthenticationInfo实现；
+			try {
+				info = new SimpleAuthenticationInfo(user, password.toCharArray(), user.getUserNo());
+			} catch (Exception e) {
+				log.error(e.getMessage(), e);
 			}
         }
-        return null;
+        return info;
     }
 }
