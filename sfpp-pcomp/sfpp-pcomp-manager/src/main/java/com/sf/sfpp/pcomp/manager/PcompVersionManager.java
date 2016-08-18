@@ -6,8 +6,10 @@ import com.sf.sfpp.common.Constants;
 import com.sf.sfpp.common.utils.StrUtils;
 import com.sf.sfpp.kafka.KafkaConnectionPool;
 import com.sf.sfpp.pcomp.common.PcompConstants;
+import com.sf.sfpp.pcomp.common.model.PcompSoftware;
 import com.sf.sfpp.pcomp.common.model.PcompVersion;
 import com.sf.sfpp.pcomp.common.model.extend.PcompVersionExtend;
+import com.sf.sfpp.pcomp.dao.PcompSoftwareMapper;
 import com.sf.sfpp.pcomp.dao.PcompVersionDoucumentDownloadMapper;
 import com.sf.sfpp.pcomp.dao.PcompVersionMapper;
 import com.sf.sfpp.pcomp.dao.PcompVersionPlatformDownloadMapper;
@@ -31,6 +33,8 @@ public class PcompVersionManager {
     @Autowired
     private PcompVersionMapper pcompVersionMapper;
     @Autowired
+    private PcompSoftwareMapper pcompSoftwareMapper;
+    @Autowired
     private PcompVersionDoucumentDownloadMapper pcompVersionDoucumentDownloadMapper;
     @Autowired
     private PcompVersionPlatformDownloadMapper pcompVersionPlatformDownloadMapper;
@@ -46,9 +50,15 @@ public class PcompVersionManager {
     public boolean updatePcompVersionOnly(PcompVersion pcompVersion) throws KafkaException {
         pcompVersion.setModifiedTime(new Date());
         boolean b = pcompVersionMapper.updateByPrimaryKeyWithBLOBs(pcompVersion) >= 0;
+        PcompSoftware pcompSoftware = pcompSoftwareMapper.selectByPrimaryKey(pcompVersion.getPcompSoftwareId());
+        pcompSoftware.setModifiedTime(pcompVersion.getModifiedTime());
+        pcompSoftware.setModifiedBy(pcompVersion.getModifiedBy());
+        pcompSoftwareMapper.updateByPrimaryKey(pcompSoftware);
         if (b) {
             kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
                     .send(StrUtils.makeString(PcompConstants.PCOMP_VERSION, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(PcompVersionExtend.toPcompVersion((PcompVersionExtend) pcompVersion))));
+            kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
+                    .send(StrUtils.makeString(PcompConstants.PCOMP_SOFTWARE, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompSoftware)));
         }
         return b;
     }
