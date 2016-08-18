@@ -3,18 +3,19 @@ package com.sf.sfpp.elasticsearch;
 import com.alibaba.fastjson.JSON;
 import com.sf.sfpp.common.Constants;
 import com.sf.sfpp.pcomp.common.PcompConstants;
-import com.sf.sfpp.pcomp.common.model.PcompSoftware;
 import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsResponse;
-import org.elasticsearch.action.delete.*;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.settings.loader.PropertiesSettingsLoader;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import org.elasticsearch.index.query.*;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.MultiMatchQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -67,22 +67,43 @@ public class ESClient {
         return searchResponse.getHits().getHits();
     }
 
+    public String[] getStringMeta(String index, String type) {
+        GetMappingsResponse getMappingsResponse = client.admin().indices().prepareGetMappings(index).get();
+        try {
+            HashMap properties = (HashMap) getMappingsResponse.getMappings().get(index).get(type).getSourceAsMap().get("properties");
+            List<String> keyLists = new LinkedList<>();
+            for (Object object : properties.keySet()) {
+                if (((HashMap) properties.get(object)).get("type").equals("string")) {
+                    keyLists.add((String) object);
+                }
+            }
+            return keyLists.toArray(new String[]{});
+        } catch (IOException e) {
+            log.warn("Caught:", e);
+            return null;
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         ESClient esClient = new ESClient("hash-es", "10.202.7.184:9300,10.202.7.185:9300,10.202.7.186:9300");
         GetMappingsResponse getMappingsResponse = esClient.client.admin().indices().prepareGetMappings(Constants.PUBLIC_COMPONENT_SYSTEM).get();
         HashMap properties = (HashMap) getMappingsResponse.getMappings().get(Constants.PUBLIC_COMPONENT_SYSTEM).get(PcompConstants.PCOMP_SOFTWARE).getSourceAsMap().get("properties");
         List<String> keyLists = new LinkedList<>();
-        for(Object object:properties.keySet()){
-            if(((HashMap)properties.get(object)).get("type").equals("string")){
+        for (Object object : properties.keySet()) {
+            if (((HashMap) properties.get(object)).get("type").equals("string")) {
                 keyLists.add((String) object);
             }
         }
+
         MultiMatchQueryBuilder termQueryBuilder = QueryBuilders.multiMatchQuery("Java", keyLists.toArray(new String[]{}));
-        String []index = {Constants.PUBLIC_COMPONENT_SYSTEM};
-        String []types = {PcompConstants.PCOMP_SOFTWARE};
-        SearchHit[] searchHits = esClient.searchDocument(index, types, termQueryBuilder);
+        QueryBuilder qb = new BoolQueryBuilder()
+                .must(QueryBuilders.termQuery("isDeleted", false))
+                .must(termQueryBuilder);
+        String[] index = {Constants.PUBLIC_COMPONENT_SYSTEM};
+        String[] types = {PcompConstants.PCOMP_SOFTWARE};
+        SearchHit[] searchHits = esClient.searchDocument(index, types, qb);
         System.out.println(searchHits.length);
-        for (int i = 0; i < searchHits.length ; i++) {
+        for (int i = 0; i < searchHits.length; i++) {
             System.out.println(searchHits[i].getScore());
             System.out.println(searchHits[i].getSourceAsString());
         }
