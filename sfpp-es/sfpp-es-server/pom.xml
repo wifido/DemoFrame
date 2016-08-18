@@ -5,7 +5,7 @@
     <parent>
         <artifactId>sfpp.sfpp-es</artifactId>
         <groupId>com.sf</groupId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>${sfpp.version}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
