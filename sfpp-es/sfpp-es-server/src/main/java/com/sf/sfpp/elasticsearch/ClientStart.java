@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
+ * 这个仅仅是测试用
  * @author Hash Zhang
  * @version 1.0.0
  * @date 2016/8/18

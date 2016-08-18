@@ -84,6 +84,11 @@ public class ESClient {
         }
     }
 
+    /**
+     * 测试用
+     * @param args
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
         ESClient esClient = new ESClient("hash-es", "10.202.7.184:9300,10.202.7.185:9300,10.202.7.186:9300");
         GetMappingsResponse getMappingsResponse = esClient.client.admin().indices().prepareGetMappings(Constants.PUBLIC_COMPONENT_SYSTEM).get();
