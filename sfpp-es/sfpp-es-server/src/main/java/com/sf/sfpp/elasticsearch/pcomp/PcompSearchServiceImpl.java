@@ -34,9 +34,9 @@ public class PcompSearchServiceImpl implements PcompSearchService {
     public List getAllRelated(String keyword, String sortRule) throws PcompException {
         try {
             List result = new LinkedList();
-            TreeMap<Float, List<String>> sorted = getSorted(keyword, PcompConstants.PCOMP_SOFTWARE, sortRule);
-            TreeMap<Float, List> sortedResult = new TreeMap<>();
-            for (Float key : sorted.keySet()) {
+            TreeMap<Double, List<String>> sorted = getSorted(keyword, PcompConstants.PCOMP_SOFTWARE, sortRule);
+            TreeMap<Double, List> sortedResult = new TreeMap<>();
+            for (Double key : sorted.keySet()) {
                 for (String json : sorted.get(key)) {
                     List list = sortedResult.get(key);
                     if (list == null) {
@@ -46,9 +46,9 @@ public class PcompSearchServiceImpl implements PcompSearchService {
                     list.add(JSON.parseObject(json, PcompSoftware.class));
                 }
             }
-            TreeMap<Float, List<String>> sorted1 = getSorted(keyword, PcompConstants.PCOMP_VERSION, sortRule);
-            TreeMap<Float, List> sortedResult1 = new TreeMap<>();
-            for (Float key : sorted1.keySet()) {
+            TreeMap<Double, List<String>> sorted1 = getSorted(keyword, PcompConstants.PCOMP_VERSION, sortRule);
+            TreeMap<Double, List> sortedResult1 = new TreeMap<>();
+            for (Double key : sorted1.keySet()) {
                 for (String json : sorted1.get(key)) {
                     List list = sortedResult1.get(key);
                     if (list == null) {
@@ -81,42 +81,42 @@ public class PcompSearchServiceImpl implements PcompSearchService {
         return esClient.searchDocument(index, types, qb);
     }
 
-    private TreeMap<Float, List<String>> getSorted(String keyword, String type, String sortRule) {
+    private TreeMap<Double, List<String>> getSorted(String keyword, String type, String sortRule) {
         SearchHit[] searchHit = getSearchHits(keyword, type);
-        TreeMap<Float, List<String>> result = new TreeMap<>();
+        TreeMap<Double, List<String>> result = new TreeMap<>();
         for (int i = 0; i < searchHit.length; i++) {
             switch (sortRule) {
-                case SortRule.BY_CORRELATION:
-                    List<String> stringList = result.get(searchHit[i].getScore());
-                    if (stringList == null) {
-                        stringList = new LinkedList<>();
-                        result.put(searchHit[i].getScore(), stringList);
-                    }
-                    stringList.add(searchHit[i].getSourceAsString());
-                    break;
                 case SortRule.BY_CORRELATION_DESC:
-                    stringList = result.get(searchHit[i].getScore());
+                    List<String> stringList = result.get((double)searchHit[i].getScore());
                     if (stringList == null) {
                         stringList = new LinkedList<>();
-                        result.put(0 - searchHit[i].getScore(), stringList);
+                        result.put((double) searchHit[i].getScore(), stringList);
                     }
                     stringList.add(searchHit[i].getSourceAsString());
                     break;
-                case SortRule.BY_MODIFIED_TIME:
-                    int modifiedTime = (Integer) JSON.parseObject(searchHit[i].getSourceAsString()).get("modifiedTime");
-                    stringList = result.get((float) modifiedTime);
+                case SortRule.BY_CORRELATION:
+                    stringList = result.get((double)searchHit[i].getScore());
                     if (stringList == null) {
                         stringList = new LinkedList<>();
-                        result.put((float) modifiedTime, stringList);
+                        result.put(0.0 - searchHit[i].getScore(), stringList);
                     }
                     stringList.add(searchHit[i].getSourceAsString());
                     break;
                 case SortRule.BY_MODIFIED_TIME_DESC:
-                    modifiedTime = (Integer) JSON.parseObject(searchHit[i].getSourceAsString()).get("modifiedTime");
-                    stringList = result.get(0 - (float) modifiedTime);
+                    long modifiedTime = (Long) JSON.parseObject(searchHit[i].getSourceAsString()).get("modifiedTime");
+                    stringList = result.get((double) modifiedTime);
                     if (stringList == null) {
                         stringList = new LinkedList<>();
-                        result.put(0 - (float) modifiedTime, stringList);
+                        result.put((double) modifiedTime, stringList);
+                    }
+                    stringList.add(searchHit[i].getSourceAsString());
+                    break;
+                case SortRule.BY_MODIFIED_TIME:
+                    modifiedTime = (Long) JSON.parseObject(searchHit[i].getSourceAsString()).get("modifiedTime");
+                    stringList = result.get(0 - (double) modifiedTime);
+                    if (stringList == null) {
+                        stringList = new LinkedList<>();
+                        result.put( (0.0 - (double) modifiedTime), stringList);
                     }
                     stringList.add(searchHit[i].getSourceAsString());
                     break;
@@ -128,7 +128,7 @@ public class PcompSearchServiceImpl implements PcompSearchService {
     @Override
     public List<PcompVersion> getVersionRelated(String keyword, String sortRule) throws PcompException {
         try {
-            TreeMap<Float, List<String>> sorted = getSorted(keyword, PcompConstants.PCOMP_VERSION, sortRule);
+            TreeMap<Double, List<String>> sorted = getSorted(keyword, PcompConstants.PCOMP_VERSION, sortRule);
             LinkedList<PcompVersion> pcompVersions = new LinkedList<>();
             for (List<String> jsons : sorted.values()) {
                 for (String json : jsons) {
@@ -144,7 +144,7 @@ public class PcompSearchServiceImpl implements PcompSearchService {
     @Override
     public List<PcompSoftware> getSoftwareRelated(String keyword, String sortRule) throws PcompException {
         try {
-            TreeMap<Float, List<String>> sorted = getSorted(keyword, PcompConstants.PCOMP_SOFTWARE, sortRule);
+            TreeMap<Double, List<String>> sorted = getSorted(keyword, PcompConstants.PCOMP_SOFTWARE, sortRule);
             LinkedList<PcompSoftware> pcompSoftwares = new LinkedList<>();
             for (List<String> jsons : sorted.values()) {
                 for (String json : jsons) {

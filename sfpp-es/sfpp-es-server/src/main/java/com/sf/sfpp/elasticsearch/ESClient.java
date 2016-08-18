@@ -47,10 +47,6 @@ public class ESClient {
             build.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host[i].substring(0, host[i].indexOf(":"))), Integer.parseInt(host[i].substring(host[i].indexOf(":") + 1))));
         }
         client = build;
-        GetResponse response = client.prepareGet("sf", "employee", "1")
-                .setOperationThreaded(false)
-                .get();
-        System.out.println(response.getSource());
     }
 
     public void addOrUpdateDocument(String index, String type, String id, Object document) {
