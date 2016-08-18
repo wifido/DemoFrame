@@ -543,8 +543,8 @@
 }
 
 .skin-black-light .main-header > .navbar .nav > li > a:hover, .skin-black-light .main-header > .navbar .nav > li > a:active, .skin-black-light .main-header > .navbar .nav > li > a:focus, .skin-black-light .main-header > .navbar .nav .open > a, .skin-black-light .main-header > .navbar .nav .open > a:hover, .skin-black-light .main-header > .navbar .nav .open > a:focus, .skin-black-light .main-header > .navbar .nav > .active > a {
-    background: #fff;
-    color: #999
+    background: #000;
+    color: #fff
 }
 
 .skin-black-light .main-header > .navbar .sidebar-toggle {
@@ -558,7 +558,9 @@
 
 .skin-black-light .main-header > .navbar > .sidebar-toggle {
     color: #333;
-    border-right: 1px solid #eee
+    border-right: 1px solid #eee;
+    height:40px;
+    line-height:initial;
 }
 
 .skin-black-light .main-header > .navbar .navbar-nav > li > a {
@@ -574,7 +576,7 @@
     background-color: #fff;
     color: #333;
     border-bottom: 0 solid transparent;
-    border-right: 1px solid #eee
+    border-right: 1px solid #c8c8c8
 }
 
 .skin-black-light .main-header > .logo:hover {

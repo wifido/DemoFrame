@@ -68,7 +68,6 @@ div.iphone-mockup{
   border:1px solid #444;
   background-color:#aaa;
   overflow:hidden;
-  background:url(../../assets/img/screen-content-iphone-6.jpg);
   background-size:cover;
   background-position:center;
 }
@@ -163,7 +162,7 @@ h1, h2, h3, h4, h5, p{
 }
 
 div.row > div.col-lg-3.col-md-3.col-sm-6.col-xs-12:hover{
-  background-color:#e2e4e3;
+  background-color:#c8c8c8;
 }
 
 nav.navbar.navbar-default.navbar-child{

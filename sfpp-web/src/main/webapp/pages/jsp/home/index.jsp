@@ -1,6 +1,6 @@
 <%@ page import="com.sf.sfpp.common.Constants" %>
-<%@ page import="com.sf.sfpp.web.common.utils.PathUtils" %>
 <%@ page import="com.sf.sfpp.web.common.PathConstants" %>
+<%@ page import="com.sf.sfpp.web.common.utils.PathUtils" %>
 <%@ page import="java.util.Date" %>
 <%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <!DOCTYPE html>
@@ -11,9 +11,9 @@
     <jsp:include page="./common/CSS.jsp"></jsp:include>
 </head>
 
-<body class="<%=Constants.THEME%>">
+<body class="skin-blue">
 
-<div class="wrapper">
+<div class="">
     <jsp:include page="../common/main-header.jsp"></jsp:include>
 </div>
 

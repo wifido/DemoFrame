@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,700");
+/*@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,700");*/
 
 /*!
  * bootswatch v3.3.6
@@ -3500,49 +3500,62 @@ a.btn.disabled, fieldset[disabled] a.btn {
 }
 
 .btn-primary {
-    color: #ffffff;
-    background-color: #d9230f;
-    border-color: #d9230f
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
 }
-
-.btn-primary:focus, .btn-primary.focus {
-    color: #ffffff;
-    background-color: #a91b0c;
-    border-color: #621007
+.btn-primary:focus,
+.btn-primary.focus {
+    color: #fff;
+    background-color: #286090;
+    border-color: #122b40;
 }
-
 .btn-primary:hover {
-    color: #ffffff;
-    background-color: #a91b0c;
-    border-color: #a01a0b
+    color: #fff;
+    background-color: #286090;
+    border-color: #204d74;
 }
-
-.btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
-    color: #ffffff;
-    background-color: #a91b0c;
-    border-color: #a01a0b
+.btn-primary:active,
+.btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
+    color: #fff;
+    background-color: #286090;
+    border-color: #204d74;
 }
-
-.btn-primary:active:hover, .btn-primary.active:hover, .open > .dropdown-toggle.btn-primary:hover, .btn-primary:active:focus, .btn-primary.active:focus, .open > .dropdown-toggle.btn-primary:focus, .btn-primary:active.focus, .btn-primary.active.focus, .open > .dropdown-toggle.btn-primary.focus {
-    color: #ffffff;
-    background-color: #881609;
-    border-color: #621007
+.btn-primary:active:hover,
+.btn-primary.active:hover,
+.open > .dropdown-toggle.btn-primary:hover,
+.btn-primary:active:focus,
+.btn-primary.active:focus,
+.open > .dropdown-toggle.btn-primary:focus,
+.btn-primary:active.focus,
+.btn-primary.active.focus,
+.open > .dropdown-toggle.btn-primary.focus {
+    color: #fff;
+    background-color: #204d74;
+    border-color: #122b40;
 }
-
-.btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
-    background-image: none
+.btn-primary:active,
+.btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
+    background-image: none;
 }
-
-.btn-primary.disabled:hover, .btn-primary[disabled]:hover, fieldset[disabled] .btn-primary:hover, .btn-primary.disabled:focus, .btn-primary[disabled]:focus, fieldset[disabled] .btn-primary:focus, .btn-primary.disabled.focus, .btn-primary[disabled].focus, fieldset[disabled] .btn-primary.focus {
-    background-color: #d9230f;
-    border-color: #d9230f
+.btn-primary.disabled:hover,
+.btn-primary[disabled]:hover,
+fieldset[disabled] .btn-primary:hover,
+.btn-primary.disabled:focus,
+.btn-primary[disabled]:focus,
+fieldset[disabled] .btn-primary:focus,
+.btn-primary.disabled.focus,
+.btn-primary[disabled].focus,
+fieldset[disabled] .btn-primary.focus {
+    background-color: #337ab7;
+    border-color: #2e6da4;
 }
-
 .btn-primary .badge {
-    color: #d9230f;
-    background-color: #ffffff
+    color: #337ab7;
+    background-color: #fff;
 }
-
 .btn-success {
     color: #ffffff;
     background-color: #469408;
@@ -7267,17 +7280,7 @@ button.close {
     border: 1px solid #2e2f2f
 }
 
-.btn-primary, .btn-primary:hover {
-    background-image: -webkit-linear-gradient(#e72510, #d9230f 6%, #cb210e);
-    background-image: -o-linear-gradient(#e72510, #d9230f 6%, #cb210e);
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#e72510), color-stop(6%, #d9230f), to(#cb210e));
-    background-image: linear-gradient(#e72510, #d9230f 6%, #cb210e);
-    background-repeat: no-repeat;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe72510', endColorstr='#ffcb210e', GradientType=0);
-    -webkit-filter: none;
-    filter: none;
-    border: 1px solid #a91b0c
-}
+
 
 .btn-success, .btn-success:hover {
     background-image: -webkit-linear-gradient(#4da309, #469408 6%, #3f8507);

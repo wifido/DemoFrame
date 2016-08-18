@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic);
+/*@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic);*/
 
 /*!
  *   AdminLTE v2.3.3
@@ -176,7 +176,7 @@ h6,
 .h4,
 .h5,
 .h6 {
-	font-family: 'Source Sans Pro', sans-serif
+	font-family: "Microsoft Yahei"
 }
 
 a {
@@ -223,8 +223,9 @@ a:focus {
 	margin-bottom: 0;
 	margin-left: 230px;
 	border: none;
-	min-height: 50px;
-	border-radius: 0
+	min-height: 40px;
+	border-radius: 0px;
+	height:40px;
 }
 
 .layout-top-nav .main-header>.navbar {
@@ -260,6 +261,10 @@ a:focus {
 	float: right
 }
 
+.navbar-right > li{
+	padding-right: 15px;
+}
+
 @media (max-width:991px) {
 	.main-header .navbar-custom-menu a,
 	.main-header .navbar-right a {
@@ -286,7 +291,8 @@ a:focus {
 	background-color: transparent;
 	background-image: none;
 	padding: 15px 15px;
-	font-family: fontAwesome
+	line-height:initial;
+	font-family: fontAwesome,"Microsoft Yahei"
 }
 
 .main-header .sidebar-toggle:before {
@@ -328,12 +334,12 @@ a:focus {
 	transition: width .3s ease-in-out;
 	display: block;
 	float: left;
-	height: 50px;
+	height: 40px;
 	font-size: 20px;
-	line-height: 50px;
+	line-height: 40px;
 	text-align: center;
 	width: 230px;
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: "Microsoft Yahei";
 	padding: 0 15px;
 	font-weight: 300;
 	overflow: hidden
@@ -5681,3 +5687,6 @@ ul.navbar-right > li > a > strong:hover {
 	color: #111111;
 }
 
+.search-box-body .input-group .form-element{
+	margin: 5px 5px 5px 5px;
+}

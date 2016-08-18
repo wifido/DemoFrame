@@ -1,6 +1,6 @@
 <%@ page import="com.sf.sfpp.common.Constants" %>
-<%@ page import="com.sf.sfpp.pcomp.common.domain.PcompCacheObject" %>
 <%@ page import="com.sf.sfpp.common.domain.WebCache" %>
+<%@ page import="com.sf.sfpp.pcomp.common.domain.PcompCacheObject" %>
 <%@ page import="com.sf.sfpp.pcomp.common.model.PcompKind" %>
 <%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <!DOCTYPE html>
@@ -11,9 +11,9 @@
     <jsp:include page="../common/CSS.jsp"></jsp:include>
 </head>
 
-<body class="<%=Constants.THEME%>">
+<body class="skin-blue">
 
-<div class="wrapper">
+<div class="">
     <jsp:include page="../../common/main-header.jsp"></jsp:include>
 
     <div class="jumbotron hero_kind">
