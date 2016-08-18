@@ -44,6 +44,13 @@ public interface PathConstants {
     String PCOMP_VERSION_INTRODUCTION = PcompConstants.PCOMP_VERSION +"_introduction";
     String PCOMP_VERSION_QUICKSTART = PcompConstants.PCOMP_VERSION +"_quickstart";
 
+    String PCOMP_SEARCH_PATH = PCOMP_PATH + "/search";
+    String PCOMP_SEARCH_JSP_PATH = GLOBAL_JSP_PATH + PCOMP_SEARCH_PATH;
+    String PCOMP_SEARCH_KEYWORD = "keyword";
+    String PCOMP_SEARCH_CATEGORY_PARA = "category";
+    String PCOMP_SEARCH_SORTED_BY_PARA = "sorted_by";
+    String PCOMP_SEARCH_RESULT = "search_results";
+
 
     String KNNET_PATH = "/knnet";
     String KNNET_HOMEPAGE_PATH = KNNET_PATH + INDEX_PATH;

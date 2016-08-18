@@ -33,6 +33,11 @@
             <version>${sfpp.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.sf</groupId>
+            <artifactId>sfpp.sfpp-es-client</artifactId>
+            <version>${sfpp.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.sf.sgs</groupId>
             <artifactId>sgs-framework-boot-cache</artifactId>
             <version>${sgs-framework-boot-cache.version}</version>
@@ -254,7 +259,7 @@
                             <descriptors>
                                 <descriptor>src/main/assembly/dev/assembly.xml</descriptor>
                             </descriptors>
-                            <finalName>${project.artifactId}</finalName>
+                            <finalName>${artifactId}</finalName>
                         </configuration>
                     </execution>
                     <execution>
@@ -268,7 +273,7 @@
                             <descriptors>
                                 <descriptor>src/main/assembly/uat/assembly.xml</descriptor>
                             </descriptors>
-                            <finalName>${project.artifactId}</finalName>
+                            <finalName>${artifactId}</finalName>
                         </configuration>
                     </execution>
                     <execution>
@@ -282,7 +287,7 @@
                             <descriptors>
                                 <descriptor>src/main/assembly/prod/assembly.xml</descriptor>
                             </descriptors>
-                            <finalName>${project.artifactId}</finalName>
+                            <finalName>${artifactId}</finalName>
                         </configuration>
                     </execution>
                 </executions>
