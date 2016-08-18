@@ -102,6 +102,9 @@
         <property name="defaultEncoding" value="UTF-8"/>
         <property name="cacheSeconds" value="60"/>
     </bean>
+	
+   <!--重定向路径 -->
+   <mvc:view-controller path="/" view-name="redirect:/index" />
 
 	<!-- 当在web.xml 中 DispatcherServlet使用 <url-pattern>/</url-pattern> 映射时，能映射静态资源 -->
 	<mvc:default-servlet-handler />
@@ -121,6 +124,80 @@
 	<!-- 控制器异常处理 -->
 	<bean id="exceptionHandlerExceptionResolver" class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver" />
 
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+	<!-- 启用SHIRO注解 -->
+	<!--<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">
+	    <property name="proxyTargetClass" value="true" />
+	</bean>-->
+	
+	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+	    <property name="securityManager" ref="securityManager"/>
+	</bean>
+
+	<!--shiro配置 -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/login" /> 		<!--需要登录的请求在未登录的情况下会被拦截到这个地址 -->
+		<property name="successUrl" value="/index" />
+		<property name="unauthorizedUrl" value="/unauthorized" />
+		<property name="filters">
+			<util:map>
+				<entry key="logout" value-ref="logoutFilter"/>
+				<entry key="authc" value-ref="formAuthenticationFilter"/>
+			</util:map>
+
+		</property>
+		<property name="filterChainDefinitions">
+			<value>
+				/assets/** = anon
+				/*.ico = anon
+				/login = authc
+				/logout = logout
+				/pages/system/resource.jsp* = perms[/system/resource]
+				/pages/system/userManage.jsp*= perms[/system/userManage]
+				/pages/system/roleManage.jsp* = perms[/system/roleManage]
+<!-- 				/index/agent/* = perms[/agent/list] -->
+<!-- 				/index/diagram/* = perms[/diagram/list] -->
+<!-- 				/index/user/* = perms[/user/list] -->
+				/** = authc
+			</value>
+		</property>
+	</bean>
+
+
+	<!--替换默认的form 验证过滤器-->
+	<bean id="formAuthenticationFilter" class="com.sf.sfpp.web.user.shiro.filter.CustomFormAuthenticationFilter">
+		<property name="successUrl" value="/index"/>
+		<property name="loginUrl" value="/login"/>
+		<!--表单上的用户名/密码 下次自动登录的参数名-->
+		<property name="usernameParam" value="username"/>
+		<property name="passwordParam" value="password"/>
+		<!--<property name="rememberMeParam" value="rememberMe"/>-->
+	</bean>
+
+	<!-- 退出登录过滤器 -->
+	<bean id="logoutFilter" class="com.sf.sfpp.web.user.shiro.filter.CoustomLogoutFilter">
+		<!--重定向 -->
+		<property name="redirectUrl" value="/login" />
+	</bean>
+	
+	<!--配置权限核心管理器 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="userRealm" />
+		<property name="cacheManager" ref="cacheManager" />
+		<property name="sessionManager" ref="sessionManager"></property>
+	</bean>
+	
+	<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+		<property name="deleteInvalidSessions" value="true"></property>
+		<property name="sessionValidationInterval" value="1800000"></property>
+		<property name="globalSessionTimeout" value="1800000"></property>
+		<property name="cacheManager" ref="cacheManager"></property>
+	</bean>
+	
+	<!--默认缓存管理器 -->
+	<bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />
+	
 	<bean id="ldapAuthenticationBiz" class="com.sf.sfpp.web.user.shiro.LdapAuthentication">
 		<property name="url" value="${sf.ldap.url}"></property>
 		<property name="domain" value="${sf.ldap.domain}"></property>

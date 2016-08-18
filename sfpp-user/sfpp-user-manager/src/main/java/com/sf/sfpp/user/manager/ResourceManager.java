@@ -34,4 +34,6 @@ public interface ResourceManager {
     int updateResource(Resource resource);
 
     int addResource(Resource resource);
+    
+    Resource selectResourceByUrl(String resourceUrl);
 }

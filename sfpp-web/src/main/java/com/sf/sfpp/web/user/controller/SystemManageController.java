@@ -318,12 +318,19 @@ public class SystemManageController {
     
     @RequestMapping("/resource/updateResource")
     @ResponseBody
-    public boolean deleteResource(Resource resource) {
+    public boolean updateResource(Resource resource) {
         int result = -1;
 		try {
-			result = resourceService.updateResource(resource);
+			Resource  dbResource = resourceService.selectResourceByUrl(resource.getResourceUrl());
+			if(dbResource != null
+					&& !dbResource.getResourceId().equals(resource.getResourceId())){
+				log.error("更新资源出错,资源链接路径已存在");
+			}else{
+				result = resourceService.updateResource(resource);
+			}
+			
 		} catch (Exception e) {
-			log.error("删除资源出错:", e);
+			log.error("更新资源出错:", e);
 		}
         return result>0;
     }
@@ -334,6 +341,24 @@ public class SystemManageController {
         JsonResult<Boolean> result = new JsonResult<Boolean>();
         String selfType = resource.getRemark();
         String newType = resource.getResourceType();
+        String resourceUrl = resource.getResourceUrl();
+        Resource dbResource = null;
+        try {
+        	dbResource = resourceService.selectResourceByUrl(resourceUrl);
+        	if(dbResource != null){
+        		result.setCode(SystemConstants.RESPONSE_STATUS_FAILURE);
+                result.setData(false);
+                result.setMessage("资源链接路径重复");
+                return result;
+        	}
+		} catch (Exception e) {
+			log.error("根据资源链接路查询资源出错", e);
+			result.setCode(SystemConstants.RESPONSE_STATUS_FAILURE);
+            result.setData(false);
+            result.setMessage("根据资源链接路查询资源出错");
+            return result;
+		}
+        
         if (newType.equals("M")) {  // 添加主菜单
             resource.setParentId(-1);
         } else if(newType.equals("S")){ // 添加子菜单

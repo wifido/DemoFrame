@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.sf.sfpp.user.dao.domain.User;
+import com.sf.sfpp.web.common.PathConstants;
 
 
 
@@ -47,7 +48,7 @@ public class LoginController {
             log.info("已登录状态，返回到主页");
             Cookie coo = new Cookie("loginMessage", null);
             httpServletResponse.addCookie(coo);
-            return "redirect:/main/index";
+            return "redirect:" + PathConstants.HOMEPAGE_PATH;
         } else {
             log.info("未登录状态，返回登录页面");
             Cookie cook = new Cookie("loginMessage", null);
@@ -55,13 +56,7 @@ public class LoginController {
             return "/login";
         }
     }
-    
-    @RequestMapping(value = "/main/index", method = RequestMethod.GET)
-    public String toindex(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        log.info("登录成功，跳转到主页");
-        return "/main/index";
-    }
-    
+
     @RequestMapping(value = "unauthorized", method = RequestMethod.GET)
     public String toUnauthorized() {
         log.info("没有权限");
@@ -89,9 +84,9 @@ public class LoginController {
             log.info("已登录状态，返回到主页");
             Cookie coo = new Cookie("loginMessage", null);
             httpServletResponse.addCookie(coo);
-            return "redirect:/main/index";
+            return "redirect:" + PathConstants.INDEX_PATH;
         } else {
-          //登录失败了 提取错误消息
+            //登录失败了 提取错误消息
             Exception shiroLoginFailureEx = (Exception) httpServletRequest.getAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
             String errorMsg = shiroLoginFailureEx.getMessage();
             log.info("登录失败后返回login页面");

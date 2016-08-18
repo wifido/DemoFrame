@@ -38,4 +38,6 @@ public interface ResourceService {
     
     /** 根据用户名和主菜单路径获取子菜单 */
     List<Resource> getSubResByUserNoAndParent(String userNo, String parentResUrl) throws Exception;
+    
+    Resource selectResourceByUrl(String resourceUrl) throws Exception;
 }

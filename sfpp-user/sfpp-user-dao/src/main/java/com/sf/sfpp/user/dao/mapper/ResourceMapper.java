@@ -21,6 +21,8 @@ public interface ResourceMapper {
     int insertSelective(Resource record);
 
     Resource selectByPrimaryKey(Integer resourceId);
+    
+    Resource selectResourceByUrl(String resourceUrl);
 
     int updateByPrimaryKeySelective(Resource record);
 
