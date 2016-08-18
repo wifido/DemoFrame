@@ -101,4 +101,9 @@ public class ResourceManagerImpl implements ResourceManager {
         return resourceMapper.insertSelective(resource);
     }
 
+	@Override
+	public Resource selectResourceByUrl(String resourceUrl) {
+		return resourceMapper.selectResourceByUrl(resourceUrl);
+	}
+
 }

@@ -170,4 +170,10 @@ public class ResourceServiceImpl implements ResourceService {
         }
         return subMenuList;
     }
+
+	@Override
+	public Resource selectResourceByUrl(String resourceUrl) throws Exception {
+
+		return resourceManager.selectResourceByUrl(resourceUrl);
+	}
 }
