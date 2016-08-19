@@ -1,6 +1,8 @@
 package com.sf.sfpp.pcomp.manager;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.sf.kafka.exception.KafkaException;
 import com.sf.sfpp.common.Constants;
 import com.sf.sfpp.common.utils.StrUtils;
@@ -42,8 +44,9 @@ public class PcompSoftwareManager {
     private PcompVersionPlatformDownloadMapper pcompVersionPlatformDownloadMapper;
 
 
-    public List<PcompSoftware> getAllAvailablePcompSoftwaresByPcompKindId(String kindId) {
-        return pcompSoftwareMapper.selectAllAcailableByKindId(kindId);
+    public Page<PcompSoftware> getAllAvailablePcompSoftwaresByPcompKindId(String kindId, int pageNumber) {
+        PageHelper.startPage(pageNumber, PcompConstants.numberPerPage);
+        return (Page<PcompSoftware>) pcompSoftwareMapper.selectAllAcailableByKindId(kindId);
     }
 
     public PcompSoftware getPcompSoftwareByPcompSoftwareId(String pcompSoftwareId) {

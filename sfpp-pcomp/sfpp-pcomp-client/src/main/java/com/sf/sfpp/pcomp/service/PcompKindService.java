@@ -1,9 +1,9 @@
 package com.sf.sfpp.pcomp.service;
 
+import com.github.pagehelper.PageInfo;
 import com.sf.sfpp.pcomp.common.exception.PcompException;
 import com.sf.sfpp.pcomp.common.model.PcompKind;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,7 +12,7 @@ import java.util.Map;
  * @date 2016/8/11
  */
 public interface PcompKindService {
-    final static int NUM_PER_PAGE = 16;
+    final static int NUM_PER_PAGE = 1;
     final static String ALL_TITLE = "-1";
 
     /**
@@ -22,7 +22,7 @@ public interface PcompKindService {
      * @return
      * @throws PcompException
      */
-    List<PcompKind> fetchAllKindsSeparatelyByTitle(String title,int pageNumber) throws PcompException;
+    PageInfo<PcompKind> fetchAllKindsSeparatelyByTitle(String title, int pageNumber) throws PcompException;
 
     /**
      * 根据kindID获取对应的kind

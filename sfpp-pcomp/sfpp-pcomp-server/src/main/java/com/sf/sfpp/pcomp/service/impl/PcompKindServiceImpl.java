@@ -1,5 +1,7 @@
 package com.sf.sfpp.pcomp.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import com.sf.sfpp.pcomp.common.exception.PcompException;
 import com.sf.sfpp.pcomp.common.model.PcompKind;
 import com.sf.sfpp.pcomp.manager.PcompKindManager;
@@ -7,7 +9,6 @@ import com.sf.sfpp.pcomp.service.PcompKindService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,12 +23,15 @@ public class PcompKindServiceImpl implements PcompKindService {
     private PcompKindManager pcompKindManager;
 
     @Override
-    public List<PcompKind> fetchAllKindsSeparatelyByTitle(String title, int pageNumber) throws PcompException {
+    public PageInfo<PcompKind> fetchAllKindsSeparatelyByTitle(String title, int pageNumber) throws PcompException {
         try {
-            if (PcompKindService.ALL_TITLE.equals(title))
-                return pcompKindManager.getAllKinds();
-            else
-                return pcompKindManager.getKindsByTitle(title);
+            Page<PcompKind> allKinds = null;
+            if (PcompKindService.ALL_TITLE.equals(title)) {
+                allKinds = pcompKindManager.getAllKinds(pageNumber);
+            } else {
+                allKinds = pcompKindManager.getKindsByTitle(title, pageNumber);
+            }
+            return allKinds.toPageInfo();
         } catch (Exception e) {
             throw new PcompException(e);
         }

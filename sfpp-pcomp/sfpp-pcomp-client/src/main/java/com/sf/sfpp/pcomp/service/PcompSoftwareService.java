@@ -1,7 +1,7 @@
 package com.sf.sfpp.pcomp.service;
 
+import com.github.pagehelper.PageInfo;
 import com.sf.sfpp.pcomp.common.exception.PcompException;
-import com.sf.sfpp.pcomp.common.model.PcompKind;
 import com.sf.sfpp.pcomp.common.model.PcompSoftware;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public interface PcompSoftwareService {
      * @return
      * @throws PcompException
      */
-    List<PcompSoftware> fetchAllSoftwaresSeparatelyByKind(String kindId, int pageNumber) throws PcompException;
+    PageInfo<PcompSoftware> fetchAllSoftwaresSeparatelyByKind(String kindId, int pageNumber) throws PcompException;
 
     /**
      * 根据software的id获取这个software的详细信息

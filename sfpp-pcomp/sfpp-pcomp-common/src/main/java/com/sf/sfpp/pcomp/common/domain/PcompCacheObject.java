@@ -1,5 +1,6 @@
 package com.sf.sfpp.pcomp.common.domain;
 
+import com.github.pagehelper.PageInfo;
 import com.sf.sfpp.pcomp.common.model.PcompKind;
 import com.sf.sfpp.pcomp.common.model.PcompSoftware;
 import com.sf.sfpp.pcomp.common.model.PcompTitle;
@@ -20,8 +21,26 @@ public class PcompCacheObject {
     private PcompVersion pcompVersion;
 
     private List<PcompTitle> pcompTitles = new LinkedList<>();
-    private List<PcompKind> pcompKinds = new LinkedList<>();
-    private List<PcompSoftware> pcompSoftwares = new LinkedList<>();
+
+
+    public PageInfo<PcompKind> getPcompKinds() {
+        return pcompKinds;
+    }
+
+    public void setPcompKinds(PageInfo<PcompKind> pcompKinds) {
+        this.pcompKinds = pcompKinds;
+    }
+
+    public PageInfo<PcompSoftware> getPcompSoftwares() {
+        return pcompSoftwares;
+    }
+
+    public void setPcompSoftwares(PageInfo<PcompSoftware> pcompSoftwares) {
+        this.pcompSoftwares = pcompSoftwares;
+    }
+
+    private PageInfo<PcompKind> pcompKinds = new PageInfo<>();
+    private PageInfo<PcompSoftware> pcompSoftwares = new PageInfo<>();
     private List<PcompVersion> pcompVersions = new LinkedList<>();
 
     public PcompTitle getPcompTitle() {
@@ -62,22 +81,6 @@ public class PcompCacheObject {
 
     public void setPcompTitles(List<PcompTitle> pcompTitles) {
         this.pcompTitles = pcompTitles;
-    }
-
-    public List<PcompKind> getPcompKinds() {
-        return pcompKinds;
-    }
-
-    public void setPcompKinds(List<PcompKind> pcompKinds) {
-        this.pcompKinds = pcompKinds;
-    }
-
-    public List<PcompSoftware> getPcompSoftwares() {
-        return pcompSoftwares;
-    }
-
-    public void setPcompSoftwares(List<PcompSoftware> pcompSoftwares) {
-        this.pcompSoftwares = pcompSoftwares;
     }
 
     public List<PcompVersion> getPcompVersions() {

@@ -64,6 +64,11 @@
             <groupId>commons-jxpath</groupId>
             <artifactId>commons-jxpath</artifactId>
         </dependency>
+        <!--mybatis分页-->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

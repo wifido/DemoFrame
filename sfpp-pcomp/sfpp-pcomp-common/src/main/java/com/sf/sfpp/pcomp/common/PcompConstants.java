@@ -29,4 +29,5 @@ public interface PcompConstants {
     final static String DOWNLOAD_CH = "版本下载";
     final static String QUICKSTART = "quickstart";
     final static String QUICKSTART_CH = "快速上手";
+    final static int numberPerPage = 16;
 }

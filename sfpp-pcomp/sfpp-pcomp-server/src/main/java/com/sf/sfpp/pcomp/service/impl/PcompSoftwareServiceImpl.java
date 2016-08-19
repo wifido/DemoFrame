@@ -1,5 +1,6 @@
 package com.sf.sfpp.pcomp.service.impl;
 
+import com.github.pagehelper.PageInfo;
 import com.sf.sfpp.pcomp.common.exception.PcompException;
 import com.sf.sfpp.pcomp.common.model.PcompSoftware;
 import com.sf.sfpp.pcomp.manager.PcompSoftwareManager;
@@ -21,9 +22,9 @@ public class PcompSoftwareServiceImpl implements PcompSoftwareService {
     private PcompSoftwareManager pcompSoftwareManager;
 
     @Override
-    public List<PcompSoftware> fetchAllSoftwaresSeparatelyByKind(String kindId, int pageNumber) throws PcompException {
+    public PageInfo<PcompSoftware> fetchAllSoftwaresSeparatelyByKind(String kindId, int pageNumber) throws PcompException {
         try {
-            return pcompSoftwareManager.getAllAvailablePcompSoftwaresByPcompKindId(kindId);
+            return pcompSoftwareManager.getAllAvailablePcompSoftwaresByPcompKindId(kindId, pageNumber).toPageInfo();
         } catch (Exception e) {
             throw new PcompException(e);
         }

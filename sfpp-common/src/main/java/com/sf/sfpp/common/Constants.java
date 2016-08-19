@@ -25,4 +25,5 @@ public interface Constants {
     static final String THEME = "skin-black-light";
 
     static final String COPYRIGHT = "SFPP © ";
+    static final String PAGE_NUMBER = "pageNumber";
 }
