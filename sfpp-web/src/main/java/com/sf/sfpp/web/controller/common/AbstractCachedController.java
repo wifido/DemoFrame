@@ -19,9 +19,9 @@ public class AbstractCachedController {
         if (webCache == null) {
             webCache = new WebCache();
         }
-//        Subject currentUser = SecurityUtils.getSubject();
-//        User user = (User) currentUser.getPrincipal();
-//        webCache.setUser(user);
+        Subject currentUser = SecurityUtils.getSubject();
+        User user = (User) currentUser.getPrincipal();
+        webCache.setUser(user);
         return webCache;
     }
 
