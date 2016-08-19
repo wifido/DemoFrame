@@ -187,21 +187,32 @@
 		<property name="cacheManager" ref="cacheManager" />
 		<property name="sessionManager" ref="sessionManager"></property>
 	</bean>
-	
+	 
+	<!-- sessionManager -->
 	<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
-		<property name="deleteInvalidSessions" value="true"></property>
-		<property name="sessionValidationInterval" value="1800000"></property>
-		<property name="globalSessionTimeout" value="1800000"></property>
-		<property name="cacheManager" ref="cacheManager"></property>
+	    <property name="sessionDAO" ref="redisSessionDAO" />
 	</bean>
 	
-	<!--默认缓存管理器 -->
-	<bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />
+	<!-- redisSessionDAO -->
+	<bean id="redisSessionDAO" class="com.sf.sfpp.web.user.shiro.RedisSessionDAO">
+	    <property name="redisManager" ref="redisManager" />
+	</bean>
+	 
+	<!-- cacheManager -->
+	<bean id="cacheManager" class="com.sf.sfpp.web.user.shiro.RedisCacheManager">
+	    <property name="redisManager" ref="redisManager" />
+	</bean>
 	
-	<bean id="ldapAuthenticationBiz" class="com.sf.sfpp.web.user.shiro.LdapAuthentication">
+	<!-- shiro redisManager -->
+	<bean id="redisManager" class="com.sf.sfpp.web.user.shiro.RedisManager">
+		<property name="expire" value="1800"/>
+	    <property name="password" value="${jedis.conn.auth}"/>
+        <property name="sentinelConfig" ref="redisSentinelConfiguration"/>
+	</bean>
+	
+	<bean id="ldapAuthentication" class="com.sf.sfpp.web.user.shiro.LdapAuthentication">
 		<property name="url" value="${sf.ldap.url}"></property>
 		<property name="domain" value="${sf.ldap.domain}"></property>
 	</bean>
-	
 	
 </beans>
