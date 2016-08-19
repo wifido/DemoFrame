@@ -15,12 +15,43 @@ public class PathUtils {
         return StrUtils.makeString(Constants.FOLDER_PATH_SEPARATOR, Constants.MAIN_SYSTEM_SHORT.toLowerCase(), "-web", controllerPath, "");
     }
 
+    public static String makeTitlePath(String titleId) {
+        return makeTitlePath(titleId, 1);
+    }
+
+    public static String makeTitlePath(String titleId, int pageNumber) {
+        if(StrUtils.isNull(titleId)){
+            return StrUtils.makeString(PathUtils.makePath(PathConstants.PCOMP_HOMEPAGE_PATH),
+                    Constants.PARAMETER_START_SEPARATOR,
+                    Constants.PAGE_NUMBER,
+                    Constants.PARAMETER_EQUALS,
+                    pageNumber);
+        }
+        return StrUtils.makeString(PathUtils.makePath(PathConstants.PCOMP_HOMEPAGE_PATH),
+                Constants.PARAMETER_START_SEPARATOR,
+                PcompConstants.PCOMP_TITLE,
+                Constants.PARAMETER_EQUALS,
+                titleId,
+                Constants.PARAMETER_SEPARATOR,
+                Constants.PAGE_NUMBER,
+                Constants.PARAMETER_EQUALS,
+                pageNumber);
+    }
+
     public static String makeKindPath(String kindId) {
+        return makeKindPath(kindId, 1);
+    }
+
+    public static String makeKindPath(String kindId, int pageNumber) {
         return StrUtils.makeString(PathUtils.makePath(PathConstants.PCOMP_KIND_PATH),
                 Constants.PARAMETER_START_SEPARATOR,
                 PcompConstants.PCOMP_KIND,
                 Constants.PARAMETER_EQUALS,
-                kindId);
+                kindId,
+                Constants.PARAMETER_SEPARATOR,
+                Constants.PAGE_NUMBER,
+                Constants.PARAMETER_EQUALS,
+                pageNumber);
     }
 
     public static String makeSoftwarePath(String softwareId) {
@@ -31,7 +62,7 @@ public class PathUtils {
                 softwareId);
     }
 
-    public static String makeVersionPath(String softwareId,String nav, String versionId) {
+    public static String makeVersionPath(String softwareId, String nav, String versionId) {
         return StrUtils.makeString(makeSoftwarePath(softwareId),
                 Constants.PARAMETER_SEPARATOR,
                 PcompConstants.SOFTWARE_PAGE_NAVIGATION,

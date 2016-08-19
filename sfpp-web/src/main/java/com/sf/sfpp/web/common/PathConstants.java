@@ -53,9 +53,14 @@ public interface PathConstants {
 
 
     String KNNET_PATH = "/knnet";
-    String KNNET_HOMEPAGE_PATH = KNNET_PATH + INDEX_PATH;
+//    String KNNET_HOMEPAGE_PATH = KNNET_PATH + INDEX_PATH;
+    String KNNET_HOMEPAGE_PATH = "#";
     String COMMUNITY_PATH = "/community";
-    String COMMUNITY_HOMEPAGE_PATH = COMMUNITY_PATH + INDEX_PATH;
+//    String COMMUNITY_HOMEPAGE_PATH = COMMUNITY_PATH + INDEX_PATH;
+    String COMMUNITY_HOMEPAGE_PATH = "#";
     String ACADEMY_PATH = "/academy";
-    String ACADEMY_HOMEPAGE_PATH = ACADEMY_PATH + INDEX_PATH;
+    String ACADEMY_HOMEPAGE_PATH = "#";
+//    String ACADEMY_HOMEPAGE_PATH = ACADEMY_PATH + INDEX_PATH;
+
+    String LOGOUT_PATH = "/logout";
 }

@@ -1,5 +1,6 @@
 package com.sf.sfpp.web.controller.pcomp;
 
+import com.github.pagehelper.PageInfo;
 import com.sf.sfpp.common.Constants;
 import com.sf.sfpp.common.domain.WebCache;
 import com.sf.sfpp.common.utils.StrUtils;
@@ -21,7 +22,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedHashMap;
@@ -61,13 +61,16 @@ public class PcompPageShowController extends AbstractCachedController {
             final List<PcompTitle> pcompTitles = pcompTitleService.fetchAllTitles();
             pcompCacheObject.setPcompTitles(pcompTitles);
             String titleId = request.getParameter(PcompConstants.PCOMP_TITLE);
+            String pageNumber = request.getParameter(Constants.PAGE_NUMBER);
+            if (pageNumber == null)
+                pageNumber = "1";
             if (titleId == null) {
-                List<PcompKind> pcompKinds = pcompKindService.fetchAllKindsSeparatelyByTitle(PcompKindService.ALL_TITLE, 0);
+                PageInfo<PcompKind> pcompKinds = pcompKindService.fetchAllKindsSeparatelyByTitle(PcompKindService.ALL_TITLE, Integer.parseInt(pageNumber));
                 pcompCacheObject.setPcompKinds(pcompKinds);
 
             } else {
-                //todo 分页
-                List<PcompKind> pcompKinds = pcompKindService.fetchAllKindsSeparatelyByTitle(titleId, 0);
+
+                PageInfo<PcompKind> pcompKinds = pcompKindService.fetchAllKindsSeparatelyByTitle(titleId, Integer.parseInt(pageNumber));
                 pcompCacheObject.setPcompKinds(pcompKinds);
                 PcompTitle pcompTitle = new PcompTitle();
                 pcompTitle.setId(titleId);
@@ -89,10 +92,12 @@ public class PcompPageShowController extends AbstractCachedController {
         Map<String, String> pathTree = new LinkedHashMap<>();
         String pcompKindId = request.getParameter(PcompConstants.PCOMP_KIND);
         PcompCacheObject pcompCacheObject = new PcompCacheObject();
+        String pageNumber = request.getParameter(Constants.PAGE_NUMBER);
+        if (pageNumber == null)
+            pageNumber = "1";
         try {
             PcompKind pcompKind = pcompKindService.fetchKindByKindId(pcompKindId);
-            //todo 分页
-            List<PcompSoftware> pcompSoftwares = pcompSoftwareService.fetchAllSoftwaresSeparatelyByKind(pcompKindId, 0);
+            PageInfo<PcompSoftware> pcompSoftwares = pcompSoftwareService.fetchAllSoftwaresSeparatelyByKind(pcompKindId,  Integer.parseInt(pageNumber));
             pcompCacheObject.setPcompKind(pcompKind);
             pcompCacheObject.setPcompSoftwares(pcompSoftwares);
 

@@ -1,18 +1,20 @@
+<%@ page import="com.github.pagehelper.PageInfo" %>
 <%@ page import="com.sf.sfpp.common.Constants" %>
 <%@ page import="com.sf.sfpp.common.domain.WebCache" %>
 <%@ page import="com.sf.sfpp.common.utils.ImageUtils" %>
 <%@ page import="com.sf.sfpp.pcomp.common.domain.PcompCacheObject" %>
 <%@ page import="com.sf.sfpp.pcomp.common.model.PcompKind" %>
+<%@ page import="com.sf.sfpp.pcomp.common.model.PcompTitle" %>
 <%@ page import="com.sf.sfpp.web.common.utils.PathUtils" %>
-<%@ page import="java.util.List" %>
 <%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <ul>
 
     <%
         WebCache webCache = (WebCache) request.getAttribute(Constants.WEB_CACHE_KEY);
         PcompCacheObject pcompCacheObject = (PcompCacheObject) webCache.getCacheObject();
-        List<PcompKind> pcompKinds = pcompCacheObject.getPcompKinds();
-        for (PcompKind pcompKind : pcompKinds) {
+        PageInfo<PcompKind> pcompKinds = pcompCacheObject.getPcompKinds();
+        PcompTitle title = pcompCacheObject.getPcompTitle();
+        for (PcompKind pcompKind : pcompKinds.getList()) {
             String link = PathUtils.makeKindPath(pcompKind.getId());
     %>
     <div class="col-lg-3 col-sm-12">
@@ -43,5 +45,56 @@
     <%
         }
     %>
-
 </ul>
+<p class="text-center">
+    <%
+        PageInfo pageInfo = (PageInfo) pcompKinds;
+
+    %>
+    <a href="<%=title!=null?PathUtils.makeTitlePath(title.getId()):PathUtils.makeTitlePath(null)%>">
+        <button class="btn <%if(pageInfo.getPageNum()==1){%>btn-primary<%}else{%>btn-warn<%}%>">
+            首页
+        </button>
+    </a>
+    <a href="<%if(pageInfo.getPageNum()!=1){%><%=title!=null?PathUtils.makeTitlePath(title.getId(),pageInfo.getPageNum()-1):PathUtils.makeTitlePath(null,pageInfo.getPageNum()-1)%><%}%>">
+        <button class="btn btn-warn" <%if(pageInfo.getPageNum()==1){%>disabled<%}%>>上一页
+        </button>
+    </a>
+    <%
+        int start = 0, end = 0;
+        if (pageInfo.getPages() < 10) {
+            start = 1;
+            end = pageInfo.getPages();
+        } else if (pageInfo.getPageNum() <= pageInfo.getPages() - 10) {
+            start = pageInfo.getPageNum();
+            end = pageInfo.getPageNum() + 9;
+        } else {
+            start = pageInfo.getPages() - 10;
+            end = pageInfo.getPages();
+        }
+    %>
+    <%
+
+        for (int i = start; i <= end; i++) {
+    %>
+    <a href="<%=title!=null?PathUtils.makeTitlePath(title.getId(),i):PathUtils.makeTitlePath(null,i)%>">
+        <button class="btn <%if(pageInfo.getPageNum()==i){%>btn-primary<%}else{%>btn-warn<%}%>"><%=i%>
+        </button>
+    </a>
+    <%
+        }
+    %>
+
+    <a href="<%if(pageInfo.getPageNum()!=pageInfo.getPages()){%><%=title!=null?PathUtils.makeTitlePath(title.getId(),pageInfo.getPageNum()+1):PathUtils.makeTitlePath(null,pageInfo.getPageNum()+1)%><%}%>">
+        <button class="btn btn-warn" <%if(pageInfo.getPageNum()==pageInfo.getPages()){%>disabled<%}%>>下一页
+        </button>
+    </a>
+
+
+    <a href="<%=title!=null?PathUtils.makeTitlePath(title.getId(),pageInfo.getPages()):PathUtils.makeTitlePath(null,pageInfo.getPages())%>">
+        <button class="btn <%if(pageInfo.getPageNum()==pageInfo.getPages()){%>btn-primary<%}else{%>btn-warn<%}%>">
+            末页
+        </button>
+    </a>
+
+</p>
