@@ -19,13 +19,12 @@
             <button type="button" class="btn btn-primary"
                     onclick=" window.location.href='/sfpp-web/pcomp/software/add.do'" disabled>发布软件(或版本)
             </button>
-            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" disabled>
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                 <span class="caret"></span>
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
             <ul class="dropdown-menu" role="menu">
-                <li><a href="/sfpp-web/pcomp/title/add.do" target="_blank">创建新主题</a></li>
-                <li><a href="/sfpp-web/pcomp/kind/add.do" target="_blank">创建新分类</a></li>
+                <li><a href="<%=PathUtils.makePath(PathConstants.PCOMP_TITLE_KIND_ADD_PAGE)%>" target="_blank">创建新主题或分类</a></li>
             </ul>
         </div>
     </div>

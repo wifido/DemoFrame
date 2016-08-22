@@ -26,7 +26,7 @@
 
     <li <%=arg1%> role="presentation">
         <a href="<%=PathUtils.makePath(PathConstants.INDEX_PATH)%>"><i
-                class="glyphicon glyphicon-home"></i> 主页</a>
+                class="fa fa-home"></i> 主页</a>
     </li>
     <li <%=arg2%> role="presentation">
         <a href="<%=PathUtils.makePath(PathConstants.KNNET_HOMEPAGE_PATH)%>"><i class="fa fa-globe"></i>
