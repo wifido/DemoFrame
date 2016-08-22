@@ -2,6 +2,8 @@ package com.sf.sfpp.pcomp.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
+import com.sf.sfpp.common.Constants;
+import com.sf.sfpp.common.idgen.IDGenerator;
 import com.sf.sfpp.pcomp.common.exception.PcompException;
 import com.sf.sfpp.pcomp.common.model.PcompKind;
 import com.sf.sfpp.pcomp.manager.PcompKindManager;
@@ -56,18 +58,19 @@ public class PcompKindServiceImpl implements PcompKindService {
     }
 
     @Override
-    public String existsKind(String titleID, String kind) throws PcompException {
+    public boolean existsKind(String titleName, String kind) throws PcompException {
         try {
-            return null;
+            return pcompKindManager.existsPcompKind(titleName, kind);
         } catch (Exception e) {
             throw new PcompException(e);
         }
     }
 
     @Override
-    public boolean addKind(String titleID, PcompKind kind) throws PcompException {
+    public boolean addKind(PcompKind pcompKind) throws PcompException {
         try {
-            return false;
+            pcompKind.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
+            return pcompKindManager.addPcompTitle(pcompKind);
         } catch (Exception e) {
             throw new PcompException(e);
         }

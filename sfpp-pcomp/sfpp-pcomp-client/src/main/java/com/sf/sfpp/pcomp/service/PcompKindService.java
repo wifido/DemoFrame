@@ -41,22 +41,21 @@ public interface PcompKindService {
     PcompKind fetchKindBySoftwareId(String softwareId) throws PcompException;
 
     /**
-     * 判断某一kind是否存在，顺便返回title的id
-     * @param titleID
+     * 判断某一kind是否存在
+     * @param titleName
      * @param kind 名称
-     * @return title id | title不存在则为-1
+     * @return
      * @throws PcompException
      */
-    String existsKind(String titleID,String kind) throws PcompException;
+    boolean existsKind(String titleName,String kind) throws PcompException;
 
     /**
      * 添加kind，注意，这里首先要先判断某一kind是否存在
-     * @param titleID
      * @param kind
      * @return 失败返回false
      * @throws PcompException
      */
-    boolean addKind(String titleID,PcompKind kind) throws PcompException;
+    boolean addKind(PcompKind kind) throws PcompException;
 
     /**
      * 批量添加kind，map的key为kind名称

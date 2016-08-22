@@ -24,6 +24,14 @@
     from pcomp_kind
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="selectByUniqueKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from pcomp_kind
+    where pcomp_title_id = #{pcompTitleId,jdbcType=VARCHAR}
+    and name = #{name,jdbcType=VARCHAR}
+    and is_deleted = 0
+  </select>
   <select id="selectAvailabeleKindsByTitleID" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
     <include refid="Base_Column_List" />
