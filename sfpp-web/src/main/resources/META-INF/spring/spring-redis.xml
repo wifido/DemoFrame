@@ -4,47 +4,45 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-    <!--<bean id="redisSentinelConfiguration"-->
-          <!--class="org.springframework.data.redis.connection.RedisSentinelConfiguration">-->
-        <!--<property name="master">-->
-            <!--<bean class="org.springframework.data.redis.connection.RedisNode">-->
-                <!--<property name="name" value="${redis.server}"></property>-->
-            <!--</bean>-->
-        <!--</property>-->
-        <!--<property name="sentinels">-->
-            <!--<set>-->
-                <!--<bean class="org.springframework.data.redis.connection.RedisNode">-->
-                    <!--<constructor-arg index="0" value="${redis.sentinel.server1}" />-->
-                    <!--<constructor-arg index="1" value="${redis.sentinel.server1.port}" />-->
-                <!--</bean>-->
-                <!--<bean class="org.springframework.data.redis.connection.RedisNode">-->
-                    <!--<constructor-arg index="0" value="${redis.sentinel.server2}" />-->
-                    <!--<constructor-arg index="1" value="${redis.sentinel.server2.port}" />-->
-                <!--</bean>-->
-                <!--<bean class="org.springframework.data.redis.connection.RedisNode">-->
-                    <!--<constructor-arg index="0" value="${redis.sentinel.server3}" />-->
-                    <!--<constructor-arg index="1" value="${redis.sentinel.server3.port}" />-->
-                <!--</bean>-->
-            <!--</set>-->
-        <!--</property>-->
-    <!--</bean>-->
+    <bean id="redisSentinelConfiguration"
+          class="org.springframework.data.redis.connection.RedisSentinelConfiguration">
+        <property name="master">
+            <bean class="org.springframework.data.redis.connection.RedisNode">
+                <property name="name" value="${redis.server}"></property>
+            </bean>
+        </property>
+        <property name="sentinels">
+            <set>
+                <bean class="org.springframework.data.redis.connection.RedisNode">
+                    <constructor-arg index="0" value="${redis.sentinel.server1}" />
+                    <constructor-arg index="1" value="${redis.sentinel.server1.port}" />
+                </bean>
+                <bean class="org.springframework.data.redis.connection.RedisNode">
+                    <constructor-arg index="0" value="${redis.sentinel.server2}" />
+                    <constructor-arg index="1" value="${redis.sentinel.server2.port}" />
+                </bean>
+                <bean class="org.springframework.data.redis.connection.RedisNode">
+                    <constructor-arg index="0" value="${redis.sentinel.server3}" />
+                    <constructor-arg index="1" value="${redis.sentinel.server3.port}" />
+                </bean>
+            </set>
+        </property>
+    </bean>
 
-    <!--<bean id="jedisConnFactory"-->
-          <!--class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">-->
-        <!--<property name="password" value="${jedis.conn.auth}"/>-->
-        <!--<property name="usePool" value="${jedis.conn.usepool}"/>-->
-        <!--<constructor-arg ref="redisSentinelConfiguration"/>-->
-    <!--</bean>-->
+    <bean id="jedisConnFactory"
+          class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="password" value="${jedis.conn.auth}"/>
+        <property name="usePool" value="${jedis.conn.usepool}"/>
+        <constructor-arg ref="redisSentinelConfiguration"/>
+    </bean>
 
-    <!--<bean id="redisCache" class="com.sf.framework.cache.StringRedisCacheImpl" >-->
-        <!--<property name="redisTemplate">-->
-            <!--<bean id="stringRedisTemplate" class="org.springframework.data.redis.core.RedisTemplate">-->
-                <!--<property name="connectionFactory" ref="jedisConnFactory" />-->
-            <!--</bean>-->
-        <!--</property>-->
-        <!--<property name="fqn" value="sfpp" />-->
-    <!--</bean>-->
-
-    <!--<bean id="redisClient" class="com.sf.sfpp.web.user.shiro.DefaultRedisClient"/>-->
+    <bean id="redisCache" class="com.sf.framework.cache.StringRedisCacheImpl" >
+        <property name="redisTemplate">
+            <bean id="stringRedisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+                <property name="connectionFactory" ref="jedisConnFactory" />
+            </bean>
+        </property>
+        <property name="fqn" value="sfpp" />
+    </bean>
 
 </beans>
