@@ -34,7 +34,7 @@ import java.util.Map;
  * @date 2016/8/12
  */
 @Controller
-public class PcompPageShowController extends AbstractCachedController {
+public class PcompPageController extends AbstractCachedController {
 
     @Autowired
     private PcompTitleService pcompTitleService;
@@ -138,5 +138,22 @@ public class PcompPageShowController extends AbstractCachedController {
         model.addAttribute(PcompConstants.PCOMP_VERSION, request.getParameter(PcompConstants.PCOMP_VERSION));
         return PathConstants.PCOMP_SOFTWARE_JSP_PATH;
     }
+
+    @RequestMapping(value = PathConstants.PCOMP_TITLE_KIND_ADD_PAGE, method = RequestMethod.GET)
+    public String addTitleOrKindPage(HttpServletRequest request, ModelMap model) {
+        WebCache webCache = getWebCache(request);
+        PcompCacheObject pcompCacheObject = new PcompCacheObject();
+        try {
+            List<PcompTitle> pcompTitles = pcompTitleService.fetchAllTitles();
+            pcompCacheObject.setPcompTitles(pcompTitles);
+            webCache.setCacheObject(pcompCacheObject);
+        } catch (PcompException e) {
+            model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
+            return handleException(e, webCache);
+        }
+        model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
+        return PathConstants.PCOMP_TITLE_KIND_ADD_PAGE_JSP_PATH;
+    }
+
 
 }

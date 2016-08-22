@@ -64,6 +64,16 @@ public class ImageController {
         response.getWriter().write(JSON.toJSONString(imageUploadReturn));
     }
 
+    public String uploadImage(MultipartFile file, ImageKind imageKind) throws IOException {
+        if (file == null) {
+            return null;
+        }
+        String imgageToBase64 = null;
+        imgageToBase64 = ImageUtils.encodeImgageToBase64(ImageUtils.intelligentZip(file.getInputStream(), imageKind));
+        ImageObject imageObject = getImageObject(Constants.PUBLIC_COMPONENT_SYSTEM, imgageToBase64);
+        return imageService.saveImage(imageObject);
+    }
+
     private static ImageObject getImageObject(String sys, String imgageToBase64) {
         ImageObject imageObject = new ImageObject();
         imageObject.setImageID(IDGenerator.getID(sys));
