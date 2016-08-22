@@ -62,6 +62,8 @@
             $("#<%=formGroupId2%>").attr("class", "form-group has-warning");
             return false;
         } else {
+            $("#<%=helpBlockId2%>").html("可以使用!");
+            $("#<%=formGroupId2%>").attr("class", "form-group has-success");
             return true;
         }
 
