@@ -35,6 +35,14 @@ public interface PcompTitleService {
     PcompTitle fetchTitleByTitleId(String titleId) throws PcompException;
 
     /**
+     * 通过name获取对应的Title信息
+     * @param titleName
+     * @return
+     * @throws PcompException
+     */
+    PcompTitle fetchTitleByTitleName(String titleName) throws PcompException;
+
+    /**
      * 通过KindId获取对应的Title信息
      * @param kindId
      * @return

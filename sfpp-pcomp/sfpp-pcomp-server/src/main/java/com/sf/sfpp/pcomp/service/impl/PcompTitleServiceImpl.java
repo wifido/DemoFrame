@@ -1,5 +1,7 @@
 package com.sf.sfpp.pcomp.service.impl;
 
+import com.sf.sfpp.common.Constants;
+import com.sf.sfpp.common.idgen.IDGenerator;
 import com.sf.sfpp.pcomp.common.exception.PcompException;
 import com.sf.sfpp.pcomp.common.model.PcompTitle;
 import com.sf.sfpp.pcomp.manager.PcompTitleManager;
@@ -32,7 +34,7 @@ public class PcompTitleServiceImpl implements PcompTitleService {
     @Override
     public boolean existsTitle(String titleName) throws PcompException {
         try {
-            return false;
+            return pcompTitleManager.existsPcompTitleName(titleName);
         } catch (Exception e) {
             throw new PcompException(e);
         }
@@ -42,6 +44,15 @@ public class PcompTitleServiceImpl implements PcompTitleService {
     public PcompTitle fetchTitleByTitleId(String titleId) throws PcompException {
         try {
             return null;
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
+    }
+
+    @Override
+    public PcompTitle fetchTitleByTitleName(String titleName) throws PcompException {
+        try {
+            return pcompTitleManager.getPcompTitleByPcompTitleName(titleName);
         } catch (Exception e) {
             throw new PcompException(e);
         }
@@ -68,7 +79,10 @@ public class PcompTitleServiceImpl implements PcompTitleService {
     @Override
     public boolean addNewTitle(String newName) throws PcompException {
         try {
-            return false;
+            PcompTitle pcompTitle = new PcompTitle();
+            pcompTitle.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
+            pcompTitle.setName(newName);
+            return pcompTitleManager.addPcompTitle(pcompTitle);
         } catch (Exception e) {
             throw new PcompException(e);
         }

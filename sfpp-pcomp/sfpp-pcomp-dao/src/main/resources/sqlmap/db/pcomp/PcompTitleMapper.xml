@@ -19,6 +19,13 @@
     from pcomp_title
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="selectByUniqueKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from pcomp_title
+    where name = #{name,jdbcType=VARCHAR}
+    and is_deleted = 0
+  </select>
   <select id="selectAllAvailable" resultMap="BaseResultMap">
     select *
     from pcomp_title

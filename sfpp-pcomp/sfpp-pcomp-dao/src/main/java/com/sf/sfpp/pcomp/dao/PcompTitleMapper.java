@@ -13,6 +13,8 @@ public interface PcompTitleMapper {
 
     PcompTitle selectByPrimaryKey(String id);
 
+    PcompTitle selectByUniqueKey(String name);
+
     List<PcompTitle> selectAllAvailable();
 
     int updateByPrimaryKeySelective(PcompTitle record);
