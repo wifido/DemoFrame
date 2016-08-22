@@ -1,0 +1,6 @@
+.flow_steps ul li { float:left; height:23px; padding:0 40px 0 30px; line-height:23px; text-align:center; background:url(../img/barbg.png) no-repeat 100% 0 #E4E4E4; font-weight:bold;}
+.flow_steps ul li.done { background-position:100% -46px; background-color:#FFEDA2;}
+.flow_steps ul li.current_prev { background-position:100% -23px; background-color:#FFEDA2;}
+.flow_steps ul li.current { background-color:#FFEDA2;}
+.flow_steps ul li.last { background-image:none;} 
+.flow_steps ul li.lastcurrent { background-image:none;background-color:#FFEDA2;} 

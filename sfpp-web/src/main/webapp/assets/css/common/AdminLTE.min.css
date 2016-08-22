@@ -176,7 +176,7 @@ h6,
 .h4,
 .h5,
 .h6 {
-	font-family: "Microsoft Yahei"
+	font-family: 微软雅黑, "Microsoft Yahei"
 }
 
 a {
@@ -292,7 +292,7 @@ a:focus {
 	background-image: none;
 	padding: 15px 15px;
 	line-height:initial;
-	font-family: fontAwesome,"Microsoft Yahei"
+	font-family: fontAwesome,微软雅黑, "Microsoft Yahei"
 }
 
 .main-header .sidebar-toggle:before {
@@ -339,7 +339,7 @@ a:focus {
 	line-height: 40px;
 	text-align: center;
 	width: 230px;
-	font-family: "Microsoft Yahei";
+	font-family: 微软雅黑, "Microsoft Yahei";
 	padding: 0 15px;
 	font-weight: 300;
 	overflow: hidden
@@ -1429,16 +1429,16 @@ a:focus {
 }
 
 .form-group.has-success label {
-	color: #00a65a
+	color: #3c8dbc
 }
 
 .form-group.has-success .form-control {
-	border-color: #00a65a;
+	border-color: #3c8dbc;
 	box-shadow: none
 }
 
 .form-group.has-success .help-block {
-	color: #00a65a
+	color: #3c8dbc
 }
 
 .form-group.has-warning label {

@@ -30,7 +30,7 @@ li.L8 {
 	overflow: hidden;
 	position: relative;
 	border: 1px solid #ddd;
-	font-family: "Meiryo UI", "Microsoft YaHei", "Malgun Gothic", "Segoe UI", "Trebuchet MS", Helvetica, Monaco, monospace, Tahoma, STXihei, "华文细黑", STHeiti, "Helvetica Neue", "Droid Sans", "wenquanyi micro hei", FreeSans, Arimo, Arial, SimSun, "宋体", Heiti, "黑体", sans-serif
+	font-family: "Meiryo UI", 微软雅黑, "Microsoft Yahei", "Malgun Gothic", "Segoe UI", "Trebuchet MS", Helvetica, Monaco, monospace, Tahoma, STXihei, "华文细黑", STHeiti, "Helvetica Neue", "Droid Sans", "wenquanyi micro hei", FreeSans, Arimo, Arial, SimSun, "宋体", Heiti, "黑体", sans-serif
 }
 
 .editormd *,
@@ -3247,7 +3247,7 @@ only screen and (min-device-pixel-ratio:3) {
 	-webkit-text-size-adjust: 100%;
 	color: #333;
 	overflow: hidden;
-	font-family: "Microsoft YaHei", Helvetica, "Meiryo UI", "Malgun Gothic", "Segoe UI", "Trebuchet MS", Monaco, monospace, Tahoma, STXihei, "华文细黑", STHeiti, "Helvetica Neue", "Droid Sans", "wenquanyi micro hei", FreeSans, Arimo, Arial, SimSun, "宋体", Heiti, "黑体", sans-serif;
+	font-family: 微软雅黑, "Microsoft Yahei", Helvetica, "Meiryo UI", "Malgun Gothic", "Segoe UI", "Trebuchet MS", Monaco, monospace, Tahoma, STXihei, "华文细黑", STHeiti, "Helvetica Neue", "Droid Sans", "wenquanyi micro hei", FreeSans, Arimo, Arial, SimSun, "宋体", Heiti, "黑体", sans-serif;
 	font-size: 16px;
 	line-height: 1.6;
 	word-wrap: break-word
@@ -3890,7 +3890,7 @@ only screen and (min-device-pixel-ratio:3) {
 .editormd-preview-container .flowchart text,
 .editormd-preview-container .sequence-diagram text {
 	font-size: 15px!important;
-	font-family: "YaHei Consolas Hybrid", Consolas, "Microsoft YaHei", "Malgun Gothic", "Segoe UI", Helvetica, Arial!important
+	font-family: "YaHei Consolas Hybrid", Consolas, 微软雅黑, "Microsoft Yahei", "Malgun Gothic", "Segoe UI", Helvetica, Arial!important
 }
 
 

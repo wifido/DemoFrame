@@ -1638,7 +1638,7 @@ body {
 	margin-top: 17px;
 	color: #999;
 	font-size: 12px;
-	font-family: "Microsoft YaHei"
+	font-family: 微软雅黑, "Microsoft Yahei"
 }
 
 .kn_column_c_right .leftbtn {
@@ -2012,7 +2012,7 @@ body {
 }
 
 .kn_left .treelist .maintitle em {
-	font-family: "Microsoft Yahei"
+	font-family: 微软雅黑, "Microsoft Yahei"
 }
 
 .kn_left .treelist li ul li {
