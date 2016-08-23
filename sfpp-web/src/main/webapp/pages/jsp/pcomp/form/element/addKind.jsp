@@ -18,7 +18,7 @@
 
     <div class="form-group" id="<%=FormUtils.mkFormGroupId(PathConstants.PCOMP_TITLE_NAME)%>">
         <!--没有下面这一步，下拉选择框可能会右移，视具体情况而定-->
-        <label for="<%=FormUtils.mkTextInputId(PathConstants.PCOMP_TITLE_NAME)%>">所属主题</label>
+        <label for="<%=FormUtils.mkSelectInputId(PathConstants.PCOMP_TITLE_NAME)%>">所属主题</label>
         <select id="<%=FormUtils.mkSelectInputId(PathConstants.PCOMP_TITLE_NAME)%>" name="<%=PathConstants.PCOMP_TITLE_NAME%>" class="selectpicker show-tick form-control" data-live-search="true">
             <%
                 for (PcompTitle pcompTitle : pcompTitles) {
