@@ -85,5 +85,5 @@
         <span class="help-block" id="<%=FormUtils.mkHelpBlockId(PathConstants.PCOMP_SOFTWARE_INTRODUCTION)%>"></span>
     </div>
 
-    <button class="btn btn-primary" onclick="validate<%=PcompConstants.PCOMP_SOFTWARE%>(this)">提交</button>
+    <button class="btn btn-primary" type="submit">提交</button>
 </form>

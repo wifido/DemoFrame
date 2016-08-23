@@ -12,7 +12,7 @@
 <!-- Top content -->
 <div class="top-content">
 
-    <div class="inner-bg">
+    <div class="inner-bg" style="padding: 0 0 0 0;">
         <div class="container">
             <!--<div class="row">
         <div class="col-sm-8 col-sm-offset-2 text">
