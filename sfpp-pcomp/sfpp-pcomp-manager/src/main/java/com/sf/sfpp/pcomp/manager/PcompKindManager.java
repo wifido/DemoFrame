@@ -36,12 +36,20 @@ public class PcompKindManager {
     private PcompSoftwareMapper pcompSoftwareMapper;
 
     public Page<PcompKind> getKindsByTitle(String titleId, int pageNumber) {
-        PageHelper.startPage(pageNumber, PcompConstants.numberPerPage);
+        if (pageNumber != Constants.ALL_PAGE_NUMBER) {
+            PageHelper.startPage(pageNumber, PcompConstants.numberPerPage);
+        }else{
+            PageHelper.startPage(1, Integer.MAX_VALUE);
+        }
         return (Page<PcompKind>) pcompKindMapper.selectAvailabeleKindsByTitleID(titleId);
     }
 
     public Page<PcompKind> getAllKinds(int pageNumber) {
-        PageHelper.startPage(pageNumber, PcompConstants.numberPerPage);
+        if (pageNumber != Constants.ALL_PAGE_NUMBER) {
+            PageHelper.startPage(pageNumber, PcompConstants.numberPerPage);
+        }else{
+            PageHelper.startPage(1, Integer.MAX_VALUE);
+        }
         Page<PcompKind> pcompKinds = (Page<PcompKind>) pcompKindMapper.selectAllAvailabeleKinds();
         pcompKinds.getPages();
         return pcompKinds;

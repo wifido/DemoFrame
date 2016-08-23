@@ -26,4 +26,5 @@ public interface Constants {
 
     static final String COPYRIGHT = "SFPP © ";
     static final String PAGE_NUMBER = "pageNumber";
+    static final int ALL_PAGE_NUMBER = -1;
 }

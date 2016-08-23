@@ -45,7 +45,11 @@ public class PcompSoftwareManager {
 
 
     public Page<PcompSoftware> getAllAvailablePcompSoftwaresByPcompKindId(String kindId, int pageNumber) {
-        PageHelper.startPage(pageNumber, PcompConstants.numberPerPage);
+        if (pageNumber != Constants.ALL_PAGE_NUMBER) {
+            PageHelper.startPage(pageNumber, PcompConstants.numberPerPage);
+        }else{
+            PageHelper.startPage(1, Integer.MAX_VALUE);
+        }
         return (Page<PcompSoftware>) pcompSoftwareMapper.selectAllAcailableByKindId(kindId);
     }
 

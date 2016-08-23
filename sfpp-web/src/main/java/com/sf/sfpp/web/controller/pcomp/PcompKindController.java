@@ -22,6 +22,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author Hash Zhang
@@ -52,6 +54,24 @@ public class PcompKindController extends AbstractCachedController {
             result.setMessage(e.getMessage());
         }
         result.setData(true);
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = PathConstants.PCOMP_KIND_FETCH_PATH, method = RequestMethod.GET)
+    public JsonResult<List<PcompKind>> fetchKinds(HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
+        JsonResult<List<PcompKind>> result = new JsonResult<>();
+        String titleName = request.getParameter(PathConstants.PCOMP_TITLE_NAME);
+
+        try {
+            String titleId = pcompTitleService.fetchTitleByTitleName(titleName).getId();
+            result.setData(pcompKindService.fetchAllKindsSeparatelyByTitle(titleId,Constants.ALL_PAGE_NUMBER).getList());
+            return result;
+        } catch (PcompException e) {
+            result.setMessage(e.getMessage());
+        }
+        List<PcompKind> pcompKinds = new LinkedList<>();
+        result.setData(pcompKinds);
         return result;
     }
 

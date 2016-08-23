@@ -17,6 +17,7 @@ public interface PathConstants {
     String GLOBAL_JSP_PATH = "/jsp";
     String UPDATE_PATH = "/update";
     String CREATE_PATH = "/create";
+    String FETCH_PATH = "/fetch";
 
     String INDEX_PATH = Constants.FOLDER_PATH_SEPARATOR + CACHED_PATH;
     String HOMEPAGE_PATH = INDEX_PATH;
@@ -38,6 +39,7 @@ public interface PathConstants {
     String PCOMP_KIND_JSP_PATH = GLOBAL_JSP_PATH + PCOMP_KIND_PATH;
     String PCOMP_KIND_VALIDATE_PATH = PCOMP_KIND_PATH + VALIDATE_PATH;
     String PCOMP_KIND_CREATE_PATH = PCOMP_KIND_PATH + CREATE_PATH;
+    String PCOMP_KIND_FETCH_PATH = PCOMP_KIND_PATH + FETCH_PATH;
     String PCOMP_KIND_ID = PcompConstants.PCOMP_KIND + "_id";
     String PCOMP_KIND_TITLE_ID = PcompConstants.PCOMP_KIND + "_title_id";
     String PCOMP_KIND_NAME = PcompConstants.PCOMP_KIND + "_name";
@@ -52,11 +54,17 @@ public interface PathConstants {
     String PCOMP_SOFTWARE_PATH = PCOMP_PATH + Constants.FOLDER_PATH_SEPARATOR + PcompConstants.PCOMP_SOFTWARE + INDEX_PATH;
     String PCOMP_SOFTWARE_JSP_PATH = GLOBAL_JSP_PATH + PCOMP_SOFTWARE_PATH;
 
+    String PCOMP_SOFTWARE_VERSION_ADD_PAGE = PCOMP_PATH + Constants.FOLDER_PATH_SEPARATOR + PcompConstants.PCOMP_SOFTWARE + Constants.FOLDER_PATH_SEPARATOR + PcompConstants.PCOMP_VERSION + CREATE_PATH;
+    String PCOMP_SOFTWARE_VERSION_ADD_PAGE_JSP_PATH =  GLOBAL_JSP_PATH + PCOMP_PATH + "/form/addSoftwareAndVersionForm";
+
+
+    String PCOMP_SOFTWARE_CREATE_PATH = PCOMP_PATH + Constants.FOLDER_PATH_SEPARATOR + PcompConstants.PCOMP_SOFTWARE + CREATE_PATH;
     String PCOMP_SOFTWARE_MODIFICATION_PATH = PCOMP_PATH + Constants.FOLDER_PATH_SEPARATOR + PcompConstants.PCOMP_SOFTWARE + UPDATE_PATH;
     String PCOMP_SOFTWARE_ID = PcompConstants.PCOMP_SOFTWARE + "_id";
     String PCOMP_SOFTWARE_NAME = PcompConstants.PCOMP_SOFTWARE + "_name";
     String PCOMP_SOFTWARE_AVATAR = PcompConstants.PCOMP_SOFTWARE + "_avatar";
     String PCOMP_SOFTWARE_INTRODUCTION = PcompConstants.PCOMP_SOFTWARE + "_introduction";
+    String PCOMP_SOFTWARE_SHORT_INTRODUCTION = PcompConstants.PCOMP_SOFTWARE + "_short_introduction";
 
     String PCOMP_SOFTWARE_CONTENT_IMAGE_UPLOAD_PATH = "/pcomp/software/content_image/upload";
 

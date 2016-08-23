@@ -12,6 +12,10 @@ public class FormUtils {
         return StrUtils.makeString(name,"_text_input");
     }
 
+    public static String mkSelectInputDivId(String name){
+        return StrUtils.makeString(name,"_select_div");
+    }
+
     public static String mkSelectInputId(String name){
         return StrUtils.makeString(name,"_select");
     }

@@ -155,5 +155,19 @@ public class PcompPageController extends AbstractCachedController {
         return PathConstants.PCOMP_TITLE_KIND_ADD_PAGE_JSP_PATH;
     }
 
-
+    @RequestMapping(value = PathConstants.PCOMP_SOFTWARE_VERSION_ADD_PAGE, method = RequestMethod.GET)
+    public String addSoftwareOrVersionPage(HttpServletRequest request, ModelMap model) {
+        WebCache webCache = getWebCache(request);
+        PcompCacheObject pcompCacheObject = new PcompCacheObject();
+        try {
+            List<PcompTitle> pcompTitles = pcompTitleService.fetchAllTitles();
+            pcompCacheObject.setPcompTitles(pcompTitles);
+            webCache.setCacheObject(pcompCacheObject);
+        } catch (PcompException e) {
+            model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
+            return handleException(e, webCache);
+        }
+        model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
+        return PathConstants.PCOMP_SOFTWARE_VERSION_ADD_PAGE_JSP_PATH;
+    }
 }
