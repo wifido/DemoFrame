@@ -8,9 +8,9 @@
 <%@ page import="com.sf.sfpp.web.common.utils.PathUtils" %>
 <%@ page import="java.util.List" %>
 <%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
-<form id="NewClassForm" role="form" action="<%=PathUtils.makePath(PathConstants.PCOMP_SOFTWARE_CREATE_PATH)%>"
-      method="post" class="login-form"
-      onsubmit="return validate<%=PcompConstants.PCOMP_SOFTWARE%>(this)">
+<form id="NewClassForm" role="form" action="<%=PathUtils.makePath(PathConstants.PCOMP_SOFTWARE_CREATE_PATH)%>" enctype="multipart/form-data"
+      method="post"
+      onsubmit="return validate<%=PcompConstants.PCOMP_SOFTWARE%>()">
     <%
         WebCache webCache = (WebCache) request.getAttribute(Constants.WEB_CACHE_KEY);
         PcompCacheObject pcompCacheObject = (PcompCacheObject) webCache.getCacheObject();

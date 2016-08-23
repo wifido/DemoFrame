@@ -67,10 +67,19 @@ public class PcompKindServiceImpl implements PcompKindService {
     }
 
     @Override
+    public PcompKind fetchKind(String titleName, String kind) throws PcompException {
+        try {
+            return pcompKindManager.getPcompKindByPcompTitleNameAndPcompKindName(titleName,kind);
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
+    }
+
+    @Override
     public boolean addKind(PcompKind pcompKind) throws PcompException {
         try {
             pcompKind.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
-            return pcompKindManager.addPcompTitle(pcompKind);
+            return pcompKindManager.addPcompKind(pcompKind);
         } catch (Exception e) {
             throw new PcompException(e);
         }

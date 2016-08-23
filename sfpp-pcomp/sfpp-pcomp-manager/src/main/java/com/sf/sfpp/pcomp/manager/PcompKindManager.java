@@ -10,6 +10,7 @@ import com.sf.sfpp.kafka.KafkaConnectionPool;
 import com.sf.sfpp.pcomp.common.PcompConstants;
 import com.sf.sfpp.pcomp.common.model.PcompKind;
 import com.sf.sfpp.pcomp.common.model.PcompSoftware;
+import com.sf.sfpp.pcomp.common.model.PcompTitle;
 import com.sf.sfpp.pcomp.dao.PcompKindMapper;
 import com.sf.sfpp.pcomp.dao.PcompSoftwareMapper;
 import com.sf.sfpp.pcomp.dao.PcompTitleMapper;
@@ -64,12 +65,17 @@ public class PcompKindManager {
         return pcompKindMapper.selectByPrimaryKey(pcompSoftware.getPcompKindId());
     }
 
+    public PcompKind getPcompKindByPcompTitleNameAndPcompKindName(String pcompTitleName, String pcompKindName) {
+        PcompTitle pcompTitle = pcompTitleMapper.selectByUniqueKey(pcompTitleName);
+        return pcompKindMapper.selectByUniqueKey(pcompTitle.getId(), pcompKindName);
+    }
+
     public boolean existsPcompKind(String pcompTitleName, String pcompKindName) {
         String pcompTitleId = pcompTitleMapper.selectByUniqueKey(pcompTitleName).getId();
         return pcompKindMapper.selectByUniqueKey(pcompTitleId, pcompKindName) != null;
     }
 
-    public boolean addPcompTitle(PcompKind pcompKind) throws KafkaException {
+    public boolean addPcompKind(PcompKind pcompKind) throws KafkaException {
         boolean b = pcompKindMapper.insertSelective(pcompKind) > 0;
         pcompKind = pcompKindMapper.selectByPrimaryKey(pcompKind.getId());
         if (b) {

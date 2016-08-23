@@ -31,6 +31,13 @@
     from pcomp_software
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="selectByUniqueKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from pcomp_software
+    where pcomp_kind_id = #{pcomp_kind_id,jdbcType=VARCHAR}
+    and name = #{name,jdbcType=VARCHAR}
+  </select>
   <select id="selectAllAcailableByKindId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
     select
     <include refid="Base_Column_List" />

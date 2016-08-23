@@ -38,7 +38,7 @@ public interface PcompSoftwareService {
      * @return 存在为true
      * @throws PcompException
      */
-    int existsSoftware(String kindId, String softwareId) throws PcompException;
+    boolean existsSoftware(String kindId, String softwareId) throws PcompException;
 
     /**
      * 获取相似的software名称
@@ -50,12 +50,11 @@ public interface PcompSoftwareService {
 
     /**
      * 添加software
-     * @param kind
      * @param software
      * @return
      * @throws PcompException
      */
-    boolean addSoftware(String kind, PcompSoftware software) throws PcompException;
+    boolean addSoftware(PcompSoftware software) throws PcompException;
 
     /**
      * 更新对应的software信息，只有和version不相关的信息调用这个方法更新

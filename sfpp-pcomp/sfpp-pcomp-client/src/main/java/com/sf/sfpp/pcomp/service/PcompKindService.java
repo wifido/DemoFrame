@@ -50,6 +50,15 @@ public interface PcompKindService {
     boolean existsKind(String titleName,String kind) throws PcompException;
 
     /**
+     * 利用唯一键返回某一kind
+     * @param titleName
+     * @param kind 名称
+     * @return 对应的PcompKind
+     * @throws PcompException
+     */
+    PcompKind fetchKind(String titleName,String kind) throws PcompException;
+
+    /**
      * 添加kind，注意，这里首先要先判断某一kind是否存在
      * @param kind
      * @return 失败返回false

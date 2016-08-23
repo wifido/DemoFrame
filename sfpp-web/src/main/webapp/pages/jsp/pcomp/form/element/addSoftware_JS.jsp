@@ -1,3 +1,4 @@
+<%@ page import="com.sf.sfpp.pcomp.common.PcompConstants" %>
 <%@ page import="com.sf.sfpp.web.common.PathConstants" %>
 <%@ page import="com.sf.sfpp.web.common.utils.FormUtils" %>
 <%@ page import="com.sf.sfpp.web.common.utils.PathUtils" %>
@@ -43,10 +44,20 @@
     }
 
     function validate<%=PathConstants.PCOMP_KIND_NAME%>() {
+        <%
+           formGroupId = FormUtils.mkFormGroupId(PathConstants.PCOMP_KIND_NAME);
+           helpBlockId = FormUtils.mkHelpBlockId(PathConstants.PCOMP_KIND_NAME);
+       %>
+        var a = $("#<%=formGroupId%>");
         var b = $("#<%=selectId2%>");
+        var c = $("#<%=helpBlockId%>");
         if(isNull(b[0].value)){
+            c.html("不能为空!");
+            a.attr("class", "form-group has-warning");
             return false;
         } else {
+            c.html("可以使用!");
+            a.attr("class", "form-group has-success");
             return true;
         }
     }
@@ -66,11 +77,35 @@
             return false;
         }
         var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", "<%=PathUtils.makePath(PathConstants.PCOMP_KIND_FETCH_PATH)%>?<%=PathConstants.PCOMP_TITLE_NAME%>=" + a[0].value, false);
+        xmlHttp.open("GET", "<%=PathUtils.makePath(PathConstants.PCOMP_SOFTWARE_VALIDATE_PATH)%>?<%=PathConstants.PCOMP_TITLE_NAME%>="
+                + $("#<%=FormUtils.mkSelectInputId(PathConstants.PCOMP_TITLE_NAME)%>")[0].value +"&<%=PathConstants.PCOMP_KIND_NAME%>="
+                + $("#<%=FormUtils.mkSelectInputId(PathConstants.PCOMP_KIND_NAME)%>")[0].value +"&<%=PathConstants.PCOMP_SOFTWARE_NAME%>="+b[0].value, false);
         xmlHttp.send();
         var resp = JSON.parse(xmlHttp.responseText);
-        var list = resp.data;
+        var bool = resp.data;
         var message = resp.message;
+        if (!isNull(message)) {
+            c.html(message);
+            a.attr("class", "form-group has-error");
+            return false;
+        }
+        else if (bool) {
+            c.html("已存在!");
+            a.attr("class", "form-group has-warning");
+            return false;
+        } else {
+            c.html("可以使用!");
+            a.attr("class", "form-group has-success");
+            return true;
+        }
+    }
+
+    function validate<%=PcompConstants.PCOMP_SOFTWARE%>(){
+        if(validate<%=PathConstants.PCOMP_KIND_NAME%>()&&validate<%=PathConstants.PCOMP_SOFTWARE_NAME%>()){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     $(document).ready(function () {

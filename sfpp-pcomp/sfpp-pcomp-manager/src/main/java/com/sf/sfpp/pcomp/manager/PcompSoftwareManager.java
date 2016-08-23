@@ -47,7 +47,7 @@ public class PcompSoftwareManager {
     public Page<PcompSoftware> getAllAvailablePcompSoftwaresByPcompKindId(String kindId, int pageNumber) {
         if (pageNumber != Constants.ALL_PAGE_NUMBER) {
             PageHelper.startPage(pageNumber, PcompConstants.numberPerPage);
-        }else{
+        } else {
             PageHelper.startPage(1, Integer.MAX_VALUE);
         }
         return (Page<PcompSoftware>) pcompSoftwareMapper.selectAllAcailableByKindId(kindId);
@@ -65,6 +65,20 @@ public class PcompSoftwareManager {
         return pcompSoftware;
     }
 
+    public boolean existsPcompSoftware(String kindId, String pcompsoftwareName) {
+        return pcompSoftwareMapper.selectByUniqueKey(kindId, pcompsoftwareName) != null;
+    }
+
+    public boolean addPcompSoftwareOnly(PcompSoftware pcompSoftware) throws KafkaException {
+        boolean b = pcompSoftwareMapper.insertSelective(pcompSoftware) > 0;
+        pcompSoftware = pcompSoftwareMapper.selectByPrimaryKey(pcompSoftware.getId());
+        if (b) {
+            kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
+                    .send(StrUtils.makeString(PcompConstants.PCOMP_SOFTWARE, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompSoftware)));
+        }
+        return b;
+    }
+
     //// TODO: 2016/8/17 kafka连接失败处理
     public boolean updatePcompSoftwareOnly(PcompSoftware pcompSoftware) throws KafkaException {
         pcompSoftware.setModifiedTime(new Date());
@@ -72,7 +86,7 @@ public class PcompSoftwareManager {
         boolean b = pcompSoftwareMapper.updateByPrimaryKeyWithBLOBs(pcompSoftware) >= 0;
         if (b) {
             kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
-                    .send(StrUtils.makeString(PcompConstants.PCOMP_SOFTWARE, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(PcompSoftwareExtend.toPcompSoftware((PcompSoftwareExtend) pcompSoftware))));
+                    .send(StrUtils.makeString(PcompConstants.PCOMP_SOFTWARE, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompSoftware)));
         }
         return b;
     }

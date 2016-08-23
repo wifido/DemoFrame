@@ -40,9 +40,9 @@ public class PcompSoftwareServiceImpl implements PcompSoftwareService {
     }
 
     @Override
-    public int existsSoftware(String kindId, String softwareId) throws PcompException {
+    public boolean existsSoftware(String kindId, String softwareId) throws PcompException {
         try {
-            return 0;
+            return pcompSoftwareManager.existsPcompSoftware(kindId, softwareId);
         } catch (Exception e) {
             throw new PcompException(e);
         }
@@ -58,9 +58,9 @@ public class PcompSoftwareServiceImpl implements PcompSoftwareService {
     }
 
     @Override
-    public boolean addSoftware(String kind, PcompSoftware software) throws PcompException {
+    public boolean addSoftware(PcompSoftware software) throws PcompException {
         try {
-            return false;
+            return pcompSoftwareManager.addPcompSoftwareOnly(software);
         } catch (Exception e) {
             throw new PcompException(e);
         }
