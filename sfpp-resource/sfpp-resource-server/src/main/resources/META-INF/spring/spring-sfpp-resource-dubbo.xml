@@ -21,5 +21,6 @@
 	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 	<dubbo:protocol name="dubbo" serialization="dubbo"/>
 	<dubbo:service interface="com.sf.sfpp.resource.client.image.ImageService" ref="imageServiceImpl" protocol="dubbo" />
-	
+	<dubbo:service interface="com.sf.sfpp.resource.client.file.FileService" ref="fileServiceImpl" protocol="dubbo" />
+
 </beans>

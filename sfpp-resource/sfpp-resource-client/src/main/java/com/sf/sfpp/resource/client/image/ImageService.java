@@ -19,14 +19,14 @@ public interface ImageService {
 
     /**
      * 查出对应路径的图像，需要将URL转换成本地路径查出来
-     * @param imagePath
+     * @param imageId
      * @return
      */
-    String getImage(String imagePath);
+    String getImage(String imageId);
 
     /**
      * 删除对应路径的图像，需要将URL转换成本地路径查出来如果存在就删除
-     * @param imagePath
+     * @param imageId
      */
-    void deleteImage(String imagePath);
+    void deleteImage(String imageId);
 }
