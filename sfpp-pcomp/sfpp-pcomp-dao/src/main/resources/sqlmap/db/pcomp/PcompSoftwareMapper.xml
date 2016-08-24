@@ -37,6 +37,7 @@
     from pcomp_software
     where pcomp_kind_id = #{pcomp_kind_id,jdbcType=VARCHAR}
     and name = #{name,jdbcType=VARCHAR}
+    and is_deleted = 0
   </select>
   <select id="selectAllAvailableByKindId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
     select
