@@ -30,6 +30,14 @@
     from pcomp_version
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="selectByUniqueKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from pcomp_version
+    where pcomp_software_id = #{pcomp_software_id,jdbcType=VARCHAR}
+    and version_number = #{version_number,jdbcType=VARCHAR}
+    and  is_deleted = 0
+  </select>
   <select id="selectAvailableBySoftwareId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
     select
     <include refid="Base_Column_List" />

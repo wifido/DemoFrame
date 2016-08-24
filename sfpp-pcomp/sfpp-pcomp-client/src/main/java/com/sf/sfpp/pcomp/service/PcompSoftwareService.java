@@ -32,6 +32,15 @@ public interface PcompSoftwareService {
     PcompSoftware fetchSoftware(String softwareId) throws PcompException;
 
     /**
+     * 根据software的name还有kindID获取这个software的详细信息
+     * @param kindId
+     * @param softwareName
+     * @return
+     * @throws PcompException
+     */
+    PcompSoftware fetchSoftware(String kindId, String softwareName) throws PcompException;
+
+    /**
      * 判断对应title还有对应kind下是否存在同名software
      * @param kindId
      * @param softwareId

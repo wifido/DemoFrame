@@ -90,4 +90,8 @@ public class PcompSoftwareManager {
         }
         return b;
     }
+
+    public PcompSoftware getPcompSoftwareByPcompKindIdAndPcompSoftwareName(String kindId, String softwareName) {
+        return pcompSoftwareMapper.selectByUniqueKey(kindId, softwareName);
+    }
 }

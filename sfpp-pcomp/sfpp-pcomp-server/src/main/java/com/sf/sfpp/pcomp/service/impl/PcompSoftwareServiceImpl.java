@@ -40,6 +40,15 @@ public class PcompSoftwareServiceImpl implements PcompSoftwareService {
     }
 
     @Override
+    public PcompSoftware fetchSoftware(String kindId, String softwareName) throws PcompException {
+        try {
+            return pcompSoftwareManager.getPcompSoftwareByPcompKindIdAndPcompSoftwareName(kindId, softwareName);
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
+    }
+
+    @Override
     public boolean existsSoftware(String kindId, String softwareId) throws PcompException {
         try {
             return pcompSoftwareManager.existsPcompSoftware(kindId, softwareId);
