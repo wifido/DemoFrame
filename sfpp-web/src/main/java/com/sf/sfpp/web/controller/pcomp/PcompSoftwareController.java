@@ -109,6 +109,17 @@ public class PcompSoftwareController extends AbstractCachedController {
             pcompSoftware.setIntroduction(pcomp_software_introduction);
             pcompSoftware.setIntroductionShort(pcomp_software_short_introduction);
             pcompSoftware.setAvatar(imageController.uploadImage(bannerImage, ImageKind.AVATAR));
+            User user = null;
+            if (webCache.getUser() != null) {
+                user = (User) webCache.getUser();
+            }
+            if (user != null) {
+                pcompSoftware.setCreatedBy(user.getId());
+                pcompSoftware.setCreatedBy(user.getId());
+            } else {
+                pcompSoftware.setModifiedBy(-1);
+                pcompSoftware.setModifiedBy(-1);
+            }
             pcompSoftwareService.addSoftware(pcompSoftware);
         } catch (PcompException | IOException e) {
             model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
