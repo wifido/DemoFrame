@@ -4,6 +4,7 @@
 <%@ page import="com.sf.sfpp.web.common.utils.PathUtils" %>
 <%@ page import="java.util.Map" %>
 <%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%
     WebCache webCache = (WebCache) request.getAttribute(Constants.WEB_CACHE_KEY);
     Map<String, String> pathTree = webCache.getPathTree();
@@ -23,9 +24,11 @@
                 <span class="caret"></span>
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
+            <shiro:hasPermission name="/document/createSubject">
             <ul class="dropdown-menu" role="menu">
                 <li><a href="<%=PathUtils.makePath(PathConstants.PCOMP_TITLE_KIND_ADD_PAGE)%>" target="_blank">创建新主题或分类</a></li>
             </ul>
+            </shiro:hasPermission>
         </div>
     </div>
 </form>
