@@ -14,7 +14,7 @@ public interface PcompVersionMapper {
 
     PcompVersion selectByPrimaryKey(String id);
 
-    PcompVersion selectByUniqueKey(@Param("pcomp_kind_id")String pcomp_software_id,@Param("version_number") String version_number);
+    PcompVersion selectByUniqueKey(@Param("pcomp_software_id")String pcomp_software_id,@Param("version_number") String version_number);
 
     List<PcompVersion> selectAvailableBySoftwareId(String softwareId);
 
