@@ -17,11 +17,11 @@
 <body>
              <form>
 					<p>这是权限测试</p>
-				    <shiro:hasPermission name="/document/createButton">
+				    <shiro:hasPermission name="/document/createSubject">
                         <input type="button" value="创建主题"/>
                     </shiro:hasPermission>
-					<shiro:hasPermission name="/document/publishButton">
-                        <input type="button" value="发布主题"/>
+					<shiro:hasPermission name="/system/roleManage">
+                        <input type="button" value="角色管理"/>
                     </shiro:hasPermission>
 			</form>
 
