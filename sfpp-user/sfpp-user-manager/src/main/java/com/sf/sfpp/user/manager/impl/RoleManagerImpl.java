@@ -7,9 +7,12 @@ package com.sf.sfpp.user.manager.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.alibaba.druid.support.logging.Log;
 import com.sf.sfpp.user.dao.domain.Role;
 import com.sf.sfpp.user.dao.dto.UserRole;
 import com.sf.sfpp.user.dao.mapper.RoleMapper;
@@ -24,6 +27,8 @@ import com.sf.sfpp.user.manager.RoleManager;
  */
 @Component
 public class RoleManagerImpl implements RoleManager {
+	
+    private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private RoleMapper roleMapper;
@@ -53,16 +58,17 @@ public class RoleManagerImpl implements RoleManager {
     @Override
     public int updateRole(Role role) {
         String roleName = role.getRoleName();
-        if (roleName == null) {
-            roleMapper.updateByPrimaryKeySelective(role);
-            return 1;
+        if (roleName != null && !roleName.equals("")) {
+        	Role dbRole = roleMapper.selectByPrimaryRoleName(roleName);
+            if(dbRole != null  
+            		&& !dbRole.getRoleId().equals(role.getRoleId())){
+            	log.error("角色名称:" + roleName + "已经存在");
+            	return -1;
+            }
         }
-        int count = roleMapper.countRoleByName(roleName);
-        if (count == 1) {
-            roleMapper.updateByPrimaryKeySelective(role);
-            return count;
-        }
-        return count;
+        
+        return roleMapper.updateByPrimaryKeySelective(role);
+
     }
 
     @Override
