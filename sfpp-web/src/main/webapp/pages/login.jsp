@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="com.sf.sfpp.web.common.utils.PermissionUtils" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,6 +28,11 @@
 
 <body>
 
+<%
+   if(PermissionUtils.getCurrentUser() != null){
+	   request.getRequestDispatcher("/index").forward(request, response);  
+   }
+%>
 <!-- Top content -->
 <div class="top-content">
 
