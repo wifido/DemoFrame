@@ -17,7 +17,7 @@
         <button type="submit" name="search" class="btn btn-primary"><i class="fa fa-search"></i></button>
         <div class="btn-group">
             <button type="button" class="btn btn-primary"
-                    onclick=" window.location.href='<%=PathUtils.makePath(PathConstants.PCOMP_SOFTWARE_VERSION_ADD_PAGE)%>'">发布软件(或版本)
+                    onclick=" window.location.href='<%=PathUtils.makePath(PathConstants.PCOMP_SOFTWARE_ADD_PAGE)%>'">发布软件(或版本)
             </button>
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                 <span class="caret"></span>
