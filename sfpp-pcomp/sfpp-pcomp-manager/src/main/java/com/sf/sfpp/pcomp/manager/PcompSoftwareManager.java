@@ -50,7 +50,7 @@ public class PcompSoftwareManager {
         } else {
             PageHelper.startPage(1, Integer.MAX_VALUE);
         }
-        return (Page<PcompSoftware>) pcompSoftwareMapper.selectAllAcailableByKindId(kindId);
+        return (Page<PcompSoftware>) pcompSoftwareMapper.selectAllAvailableByKindId(kindId);
     }
 
     public PcompSoftware getPcompSoftwareByPcompSoftwareId(String pcompSoftwareId) {

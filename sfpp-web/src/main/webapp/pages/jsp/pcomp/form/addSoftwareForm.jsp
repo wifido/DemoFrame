@@ -27,13 +27,7 @@
                     <div class="form-top">
                         <div class="form-top-left">
                             <ul id="mytab" class="nav nav-tabs">
-                                <h3 class="page-header"><span class="glyphicon glyphicon-bell"></span> 请选择需要新建的项目</h3>
-                                <li class="active">
-                                    <a href='#xw1' data-toggle='tab'>新建软件</a>
-                                </li>
-                                <li>
-                                    <a href='#xw2' data-toggle='tab'>新建版本</a>
-                                </li>
+                                <h3 class="page-header"><span class="glyphicon glyphicon-bell"></span>新建软件</h3>
                             </ul>
                         </div>
                         <div class="form-top-right">
@@ -45,10 +39,6 @@
                         <div class="form-bottom tab-pane fade in active" id="xw1">
                             <jsp:include page="./element/addSoftware.jsp"></jsp:include>
                         </div>
-
-                        <div class="form-bottom tab-pane fade" id="xw2">
-                            <%--<jsp:include page="./element/addVersion.jsp"></jsp:include>--%>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -59,7 +49,6 @@
 <jsp:include page="./common/JS.jsp"></jsp:include>
 <jsp:include page="../common/JS.jsp"></jsp:include>
 <jsp:include page="./element/addSoftware_JS.jsp"></jsp:include>
-<%--<jsp:include page="./element/addVersion_JS.jsp"></jsp:include>--%>
 </body>
 
 </html>

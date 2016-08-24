@@ -16,7 +16,7 @@ public interface PcompSoftwareMapper {
 
     PcompSoftware selectByUniqueKey(@Param("pcomp_kind_id")String pcomp_kind_id, @Param("name")String name);
 
-    List<PcompSoftware> selectAllAcailableByKindId(String pcomp_kind_id);
+    List<PcompSoftware> selectAllAvailableByKindId(String pcomp_kind_id);
 
     int updateByPrimaryKeySelective(PcompSoftware record);
 
