@@ -127,7 +127,7 @@
 
     function remove<%=PcompConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD%>(button) {
         if (<%=PcompConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD%>Number > 0) {
-            var formGroup = $(button).parent().parent();
+            var formGroup = $(button).parent().parent().parent();
             formGroup.remove();
             <%=PcompConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD%>Number -= 1;
         }
@@ -171,7 +171,7 @@
 
     function remove<%=PcompConstants.PCOMP_VERSION_DESCRIPTION_DOCUMENT%>(button) {
         if (<%=PcompConstants.PCOMP_VERSION_DESCRIPTION_DOCUMENT%>Number > 0) {
-            var formGroup = $(button).parent().parent();
+            var formGroup = $(button).parent().parent().parent();
             formGroup.remove();
             <%=PcompConstants.PCOMP_VERSION_DESCRIPTION_DOCUMENT%>Number -= 1;
         }
@@ -186,7 +186,7 @@
             tex: true,  // 默认不解析
             flowChart: true,  // 默认不解析
             sequenceDiagram: true,  // 默认不解析
-            height: 640,
+            height: 360,
             syncScrolling: "single",
             imageUpload: true,
             imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
@@ -200,7 +200,7 @@
             tex: true,  // 默认不解析
             flowChart: true,  // 默认不解析
             sequenceDiagram: true,  // 默认不解析
-            height: 640,
+            height: 360,
             syncScrolling: "single",
             imageUpload: true,
             imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
@@ -209,8 +209,58 @@
         });
     });
 
+    function validate<%=FormUtils.mkFormGroupId(PathConstants.PCOMP_VERSION_NUMBER)%>(){
+        var a = $("select");
+        if(isNull(a[0].value)){
+            $(a[0]).parent().attr("class", "form-group has-warning");
+            $(a[0]).next().html("不能为空!");
+        } else{
+            a = $("input[type='text'][name]");
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open("GET", "<%=PathUtils.makePath(PathConstants.PCOMP_VERSION_VALIDATE_PATH)%>?"
+                    + "<%=PathConstants.PCOMP_TITLE_NAME%>=" + $("#<%=FormUtils.mkSelectInputId(PathConstants.PCOMP_TITLE_NAME)%>")[0].value
+                    + "&<%=PathConstants.PCOMP_KIND_NAME%>=" + $("#<%=FormUtils.mkSelectInputId(PathConstants.PCOMP_KIND_NAME)%>")[0].value
+                    + "&<%=PathConstants.PCOMP_SOFTWARE_NAME%>=" + $("#<%=FormUtils.mkSelectInputId(PathConstants.PCOMP_SOFTWARE_NAME)%>")[0].value
+                    + "&<%=PathConstants.PCOMP_VERSION_NUMBER%>=" + a[0].value, false);
+            xmlHttp.send();
+            var resp = JSON.parse(xmlHttp.responseText);
+            var bool = resp.data;
+            var message = resp.message;
+            if(!isNull(message)){
+                $(a[0]).parent().attr("class", "form-group has-error");
+                $(a[0]).next().html(message);
+                return false;
+            } else if(bool){
+                $(a[0]).parent().attr("class", "form-group has-warning");
+                $(a[0]).next().html("已存在!");
+                return false;
+            }else{
+                $(a[0]).parent().attr("class", "form-group has-success");
+                $(a[0]).next().html("通过!");
+            }
+        }
+        return true;
+    }
+
     function validate<%=PcompConstants.PCOMP_VERSION%>() {
-        var a = $("input[type='text'][name]");
+
+        var a = $("select");
+        for (var i = 0; i < a.length; i++) {
+            if(isNull(a[i].value)){
+                $(a[i]).parent().parent().parent().attr("class", "form-group has-warning");
+                $(a[i]).parent().parent().next().html("不能为空!");
+                return false;
+            }else{
+                $(a[i]).parent().parent().parent().attr("class", "form-group has-success");
+                $(a[i]).parent().parent().next().html("通过");
+            }
+        }
+
+       if(!validate<%=FormUtils.mkFormGroupId(PathConstants.PCOMP_VERSION_NUMBER)%>()){
+           return false;
+       }
+
+        a = $("input[type='text'][name]");
         for (var i = 0; i < a.length; i++) {
             if(isNull(a[i].value)){
                 $(a[i]).parent().attr("class", "form-group has-warning");
@@ -222,17 +272,7 @@
             }
         }
 
-        a = $("select");
-        for (var i = 0; i < a.length; i++) {
-            if(isNull(a[i].value)){
-                $(a[i]).parent().parent().parent().attr("class", "form-group has-warning");
-                $(a[i]).parent().parent().next().html("不能为空!");
-                return false;
-            }else{
-                $(a[i]).parent().parent().parent().attr("class", "form-group has-success");
-                $(a[i]).parent().parent().next().html("通过");
-            }
-        }
+
 
         a = $("input[type='file'][name]");
         for (var i = 0; i < a.length; i++) {

@@ -5,9 +5,11 @@
 <%@ page import="com.sf.sfpp.pcomp.common.model.PcompTitle" %>
 <%@ page import="com.sf.sfpp.web.common.PathConstants" %>
 <%@ page import="com.sf.sfpp.web.common.utils.FormUtils" %>
+<%@ page import="com.sf.sfpp.web.common.utils.PathUtils" %>
 <%@ page import="java.util.List" %>
 <%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
-<form enctype="multipart/form-data"
+<form enctype="multipart/form-data" action="<%=PathUtils.makePath(PathConstants.PCOMP_VERSION_EXTEND_CREATE_PATH)%>"
+      method="post"
       onsubmit="return validate<%=PcompConstants.PCOMP_VERSION%>()">
     <%
         WebCache webCache = (WebCache) request.getAttribute(Constants.WEB_CACHE_KEY);
@@ -65,6 +67,7 @@
         <input type="text" placeholder="请输入版本号（不超过32个字）" class="form-control"
                name="<%=PathConstants.PCOMP_VERSION_NUMBER%>"
                id="<%=FormUtils.mkTextInputId(PathConstants.PCOMP_VERSION_NUMBER)%>"
+               onblur="validate<%=FormUtils.mkFormGroupId(PathConstants.PCOMP_VERSION_NUMBER)%>()"
         >
         <span class="help-block" id="<%=FormUtils.mkHelpBlockId(PathConstants.PCOMP_VERSION_NUMBER)%>"></span>
     </div>

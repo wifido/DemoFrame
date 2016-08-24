@@ -37,11 +37,10 @@ public interface PcompVersionService {
 
     /**
      * 添加软件版本以及版本相关所有信息
-     * @param softwareId
      * @param version
      * @return
      */
-    boolean addVersion(String softwareId, PcompVersionExtend version)throws PcompException;
+    boolean addVersion(PcompVersionExtend version)throws PcompException;
 
     /**
      * 更新软件版本以及版本相关所有信息

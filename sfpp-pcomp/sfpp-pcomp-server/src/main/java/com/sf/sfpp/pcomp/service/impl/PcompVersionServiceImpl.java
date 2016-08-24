@@ -50,7 +50,7 @@ public class PcompVersionServiceImpl implements PcompVersionService {
     }
 
     @Override
-    public boolean addVersion(String softwareId, PcompVersionExtend version) throws PcompException {
+    public boolean addVersion(PcompVersionExtend version) throws PcompException {
         try {
             return false;
         } catch (Exception e) {
