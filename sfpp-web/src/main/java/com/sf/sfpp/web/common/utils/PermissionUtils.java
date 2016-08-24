@@ -17,4 +17,10 @@ public class PermissionUtils {
         }
 		return flag;
 	}
+	
+	public static User getCurrentUser(){
+		Subject currentUser = SecurityUtils.getSubject();
+        User user = (User) currentUser.getPrincipal();
+        return user;
+	}
 }
