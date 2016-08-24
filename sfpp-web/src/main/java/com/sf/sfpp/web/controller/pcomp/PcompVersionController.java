@@ -24,11 +24,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 
 /**
  * @author Hash Zhang
@@ -92,6 +90,7 @@ public class PcompVersionController extends AbstractCachedController {
                 return PathConstants.PCOMP_HOMEPAGE_JSP_PATH;
             }
             pcompVersion.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
+            pcompVersion.setVersionNumber(pcomp_version_number);
             pcompVersion.setIntroduction(pcomp_version_introduction);
             pcompVersion.setPcompSoftwareId(pcompSoftware.getId());
             pcompVersion.setQuickStart(pcomp_version_quickstart);
@@ -101,7 +100,7 @@ public class PcompVersionController extends AbstractCachedController {
                 pcompVersionPlatformDownload.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
                 pcompVersionPlatformDownload.setPcompVersionId(pcompVersion.getId());
                 pcompVersionPlatformDownload.setPlatform(platforms[i]);
-                pcompVersionPlatformDownload.setDownload(fileService.saveFile((CommonsMultipartFile) softwares[i]));
+                pcompVersionPlatformDownload.setDownload(fileService.saveFile(softwares[i].getOriginalFilename(), softwares[i].getInputStream()));
                 pcompVersionExtend.getPcompVersionPlatformDownloads().add(pcompVersionPlatformDownload);
             }
             for (int i = 0; i < documents.length; i++) {
@@ -109,7 +108,7 @@ public class PcompVersionController extends AbstractCachedController {
                 pcompVersionDoucumentDownload.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
                 pcompVersionDoucumentDownload.setPcompVersionId(pcompVersion.getId());
                 pcompVersionDoucumentDownload.setDescription(descriptions[i]);
-                pcompVersionDoucumentDownload.setDownload(fileService.saveFile((CommonsMultipartFile) documents[i]));
+                pcompVersionDoucumentDownload.setDownload(fileService.saveFile(softwares[i].getOriginalFilename(), softwares[i].getInputStream()));
                 pcompVersionExtend.getPcompVersionDoucumentDownloads().add(pcompVersionDoucumentDownload);
             }
             User user = null;
@@ -124,7 +123,7 @@ public class PcompVersionController extends AbstractCachedController {
                 pcompVersionExtend.setModifiedBy(-1);
             }
             pcompVersionService.addVersion(pcompVersionExtend);
-        } catch (PcompException | IOException e) {
+        } catch (Exception e) {
             handleException(e, webCache);
         }
         redirectAttributes.addAttribute(PcompConstants.PCOMP_SOFTWARE, pcompSoftware.getId());

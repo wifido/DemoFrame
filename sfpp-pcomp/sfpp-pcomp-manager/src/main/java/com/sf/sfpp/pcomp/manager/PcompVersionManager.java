@@ -8,6 +8,8 @@ import com.sf.sfpp.kafka.KafkaConnectionPool;
 import com.sf.sfpp.pcomp.common.PcompConstants;
 import com.sf.sfpp.pcomp.common.model.PcompSoftware;
 import com.sf.sfpp.pcomp.common.model.PcompVersion;
+import com.sf.sfpp.pcomp.common.model.PcompVersionDoucumentDownload;
+import com.sf.sfpp.pcomp.common.model.PcompVersionPlatformDownload;
 import com.sf.sfpp.pcomp.common.model.extend.PcompVersionExtend;
 import com.sf.sfpp.pcomp.dao.PcompSoftwareMapper;
 import com.sf.sfpp.pcomp.dao.PcompVersionDoucumentDownloadMapper;
@@ -57,6 +59,33 @@ public class PcompVersionManager {
         if (b) {
             kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
                     .send(StrUtils.makeString(PcompConstants.PCOMP_VERSION, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(PcompVersionExtend.toPcompVersion((PcompVersionExtend) pcompVersion))));
+            kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
+                    .send(StrUtils.makeString(PcompConstants.PCOMP_SOFTWARE, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompSoftware)));
+        }
+        return b;
+    }
+
+    public boolean addPcompVersionExtend(PcompVersionExtend pcompVersionExtend) throws KafkaException {
+        for (PcompVersionDoucumentDownload pcompVersionDoucumentDownload : pcompVersionExtend.getPcompVersionDoucumentDownloads()) {
+            boolean b = pcompVersionDoucumentDownloadMapper.insertSelective(pcompVersionDoucumentDownload) >= 0;
+            if (!b) {
+                return false;
+            }
+        }
+        for (PcompVersionPlatformDownload pcompVersionPlatformDownload : pcompVersionExtend.getPcompVersionPlatformDownloads()) {
+            boolean b = pcompVersionPlatformDownloadMapper.insertSelective(pcompVersionPlatformDownload) >= 0;
+            if (!b) {
+                return false;
+            }
+        }
+        boolean b = pcompVersionMapper.insertSelective(pcompVersionExtend) >= 0;
+        if (b) {
+            PcompSoftware pcompSoftware = pcompSoftwareMapper.selectByPrimaryKey(pcompVersionExtend.getPcompSoftwareId());
+            pcompSoftware.setModifiedTime(pcompVersionExtend.getModifiedTime());
+            pcompSoftware.setModifiedBy(pcompVersionExtend.getModifiedBy());
+            pcompSoftwareMapper.updateByPrimaryKey(pcompSoftware);
+            kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
+                    .send(StrUtils.makeString(PcompConstants.PCOMP_VERSION, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(PcompVersionExtend.toPcompVersion(pcompVersionExtend))));
             kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
                     .send(StrUtils.makeString(PcompConstants.PCOMP_SOFTWARE, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompSoftware)));
         }

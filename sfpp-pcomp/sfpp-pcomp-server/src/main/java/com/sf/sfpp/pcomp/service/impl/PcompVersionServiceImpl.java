@@ -52,7 +52,7 @@ public class PcompVersionServiceImpl implements PcompVersionService {
     @Override
     public boolean addVersion(PcompVersionExtend version) throws PcompException {
         try {
-            return false;
+            return pcompVersionManager.addPcompVersionExtend(version);
         } catch (Exception e) {
             throw new PcompException(e);
         }

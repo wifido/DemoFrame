@@ -214,8 +214,14 @@
         if(isNull(a[0].value)){
             $(a[0]).parent().attr("class", "form-group has-warning");
             $(a[0]).next().html("不能为空!");
+            return false;
         } else{
             a = $("input[type='text'][name]");
+            if(isNull(a[0].value)){
+                $(a[0]).parent().attr("class", "form-group has-warning");
+                $(a[0]).next().html("不能为空!");
+                return false;
+            }
             var xmlHttp = new XMLHttpRequest();
             xmlHttp.open("GET", "<%=PathUtils.makePath(PathConstants.PCOMP_VERSION_VALIDATE_PATH)%>?"
                     + "<%=PathConstants.PCOMP_TITLE_NAME%>=" + $("#<%=FormUtils.mkSelectInputId(PathConstants.PCOMP_TITLE_NAME)%>")[0].value

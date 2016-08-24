@@ -1,8 +1,7 @@
 package com.sf.sfpp.resource.client.file;
 
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * @author Hash Zhang
@@ -13,10 +12,11 @@ public interface FileService {
     /**
      * 保存文件
      *
-     * @param file
+     * @param originalName
+     * @param inputStream
      * @return 文件路径
      */
-    String saveFile(CommonsMultipartFile file) throws IOException;
+    String saveFile(String originalName, InputStream inputStream) throws IOException;
 
     /**
      * 查出对应路径的文件，需要将URL转换成本地路径查出来

@@ -85,16 +85,7 @@ public class ImageUtils {
 
     public static void decodeBase64ToImage(String base64, String file) throws IOException {
         BASE64Decoder decoder = new BASE64Decoder();
-        File file1 = new File(file);
-        if(file1.exists()){
-            throw new IOException("文件已存在！  ");
-        }
-        if(!file1.getParentFile().exists()) {
-            if(!file1.getParentFile().mkdirs()) {
-                throw new IOException("文件目录创建失败  ");
-            }
-        }
-        file1.createNewFile();
+        File file1 = FileUtils.getFile(file);
         FileOutputStream write = new FileOutputStream(file1);
         byte[] decoderBytes = decoder.decodeBuffer(base64);
         write.write(decoderBytes);
