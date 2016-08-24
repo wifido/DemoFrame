@@ -62,4 +62,8 @@ public class PcompVersionManager {
         }
         return b;
     }
+
+    public boolean existsPcompVersion(String softwareId, String version) {
+        return pcompVersionMapper.selectByUniqueKey(softwareId, version) != null;
+    }
 }

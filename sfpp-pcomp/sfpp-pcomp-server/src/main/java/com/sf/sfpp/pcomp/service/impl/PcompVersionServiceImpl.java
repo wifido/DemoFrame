@@ -43,7 +43,7 @@ public class PcompVersionServiceImpl implements PcompVersionService {
     @Override
     public boolean existsVersion(String softwareId, String version) throws PcompException {
         try {
-            return false;
+            return pcompVersionManager.existsPcompVersion(softwareId, version);
         } catch (Exception e) {
             throw new PcompException(e);
         }
