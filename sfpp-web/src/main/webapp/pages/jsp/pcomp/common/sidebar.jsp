@@ -29,7 +29,7 @@
             %>
             <button type="button" class="btn btn-box-tool"><i class="fa fa-pencil"></i>
             </button>
-            <button type="button" class="btn btn-box-tool"><i class="fa fa-trash"></i>
+            <button type="button" class="btn btn-box-tool" onclick="remove<%=PcompConstants.PCOMP_SOFTWARE%>('<%=pcompSoftware.getId()%>','<%=pcompSoftware.getName()%>')"><i class="fa fa-trash"></i>
             </button>
             <%}%>
             </p>

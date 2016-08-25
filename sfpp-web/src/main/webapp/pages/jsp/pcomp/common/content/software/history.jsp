@@ -8,8 +8,7 @@
 <%@ page import="com.sf.sfpp.web.common.utils.EditorMDUtils" %>
 <%@ page import="com.sf.sfpp.web.common.utils.PermissionUtils" %>
 <%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
-<button class="btn btn-success">编辑此版本</button>
-<button class="btn btn-danger">删除此版本</button>
+
 <%
     WebCache webCache = (WebCache) request.getAttribute(Constants.WEB_CACHE_KEY);
     PcompCacheObject pcompCacheObject = (PcompCacheObject) webCache.getCacheObject();
@@ -19,6 +18,8 @@
         if (pcompVersion.getId().equals(pcomp_version)) {
             PcompVersionExtend pcompVersionExtend = (PcompVersionExtend) pcompVersion;
 %>
+<button class="btn btn-success">编辑此版本</button>
+<button class="btn btn-danger" onclick="remove<%=PcompConstants.PCOMP_VERSION%>('<%=pcompVersion.getId()%>','<%=pcompVersion.getVersionNumber()%>' )">删除此版本</button>
 <div class="box direct-chat direct-chat-primary">
     <div class="box-header with-border" id="<%=PcompConstants.HISTORY_INTRODUCTION%>_box_header">
         <h3 class="box-title"><%=PcompConstants.HISTORY_INTRODUCTION_CH%>

@@ -79,7 +79,7 @@ public class PcompSoftwareController extends AbstractCachedController {
         String softwareName = request.getParameter(PathConstants.PCOMP_SOFTWARE_NAME);
         try {
             PcompKind pcompKind = pcompKindService.fetchKind(titleName, kindName);
-            result.setData((List<PcompSoftware>) pcompSoftwareService.fetchAllSoftwaresSeparatelyByKind(pcompKind.getId(),Constants.ALL_PAGE_NUMBER).getList());
+            result.setData((List<PcompSoftware>) pcompSoftwareService.fetchAllSoftwaresSeparatelyByKind(pcompKind.getId(), Constants.ALL_PAGE_NUMBER).getList());
             return result;
         } catch (PcompException e) {
             result.setMessage(e.getMessage());
@@ -100,7 +100,7 @@ public class PcompSoftwareController extends AbstractCachedController {
         try {
             pcompSoftware = new PcompSoftware();
             PcompKind pcompKind = pcompKindService.fetchKind(titleName, kindName);
-            if(pcompSoftwareService.existsSoftware(pcompKind.getId(), pcomp_software_name)) {
+            if (pcompSoftwareService.existsSoftware(pcompKind.getId(), pcomp_software_name)) {
                 return "redirect:" + PathConstants.PCOMP_HOMEPAGE_PATH;
             }
             pcompSoftware.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
@@ -172,5 +172,21 @@ public class PcompSoftwareController extends AbstractCachedController {
         }
         redirectAttributes.addAttribute(PcompConstants.PCOMP_SOFTWARE, pcomp_software_id);
         return "redirect:" + PathConstants.PCOMP_SOFTWARE_PATH;
+    }
+
+    @RequestMapping(value = PathConstants.PCOMP_SOFTWARE_REMOVE_PATH, method = RequestMethod.GET)
+    public String removeSoftware(HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
+        WebCache webCache = getWebCache(request);
+        model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
+        String softwareID = request.getParameter(PcompConstants.PCOMP_SOFTWARE);
+        try {
+            PcompSoftware pcompSoftware = pcompSoftwareService.fetchSoftware(softwareID);
+            redirectAttributes.addAttribute(PcompConstants.PCOMP_KIND, pcompSoftware.getPcompKindId());
+            pcompSoftwareService.removeSoftware(softwareID, ((User) webCache.getUser()).getId());
+        } catch (Exception e) {
+            return handleException(e, webCache);
+        }
+        redirectAttributes.addAttribute(Constants.PAGE_NUMBER, 1);
+        return "redirect:" + PathConstants.PCOMP_KIND_PATH;
     }
 }

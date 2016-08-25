@@ -45,6 +45,8 @@
 <jsp:include page="../../common/footer.jsp"></jsp:include>
 <jsp:include page="../../common/commonJS.jsp"></jsp:include>
 <jsp:include page="../common/JS.jsp"></jsp:include>
+<jsp:include page="../common/content/softwareMatrix_JS.jsp"></jsp:include>
+
 </body>
 
 </html>

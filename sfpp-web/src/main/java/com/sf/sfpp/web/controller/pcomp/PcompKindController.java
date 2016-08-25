@@ -4,10 +4,12 @@ import com.sf.sfpp.common.Constants;
 import com.sf.sfpp.common.domain.WebCache;
 import com.sf.sfpp.common.dto.JsonResult;
 import com.sf.sfpp.common.utils.ImageKind;
+import com.sf.sfpp.pcomp.common.PcompConstants;
 import com.sf.sfpp.pcomp.common.exception.PcompException;
 import com.sf.sfpp.pcomp.common.model.PcompKind;
 import com.sf.sfpp.pcomp.service.PcompKindService;
 import com.sf.sfpp.pcomp.service.PcompTitleService;
+import com.sf.sfpp.user.dao.domain.User;
 import com.sf.sfpp.web.common.PathConstants;
 import com.sf.sfpp.web.controller.common.AbstractCachedController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -95,12 +96,23 @@ public class PcompKindController extends AbstractCachedController {
             if (!pcompKindService.existsKind(titleName, kindName)) {
                 pcompKindService.addKind(pcompKind);
             }
-        } catch (PcompException | IOException e) {
-            model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
+        } catch (Exception e) {
             return handleException(e, webCache);
         }
         return "redirect:" + PathConstants.PCOMP_HOMEPAGE_PATH;
     }
 
+    @RequestMapping(value = PathConstants.PCOMP_KIND_REMOVE_PATH, method = RequestMethod.GET)
+    public String removeKind(HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
+        WebCache webCache = getWebCache(request);
+        model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
+        String kindId = request.getParameter(PcompConstants.PCOMP_KIND);
+        try {
+            pcompKindService.removeKind(kindId, ((User)webCache.getUser()).getId());
+        } catch (Exception e) {
+            return handleException(e, webCache);
+        }
+        return "redirect:" + PathConstants.PCOMP_HOMEPAGE_PATH;
+    }
 
 }

@@ -177,4 +177,20 @@ public class PcompVersionController extends AbstractCachedController {
         redirectAttributes.addAttribute(PcompConstants.PCOMP_VERSION, pcomp_version_id);
         return "redirect:" + PathConstants.PCOMP_SOFTWARE_PATH;
     }
+
+    @RequestMapping(value = PathConstants.PCOMP_VERSION_REMOVE_PATH, method = RequestMethod.GET)
+    public String removeSoftware(HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
+        WebCache webCache = getWebCache(request);
+        model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
+        String versionId = request.getParameter(PcompConstants.PCOMP_VERSION);
+        try {
+            PcompVersion pcompVersion = pcompVersionService.fetchVersionById(versionId);
+            redirectAttributes.addAttribute(PcompConstants.PCOMP_SOFTWARE, pcompVersion.getPcompSoftwareId());
+            pcompVersionService.removeVersion(versionId, ((User) webCache.getUser()).getId());
+        } catch (Exception e) {
+            return handleException(e, webCache);
+        }
+        redirectAttributes.addAttribute(Constants.PAGE_NUMBER, 1);
+        return "redirect:" + PathConstants.PCOMP_SOFTWARE_PATH;
+    }
 }

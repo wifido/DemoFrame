@@ -3,12 +3,10 @@
 <%@ page import="com.sf.sfpp.common.Constants" %>
 <%@ page import="com.sf.sfpp.common.domain.WebCache" %>
 <%@ page import="com.sf.sfpp.common.utils.ImageUtils" %>
-<%@ page import="com.sf.sfpp.common.utils.StrUtils" %>
 <%@ page import="com.sf.sfpp.pcomp.common.PcompConstants" %>
 <%@ page import="com.sf.sfpp.pcomp.common.domain.PcompCacheObject" %>
 <%@ page import="com.sf.sfpp.pcomp.common.model.PcompKind" %>
 <%@ page import="com.sf.sfpp.pcomp.common.model.PcompTitle" %>
-<%@ page import="com.sf.sfpp.web.common.PathConstants" %>
 <%@ page import="com.sf.sfpp.web.common.utils.PathUtils" %>
 <%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <div class="row">
@@ -28,7 +26,7 @@
                     <div>
                         <img src="<%=pcompKind.getBannerImage()%>" class="bannerimg">
                     </div>
-                    <a href="<%=link%>" target="_blank" class="topphoto" target="_self">
+                    <a href="<%=link%>" class="topphoto" target="_self">
                         <img src="<%=pcompKind.getTopPhoto()%>" alt="" width="<%=ImageUtils.TOP_PHOTO_WIDTH%>"
                              height="<%=ImageUtils.TOP_PHOTO_HEIGHT%>">
                     </a>
@@ -42,12 +40,10 @@
                     </p>
 
                     <p class="pabtn">
-                        <a href="<%=link%>" target="_blank" target="_self">立即进入</a>
+                        <a href="<%=link%>" target="_self">立即进入</a>
                         <shiro:hasPermission name="/document/createSubject">
-                            <a href="<%=link%>" target="_blank" target="_self">修改</a>
-                            <a href="<%=StrUtils.makeString(PathUtils.makeKindPath(PathConstants.PCOMP_KIND_REMOVE_PATH),
-                                Constants.PARAMETER_START_SEPARATOR, PcompConstants.PCOMP_KIND,
-                                Constants.PARAMETER_EQUALS, pcompKind.getId())%>" target="_blank" target="_self">删除</a>
+                            <a href="<%=link%>" target="_self">修改</a>
+                            <a onclick="remove<%=PcompConstants.PCOMP_KIND%>('<%=pcompKind.getId()%>','<%=pcompKind.getName()%>')" target="_self">删除</a>
                         </shiro:hasPermission>
                     </p>
                 </div>

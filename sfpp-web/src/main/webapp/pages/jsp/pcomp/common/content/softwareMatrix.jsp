@@ -1,6 +1,7 @@
 <%@ page import="com.github.pagehelper.PageInfo" %>
 <%@ page import="com.sf.sfpp.common.Constants" %>
 <%@ page import="com.sf.sfpp.common.domain.WebCache" %>
+<%@ page import="com.sf.sfpp.pcomp.common.PcompConstants" %>
 <%@ page import="com.sf.sfpp.pcomp.common.domain.PcompCacheObject" %>
 <%@ page import="com.sf.sfpp.pcomp.common.model.PcompKind" %>
 <%@ page import="com.sf.sfpp.pcomp.common.model.PcompSoftware" %>
@@ -29,7 +30,7 @@
                     %>
                     <button type="button" class="btn btn-box-tool"><i class="fa fa-pencil"></i>
                     </button>
-                    <button type="button" class="btn btn-box-tool"><i class="fa fa-trash"></i>
+                    <button type="button" class="btn btn-box-tool" onclick="remove<%=PcompConstants.PCOMP_SOFTWARE%>('<%=pcompSoftware.getId()%>','<%=pcompSoftware.getName()%>')"><i class="fa fa-trash"></i>
                     </button>
                     <%}%>
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
