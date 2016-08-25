@@ -28,10 +28,10 @@
             </button>
 
             <ul class="dropdown-menu" role="menu">
-                <li><a href="<%=PathUtils.makePath(PathConstants.PCOMP_VERSION_ADD_PAGE)%>" target="_blank">发布新版本</a>
+                <li><a href="<%=PathUtils.makePath(PathConstants.PCOMP_VERSION_ADD_PAGE)%>" target="_self">发布新版本</a>
                 </li>
                 <shiro:hasPermission name="/document/createSubject">
-                    <li><a href="<%=PathUtils.makePath(PathConstants.PCOMP_TITLE_KIND_ADD_PAGE)%>" target="_blank">创建新主题或分类</a>
+                    <li><a href="<%=PathUtils.makePath(PathConstants.PCOMP_TITLE_KIND_ADD_PAGE)%>" target="_self">创建新主题或分类</a>
                     </li>
                 </shiro:hasPermission>
             </ul>
