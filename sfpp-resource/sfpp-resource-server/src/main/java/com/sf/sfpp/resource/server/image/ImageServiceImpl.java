@@ -4,10 +4,14 @@ import com.sf.sfpp.common.Constants;
 import com.sf.sfpp.common.domain.ImageObject;
 import com.sf.sfpp.common.idgen.IDGenerator;
 import com.sf.sfpp.common.utils.ImageUtils;
+import com.sf.sfpp.common.utils.StrUtils;
 import com.sf.sfpp.resource.client.image.ImageService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -17,7 +21,7 @@ import java.io.IOException;
  */
 @Service
 public class ImageServiceImpl implements ImageService {
-
+    private final static Logger log = LoggerFactory.getLogger(ImageServiceImpl.class);
     @Value("${global.image.address.root}")
     private String globalRoot;
     @Value("${local.image.address.root}")
@@ -47,16 +51,25 @@ public class ImageServiceImpl implements ImageService {
                 .toString();
     }
 
+    private String globalPathToLocalPath(String globalPath) {
+        return StrUtils.makeString(localRoot,
+                globalPath.substring(globalPath.indexOf(globalRoot) + globalRoot.length()));
+    }
+
     public String saveImage(ImageObject imageObject) throws IOException {
         ImageUtils.decodeBase64ToImage(imageObject.getImageContent(), getLocalPath(imageObject.getImageID()));
         return getGlobalPath(imageObject.getImageID());
     }
 
-    public String getImage(String imagePath) {
-        return null;
-    }
 
-    public void deleteImage(String imagePath) {
-
+    public void deleteImage(String globalPath) {
+        String localPath = globalPathToLocalPath(globalPath);
+        File file = new File(localPath);
+        if(file.isFile() && file.exists()) {
+            file.delete();
+            log.info("{} is deleted!",globalPath);
+        } else {
+            log.info("{} does not exist or is not a file!",globalPath);
+        }
     }
 }

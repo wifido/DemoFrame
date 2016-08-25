@@ -16,17 +16,9 @@ public interface ImageService {
      * @return
      */
     String saveImage(ImageObject imageObject) throws IOException;
-
-    /**
-     * 查出对应路径的图像，需要将URL转换成本地路径查出来
-     * @param imageId
-     * @return
-     */
-    String getImage(String imageId);
-
     /**
      * 删除对应路径的图像，需要将URL转换成本地路径查出来如果存在就删除
-     * @param imageId
+     * @param globalPath
      */
-    void deleteImage(String imageId);
+    void deleteImage(String globalPath);
 }

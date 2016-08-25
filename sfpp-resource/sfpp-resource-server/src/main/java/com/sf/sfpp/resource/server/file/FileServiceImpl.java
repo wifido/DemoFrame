@@ -5,9 +5,12 @@ import com.sf.sfpp.common.idgen.IDGenerator;
 import com.sf.sfpp.common.utils.FileUtils;
 import com.sf.sfpp.common.utils.StrUtils;
 import com.sf.sfpp.resource.client.file.FileService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,29 +22,34 @@ import java.io.InputStream;
  */
 @Service
 public class FileServiceImpl implements FileService {
+    private final static Logger log = LoggerFactory.getLogger(FileServiceImpl.class);
+
     @Value("${global.file.address.root}")
     private String globalRoot;
     @Value("${local.file.address.root}")
     private String localRoot;
 
     private String getLocalPath(String ID) {
-        return new StringBuilder().append(localRoot)
-                .append(ID.substring(0 + IDGenerator.SYSTEM_SHARD_LENGTH, 0 + IDGenerator.SYSTEM_SHARD_LENGTH + IDGenerator.SYSTEM_SHARD_LENGTH - 1))
-                .append(Constants.FOLDER_PATH_SEPARATOR)
-                .append(ID.substring(0, 0 + IDGenerator.SYSTEM_SHARD_LENGTH))
-                .append(Constants.FOLDER_PATH_SEPARATOR)
-                .append(ID)
-                .toString();
+        return StrUtils.makeString(localRoot,
+                ID.substring(0 + IDGenerator.SYSTEM_SHARD_LENGTH, 0 + IDGenerator.SYSTEM_SHARD_LENGTH + IDGenerator.SYSTEM_SHARD_LENGTH - 1),
+                Constants.FOLDER_PATH_SEPARATOR,
+                ID.substring(0, 0 + IDGenerator.SYSTEM_SHARD_LENGTH),
+                Constants.FOLDER_PATH_SEPARATOR,
+                ID);
     }
 
     private String getGlobalPath(String ID) {
-        return new StringBuilder().append(globalRoot)
-                .append(ID.substring(0 + IDGenerator.SYSTEM_SHARD_LENGTH, 0 + IDGenerator.SYSTEM_SHARD_LENGTH + IDGenerator.SYSTEM_SHARD_LENGTH - 1))
-                .append(Constants.FOLDER_PATH_SEPARATOR)
-                .append(ID.substring(0, 0 + IDGenerator.SYSTEM_SHARD_LENGTH))
-                .append(Constants.FOLDER_PATH_SEPARATOR)
-                .append(ID)
-                .toString();
+        return StrUtils.makeString(globalRoot,
+                ID.substring(0 + IDGenerator.SYSTEM_SHARD_LENGTH, 0 + IDGenerator.SYSTEM_SHARD_LENGTH + IDGenerator.SYSTEM_SHARD_LENGTH - 1),
+                Constants.FOLDER_PATH_SEPARATOR,
+                ID.substring(0, 0 + IDGenerator.SYSTEM_SHARD_LENGTH),
+                Constants.FOLDER_PATH_SEPARATOR,
+                ID);
+    }
+
+    private String globalPathToLocalPath(String globalPath) {
+        return StrUtils.makeString(localRoot,
+                globalPath.substring(globalPath.indexOf(globalRoot) + globalRoot.length()));
     }
 
     @Override
@@ -52,20 +60,23 @@ public class FileServiceImpl implements FileService {
         while ((b = inputStream.read()) != -1) {
             fileOutputStream.write(b);
         }
-
         fileOutputStream.flush();
         fileOutputStream.close();
         inputStream.close();
+        log.info("{} is saved, local path:[{}]", originalName, getLocalPath(Id));
         return getGlobalPath(Id);
     }
 
     @Override
-    public String getFile(String filePath) {
-        return null;
+    public void deleteFile(String globalPath) {
+        String localPath = globalPathToLocalPath(globalPath);
+        File file = new File(localPath);
+        if(file.isFile() && file.exists()) {
+            file.delete();
+            log.info("{} is deleted!",globalPath);
+        } else {
+            log.info("{} does not exist or is not a file!",globalPath);
+        }
     }
 
-    @Override
-    public void deleteFile(String filePath) {
-
-    }
 }

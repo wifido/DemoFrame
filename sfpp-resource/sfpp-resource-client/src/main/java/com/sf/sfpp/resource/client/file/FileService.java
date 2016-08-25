@@ -18,18 +18,11 @@ public interface FileService {
      */
     String saveFile(String originalName, InputStream inputStream) throws IOException;
 
-    /**
-     * 查出对应路径的文件，需要将URL转换成本地路径查出来
-     *
-     * @param fileId
-     * @return
-     */
-    String getFile(String fileId);
 
     /**
      * 删除对应路径的文件，需要将URL转换成本地路径查出来如果存在就删除
      *
-     * @param fileId
+     * @param globalPath
      */
-    void deleteFile(String fileId);
+    void deleteFile(String globalPath);
 }
