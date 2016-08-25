@@ -93,13 +93,13 @@
         </div>
         <span class="help-block" id="<%=FormUtils.mkHelpBlockId(PathConstants.PCOMP_VERSION_QUICKSTART)%>"></span>
     </div>
-    <div class="col-lg-12">
+    <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12">
         <label for="<%=FormUtils.mkFormGroupId(PcompConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD)%>"><b>软件下载</b></label>
     </div>
 
     <div class="form-group" id="<%=FormUtils.mkFormGroupId(PcompConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD)%>">
-        <div class="col-lg-12">
-        <div class="col-lg-5">
+        <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12">
+        <div class="col-lg-5 col-md-5">
             <div class="form-group">
                 <label for="<%=FormUtils.mkTextInputId(PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_PLATFORM)%>">描述</label>
                 <input type="text" placeholder="请输入描述（不超过32个字，例如平台）" class="form-control"
@@ -110,7 +110,7 @@
                   id="<%=FormUtils.mkHelpBlockId(PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_PLATFORM)%>"></span>
             </div>
         </div>
-        <div class="col-lg-5">
+        <div class="col-lg-5 col-md-5">
             <div class="form-group">
                 <label for="<%=FormUtils.mkTextInputId(PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_DOWNLOAD)%>">下载文件</label>
                 <input id="<%=FormUtils.mkTextInputId(PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_DOWNLOAD)%>"
@@ -120,7 +120,7 @@
                   id="<%=FormUtils.mkHelpBlockId(PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_DOWNLOAD)%>"></span>
             </div>
         </div>
-        <div class="col-lg-2">
+        <div class="col-lg-2  col-md-2">
             <div class="form-group">
                 <button class="btn btn-info" type="button"
                         onclick="addOne<%=PcompConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD%>(this)">增加
@@ -133,12 +133,12 @@
         </div>
     </div>
 
-    <div class="col-lg-12">
+    <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12">
         <label for="<%=FormUtils.mkFormGroupId(PcompConstants.PCOMP_VERSION_DESCRIPTION_DOCUMENT)%>"><b>文档下载</b></label>
     </div>
     <div class="form-group" id="<%=FormUtils.mkFormGroupId(PcompConstants.PCOMP_VERSION_DESCRIPTION_DOCUMENT)%>">
-        <div class="col-lg-12">
-        <div class="col-lg-5">
+        <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12">
+        <div class="col-lg-5  col-md-5">
             <div class="form-group">
                 <label for="<%=FormUtils.mkTextInputId(PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_DESCRIPTION)%>">描述</label>
                 <input type="text" placeholder="请输入描述（不超过32个字，例如平台）" class="form-control"
@@ -149,7 +149,7 @@
                       id="<%=FormUtils.mkHelpBlockId(PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_DESCRIPTION)%>"></span>
             </div>
         </div>
-        <div class="col-lg-5">
+        <div class="col-lg-5 col-md-5">
             <div class="form-group">
                 <label for="<%=FormUtils.mkTextInputId(PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_DOWNLOAD)%>">下载文件</label>
                 <input id="<%=FormUtils.mkTextInputId(PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_DOWNLOAD)%>"
@@ -159,7 +159,7 @@
                       id="<%=FormUtils.mkHelpBlockId(PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_DOWNLOAD)%>"></span>
             </div>
         </div>
-        <div class="col-lg-2">
+        <div class="col-lg-2 col-md-2">
             <div class="form-group">
                 <button class="btn btn-info" type="button"
                         onclick="addOne<%=PcompConstants.PCOMP_VERSION_DESCRIPTION_DOCUMENT%>(this)">增加

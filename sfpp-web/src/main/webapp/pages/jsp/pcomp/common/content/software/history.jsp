@@ -8,7 +8,8 @@
 <%@ page import="com.sf.sfpp.web.common.utils.EditorMDUtils" %>
 <%@ page import="com.sf.sfpp.web.common.utils.PermissionUtils" %>
 <%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
-
+<button class="btn btn-success">编辑此版本</button>
+<button class="btn btn-danger">删除此版本</button>
 <%
     WebCache webCache = (WebCache) request.getAttribute(Constants.WEB_CACHE_KEY);
     PcompCacheObject pcompCacheObject = (PcompCacheObject) webCache.getCacheObject();

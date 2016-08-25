@@ -5,6 +5,7 @@
 <%@ page import="com.sf.sfpp.pcomp.common.model.PcompKind" %>
 <%@ page import="com.sf.sfpp.pcomp.common.model.PcompSoftware" %>
 <%@ page import="com.sf.sfpp.web.common.utils.PathUtils" %>
+<%@ page import="com.sf.sfpp.web.common.utils.PermissionUtils" %>
 <%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%
     WebCache webCache = (WebCache) request.getAttribute(Constants.WEB_CACHE_KEY);
@@ -13,29 +14,39 @@
     PageInfo<PcompSoftware> pcompSoftwares = pcompCacheObject.getPcompSoftwares();
     for (PcompSoftware pcompSoftware : pcompSoftwares.getList()) {
 %>
+<div class="row">
+    <div class="col-lg-2 col-md-3  col-sm-4 col-xs-12">
+        <div class="box box-default ">
+            <div class="box-header with-border">
+                <h3 class="box-title"><a
+                        href="<%=PathUtils.makeSoftwarePath(pcompSoftware.getId())%>"><b><%=pcompSoftware.getName()%>
+                </b></a></h3>
 
-<div class="col-md-3">
-    <div class="box box-default ">
-        <div class="box-header with-border">
-            <h3 class="box-title"><a
-                    href="<%=PathUtils.makeSoftwarePath(pcompSoftware.getId())%>"><b><%=pcompSoftware.getName()%>
-            </b></a></h3>
-
-            <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
-                </button>
+                <div class="box-tools pull-right">
+                    <%
+                        if (pcompSoftware != null
+                                && PermissionUtils.isCurrentUser(pcompSoftware.getCreatedBy())) {
+                    %>
+                    <button type="button" class="btn btn-box-tool"><i class="fa fa-pencil"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool"><i class="fa fa-trash"></i>
+                    </button>
+                    <%}%>
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <%=pcompSoftware.getIntroductionShort()%>
             </div>
         </div>
-        <div class="box-body">
-            <%=pcompSoftware.getIntroductionShort()%>
-        </div>
     </div>
-</div>
 
-<%
-    }
-%>
-<div class="col-lg-12">
+    <%
+        }
+    %>
+</div>
+<div class="row">
     <p class="text-center">
         <%
             PageInfo pageInfo = (PageInfo) pcompSoftwares;

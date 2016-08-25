@@ -5,6 +5,7 @@
 <%@ page import="com.sf.sfpp.pcomp.common.model.PcompVersion" %>
 <%@ page import="com.sf.sfpp.pcomp.common.model.extend.PcompSoftwareExtend" %>
 <%@ page import="com.sf.sfpp.web.common.utils.PathUtils" %>
+<%@ page import="com.sf.sfpp.web.common.utils.PermissionUtils" %>
 <%@ page import="java.util.List" %>
 <%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <aside class="main-sidebar">
@@ -21,7 +22,17 @@
             <img src="<%=pcompSoftware.getAvatar()%>" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-            <p><%=pcompSoftware.getName()%></p>
+            <p><%=pcompSoftware.getName()%>
+            <%
+                if (pcompSoftware != null
+                        && PermissionUtils.isCurrentUser(pcompSoftware.getCreatedBy())) {
+            %>
+            <button type="button" class="btn btn-box-tool"><i class="fa fa-pencil"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool"><i class="fa fa-trash"></i>
+            </button>
+            <%}%>
+            </p>
         </div>
     </div>
 
@@ -45,9 +56,11 @@
 
                     %>
                     <li class="<%=(PcompConstants.HISTORY.equals(page_nav))&&(pcompVersion.getId().equals(pcomp_version))?"active":""%>">
+
                         <a href="<%=PathUtils.makeVersionPath(pcompSoftware.getId(),PcompConstants.HISTORY,pcompVersion.getId())%>"><i
                                 class="fa <%=(PcompConstants.HISTORY.equals(page_nav))&&(pcompVersion.getId().equals(pcomp_version))?"fa-check-circle-o":"fa-circle-o"%>"></i> <%=pcompVersion.getVersionNumber()%>
-                        </a></li>
+                        </a>
+                        </li>
                     <%
                         }
                     %>

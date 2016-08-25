@@ -1849,7 +1849,7 @@ pre code {
     }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1300px) {
     .container {
         width: 1170px
     }
@@ -1870,8 +1870,8 @@ pre code {
 .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
     position: relative;
     min-height: 1px;
-    padding-left: 15px;
-    padding-right: 15px
+    padding-left: 1%;
+    padding-right: 1%
 }
 
 .col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12 {
@@ -2502,7 +2502,7 @@ pre code {
     }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1300px) {
     .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12 {
         float: left
     }
@@ -7141,7 +7141,7 @@ button.close {
     }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1300px) {
     .visible-lg {
         display: block !important
     }
@@ -7159,19 +7159,19 @@ button.close {
     }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1300px) {
     .visible-lg-block {
         display: block !important
     }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1300px) {
     .visible-lg-inline {
         display: inline !important
     }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1300px) {
     .visible-lg-inline-block {
         display: inline-block !important
     }
@@ -7195,7 +7195,7 @@ button.close {
     }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1300px) {
     .hidden-lg {
         display: none !important
     }
@@ -7282,18 +7282,6 @@ button.close {
 
 
 
-.btn-success, .btn-success:hover {
-    background-image: -webkit-linear-gradient(#4da309, #469408 6%, #3f8507);
-    background-image: -o-linear-gradient(#4da309, #469408 6%, #3f8507);
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#4da309), color-stop(6%, #469408), to(#3f8507));
-    background-image: linear-gradient(#4da309, #469408 6%, #3f8507);
-    background-repeat: no-repeat;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff4da309', endColorstr='#ff3f8507', GradientType=0);
-    -webkit-filter: none;
-    filter: none;
-    border: 1px solid #2f6405
-}
-
 .btn-info, .btn-info:hover {
     background-image: -webkit-linear-gradient(#02a5de, #029acf 6%, #028fc0);
     background-image: -o-linear-gradient(#02a5de, #029acf 6%, #028fc0);
@@ -7316,18 +7304,6 @@ button.close {
     -webkit-filter: none;
     filter: none;
     border: 1px solid #79377c
-}
-
-.btn-danger, .btn-danger:hover {
-    background-image: -webkit-linear-gradient(#e08b27, #d9831f 6%, #cc7b1d);
-    background-image: -o-linear-gradient(#e08b27, #d9831f 6%, #cc7b1d);
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#e08b27), color-stop(6%, #d9831f), to(#cc7b1d));
-    background-image: linear-gradient(#e08b27, #d9831f 6%, #cc7b1d);
-    background-repeat: no-repeat;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe08b27', endColorstr='#ffcc7b1d', GradientType=0);
-    -webkit-filter: none;
-    filter: none;
-    border: 1px solid #ac6819
 }
 
 body {

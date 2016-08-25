@@ -94,8 +94,8 @@
         var formGroup = $(button).parent().parent().parent();
         <%=PcompConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD%>Number += 1;
         formGroup.after("<div class=\"form-group\" id=\"<%=FormUtils.mkFormGroupId(PcompConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD)%>" + <%=PcompConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD%>Number + "\">\n" +
-                "        <div class=\"col-lg-12\">\n" +
-                "        <div class=\"col-lg-5\">\n" +
+                "        <div class=\"col-lg-12 col-xs-12 col-sm-12 col-md-12\">\n" +
+                "        <div class=\"col-lg-5 col-md-5\">\n" +
                 "        <div class=\"form-group\">\n" +
                 "            <label for=\"<%=FormUtils.mkTextInputId(PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_PLATFORM)%>" + <%=PcompConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD%>Number + "\">描述</label>\n" +
                 "            <input type=\"text\" placeholder=\"请输入描述（不超过32个字，例如平台）\" class=\"form-control\"\n" +
@@ -105,7 +105,7 @@
                 "            <span class=\"help-block\" id=\"<%=FormUtils.mkHelpBlockId(PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_PLATFORM)%>" + <%=PcompConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD%>Number + "\"></span>\n" +
                 "        </div>\n" +
                 "        </div>\n" +
-                "        <div class=\"col-lg-5\">\n" +
+                "        <div class=\"col-lg-5 col-md-5\">\n" +
                 "        <div class=\"form-group\">\n" +
                 "            <label for=\"<%=FormUtils.mkTextInputId(PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_DOWNLOAD)%>" + <%=PcompConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD%>Number + "\">下载文件</label>\n" +
                 "            <input id=\"<%=FormUtils.mkTextInputId(PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_DOWNLOAD)%>" + <%=PcompConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD%>Number + "\" class=\"file\" type=\"file\"\n" +
@@ -113,7 +113,7 @@
                 "            <span class=\"help-block\" id=\"<%=FormUtils.mkHelpBlockId(PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_DOWNLOAD)%>" + <%=PcompConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD%>Number + "\"></span>\n" +
                 "        </div>\n" +
                 "        </div>\n" +
-                "        <div class=\"col-lg-2\">\n" +
+                "        <div class=\"col-lg-2 col-md-2\">\n" +
                 "        <div class=\"form-group\">\n" +
                 "            <button class=\"btn btn-info\" type=\"button\" onclick=\"addOne<%=PcompConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD%>(this)\">增加</button>\n" +
                 "            <button class=\"btn btn-danger\" type=\"button\" onclick=\"remove<%=PcompConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD%>(this)\">删除</button>\n" +
@@ -138,8 +138,8 @@
         var formGroup = $(button).parent().parent().parent();
         <%=PcompConstants.PCOMP_VERSION_DESCRIPTION_DOCUMENT%>Number += 1;
         formGroup.after("<div class=\"form-group\" id=\"<%=FormUtils.mkFormGroupId(PcompConstants.PCOMP_VERSION_DESCRIPTION_DOCUMENT)%>" + <%=PcompConstants.PCOMP_VERSION_DESCRIPTION_DOCUMENT%>Number + "\">\n" +
-                "        <div class=\"col-lg-12\">\n" +
-                "        <div class=\"col-lg-5\">\n" +
+                "        <div class=\"col-lg-12 col-xs-12 col-sm-12 col-md-12\">\n" +
+                "        <div class=\"col-lg-5 col-md-5\">\n" +
                 "        <div class=\"form-group\">\n" +
                 "            <label for=\"<%=FormUtils.mkTextInputId(PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_DESCRIPTION)%>" + <%=PcompConstants.PCOMP_VERSION_DESCRIPTION_DOCUMENT%>Number + "\">描述</label>\n" +
                 "            <input type=\"text\" placeholder=\"请输入描述（不超过32个字，例如平台）\" class=\"form-control\"\n" +
@@ -149,7 +149,7 @@
                 "            <span class=\"help-block\" id=\"<%=FormUtils.mkHelpBlockId(PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_DESCRIPTION)%>" + <%=PcompConstants.PCOMP_VERSION_DESCRIPTION_DOCUMENT%>Number + "\"></span>\n" +
                 "        </div>\n" +
                 "        </div>\n" +
-                "        <div class=\"col-lg-5\">\n" +
+                "        <div class=\"col-lg-5 col-md-5\">\n" +
                 "        <div class=\"form-group\">\n" +
                 "            <label for=\"<%=FormUtils.mkTextInputId(PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_DOWNLOAD)%>" + <%=PcompConstants.PCOMP_VERSION_DESCRIPTION_DOCUMENT%>Number + "\">下载文件</label>\n" +
                 "            <input id=\"<%=FormUtils.mkTextInputId(PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_DOWNLOAD)%>" + <%=PcompConstants.PCOMP_VERSION_DESCRIPTION_DOCUMENT%>Number + "\" class=\"file\" type=\"file\"\n" +
@@ -157,7 +157,7 @@
                 "            <span class=\"help-block\" id=\"<%=FormUtils.mkHelpBlockId(PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_DOWNLOAD)%>" + <%=PcompConstants.PCOMP_VERSION_DESCRIPTION_DOCUMENT%>Number + "\"></span>\n" +
                 "        </div>\n" +
                 "        </div>\n" +
-                "        <div class=\"col-lg-2\">\n" +
+                "        <div class=\"col-lg-2 col-md-2\">\n" +
                 "        <div class=\"form-group\">\n" +
                 "            <button class=\"btn btn-info\" type=\"button\" onclick=\"addOne<%=PcompConstants.PCOMP_VERSION_DESCRIPTION_DOCUMENT%>(this)\">增加</button>\n" +
                 "            <button class=\"btn btn-danger\" type=\"button\" onclick=\"remove<%=PcompConstants.PCOMP_VERSION_DESCRIPTION_DOCUMENT%>(this)\">删除</button>\n" +

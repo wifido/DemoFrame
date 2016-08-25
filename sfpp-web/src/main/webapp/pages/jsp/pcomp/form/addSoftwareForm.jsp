@@ -23,7 +23,7 @@
         </div>
     </div>-->
             <div class="row">
-                <div class="col-sm-10 col-sm-offset-1 form-box">
+                <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10 col-sm-offset-1 form-box">
                     <div class="form-top">
                         <div class="form-top-left">
                             <ul id="mytab" class="nav nav-tabs">
