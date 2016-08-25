@@ -107,9 +107,9 @@ public class PcompTitleServiceImpl implements PcompTitleService {
     }
 
     @Override
-    public boolean removeTitle(String titleName) throws PcompException {
+    public boolean removeTitle(String titleId, int userId) throws PcompException {
         try {
-            return false;
+            return pcompTitleManager.deletePcompTitleLogically(titleId, userId);
         } catch (Exception e) {
             throw new PcompException(e);
         }

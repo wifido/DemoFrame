@@ -104,9 +104,9 @@ public class PcompKindServiceImpl implements PcompKindService {
     }
 
     @Override
-    public boolean removeKind(String pcompKind) throws PcompException {
+    public boolean removeKind(String pcompKindId, int userId) throws PcompException {
         try {
-            return false;
+            return pcompKindManager.deletePcompKindLogically(pcompKindId, userId);
         } catch (Exception e) {
             throw new PcompException(e);
         }

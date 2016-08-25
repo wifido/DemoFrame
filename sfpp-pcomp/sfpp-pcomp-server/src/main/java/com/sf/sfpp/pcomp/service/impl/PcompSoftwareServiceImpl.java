@@ -85,9 +85,9 @@ public class PcompSoftwareServiceImpl implements PcompSoftwareService {
     }
 
     @Override
-    public boolean removeSoftware(PcompSoftware software) throws PcompException {
+    public boolean removeSoftware(String softwareId, int userId) throws PcompException {
         try {
-            return false;
+            return pcompSoftwareManager.deletePcompSoftwareByPcompSoftwareIdLogically(softwareId, userId);
         } catch (Exception e) {
             throw new PcompException(e);
         }

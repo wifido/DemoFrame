@@ -68,9 +68,9 @@ public class PcompVersionServiceImpl implements PcompVersionService {
     }
 
     @Override
-    public boolean removeVersion(String versionId) throws PcompException {
+    public boolean removeVersion(String versionId, int userId) throws PcompException {
         try {
-            return false;
+            return pcompVersionManager.deletePcompVersionLogically(versionId, userId);
         } catch (Exception e) {
             throw new PcompException(e);
         }
