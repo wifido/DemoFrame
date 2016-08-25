@@ -18,6 +18,8 @@ public interface PcompSoftwareMapper {
 
     List<PcompSoftware> selectAllAvailableByKindId(String pcomp_kind_id);
 
+    List<String> selectAllAvailableIdByKindId(String pcomp_kind_id);
+
     int updateByPrimaryKeySelective(PcompSoftware record);
 
     int updateByPrimaryKeyWithBLOBs(PcompSoftware record);

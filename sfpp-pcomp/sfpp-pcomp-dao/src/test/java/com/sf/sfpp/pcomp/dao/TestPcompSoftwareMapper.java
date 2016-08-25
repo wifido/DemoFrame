@@ -1,7 +1,6 @@
 package com.sf.sfpp.pcomp.dao;
 
 import com.sf.sfpp.pcomp.common.model.PcompKind;
-import com.sf.sfpp.pcomp.common.model.PcompSoftware;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -19,7 +18,7 @@ import java.util.List;
  */
 @ContextConfiguration(locations = {"/test-dao.xml"})
 @TestExecutionListeners(value = {TransactionalTestExecutionListener.class})
-public class TestPcompVersionMapper extends AbstractJUnit4SpringContextTests {
+public class TestPcompSoftwareMapper extends AbstractJUnit4SpringContextTests {
     @Autowired
     private PcompKindMapper pcompKindMapper;
     @Autowired
@@ -29,13 +28,10 @@ public class TestPcompVersionMapper extends AbstractJUnit4SpringContextTests {
 
     @Test
     @Transactional
-    public void testSelectAvailableIDBySoftwareId() {
+    public void testSelectAllAvailableIdByKindId() {
         List<PcompKind> pcompKinds = pcompKindMapper.selectAllAvailabeleKinds();
         for (PcompKind pcompKind : pcompKinds) {
-            List<PcompSoftware> pcompSoftwares = pcompSoftwareMapper.selectAllAvailableByKindId(pcompKind.getId());
-            for(PcompSoftware pcompSoftware:pcompSoftwares){
-                System.out.println(pcompVersionMapper.selectAvailableIDBySoftwareId(pcompSoftware.getId()));
-            }
+            System.out.println(pcompSoftwareMapper.selectAllAvailableIdByKindId(pcompKind.getId()));
         }
     }
 }
