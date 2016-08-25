@@ -18,6 +18,8 @@ public interface PcompKindMapper {
 
     List<PcompKind> selectAvailabeleKindsByTitleID(String titleId);
 
+    List<String> selectAvailabeleKindsIDByTitleID(String titleId);
+
     List<PcompKind> selectAllAvailabeleKinds();
 
     int updateByPrimaryKeySelective(PcompKind record);
