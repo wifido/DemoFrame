@@ -18,6 +18,8 @@ public interface PcompVersionMapper {
 
     List<PcompVersion> selectAvailableBySoftwareId(String softwareId);
 
+    List<String> selectAvailableIDBySoftwareId(String softwareId);
+
     int updateByPrimaryKeySelective(PcompVersion record);
 
     int updateByPrimaryKeyWithBLOBs(PcompVersion record);
