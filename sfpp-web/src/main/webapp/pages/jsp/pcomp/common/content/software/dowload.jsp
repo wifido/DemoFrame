@@ -26,8 +26,8 @@
 
         <div class="box-tools pull-right">
             <%
-                if (pcompSoftware != null
-                        && PermissionUtils.isCurrentUser(pcompSoftware.getCreatedBy())) {
+                if ((pcompSoftware != null
+                        && PermissionUtils.isCurrentUser(pcompSoftware.getCreatedBy()))||(PermissionUtils.isCurrentUser(pcompVersionExtend.getCreatedBy()))) {
             %>
             <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="" data-widget="chat-pane-toggle"
                     data-original-title="编辑/关闭编辑" onclick="edit<%=PcompConstants.HISTORY_DOWNLOAD%>()">
