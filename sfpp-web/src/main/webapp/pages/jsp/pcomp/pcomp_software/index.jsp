@@ -71,7 +71,7 @@
     var <%=PcompConstants.INTRODUCTION%>Editor;
     var button<%=PcompConstants.INTRODUCTION%> = document.createElement("button");
     button<%=PcompConstants.INTRODUCTION%>.setAttribute('type','button');
-    button<%=PcompConstants.INTRODUCTION%>.setAttribute('class','btn btn-default');
+    button<%=PcompConstants.INTRODUCTION%>.setAttribute('class','btn btn-primary');
     button<%=PcompConstants.INTRODUCTION%>.setAttribute('onclick','post<%=PcompConstants.INTRODUCTION%>()');
     button<%=PcompConstants.INTRODUCTION%>.innerHTML='提交';
     var editing<%=PcompConstants.INTRODUCTION%> = false;
@@ -156,7 +156,7 @@
     var <%=PcompConstants.HISTORY_INTRODUCTION%>Editor;
     var button<%=PcompConstants.HISTORY_INTRODUCTION%> = document.createElement("button");
     button<%=PcompConstants.HISTORY_INTRODUCTION%>.setAttribute('type','button');
-    button<%=PcompConstants.HISTORY_INTRODUCTION%>.setAttribute('class','btn btn-default');
+    button<%=PcompConstants.HISTORY_INTRODUCTION%>.setAttribute('class','btn btn-primary');
     button<%=PcompConstants.HISTORY_INTRODUCTION%>.setAttribute('onclick','post<%=PcompConstants.HISTORY_INTRODUCTION%>()');
     button<%=PcompConstants.HISTORY_INTRODUCTION%>.innerHTML='提交';
     var editing<%=PcompConstants.HISTORY_INTRODUCTION%> = false;
@@ -246,7 +246,7 @@
     var <%=PcompConstants.HISTORY_QUICKSTART%>Editor;
     var button<%=PcompConstants.HISTORY_QUICKSTART%> = document.createElement("button");
     button<%=PcompConstants.HISTORY_QUICKSTART%>.setAttribute('type','button');
-    button<%=PcompConstants.HISTORY_QUICKSTART%>.setAttribute('class','btn btn-default');
+    button<%=PcompConstants.HISTORY_QUICKSTART%>.setAttribute('class','btn btn-primary');
     button<%=PcompConstants.HISTORY_QUICKSTART%>.setAttribute('onclick','post<%=PcompConstants.HISTORY_QUICKSTART%>()');
     button<%=PcompConstants.HISTORY_QUICKSTART%>.innerHTML='提交';
     var editing<%=PcompConstants.HISTORY_QUICKSTART%> = false;
@@ -368,7 +368,7 @@
     var <%=PcompConstants.HISTORY_QUICKSTART%>Editor;
     var button<%=PcompConstants.HISTORY_QUICKSTART%> = document.createElement("button");
     button<%=PcompConstants.HISTORY_QUICKSTART%>.setAttribute('type','button');
-    button<%=PcompConstants.HISTORY_QUICKSTART%>.setAttribute('class','btn btn-default');
+    button<%=PcompConstants.HISTORY_QUICKSTART%>.setAttribute('class','btn btn-primary');
     button<%=PcompConstants.HISTORY_QUICKSTART%>.innerHTML='提交';
     var editing<%=PcompConstants.HISTORY_QUICKSTART%> = false;
     function edit<%=PcompConstants.HISTORY_QUICKSTART%>(){
@@ -434,7 +434,7 @@
     var <%=PcompConstants.INTRODUCTION%>Editor;
     var button<%=PcompConstants.INTRODUCTION%> = document.createElement("button");
     button<%=PcompConstants.INTRODUCTION%>.setAttribute('type','button');
-    button<%=PcompConstants.INTRODUCTION%>.setAttribute('class','btn btn-default');
+    button<%=PcompConstants.INTRODUCTION%>.setAttribute('class','btn btn-primary');
     button<%=PcompConstants.INTRODUCTION%>.innerHTML='提交';
     var editing<%=PcompConstants.INTRODUCTION%> = false;
     function edit<%=PcompConstants.INTRODUCTION%>(){
