@@ -84,10 +84,10 @@ public interface PcompTitleService {
 
     /**
      * 删除
-     * @param titleName
+     * @param titleId
      * @return 失败返回false
      * @throws PcompException
      */
-    boolean removeTitle(String titleName) throws PcompException;
+    boolean removeTitle(String titleId, int userId) throws PcompException;
 
 }

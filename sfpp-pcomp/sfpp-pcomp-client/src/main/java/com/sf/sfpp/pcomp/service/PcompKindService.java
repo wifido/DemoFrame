@@ -84,9 +84,9 @@ public interface PcompKindService {
 
     /**
      * 删除kind
-     * @param pcompKind
+     * @param pcompKindId
      * @return 失败返回false
      * @throws PcompException
      */
-    boolean removeKind(String pcompKind) throws PcompException;
+    boolean removeKind(String pcompKindId, int userId) throws PcompException;
 }

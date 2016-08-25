@@ -54,5 +54,5 @@ public interface PcompVersionService {
      * @param versionId
      * @return
      */
-    boolean removeVersion(String versionId)throws PcompException;
+    boolean removeVersion(String versionId, int userId)throws PcompException;
 }

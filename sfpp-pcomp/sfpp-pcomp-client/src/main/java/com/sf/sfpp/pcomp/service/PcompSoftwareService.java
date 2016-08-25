@@ -75,9 +75,10 @@ public interface PcompSoftwareService {
 
     /**
      * 移除对应的software
-     * @param software
+     * @param softwareId
+     * @param userId
      * @return
      * @throws PcompException
      */
-    boolean removeSoftware(PcompSoftware software) throws PcompException;
+    boolean removeSoftware(String softwareId, int userId) throws PcompException;
 }

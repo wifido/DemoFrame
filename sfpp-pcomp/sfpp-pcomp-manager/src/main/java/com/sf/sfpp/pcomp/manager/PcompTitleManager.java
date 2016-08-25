@@ -3,6 +3,7 @@ package com.sf.sfpp.pcomp.manager;
 import com.alibaba.fastjson.JSON;
 import com.sf.kafka.exception.KafkaException;
 import com.sf.sfpp.common.Constants;
+import com.sf.sfpp.common.utils.ExceptionUtils;
 import com.sf.sfpp.common.utils.StrUtils;
 import com.sf.sfpp.kafka.KafkaConnectionPool;
 import com.sf.sfpp.pcomp.common.PcompConstants;
@@ -12,11 +13,16 @@ import com.sf.sfpp.pcomp.common.model.PcompTitle;
 import com.sf.sfpp.pcomp.dao.PcompKindMapper;
 import com.sf.sfpp.pcomp.dao.PcompSoftwareMapper;
 import com.sf.sfpp.pcomp.dao.PcompTitleMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author Hash Zhang
@@ -25,6 +31,8 @@ import java.util.List;
  */
 @Component
 public class PcompTitleManager {
+    //// TODO: 2016/8/25 AOP改写麻烦的方法
+    private final static Logger log = LoggerFactory.getLogger(PcompKindManager.class);
     @Value("${pcomp.connection.key}")
     private String kafkaConnectionKey;
     @Autowired
@@ -35,6 +43,12 @@ public class PcompTitleManager {
     private PcompKindMapper pcompKindMapper;
     @Autowired
     private PcompSoftwareMapper pcompSoftwareMapper;
+
+    @Autowired
+    private PcompKindManager pcompKindManager;
+
+    private final ExecutorService executorService = Executors.newFixedThreadPool(PcompConstants.HEAVY_WORK_THREAD_POOL_SIZE);
+
 
     public List<PcompTitle> getAllTitles() {
         return pcompTitleMapper.selectAllAvailable();
@@ -61,6 +75,61 @@ public class PcompTitleManager {
     public boolean addPcompTitle(PcompTitle pcompTitle) throws KafkaException {
         boolean b = pcompTitleMapper.insertSelective(pcompTitle) > 0;
         pcompTitle = pcompTitleMapper.selectByPrimaryKey(pcompTitle.getId());
+        if (b) {
+            kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
+                    .send(StrUtils.makeString(PcompConstants.PCOMP_TITLE, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompTitle)));
+        }
+        return b;
+    }
+
+    public boolean deletePcompTitleLogically(String pcompTitleId, int userId) throws KafkaException {
+        PcompTitle pcompTitle = pcompTitleMapper.selectByPrimaryKey(pcompTitleId);
+        if (pcompTitle == null) {
+            return false;
+        }
+        pcompTitle.setIsDeleted(true);
+        pcompTitle.setModifiedBy(userId);
+        pcompTitle.setModifiedTime(new Date());
+        boolean b = pcompTitleMapper.updateByPrimaryKey(pcompTitle) >= 0;
+        if (b) {
+            kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
+                    .send(StrUtils.makeString(PcompConstants.PCOMP_TITLE, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompTitle)));
+        }
+
+        DeletePcompKindLogicallyWork deletePcompKindLogicallyWork = new DeletePcompKindLogicallyWork(pcompTitleId, userId);
+        executorService.submit(deletePcompKindLogicallyWork);
+        return b;
+    }
+
+    private class DeletePcompKindLogicallyWork implements Runnable {
+        private final String pcompTileId;
+        private final int userId;
+
+        private DeletePcompKindLogicallyWork(String pcompTileId, int userId) {
+            this.pcompTileId = pcompTileId;
+            this.userId = userId;
+        }
+
+        @Override
+        public void run() {
+            List<String> pcompKinds = pcompKindMapper.selectAvailabeleKindsIDByTitleID(pcompTileId);
+            for (String pcompKind : pcompKinds) {
+                try {
+                    pcompKindManager.deletePcompKindLogically(pcompKind, userId);
+                } catch (Exception e) {
+                    log.warn(ExceptionUtils.getStackTrace(e));
+                }
+            }
+        }
+    }
+
+    public boolean updateModifiedTime(String pcompTitleId) throws KafkaException {
+        PcompTitle pcompTitle = pcompTitleMapper.selectByPrimaryKey(pcompTitleId);
+        if (pcompTitle == null) {
+            return false;
+        }
+        pcompTitle.setModifiedTime(new Date());
+        boolean b = pcompTitleMapper.updateByPrimaryKey(pcompTitle) >= 0;
         if (b) {
             kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
                     .send(StrUtils.makeString(PcompConstants.PCOMP_TITLE, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompTitle)));

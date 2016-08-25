@@ -5,6 +5,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sf.kafka.exception.KafkaException;
 import com.sf.sfpp.common.Constants;
+import com.sf.sfpp.common.utils.ExceptionUtils;
 import com.sf.sfpp.common.utils.StrUtils;
 import com.sf.sfpp.kafka.KafkaConnectionPool;
 import com.sf.sfpp.pcomp.common.PcompConstants;
@@ -16,12 +17,16 @@ import com.sf.sfpp.pcomp.dao.PcompSoftwareMapper;
 import com.sf.sfpp.pcomp.dao.PcompVersionDoucumentDownloadMapper;
 import com.sf.sfpp.pcomp.dao.PcompVersionMapper;
 import com.sf.sfpp.pcomp.dao.PcompVersionPlatformDownloadMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author Hash Zhang
@@ -30,6 +35,9 @@ import java.util.List;
  */
 @Component
 public class PcompSoftwareManager {
+    //// TODO: 2016/8/25 AOP改写麻烦的方法
+    private final static Logger log = LoggerFactory.getLogger(PcompSoftwareManager.class);
+
     @Value("${pcomp.connection.key}")
     private String kafkaConnectionKey;
     @Autowired
@@ -43,10 +51,17 @@ public class PcompSoftwareManager {
     @Autowired
     private PcompVersionPlatformDownloadMapper pcompVersionPlatformDownloadMapper;
 
+    @Autowired
+    private PcompVersionManager pcompVersionManager;
+    @Autowired
+    private PcompKindManager pcompKindManager;
+
+    private final ExecutorService executorService = Executors.newFixedThreadPool(PcompConstants.HEAVY_WORK_THREAD_POOL_SIZE);
+
 
     public Page<PcompSoftware> getAllAvailablePcompSoftwaresByPcompKindId(String kindId, int pageNumber) {
         if (pageNumber != Constants.ALL_PAGE_NUMBER) {
-            PageHelper.startPage(pageNumber, PcompConstants.numberPerPage);
+            PageHelper.startPage(pageNumber, PcompConstants.NUMBER_PER_PAGE);
         } else {
             PageHelper.startPage(1, Integer.MAX_VALUE);
         }
@@ -75,6 +90,7 @@ public class PcompSoftwareManager {
         if (b) {
             kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
                     .send(StrUtils.makeString(PcompConstants.PCOMP_SOFTWARE, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompSoftware)));
+            executorService.submit(new UpdatePcompKindModifiedTimeWork(pcompSoftware.getPcompKindId()));
         }
         return b;
     }
@@ -87,11 +103,92 @@ public class PcompSoftwareManager {
         if (b) {
             kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
                     .send(StrUtils.makeString(PcompConstants.PCOMP_SOFTWARE, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompSoftware)));
+            executorService.submit(new UpdatePcompKindModifiedTimeWork(pcompSoftware.getPcompKindId()));
         }
         return b;
     }
 
     public PcompSoftware getPcompSoftwareByPcompKindIdAndPcompSoftwareName(String kindId, String softwareName) {
         return pcompSoftwareMapper.selectByUniqueKey(kindId, softwareName);
+    }
+
+    /**
+     * 同步删除软件，异步删除包含的版本
+     *
+     * @param pcompSoftwareId
+     * @param userId
+     * @return
+     * @throws KafkaException
+     */
+    public boolean deletePcompSoftwareByPcompSoftwareIdLogically(String pcompSoftwareId, int userId) throws KafkaException {
+        PcompSoftware pcompSoftware = pcompSoftwareMapper.selectByPrimaryKey(pcompSoftwareId);
+        if (pcompSoftware == null) {
+            return false;
+        }
+        pcompSoftware.setIsDeleted(true);
+        pcompSoftware.setModifiedBy(userId);
+        pcompSoftware.setModifiedTime(new Date());
+        boolean b = pcompSoftwareMapper.updateByPrimaryKey(pcompSoftware) >= 0;
+        if (b) {
+            kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
+                    .send(StrUtils.makeString(PcompConstants.PCOMP_SOFTWARE, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompSoftware)));
+            executorService.submit(new UpdatePcompKindModifiedTimeWork(pcompSoftware.getPcompKindId()));
+        }
+        executorService.submit(new DeletePcompVersionLogicallyWork(pcompSoftwareId, userId));
+        return b;
+    }
+
+    private class DeletePcompVersionLogicallyWork implements Runnable {
+        private final String pcompSoftwareId;
+        private final int userId;
+
+        private DeletePcompVersionLogicallyWork(String pcompSoftwareId, int userId) {
+            this.pcompSoftwareId = pcompSoftwareId;
+            this.userId = userId;
+        }
+
+        @Override
+        public void run() {
+            List<String> pcompVersionIds = pcompVersionMapper.selectAvailableIDBySoftwareId(pcompSoftwareId);
+            for (String pcompVersionId : pcompVersionIds) {
+                try {
+                    pcompVersionManager.deletePcompVersionLogically(pcompVersionId, userId);
+                } catch (Exception e) {
+                    log.warn(ExceptionUtils.getStackTrace(e));
+                }
+            }
+        }
+    }
+
+    public boolean updateModifiedTime(String pcompSoftwareId) throws KafkaException {
+        PcompSoftware pcompSoftware = pcompSoftwareMapper.selectByPrimaryKey(pcompSoftwareId);
+        if (pcompSoftware == null) {
+            return false;
+        }
+        pcompSoftware.setModifiedTime(new Date());
+        boolean b = pcompSoftwareMapper.updateByPrimaryKey(pcompSoftware) >= 0;
+        if (b) {
+            kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
+                    .send(StrUtils.makeString(PcompConstants.PCOMP_SOFTWARE, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompSoftware)));
+            executorService.submit(new UpdatePcompKindModifiedTimeWork(pcompSoftware.getPcompKindId()));
+        }
+        return b;
+    }
+
+    private class UpdatePcompKindModifiedTimeWork implements Runnable {
+        private final String pcompKindId;
+
+        private UpdatePcompKindModifiedTimeWork(String pcompKindId) {
+            this.pcompKindId = pcompKindId;
+        }
+
+        @Override
+        public void run() {
+            try {
+                pcompKindManager.updateModifiedTime(pcompKindId);
+            } catch (Exception e) {
+                log.warn(ExceptionUtils.getStackTrace(e));
+            }
+        }
     }
 }
