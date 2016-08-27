@@ -67,7 +67,7 @@ public class PcompVersionManager {
         pcompVersion.setModifiedTime(new Date());
         boolean b = pcompVersionMapper.updateByPrimaryKeyWithBLOBs(pcompVersion) >= 0;
         if (b) {
-            executorService.submit(new UpdatePcompSoftwareModifiedTimeWork(pcompVersion.getPcompSoftwareId()));
+            executorService.submit(new UpdatePcompSoftwareModifiedTimeWork(pcompVersion.getPcompSoftwareId(), pcompVersion.getModifiedBy()));
             kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
                     .send(StrUtils.makeString(PcompConstants.PCOMP_VERSION, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(PcompVersionExtend.toPcompVersion((PcompVersionExtend) pcompVersion))));
         }
@@ -89,7 +89,7 @@ public class PcompVersionManager {
         }
         boolean b = pcompVersionMapper.insertSelective(pcompVersionExtend) >= 0;
         if (b) {
-            executorService.submit(new UpdatePcompSoftwareModifiedTimeWork(pcompVersionExtend.getPcompSoftwareId()));
+            executorService.submit(new UpdatePcompSoftwareModifiedTimeWork(pcompVersionExtend.getPcompSoftwareId(), pcompVersionExtend.getModifiedBy()));
             kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
                     .send(StrUtils.makeString(PcompConstants.PCOMP_VERSION, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(PcompVersionExtend.toPcompVersion(pcompVersionExtend))));
         }
@@ -102,6 +102,7 @@ public class PcompVersionManager {
 
     /**
      * 逻辑删除一个版本，版本包含的软件文档为同步删除，会同步更新版本所属的软件
+     *
      * @param pcompVersionId
      * @param userId
      * @return
@@ -131,27 +132,85 @@ public class PcompVersionManager {
         pcompVersion.setModifiedBy(userId);
         boolean b = pcompVersionMapper.updateByPrimaryKey(pcompVersion) >= 0;
         if (b) {
-            executorService.submit(new UpdatePcompSoftwareModifiedTimeWork(pcompVersion.getPcompSoftwareId()));
+            executorService.submit(new UpdatePcompSoftwareModifiedTimeWork(pcompVersion.getPcompSoftwareId(), userId));
             kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
                     .send(StrUtils.makeString(PcompConstants.PCOMP_VERSION, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompVersion)));
         }
         return b;
     }
 
+    public boolean updateModifiedTime(String pcompVersionId, int userId) {
+        PcompVersion pcompVersion = pcompVersionMapper.selectByPrimaryKey(pcompVersionId);
+        if (pcompVersion == null) {
+            return false;
+        }
+        pcompVersion.setModifiedTime(new Date());
+        boolean b = pcompVersionMapper.updateByPrimaryKey(pcompVersion) >= 0;
+        if (b) {
+            executorService.submit(new UpdatePcompSoftwareModifiedTimeWork(pcompVersion.getPcompSoftwareId(), userId));
+        }
+        return b;
+    }
+
     private class UpdatePcompSoftwareModifiedTimeWork implements Runnable {
         private final String pcompSoftwareId;
+        private final int userId;
 
-        private UpdatePcompSoftwareModifiedTimeWork(String pcompSoftwareId) {
+        private UpdatePcompSoftwareModifiedTimeWork(String pcompSoftwareId, int userId) {
             this.pcompSoftwareId = pcompSoftwareId;
+            this.userId = userId;
         }
 
         @Override
         public void run() {
             try {
-                pcompSoftwareManager.updateModifiedTime(pcompSoftwareId);
+                pcompSoftwareManager.updateModifiedTime(pcompSoftwareId, userId);
             } catch (Exception e) {
                 log.warn(ExceptionUtils.getStackTrace(e));
             }
         }
+    }
+
+    public boolean addPcompVersionPlatformDownload(PcompVersionPlatformDownload pcompVersionPlatformDownload, int userId) {
+        updateModifiedTime(pcompVersionPlatformDownload.getPcompVersionId(), userId);
+        return pcompVersionPlatformDownloadMapper.insertSelective(pcompVersionPlatformDownload) >= 0;
+
+    }
+
+    public boolean updatePcompVersionPlatformDownload(PcompVersionPlatformDownload pcompVersionPlatformDownload, int userId) {
+        updateModifiedTime(pcompVersionPlatformDownload.getPcompVersionId(), userId);
+        return pcompVersionPlatformDownloadMapper.updateByPrimaryKey(pcompVersionPlatformDownload) >= 0;
+    }
+
+    public boolean deletePcompVersionPlatformDownloadLogically(String versionDownloadId, int userId) {
+        PcompVersionPlatformDownload pcompVersionPlatformDownload = pcompVersionPlatformDownloadMapper.selectByPrimaryKey(versionDownloadId);
+        updateModifiedTime(pcompVersionPlatformDownload.getPcompVersionId(), userId);
+        pcompVersionPlatformDownload.setIsDeleted(true);
+        return pcompVersionPlatformDownloadMapper.updateByPrimaryKey(pcompVersionPlatformDownload) >= 0;
+    }
+
+    public PcompVersionPlatformDownload getPcompVersionPlatformDownload(String pcompVersionPlatformDownloadId) {
+        return pcompVersionPlatformDownloadMapper.selectByPrimaryKey(pcompVersionPlatformDownloadId);
+    }
+
+    public boolean addPcompVersionDoucumentDownload(PcompVersionDoucumentDownload pcompVersionDoucumentDownload, int userId) {
+        updateModifiedTime(pcompVersionDoucumentDownload.getPcompVersionId(), userId);
+        return pcompVersionDoucumentDownloadMapper.insertSelective(pcompVersionDoucumentDownload) >= 0;
+    }
+
+    public boolean updatePcompVersionDoucumentDownload(PcompVersionDoucumentDownload pcompVersionDoucumentDownload, int userId) {
+        updateModifiedTime(pcompVersionDoucumentDownload.getPcompVersionId(), userId);
+        return pcompVersionDoucumentDownloadMapper.updateByPrimaryKey(pcompVersionDoucumentDownload) >= 0;
+    }
+
+    public boolean deletePcompVersionDoucumentDownloadLogically(String versionDoucumentId, int userId) {
+        PcompVersionDoucumentDownload pcompVersionDoucumentDownload = pcompVersionDoucumentDownloadMapper.selectByPrimaryKey(versionDoucumentId);
+        updateModifiedTime(pcompVersionDoucumentDownload.getPcompVersionId(), userId);
+        pcompVersionDoucumentDownload.setIsDeleted(true);
+        return pcompVersionDoucumentDownloadMapper.updateByPrimaryKey(pcompVersionDoucumentDownload) >= 0;
+    }
+
+    public PcompVersionDoucumentDownload getPcompVersionDoucumentDownload(String pcompVersionDoucumentDownloadId) {
+        return pcompVersionDoucumentDownloadMapper.selectByPrimaryKey(pcompVersionDoucumentDownloadId);
     }
 }

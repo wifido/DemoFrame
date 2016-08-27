@@ -90,7 +90,7 @@ public class PcompSoftwareManager {
         if (b) {
             kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
                     .send(StrUtils.makeString(PcompConstants.PCOMP_SOFTWARE, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompSoftware)));
-            executorService.submit(new UpdatePcompKindModifiedTimeWork(pcompSoftware.getPcompKindId()));
+            executorService.submit(new UpdatePcompKindModifiedTimeWork(pcompSoftware.getPcompKindId(), pcompSoftware.getModifiedBy()));
         }
         return b;
     }
@@ -103,7 +103,7 @@ public class PcompSoftwareManager {
         if (b) {
             kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
                     .send(StrUtils.makeString(PcompConstants.PCOMP_SOFTWARE, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompSoftware)));
-            executorService.submit(new UpdatePcompKindModifiedTimeWork(pcompSoftware.getPcompKindId()));
+            executorService.submit(new UpdatePcompKindModifiedTimeWork(pcompSoftware.getPcompKindId(), pcompSoftware.getModifiedBy()));
         }
         return b;
     }
@@ -132,7 +132,7 @@ public class PcompSoftwareManager {
         if (b) {
             kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
                     .send(StrUtils.makeString(PcompConstants.PCOMP_SOFTWARE, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompSoftware)));
-            executorService.submit(new UpdatePcompKindModifiedTimeWork(pcompSoftware.getPcompKindId()));
+            executorService.submit(new UpdatePcompKindModifiedTimeWork(pcompSoftware.getPcompKindId(), userId));
         }
         executorService.submit(new DeletePcompVersionLogicallyWork(pcompSoftwareId, userId));
         return b;
@@ -160,7 +160,7 @@ public class PcompSoftwareManager {
         }
     }
 
-    public boolean updateModifiedTime(String pcompSoftwareId) throws KafkaException {
+    public boolean updateModifiedTime(String pcompSoftwareId, int userId) throws KafkaException {
         PcompSoftware pcompSoftware = pcompSoftwareMapper.selectByPrimaryKey(pcompSoftwareId);
         if (pcompSoftware == null) {
             return false;
@@ -170,22 +170,24 @@ public class PcompSoftwareManager {
         if (b) {
             kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
                     .send(StrUtils.makeString(PcompConstants.PCOMP_SOFTWARE, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompSoftware)));
-            executorService.submit(new UpdatePcompKindModifiedTimeWork(pcompSoftware.getPcompKindId()));
+            executorService.submit(new UpdatePcompKindModifiedTimeWork(pcompSoftware.getPcompKindId(), userId));
         }
         return b;
     }
 
     private class UpdatePcompKindModifiedTimeWork implements Runnable {
         private final String pcompKindId;
+        private final int userId;
 
-        private UpdatePcompKindModifiedTimeWork(String pcompKindId) {
+        private UpdatePcompKindModifiedTimeWork(String pcompKindId, int userId) {
             this.pcompKindId = pcompKindId;
+            this.userId = userId;
         }
 
         @Override
         public void run() {
             try {
-                pcompKindManager.updateModifiedTime(pcompKindId);
+                pcompKindManager.updateModifiedTime(pcompKindId, userId);
             } catch (Exception e) {
                 log.warn(ExceptionUtils.getStackTrace(e));
             }

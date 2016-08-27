@@ -5,17 +5,13 @@ import com.sf.sfpp.common.Constants;
 import com.sf.sfpp.pcomp.common.PcompConstants;
 import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsResponse;
 import org.elasticsearch.action.delete.DeleteResponse;
-import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.MultiMatchQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.*;
 import org.elasticsearch.search.SearchHit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,10 +92,13 @@ public class ESClient {
             }
         }
 
-        MultiMatchQueryBuilder termQueryBuilder = QueryBuilders.multiMatchQuery("Java", keyLists.toArray(new String[]{}));
+
+
+        MultiMatchQueryBuilder termQueryBuilder = QueryBuilders.multiMatchQuery("http://10.202.7.85:8080/image/01/000/000016812d74c-b9ce-4832-9965-c7fe1222486b.png", keyLists.toArray(new String[]{}));
         QueryBuilder qb = new BoolQueryBuilder()
                 .must(QueryBuilders.termQuery("isDeleted", false))
                 .must(termQueryBuilder);
+        qb = new QueryStringQueryBuilder("\"http://10.202.7.85:8080/image/01/000/000016812d74c-b9ce-4832-9965-c7fe1222486a.png\"");
         String[] index = {Constants.PUBLIC_COMPONENT_SYSTEM};
         String[] types = {PcompConstants.PCOMP_SOFTWARE};
         SearchHit[] searchHits = esClient.searchDocument(index, types, qb);

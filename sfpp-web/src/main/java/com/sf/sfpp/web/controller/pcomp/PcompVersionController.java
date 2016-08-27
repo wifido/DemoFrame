@@ -179,7 +179,7 @@ public class PcompVersionController extends AbstractCachedController {
     }
 
     @RequestMapping(value = PathConstants.PCOMP_VERSION_REMOVE_PATH, method = RequestMethod.GET)
-    public String removeSoftware(HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
+    public String removeVersion(HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
         WebCache webCache = getWebCache(request);
         model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
         String versionId = request.getParameter(PcompConstants.PCOMP_VERSION);
@@ -191,6 +191,183 @@ public class PcompVersionController extends AbstractCachedController {
             return handleException(e, webCache);
         }
         redirectAttributes.addAttribute(Constants.PAGE_NUMBER, 1);
+        return "redirect:" + PathConstants.PCOMP_SOFTWARE_PATH;
+    }
+
+    @RequestMapping(value = PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_REMOVE_PATH, method = RequestMethod.GET)
+    public String removeVersionDownload(HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
+        WebCache webCache = getWebCache(request);
+        model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
+        String versionId = request.getParameter(PcompConstants.PCOMP_VERSION);
+        String versionDownloadId = request.getParameter(PcompConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD);
+        try {
+            PcompVersion pcompVersion = pcompVersionService.fetchVersionById(versionId);
+            redirectAttributes.addAttribute(PcompConstants.PCOMP_SOFTWARE, pcompVersion.getPcompSoftwareId());
+            PcompSoftware pcompSoftware = pcompSoftwareService.fetchSoftware(pcompVersion.getPcompSoftwareId());
+            User user = (User) webCache.getUser();
+            if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId().equals(pcompVersion.getCreatedBy())) {
+                throw new PcompException(Constants.PERMISSION_DENIED);
+            }
+            pcompVersionService.removeVersionDownload(versionDownloadId, user.getId());
+        } catch (Exception e) {
+            return handleException(e, webCache);
+        }
+        redirectAttributes.addAttribute(PcompConstants.SOFTWARE_PAGE_NAVIGATION, PcompConstants.DOWNLOAD);
+        redirectAttributes.addAttribute(PcompConstants.PCOMP_VERSION, versionId);
+        return "redirect:" + PathConstants.PCOMP_SOFTWARE_PATH;
+    }
+
+    @RequestMapping(value = PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_MODIFICATION_PATH, method = RequestMethod.POST)
+    public String updateVersionDownload(@RequestParam(PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_DOWNLOAD) MultipartFile software,
+                                        @RequestParam(PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_PLATFORM) String platform,
+                                        HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
+        WebCache webCache = getWebCache(request);
+        model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
+        String versionId = request.getParameter(PcompConstants.PCOMP_VERSION);
+        String versionDownloadId = request.getParameter(PcompConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD);
+        try {
+            PcompVersion pcompVersion = pcompVersionService.fetchVersionById(versionId);
+            redirectAttributes.addAttribute(PcompConstants.PCOMP_SOFTWARE, pcompVersion.getPcompSoftwareId());
+            PcompSoftware pcompSoftware = pcompSoftwareService.fetchSoftware(pcompVersion.getPcompSoftwareId());
+            User user = (User) webCache.getUser();
+            if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId().equals(pcompVersion.getCreatedBy())) {
+                throw new PcompException(Constants.PERMISSION_DENIED);
+            }
+            if (!StrUtils.isNull(platform)) {
+                PcompVersionPlatformDownload pcompVersionPlatformDownload = pcompVersionService.fetchVersionDownload(versionDownloadId);
+                pcompVersionPlatformDownload.setPlatform(platform);
+                if (software != null && software.getSize() > 0) {
+                    pcompVersionPlatformDownload.setDownload(fileService.saveFile(software.getOriginalFilename(), software.getInputStream()));
+                }
+                pcompVersionService.updateVersionDownload(pcompVersionPlatformDownload, user.getId());
+            }
+        } catch (Exception e) {
+            return handleException(e, webCache);
+        }
+        redirectAttributes.addAttribute(PcompConstants.SOFTWARE_PAGE_NAVIGATION, PcompConstants.DOWNLOAD);
+        redirectAttributes.addAttribute(PcompConstants.PCOMP_VERSION, versionId);
+        return "redirect:" + PathConstants.PCOMP_SOFTWARE_PATH;
+    }
+
+    @RequestMapping(value = PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_CREATE_PATH, method = RequestMethod.POST)
+    public String addVersionDownload(@RequestParam(PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_DOWNLOAD) MultipartFile software,
+                                     @RequestParam(PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_PLATFORM) String platform,
+                                     HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
+        WebCache webCache = getWebCache(request);
+        model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
+        String versionId = request.getParameter(PcompConstants.PCOMP_VERSION);
+        try {
+            PcompVersion pcompVersion = pcompVersionService.fetchVersionById(versionId);
+            redirectAttributes.addAttribute(PcompConstants.PCOMP_SOFTWARE, pcompVersion.getPcompSoftwareId());
+            PcompSoftware pcompSoftware = pcompSoftwareService.fetchSoftware(pcompVersion.getPcompSoftwareId());
+            User user = (User) webCache.getUser();
+            if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId().equals(pcompVersion.getCreatedBy())) {
+                throw new PcompException(Constants.PERMISSION_DENIED);
+            }
+            if (!StrUtils.isNull(platform)) {
+                PcompVersionPlatformDownload pcompVersionPlatformDownload = new PcompVersionPlatformDownload();
+                pcompVersionPlatformDownload.setPlatform(platform);
+                pcompVersionPlatformDownload.setPcompVersionId(pcompVersion.getId());
+                pcompVersionPlatformDownload.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
+                if (software != null && software.getSize() > 0) {
+                    pcompVersionPlatformDownload.setDownload(fileService.saveFile(software.getOriginalFilename(), software.getInputStream()));
+                }
+                pcompVersionService.addVersionDownload(pcompVersionPlatformDownload, user.getId());
+            }
+        } catch (Exception e) {
+            return handleException(e, webCache);
+        }
+        redirectAttributes.addAttribute(PcompConstants.SOFTWARE_PAGE_NAVIGATION, PcompConstants.DOWNLOAD);
+        redirectAttributes.addAttribute(PcompConstants.PCOMP_VERSION, versionId);
+        return "redirect:" + PathConstants.PCOMP_SOFTWARE_PATH;
+    }
+
+
+    @RequestMapping(value = PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_REMOVE_PATH, method = RequestMethod.GET)
+    public String removeVersionDocument(HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
+        WebCache webCache = getWebCache(request);
+        model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
+        String versionId = request.getParameter(PcompConstants.PCOMP_VERSION);
+        String versionDocumentId = request.getParameter(PcompConstants.PCOMP_VERSION_DESCRIPTION_DOCUMENT);
+        try {
+            PcompVersion pcompVersion = pcompVersionService.fetchVersionById(versionId);
+            redirectAttributes.addAttribute(PcompConstants.PCOMP_SOFTWARE, pcompVersion.getPcompSoftwareId());
+            PcompSoftware pcompSoftware = pcompSoftwareService.fetchSoftware(pcompVersion.getPcompSoftwareId());
+            User user = (User) webCache.getUser();
+            if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId().equals(pcompVersion.getCreatedBy())) {
+                throw new PcompException(Constants.PERMISSION_DENIED);
+            }
+            pcompVersionService.removeVersionDocument(versionDocumentId, user.getId());
+        } catch (Exception e) {
+            return handleException(e, webCache);
+        }
+        redirectAttributes.addAttribute(PcompConstants.SOFTWARE_PAGE_NAVIGATION, PcompConstants.DOWNLOAD);
+        redirectAttributes.addAttribute(PcompConstants.PCOMP_VERSION, versionId);
+        return "redirect:" + PathConstants.PCOMP_SOFTWARE_PATH;
+    }
+
+    @RequestMapping(value = PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_MODIFICATION_PATH, method = RequestMethod.POST)
+    public String updateVersionDocument(@RequestParam(PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_DOWNLOAD) MultipartFile document,
+                                        @RequestParam(PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_DESCRIPTION) String description,
+                                        HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
+        WebCache webCache = getWebCache(request);
+        model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
+        String versionId = request.getParameter(PcompConstants.PCOMP_VERSION);
+        String versionDocumentId = request.getParameter(PcompConstants.PCOMP_VERSION_DESCRIPTION_DOCUMENT);
+        try {
+            PcompVersion pcompVersion = pcompVersionService.fetchVersionById(versionId);
+            redirectAttributes.addAttribute(PcompConstants.PCOMP_SOFTWARE, pcompVersion.getPcompSoftwareId());
+            PcompSoftware pcompSoftware = pcompSoftwareService.fetchSoftware(pcompVersion.getPcompSoftwareId());
+            User user = (User) webCache.getUser();
+            if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId().equals(pcompVersion.getCreatedBy())) {
+                throw new PcompException(Constants.PERMISSION_DENIED);
+            }
+            if (!StrUtils.isNull(description)) {
+                PcompVersionDoucumentDownload pcompVersionDoucumentDownload = pcompVersionService.fetchVersionDocument(versionDocumentId);
+                pcompVersionDoucumentDownload.setDescription(description);
+                if (document != null && document.getSize() > 0) {
+                    pcompVersionDoucumentDownload.setDownload(fileService.saveFile(document.getOriginalFilename(), document.getInputStream()));
+                }
+                pcompVersionService.updateVersionDocument(pcompVersionDoucumentDownload, user.getId());
+            }
+        } catch (Exception e) {
+            return handleException(e, webCache);
+        }
+        redirectAttributes.addAttribute(PcompConstants.SOFTWARE_PAGE_NAVIGATION, PcompConstants.DOWNLOAD);
+        redirectAttributes.addAttribute(PcompConstants.PCOMP_VERSION, versionId);
+        return "redirect:" + PathConstants.PCOMP_SOFTWARE_PATH;
+    }
+
+    @RequestMapping(value = PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_CREATE_PATH, method = RequestMethod.POST)
+    public String addVersionDocument(@RequestParam(PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_DOWNLOAD) MultipartFile document,
+                                     @RequestParam(PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_DESCRIPTION) String description,
+                                     HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
+        WebCache webCache = getWebCache(request);
+        model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
+        String versionId = request.getParameter(PcompConstants.PCOMP_VERSION);
+        try {
+            PcompVersion pcompVersion = pcompVersionService.fetchVersionById(versionId);
+            redirectAttributes.addAttribute(PcompConstants.PCOMP_SOFTWARE, pcompVersion.getPcompSoftwareId());
+            PcompSoftware pcompSoftware = pcompSoftwareService.fetchSoftware(pcompVersion.getPcompSoftwareId());
+            User user = (User) webCache.getUser();
+            if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId().equals(pcompVersion.getCreatedBy())) {
+                throw new PcompException(Constants.PERMISSION_DENIED);
+            }
+            if (!StrUtils.isNull(description)) {
+                PcompVersionDoucumentDownload pcompVersionDoucumentDownload = new PcompVersionDoucumentDownload();
+                pcompVersionDoucumentDownload.setDescription(description);
+                pcompVersionDoucumentDownload.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
+                pcompVersionDoucumentDownload.setPcompVersionId(pcompVersion.getId());
+                if (document != null && document.getSize() > 0) {
+                    pcompVersionDoucumentDownload.setDownload(fileService.saveFile(document.getOriginalFilename(), document.getInputStream()));
+                }
+                pcompVersionService.addVersionDocument(pcompVersionDoucumentDownload, user.getId());
+            }
+        } catch (Exception e) {
+            return handleException(e, webCache);
+        }
+        redirectAttributes.addAttribute(PcompConstants.SOFTWARE_PAGE_NAVIGATION, PcompConstants.DOWNLOAD);
+        redirectAttributes.addAttribute(PcompConstants.PCOMP_VERSION, versionId);
         return "redirect:" + PathConstants.PCOMP_SOFTWARE_PATH;
     }
 }

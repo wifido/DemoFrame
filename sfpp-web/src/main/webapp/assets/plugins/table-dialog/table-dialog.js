@@ -102,8 +102,8 @@
 				dialog = this.createDialog({
 					name       : dialogName,
 					title      : dialogLang.title,
-					width      : 360,
-					height     : 226,
+					width      : 800,
+					height     : 600,
 					mask       : settings.dialogShowMask,
 					drag       : settings.dialogDraggable,
 					content    : dialogContent,

@@ -98,7 +98,7 @@ public class PcompKindManager {
         if (b) {
             kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
                     .send(StrUtils.makeString(PcompConstants.PCOMP_KIND, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompKind)));
-            executorService.submit(new UpdatePcompTitleModifiedTimeWork(pcompKind.getPcompTitleId()));
+            executorService.submit(new UpdatePcompTitleModifiedTimeWork(pcompKind.getPcompTitleId(), pcompKind.getModifiedBy()));
         }
         return b;
     }
@@ -115,7 +115,7 @@ public class PcompKindManager {
         if (b) {
             kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
                     .send(StrUtils.makeString(PcompConstants.PCOMP_KIND, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompKind)));
-            executorService.submit(new UpdatePcompTitleModifiedTimeWork(pcompKind.getPcompTitleId()));
+            executorService.submit(new UpdatePcompTitleModifiedTimeWork(pcompKind.getPcompTitleId(), userId));
         }
         executorService.submit(new DeletePcompSoftwareLogicallyWork(pcompKindId, userId));
         return b;
@@ -143,7 +143,7 @@ public class PcompKindManager {
         }
     }
 
-    public boolean updateModifiedTime(String pcompKindId) throws KafkaException {
+    public boolean updateModifiedTime(String pcompKindId, int userId) throws KafkaException {
         PcompKind pcompKind = pcompKindMapper.selectByPrimaryKey(pcompKindId);
         if (pcompKind == null) {
             return false;
@@ -153,22 +153,23 @@ public class PcompKindManager {
         if (b) {
             kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
                     .send(StrUtils.makeString(PcompConstants.PCOMP_KIND, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompKind)));
-            executorService.submit(new UpdatePcompTitleModifiedTimeWork(pcompKind.getPcompTitleId()));
+            executorService.submit(new UpdatePcompTitleModifiedTimeWork(pcompKind.getPcompTitleId(), userId));
         }
         return b;
     }
 
     private class UpdatePcompTitleModifiedTimeWork implements Runnable {
         private final String pcompTitleId;
-
-        private UpdatePcompTitleModifiedTimeWork(String pcompTitleId) {
+        private final int userId;
+        private UpdatePcompTitleModifiedTimeWork(String pcompTitleId, int userId) {
             this.pcompTitleId = pcompTitleId;
+            this.userId = userId;
         }
 
         @Override
         public void run() {
             try {
-                pcompTitleManager.updateModifiedTime(pcompTitleId);
+                pcompTitleManager.updateModifiedTime(pcompTitleId,userId);
             } catch (Exception e) {
                 log.warn(ExceptionUtils.getStackTrace(e));
             }

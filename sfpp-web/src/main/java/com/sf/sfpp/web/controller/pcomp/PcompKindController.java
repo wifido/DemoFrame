@@ -66,7 +66,7 @@ public class PcompKindController extends AbstractCachedController {
 
         try {
             String titleId = pcompTitleService.fetchTitleByTitleName(titleName).getId();
-            result.setData(pcompKindService.fetchAllKindsSeparatelyByTitle(titleId,Constants.ALL_PAGE_NUMBER).getList());
+            result.setData(pcompKindService.fetchAllKindsSeparatelyByTitle(titleId, Constants.ALL_PAGE_NUMBER).getList());
             return result;
         } catch (PcompException e) {
             result.setMessage(e.getMessage());
@@ -91,8 +91,8 @@ public class PcompKindController extends AbstractCachedController {
             String titleId = pcompTitleService.fetchTitleByTitleName(titleName).getId();
             pcompKind.setPcompTitleId(titleId);
 
-            pcompKind.setBannerImage(imageController.uploadImage(bannerImage, ImageKind.BANNER_IMAGE));
-            pcompKind.setTopPhoto(imageController.uploadImage(topPhoto, ImageKind.TOP_PHOTO));
+            pcompKind.setBannerImage(bannerImage.getSize() > 0 ? imageController.uploadImage(bannerImage, ImageKind.BANNER_IMAGE) : "");
+            pcompKind.setTopPhoto(topPhoto.getSize() > 0 ? imageController.uploadImage(topPhoto, ImageKind.TOP_PHOTO) : "");
             if (!pcompKindService.existsKind(titleName, kindName)) {
                 pcompKindService.addKind(pcompKind);
             }
@@ -108,7 +108,7 @@ public class PcompKindController extends AbstractCachedController {
         model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
         String kindId = request.getParameter(PcompConstants.PCOMP_KIND);
         try {
-            pcompKindService.removeKind(kindId, ((User)webCache.getUser()).getId());
+            pcompKindService.removeKind(kindId, ((User) webCache.getUser()).getId());
         } catch (Exception e) {
             return handleException(e, webCache);
         }

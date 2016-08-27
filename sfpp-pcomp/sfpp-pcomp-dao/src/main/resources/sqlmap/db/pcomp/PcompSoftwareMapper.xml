@@ -43,7 +43,7 @@
     select
     <include refid="Base_Column_List" />
     ,
-    introduction_short
+    <include refid="Blob_Column_List" />
     from pcomp_software
     where pcomp_kind_id = #{pcomp_kind_id,jdbcType=VARCHAR}
     and is_deleted = 0

@@ -641,6 +641,13 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <repositories>
+        <repository>
+            <id>releases</id>
+            <name>Nexus Release Repository</name>
+            <url> http://nexus.sf-express.com/nexus/content/groups/public/</url>
+        </repository>
+    </repositories>
     <distributionManagement>
 	    <repository>
 	      <id>releases</id>

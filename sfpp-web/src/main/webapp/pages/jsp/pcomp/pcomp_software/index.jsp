@@ -61,8 +61,11 @@
 <jsp:include page="../../common/footer.jsp"></jsp:include>
 <jsp:include page="../../common/commonJS.jsp"></jsp:include>
 <jsp:include page="../common/JS.jsp"></jsp:include>
-<jsp:include page="../common/content/softwareMatrix_JS.jsp"></jsp:include>
+<jsp:include page="../common/sidebar_JS.jsp"></jsp:include>
 <jsp:include page="../common/content/software/version_JS.jsp"></jsp:include>
+<jsp:include page="../common/content/software/dowload_JS.jsp"></jsp:include>
+<jsp:include page="../common/content/software/history_JS.jsp"></jsp:include>
+<jsp:include page="../form/common/JS.jsp"></jsp:include>
 
 
 <%
@@ -136,6 +139,7 @@
     function post<%=PcompConstants.INTRODUCTION%>() {
         var temp = document.createElement("form");
         temp.action ='<%=PathUtils.makePath(PathConstants.PCOMP_SOFTWARE_MODIFICATION_PATH)%>';
+        temp.enctype="multipart/form-data";
         temp.method = "post";
         temp.style.display = "none";
         var opt = document.createElement("textarea");
@@ -221,6 +225,7 @@
     function post<%=PcompConstants.HISTORY_INTRODUCTION%>() {
         var temp = document.createElement("form");
         temp.action ='<%=PathUtils.makePath(PathConstants.PCOMP_VERSION_MODIFICATION_PATH)%>';
+        temp.enctype="multipart/form-data";
         temp.method = "post";
         temp.style.display = "none";
         var opt = document.createElement("textarea");
@@ -311,6 +316,7 @@
     function post<%=PcompConstants.HISTORY_QUICKSTART%>() {
         var temp = document.createElement("form");
         temp.action ='<%=PathUtils.makePath(PathConstants.PCOMP_VERSION_MODIFICATION_PATH)%>';
+        temp.enctype="multipart/form-data";
         temp.method = "post";
         temp.style.display = "none";
         var opt = document.createElement("textarea");

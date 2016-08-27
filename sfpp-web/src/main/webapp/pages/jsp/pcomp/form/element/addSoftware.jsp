@@ -64,15 +64,6 @@
         <span class="help-block" id="<%=FormUtils.mkHelpBlockId(PathConstants.PCOMP_SOFTWARE_AVATAR)%>"></span>
     </div>
 
-    <div class="form-group" id="<%=FormUtils.mkFormGroupId(PathConstants.PCOMP_SOFTWARE_SHORT_INTRODUCTION)%>">
-        <label for="<%=FormUtils.mkTextInputId(PathConstants.PCOMP_SOFTWARE_SHORT_INTRODUCTION)%>">简短介绍</label>
-        <input type="text" placeholder="请输入简短介绍（不超过256个字）" class="form-control"
-               name="<%=PathConstants.PCOMP_SOFTWARE_SHORT_INTRODUCTION%>"
-               id="<%=FormUtils.mkTextInputId(PathConstants.PCOMP_SOFTWARE_SHORT_INTRODUCTION)%>"
-               onblur="validate<%=PathConstants.PCOMP_SOFTWARE_SHORT_INTRODUCTION%>(this)" required>
-        <span class="help-block"
-              id="<%=FormUtils.mkHelpBlockId(PathConstants.PCOMP_SOFTWARE_SHORT_INTRODUCTION)%>"></span>
-    </div>
 
     <div class="form-group" id="<%=FormUtils.mkFormGroupId(PathConstants.PCOMP_SOFTWARE_INTRODUCTION)%>">
         <label for="<%=FormUtils.mkTextInputId(PathConstants.PCOMP_SOFTWARE_INTRODUCTION)%>">详细介绍</label>

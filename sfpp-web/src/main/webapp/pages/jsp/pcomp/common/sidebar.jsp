@@ -4,6 +4,8 @@
 <%@ page import="com.sf.sfpp.pcomp.common.domain.PcompCacheObject" %>
 <%@ page import="com.sf.sfpp.pcomp.common.model.PcompVersion" %>
 <%@ page import="com.sf.sfpp.pcomp.common.model.extend.PcompSoftwareExtend" %>
+<%@ page import="com.sf.sfpp.web.common.PathConstants" %>
+<%@ page import="com.sf.sfpp.web.common.utils.FormUtils" %>
 <%@ page import="com.sf.sfpp.web.common.utils.PathUtils" %>
 <%@ page import="com.sf.sfpp.web.common.utils.PermissionUtils" %>
 <%@ page import="java.util.List" %>
@@ -23,14 +25,45 @@
         </div>
         <div class="pull-left info">
             <p><%=pcompSoftware.getName()%>
-            <%
-                if (pcompSoftware != null
-                        && PermissionUtils.isCurrentUser(pcompSoftware.getCreatedBy())) {
-            %>
-            <button type="button" class="btn btn-box-tool"><i class="fa fa-pencil"></i>
-            </button>
-            <button type="button" class="btn btn-box-tool" onclick="remove<%=PcompConstants.PCOMP_SOFTWARE%>('<%=pcompSoftware.getId()%>','<%=pcompSoftware.getName()%>')"><i class="fa fa-trash"></i>
-            </button>
+                    <%
+                    if (pcompSoftware != null
+                            && PermissionUtils.isCurrentUser(pcompSoftware.getCreatedBy())) {
+                %>
+                <button type="button" id="edit<%=PcompConstants.PCOMP_SOFTWARE%>" class="btn btn-box-tool"><i
+                        class="fa fa-pencil"></i>
+                </button>
+
+                <button type="button" class="btn btn-box-tool"
+                        onclick="remove<%=PcompConstants.PCOMP_SOFTWARE%>('<%=pcompSoftware.getId()%>','<%=pcompSoftware.getName()%>')">
+                    <i class="fa fa-trash"></i>
+                </button>
+
+            <div id="<%=PcompConstants.PCOMP_SOFTWARE%>dialog" title="修改(由于缓存，修改可能会有10秒的延迟)">
+                <form id="<%=PcompConstants.PCOMP_SOFTWARE%>Form" role="form"
+                      action="<%=PathUtils.makePath(PathConstants.PCOMP_SOFTWARE_MODIFICATION_PATH)%>"
+                      enctype="multipart/form-data"
+                      method="post">
+                    <input type="text" value="<%=pcompSoftware.getId()%>" name="<%=PathConstants.PCOMP_SOFTWARE_ID%>" hidden>
+                    <div class="form-group" id="<%=FormUtils.mkFormGroupId(PathConstants.PCOMP_SOFTWARE_NAME)%>">
+                        <label for="<%=FormUtils.mkTextInputId(PathConstants.PCOMP_SOFTWARE_NAME)%>">新的软件名称</label>
+                        <input type="text" value="<%=pcompSoftware.getName()%>" class="form-control"
+                               name="<%=PathConstants.PCOMP_SOFTWARE_NAME%>"
+                               id="<%=FormUtils.mkTextInputId(PathConstants.PCOMP_SOFTWARE_NAME)%>"
+                                required>
+                        <span class="help-block"
+                              id="<%=FormUtils.mkHelpBlockId(PathConstants.PCOMP_SOFTWARE_NAME)%>"></span>
+                    </div>
+
+                    <div class="form-group" id="<%=FormUtils.mkFormGroupId(PathConstants.PCOMP_SOFTWARE_AVATAR)%>">
+                        <label for="<%=FormUtils.mkTextInputId(PathConstants.PCOMP_SOFTWARE_AVATAR)%>">新的小头像（留空为不更新）</label>
+                        <input id="<%=FormUtils.mkTextInputId(PathConstants.PCOMP_SOFTWARE_AVATAR)%>" class="file"
+                               type="file"
+                               name="<%=PathConstants.PCOMP_SOFTWARE_AVATAR%>">
+                        <span class="help-block"
+                              id="<%=FormUtils.mkHelpBlockId(PathConstants.PCOMP_SOFTWARE_AVATAR)%>"></span>
+                    </div>
+                </form>
+            </div>
             <%}%>
             </p>
         </div>
@@ -60,7 +93,7 @@
                         <a href="<%=PathUtils.makeVersionPath(pcompSoftware.getId(),PcompConstants.HISTORY,pcompVersion.getId())%>"><i
                                 class="fa <%=(PcompConstants.HISTORY.equals(page_nav))&&(pcompVersion.getId().equals(pcomp_version))?"fa-check-circle-o":"fa-circle-o"%>"></i> <%=pcompVersion.getVersionNumber()%>
                         </a>
-                        </li>
+                    </li>
                     <%
                         }
                     %>
@@ -109,3 +142,4 @@
     </section>
     <!-- /.sidebar -->
 </aside>
+

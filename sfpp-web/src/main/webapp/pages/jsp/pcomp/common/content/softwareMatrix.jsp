@@ -5,6 +5,7 @@
 <%@ page import="com.sf.sfpp.pcomp.common.domain.PcompCacheObject" %>
 <%@ page import="com.sf.sfpp.pcomp.common.model.PcompKind" %>
 <%@ page import="com.sf.sfpp.pcomp.common.model.PcompSoftware" %>
+<%@ page import="com.sf.sfpp.web.common.utils.IntroductionUtils" %>
 <%@ page import="com.sf.sfpp.web.common.utils.PathUtils" %>
 <%@ page import="com.sf.sfpp.web.common.utils.PermissionUtils" %>
 <%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
@@ -17,30 +18,35 @@
 %>
 <div class="row">
     <div class="col-lg-2 col-md-3  col-sm-4 col-xs-12">
-        <div class="box box-default ">
-            <div class="box-header with-border">
-                <h3 class="box-title"><a
-                        href="<%=PathUtils.makeSoftwarePath(pcompSoftware.getId())%>"><b><%=pcompSoftware.getName()%>
-                </b></a></h3>
+        <a
+                href="<%=PathUtils.makeSoftwarePath(pcompSoftware.getId())%>">
+            <div class="box box-default ">
+                <div class="box-header with-border">
 
-                <div class="box-tools pull-right">
-                    <%
-                        if (pcompSoftware != null
-                                && PermissionUtils.isCurrentUser(pcompSoftware.getCreatedBy())) {
-                    %>
-                    <button type="button" class="btn btn-box-tool"><i class="fa fa-pencil"></i>
-                    </button>
-                    <button type="button" class="btn btn-box-tool" onclick="remove<%=PcompConstants.PCOMP_SOFTWARE%>('<%=pcompSoftware.getId()%>','<%=pcompSoftware.getName()%>')"><i class="fa fa-trash"></i>
-                    </button>
-                    <%}%>
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                    </button>
+                    <h3 class="box-title"><b><%=pcompSoftware.getName()%>
+                    </b></h3>
+
+                    <div class="box-tools pull-right">
+                        <%
+                            if (pcompSoftware != null
+                                    && PermissionUtils.isCurrentUser(pcompSoftware.getCreatedBy())) {
+                        %>
+                        <button type="button" class="btn btn-box-tool"
+                                onclick="remove<%=PcompConstants.PCOMP_SOFTWARE%>('<%=pcompSoftware.getId()%>','<%=pcompSoftware.getName()%>')">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                        <%}%>
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                class="fa fa-minus"></i>
+                        </button>
+                    </div>
+
+                </div>
+                <div class="box-body">
+                    <%=IntroductionUtils.getShortIntroduction(pcompSoftware.getIntroduction(),100)%>
                 </div>
             </div>
-            <div class="box-body">
-                <%=pcompSoftware.getIntroductionShort()%>
-            </div>
-        </div>
+        </a>
     </div>
 
     <%

@@ -52,8 +52,8 @@
 
                 dialog = this.createDialog({
                     title      : linkLang.title,
-                    width      : 380,
-                    height     : 211,
+                    width      : 800,
+                    height     : 600,
                     content    : dialogHTML,
                     mask       : settings.dialogShowMask,
                     drag       : settings.dialogDraggable,

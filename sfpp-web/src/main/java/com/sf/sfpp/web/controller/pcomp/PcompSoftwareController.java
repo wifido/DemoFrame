@@ -28,7 +28,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -62,7 +61,7 @@ public class PcompSoftwareController extends AbstractCachedController {
             PcompKind pcompKind = pcompKindService.fetchKind(titleName, kindName);
             result.setData(pcompSoftwareService.existsSoftware(pcompKind.getId(), softwareName));
             return result;
-        } catch (PcompException e) {
+        } catch (Exception e) {
             result.setMessage(e.getMessage());
         }
         result.setData(true);
@@ -81,7 +80,7 @@ public class PcompSoftwareController extends AbstractCachedController {
             PcompKind pcompKind = pcompKindService.fetchKind(titleName, kindName);
             result.setData((List<PcompSoftware>) pcompSoftwareService.fetchAllSoftwaresSeparatelyByKind(pcompKind.getId(), Constants.ALL_PAGE_NUMBER).getList());
             return result;
-        } catch (PcompException e) {
+        } catch (Exception e) {
             result.setMessage(e.getMessage());
         }
         result.setData(pcompSoftwares);
@@ -89,7 +88,7 @@ public class PcompSoftwareController extends AbstractCachedController {
     }
 
     @RequestMapping(value = PathConstants.PCOMP_SOFTWARE_CREATE_PATH, method = RequestMethod.POST)
-    public String createSoftware(@RequestParam(PathConstants.PCOMP_SOFTWARE_AVATAR) MultipartFile bannerImage, HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
+    public String createSoftware(@RequestParam(PathConstants.PCOMP_SOFTWARE_AVATAR) MultipartFile avatar, HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
         WebCache webCache = getWebCache(request);
         String titleName = request.getParameter(PathConstants.PCOMP_TITLE_NAME);
         String kindName = request.getParameter(PathConstants.PCOMP_KIND_NAME);
@@ -108,20 +107,16 @@ public class PcompSoftwareController extends AbstractCachedController {
             pcompSoftware.setPcompKindId(pcompKind.getId());
             pcompSoftware.setIntroduction(pcomp_software_introduction);
             pcompSoftware.setIntroductionShort(pcomp_software_short_introduction);
-            pcompSoftware.setAvatar(imageController.uploadImage(bannerImage, ImageKind.AVATAR));
-            User user = null;
-            if (webCache.getUser() != null) {
-                user = (User) webCache.getUser();
-            }
+            pcompSoftware.setAvatar(avatar.getSize() > 0 ? imageController.uploadImage(avatar, ImageKind.AVATAR) : "");
+            User user = (User) webCache.getUser();
             if (user != null) {
                 pcompSoftware.setCreatedBy(user.getId());
                 pcompSoftware.setCreatedBy(user.getId());
             } else {
-                pcompSoftware.setModifiedBy(-1);
-                pcompSoftware.setModifiedBy(-1);
+                throw new PcompException(Constants.PERMISSION_DENIED);
             }
             pcompSoftwareService.addSoftware(pcompSoftware);
-        } catch (PcompException | IOException e) {
+        } catch (Exception e) {
             model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
             return handleException(e, webCache);
         }
@@ -129,12 +124,12 @@ public class PcompSoftwareController extends AbstractCachedController {
         return "redirect:" + PathConstants.PCOMP_SOFTWARE_PATH;
     }
 
+
     @RequestMapping(value = PathConstants.PCOMP_SOFTWARE_MODIFICATION_PATH, method = RequestMethod.POST)
-    public String updateSoftware(HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
+    public String updateSoftware(@RequestParam(value = PathConstants.PCOMP_SOFTWARE_AVATAR, required = false) MultipartFile avatar, HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
         WebCache webCache = getWebCache(request);
         boolean modified = false;
         String pcomp_software_id = request.getParameter(PathConstants.PCOMP_SOFTWARE_ID);
-        String pcomp_software_avatar = request.getParameter(PathConstants.PCOMP_SOFTWARE_AVATAR);
         String pcomp_software_name = request.getParameter(PathConstants.PCOMP_SOFTWARE_NAME);
         String pcomp_software_introduction = request.getParameter(PathConstants.PCOMP_SOFTWARE_INTRODUCTION);
         try {
@@ -142,10 +137,12 @@ public class PcompSoftwareController extends AbstractCachedController {
             if (pcompSoftware == null) {
                 throw new PcompException(new StringBuilder().append("Software:").append(pcomp_software_id).append("不存在").toString(), new Exception());
             }
-            if (!StrUtils.isNull(pcomp_software_avatar)) {
-                pcompSoftware.setAvatar(pcomp_software_avatar);
+
+            if (avatar != null && avatar.getSize() != 0) {
+                pcompSoftware.setAvatar(imageController.uploadImage(avatar, ImageKind.AVATAR));
                 modified = true;
             }
+
             if (!StrUtils.isNull(pcomp_software_name)) {
                 pcompSoftware.setName(pcomp_software_name);
                 modified = true;
@@ -155,18 +152,15 @@ public class PcompSoftwareController extends AbstractCachedController {
                 modified = true;
             }
             if (modified) {
-                User user = null;
-                if (webCache.getUser() != null) {
-                    user = (User) webCache.getUser();
-                }
-                if (user != null) {
-                    pcompSoftware.setModifiedBy(user.getId());
+                User user = (User) webCache.getUser();
+                if (!user.getId().equals(pcompSoftware.getCreatedBy())) {
+                    throw new PcompException(Constants.PERMISSION_DENIED);
                 } else {
-                    pcompSoftware.setModifiedBy(-1);
+                    pcompSoftware.setModifiedBy(user.getId());
                 }
             }
             pcompSoftwareService.updateSoftware(pcompSoftware);
-        } catch (PcompException e) {
+        } catch (Exception e) {
             model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
             return handleException(e, webCache);
         }
@@ -182,7 +176,11 @@ public class PcompSoftwareController extends AbstractCachedController {
         try {
             PcompSoftware pcompSoftware = pcompSoftwareService.fetchSoftware(softwareID);
             redirectAttributes.addAttribute(PcompConstants.PCOMP_KIND, pcompSoftware.getPcompKindId());
-            pcompSoftwareService.removeSoftware(softwareID, ((User) webCache.getUser()).getId());
+            User user = (User) webCache.getUser();
+            if (!user.getId().equals(pcompSoftware.getCreatedBy())) {
+                throw new PcompException(Constants.PERMISSION_DENIED);
+            }
+            pcompSoftwareService.removeSoftware(softwareID, user.getId());
         } catch (Exception e) {
             return handleException(e, webCache);
         }

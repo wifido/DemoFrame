@@ -8,6 +8,10 @@ package com.sf.sfpp.pcomp.common.exception;
  * @date 2016/8/11
  */
 public class PcompException extends Exception {
+    public PcompException(String message) {
+        super(message);
+    }
+
     public PcompException(Throwable cause) {
         super(cause);
     }

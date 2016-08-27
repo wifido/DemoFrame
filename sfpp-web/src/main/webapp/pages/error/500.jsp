@@ -1,3 +1,5 @@
+<%@ page import="com.sf.sfpp.common.Constants" %>
+<%@ page import="com.sf.sfpp.common.domain.WebCache" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page session="false" %>
 <!DOCTYPE html>
@@ -28,7 +30,11 @@
           <div class="widget-content">
             <div class="error_ex">
               <h1>500</h1>
-              <h3>出错啦~你访问的页面拒绝了你的请求!</h3>
+              <h3>出错啦!</h3>
+              <%
+                WebCache webCache = (WebCache) request.getAttribute(Constants.WEB_CACHE_KEY);
+              %>
+              <p style="text-align: left"><%=webCache.getMessage()%></p>
               <p>Access to this page is forbidden</p>
               <a class="btn btn-warning btn-big"  href="/pages/main/index.html">回到首页</a> </div>
           </div>

@@ -123,12 +123,13 @@ public class PcompTitleManager {
         }
     }
 
-    public boolean updateModifiedTime(String pcompTitleId) throws KafkaException {
+    public boolean updateModifiedTime(String pcompTitleId, int userId) throws KafkaException {
         PcompTitle pcompTitle = pcompTitleMapper.selectByPrimaryKey(pcompTitleId);
         if (pcompTitle == null) {
             return false;
         }
         pcompTitle.setModifiedTime(new Date());
+        pcompTitle.setModifiedBy(userId);
         boolean b = pcompTitleMapper.updateByPrimaryKey(pcompTitle) >= 0;
         if (b) {
             kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)

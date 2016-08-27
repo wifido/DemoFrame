@@ -42,7 +42,6 @@
                     <p class="pabtn">
                         <a href="<%=link%>" target="_self">立即进入</a>
                         <shiro:hasPermission name="/document/createSubject">
-                            <a href="<%=link%>" target="_self">修改</a>
                             <a onclick="remove<%=PcompConstants.PCOMP_KIND%>('<%=pcompKind.getId()%>','<%=pcompKind.getName()%>')" target="_self">删除</a>
                         </shiro:hasPermission>
                     </p>

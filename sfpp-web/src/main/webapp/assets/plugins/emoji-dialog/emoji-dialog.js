@@ -90,7 +90,7 @@
 			var dialogLang  = lang.dialog.emoji;
 			
 			var dialogContent = [
-				"<div class=\"" + classPrefix + "emoji-dialog-box\" style=\"width: 760px;height: 334px;margin-bottom: 8px;overflow: hidden;\">",
+				"<div class=\"" + classPrefix + "emoji-dialog-box\" style=\"width: 800px;height: 600px;margin-bottom: 8px;overflow: hidden;\">",
 				"<div class=\"" + classPrefix + "tab\"></div>",
 				"</div>",
 			].join("\n");
@@ -114,7 +114,7 @@
 					name       : dialogName,
 					title      : dialogLang.title,
 					width      : 800,
-					height     : 475,
+					height     : 600,
 					mask       : settings.dialogShowMask,
 					drag       : settings.dialogDraggable,
 					content    : dialogContent,
