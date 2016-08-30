@@ -62,6 +62,16 @@ public class PcompKindManager {
         return (Page<PcompKind>) pcompKindMapper.selectAvailabeleKindsByTitleID(titleId);
     }
 
+    public Page<PcompKind> getRecommendedPcompKinds() {
+        PageHelper.startPage(1, PcompConstants.NUMBER_PER_PAGE);
+        return (Page<PcompKind>) pcompKindMapper.selectLatest();
+    }
+
+    public Page<PcompKind> getLatestPcompKinds() {
+        PageHelper.startPage(1, PcompConstants.NUMBER_PER_PAGE);
+        return (Page<PcompKind>) pcompKindMapper.selectLatest();
+    }
+
     public Page<PcompKind> getAllKinds(int pageNumber) {
         if (pageNumber != Constants.ALL_PAGE_NUMBER) {
             PageHelper.startPage(pageNumber, PcompConstants.NUMBER_PER_PAGE);
@@ -69,7 +79,6 @@ public class PcompKindManager {
             PageHelper.startPage(1, Integer.MAX_VALUE);
         }
         Page<PcompKind> pcompKinds = (Page<PcompKind>) pcompKindMapper.selectAllAvailabeleKinds();
-        pcompKinds.getPages();
         return pcompKinds;
     }
 

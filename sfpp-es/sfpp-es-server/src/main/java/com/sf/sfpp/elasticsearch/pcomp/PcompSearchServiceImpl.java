@@ -36,26 +36,31 @@ public class PcompSearchServiceImpl implements PcompSearchService {
             List result = new LinkedList();
             TreeMap<Double, List<String>> sorted = getSorted(keyword, PcompConstants.PCOMP_SOFTWARE, sortRule);
             TreeMap<Double, List> sortedResult = new TreeMap<>();
-            for (Double key : sorted.keySet()) {
-                for (String json : sorted.get(key)) {
-                    List list = sortedResult.get(key);
-                    if (list == null) {
-                        list = new ArrayList();
-                        sortedResult.put(key, list);
+            if (sorted != null) {
+                for (Double key : sorted.keySet()) {
+                    for (String json : sorted.get(key)) {
+                        List list = sortedResult.get(key);
+                        if (list == null) {
+                            list = new ArrayList();
+                            sortedResult.put(key, list);
+                        }
+                        list.add(JSON.parseObject(json, PcompSoftware.class));
                     }
-                    list.add(JSON.parseObject(json, PcompSoftware.class));
                 }
             }
+
             TreeMap<Double, List<String>> sorted1 = getSorted(keyword, PcompConstants.PCOMP_VERSION, sortRule);
             TreeMap<Double, List> sortedResult1 = new TreeMap<>();
-            for (Double key : sorted1.keySet()) {
-                for (String json : sorted1.get(key)) {
-                    List list = sortedResult1.get(key);
-                    if (list == null) {
-                        list = new ArrayList();
-                        sortedResult1.put(key, list);
+            if (sorted1 != null) {
+                for (Double key : sorted1.keySet()) {
+                    for (String json : sorted1.get(key)) {
+                        List list = sortedResult1.get(key);
+                        if (list == null) {
+                            list = new ArrayList();
+                            sortedResult1.put(key, list);
+                        }
+                        list.add(JSON.parseObject(json, PcompVersion.class));
                     }
-                    list.add(JSON.parseObject(json, PcompVersion.class));
                 }
             }
             sortedResult.putAll(sortedResult1);
@@ -72,6 +77,9 @@ public class PcompSearchServiceImpl implements PcompSearchService {
 
     private SearchHit[] getSearchHits(String keyword, String type) {
         String[] stringMeta = esClient.getStringMeta(Constants.PUBLIC_COMPONENT_SYSTEM, type);
+        if (stringMeta == null) {
+            return null;
+        }
         MultiMatchQueryBuilder termQueryBuilder = QueryBuilders.multiMatchQuery(keyword, stringMeta);
         QueryBuilder qb = new BoolQueryBuilder()
                 .must(QueryBuilders.termQuery("isDeleted", false))
@@ -83,11 +91,14 @@ public class PcompSearchServiceImpl implements PcompSearchService {
 
     private TreeMap<Double, List<String>> getSorted(String keyword, String type, String sortRule) {
         SearchHit[] searchHit = getSearchHits(keyword, type);
+        if (searchHit == null) {
+            return null;
+        }
         TreeMap<Double, List<String>> result = new TreeMap<>();
         for (int i = 0; i < searchHit.length; i++) {
             switch (sortRule) {
                 case SortRule.BY_CORRELATION_DESC:
-                    List<String> stringList = result.get((double)searchHit[i].getScore());
+                    List<String> stringList = result.get((double) searchHit[i].getScore());
                     if (stringList == null) {
                         stringList = new LinkedList<>();
                         result.put((double) searchHit[i].getScore(), stringList);
@@ -95,7 +106,7 @@ public class PcompSearchServiceImpl implements PcompSearchService {
                     stringList.add(searchHit[i].getSourceAsString());
                     break;
                 case SortRule.BY_CORRELATION:
-                    stringList = result.get((double)searchHit[i].getScore());
+                    stringList = result.get((double) searchHit[i].getScore());
                     if (stringList == null) {
                         stringList = new LinkedList<>();
                         result.put(0.0 - searchHit[i].getScore(), stringList);
@@ -116,7 +127,7 @@ public class PcompSearchServiceImpl implements PcompSearchService {
                     stringList = result.get(0 - (double) modifiedTime);
                     if (stringList == null) {
                         stringList = new LinkedList<>();
-                        result.put( (0.0 - (double) modifiedTime), stringList);
+                        result.put((0.0 - (double) modifiedTime), stringList);
                     }
                     stringList.add(searchHit[i].getSourceAsString());
                     break;
@@ -129,6 +140,9 @@ public class PcompSearchServiceImpl implements PcompSearchService {
     public List<PcompVersion> getVersionRelated(String keyword, String sortRule) throws PcompException {
         try {
             TreeMap<Double, List<String>> sorted = getSorted(keyword, PcompConstants.PCOMP_VERSION, sortRule);
+            if (sorted == null) {
+                return null;
+            }
             LinkedList<PcompVersion> pcompVersions = new LinkedList<>();
             for (List<String> jsons : sorted.values()) {
                 for (String json : jsons) {
@@ -145,6 +159,9 @@ public class PcompSearchServiceImpl implements PcompSearchService {
     public List<PcompSoftware> getSoftwareRelated(String keyword, String sortRule) throws PcompException {
         try {
             TreeMap<Double, List<String>> sorted = getSorted(keyword, PcompConstants.PCOMP_SOFTWARE, sortRule);
+            if (sorted == null) {
+                return null;
+            }
             LinkedList<PcompSoftware> pcompSoftwares = new LinkedList<>();
             for (List<String> jsons : sorted.values()) {
                 for (String json : jsons) {

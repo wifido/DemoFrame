@@ -2,7 +2,6 @@
 <%@ page import="com.github.pagehelper.PageInfo" %>
 <%@ page import="com.sf.sfpp.common.Constants" %>
 <%@ page import="com.sf.sfpp.common.domain.WebCache" %>
-<%@ page import="com.sf.sfpp.common.utils.ImageUtils" %>
 <%@ page import="com.sf.sfpp.pcomp.common.PcompConstants" %>
 <%@ page import="com.sf.sfpp.pcomp.common.domain.PcompCacheObject" %>
 <%@ page import="com.sf.sfpp.pcomp.common.model.PcompKind" %>
@@ -27,8 +26,8 @@
                         <img src="<%=pcompKind.getBannerImage()%>" class="bannerimg">
                     </div>
                     <a href="<%=link%>" class="topphoto" target="_self">
-                        <img src="<%=pcompKind.getTopPhoto()%>" alt="" width="<%=ImageUtils.TOP_PHOTO_WIDTH%>"
-                             height="<%=ImageUtils.TOP_PHOTO_HEIGHT%>">
+                        <img src="<%=pcompKind.getTopPhoto()%>" alt="" width="80"
+                             height="80">
                     </a>
                 </div>
                 <div class="divbottoms">

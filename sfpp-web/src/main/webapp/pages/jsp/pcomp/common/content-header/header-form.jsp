@@ -35,7 +35,10 @@
                     </li>
                 </shiro:hasPermission>
             </ul>
-
+            <button type="button" class="btn btn-primary"
+                    onclick=" window.open('<%=PathUtils.makePath(PathConstants.PCOMP_HELP_PATH)%>')">
+                帮助
+            </button>
         </div>
     </div>
 </form>

@@ -24,6 +24,15 @@
     from pcomp_kind
     where id = #{id,jdbcType=VARCHAR}
   </select>
+
+  <select id="selectLatest" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from pcomp_kind
+    where is_deleted = 0
+   order by modified_time desc
+  </select>
+
   <select id="selectByUniqueKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
     <include refid="Base_Column_List" />

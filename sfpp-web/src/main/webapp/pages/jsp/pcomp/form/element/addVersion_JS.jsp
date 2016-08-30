@@ -291,7 +291,7 @@
                 $(a[i]).parent().parent().parent().parent().next().html("通过");
             }
         }
-        return validate<%=PathConstants.PCOMP_TITLE_NAME%>();
+        return true;
     }
 </script>
 <jsp:include page="../../../common/form/util.jsp"></jsp:include>

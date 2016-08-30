@@ -4,10 +4,8 @@ import com.sf.sfpp.pcomp.common.model.PcompVersion;
 import com.sf.sfpp.pcomp.common.model.PcompVersionDoucumentDownload;
 import com.sf.sfpp.pcomp.common.model.PcompVersionPlatformDownload;
 
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Hash Zhang
@@ -15,6 +13,8 @@ import java.util.Set;
  * @date 2016/8/12
  */
 public class PcompVersionExtend extends PcompVersion {
+    private String pcompSoftwareName;
+
     private List<PcompVersionDoucumentDownload> pcompVersionDoucumentDownloads = new LinkedList<>();
 
     public List<PcompVersionPlatformDownload> getPcompVersionPlatformDownloads() {
@@ -68,5 +68,13 @@ public class PcompVersionExtend extends PcompVersion {
         pcompVersion.setQuickStart(pcompVersionExtend.getQuickStart());
         pcompVersion.setVersionNumber(pcompVersionExtend.getVersionNumber());
         return pcompVersion;
+    }
+
+    public String getPcompSoftwareName() {
+        return pcompSoftwareName;
+    }
+
+    public void setPcompSoftwareName(String pcompSoftwareName) {
+        this.pcompSoftwareName = pcompSoftwareName;
     }
 }

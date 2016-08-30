@@ -16,17 +16,17 @@ import java.io.*;
 public class ImageUtils {
     public final static String imageFormat = "png";
 
-    public final static int AVATAR_WIDTH = 50;
-    public final static int AVATAR_HEIGHT = 50;
+    public final static int AVATAR_WIDTH = 1280;
+    public final static int AVATAR_HEIGHT = 1024;
 
-    public final static int TOP_PHOTO_WIDTH = 80;
-    public final static int TOP_PHOTO_HEIGHT = 80;
+    public final static int TOP_PHOTO_WIDTH = 1280;
+    public final static int TOP_PHOTO_HEIGHT = 1024;
 
-    public final static int BANNER_IMAGE_WIDTH = 720;
-    public final static int BANNER_IMAGE_HEIGHT = 192;
+    public final static int BANNER_IMAGE_WIDTH = 1280;
+    public final static int BANNER_IMAGE_HEIGHT = 1024;
 
-    public final static int CONTENT_WIDTH = 800;
-    public final static int CONTENT_HEIGHT = 600;
+    public final static int CONTENT_WIDTH = 1280;
+    public final static int CONTENT_HEIGHT = 1024;
 
     public final static int WIDTH_HEIGHT_RATIO = 2;
 

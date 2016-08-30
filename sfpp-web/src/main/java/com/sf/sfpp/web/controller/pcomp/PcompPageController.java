@@ -187,4 +187,15 @@ public class PcompPageController extends AbstractCachedController {
         return PathConstants.PCOMP_VERSION_ADD_PAGE_JSP_PATH;
 
     }
+
+    @RequestMapping(value = PathConstants.PCOMP_HELP_PATH, method = RequestMethod.GET)
+    public String helpPage(HttpServletRequest request, ModelMap model) {
+        WebCache webCache = getWebCache(request);
+        webCache.setTitle(Constants.MAIN_SYSTEM_SHORT);
+        Map<String, String> pathTree = new LinkedHashMap<>();
+        pathTree.put(Constants.PUBLIC_COMPONENT_SYSTEM, PathUtils.makePath(PathConstants.PCOMP_HOMEPAGE_PATH));
+        webCache.setPathTree(pathTree);
+        model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
+        return PathConstants.PCOMP_HELP_JSP_PATH;
+    }
 }

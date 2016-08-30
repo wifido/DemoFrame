@@ -29,6 +29,7 @@ public interface PcompConstants {
     String DOWNLOAD_CH = "版本下载";
     String QUICKSTART = "quickstart";
     String QUICKSTART_CH = "快速上手";
+    String HELP = "help";
     int NUMBER_PER_PAGE = 16;
     int HEAVY_WORK_THREAD_POOL_SIZE = 10;
 }

@@ -40,6 +40,24 @@ public class PcompSoftwareServiceImpl implements PcompSoftwareService {
     }
 
     @Override
+    public PageInfo<PcompSoftware> fetchRecommendedSoftwares() throws PcompException {
+        try {
+            return pcompSoftwareManager.getRecommendedPcompSoftwares().toPageInfo();
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
+    }
+
+    @Override
+    public PageInfo<PcompSoftware> fetchLatestSoftwares() throws PcompException {
+        try {
+            return pcompSoftwareManager.getLatestPcompSoftwares().toPageInfo();
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
+    }
+
+    @Override
     public PcompSoftware fetchSoftware(String kindId, String softwareName) throws PcompException {
         try {
             return pcompSoftwareManager.getPcompSoftwareByPcompKindIdAndPcompSoftwareName(kindId, softwareName);

@@ -70,7 +70,7 @@ public class ESClient {
                 }
             }
             return keyLists.toArray(new String[]{});
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.warn("Caught:", e);
             return null;
         }

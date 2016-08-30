@@ -22,6 +22,8 @@ public interface PcompKindMapper {
 
     List<PcompKind> selectAllAvailabeleKinds();
 
+    List<PcompKind> selectLatest();
+
     int updateByPrimaryKeySelective(PcompKind record);
 
     int updateByPrimaryKey(PcompKind record);

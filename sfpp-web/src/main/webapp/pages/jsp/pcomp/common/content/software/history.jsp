@@ -243,7 +243,7 @@
         </div>
 
         <div class="form-group">
-            <label for="file-input">新的下载文件</label>
+            <label for="file-input">新的下载文件(留空为不修改)</label>
             <input id="file-input" class="file"
                    type="file"
                    name="">

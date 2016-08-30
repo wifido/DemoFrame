@@ -40,6 +40,24 @@ public class PcompKindServiceImpl implements PcompKindService {
     }
 
     @Override
+    public PageInfo<PcompKind> fetchRecommendedKinds() throws PcompException {
+        try {
+            return pcompKindManager.getRecommendedPcompKinds().toPageInfo();
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
+    }
+
+    @Override
+    public PageInfo<PcompKind> fetchLatestKinds() throws PcompException {
+        try {
+            return pcompKindManager.getLatestPcompKinds().toPageInfo();
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
+    }
+
+    @Override
     public PcompKind fetchKindByKindId(String kindID) throws PcompException {
         try {
             return pcompKindManager.getPcompKindByPcompKindId(kindID);
@@ -69,7 +87,7 @@ public class PcompKindServiceImpl implements PcompKindService {
     @Override
     public PcompKind fetchKind(String titleName, String kind) throws PcompException {
         try {
-            return pcompKindManager.getPcompKindByPcompTitleNameAndPcompKindName(titleName,kind);
+            return pcompKindManager.getPcompKindByPcompTitleNameAndPcompKindName(titleName, kind);
         } catch (Exception e) {
             throw new PcompException(e);
         }

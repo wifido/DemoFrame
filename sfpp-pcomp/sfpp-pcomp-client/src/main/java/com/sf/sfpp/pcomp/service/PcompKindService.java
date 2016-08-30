@@ -24,6 +24,10 @@ public interface PcompKindService {
      */
     PageInfo<PcompKind> fetchAllKindsSeparatelyByTitle(String title, int pageNumber) throws PcompException;
 
+    PageInfo<PcompKind> fetchRecommendedKinds() throws PcompException;
+
+    PageInfo<PcompKind> fetchLatestKinds() throws PcompException;
+
     /**
      * 根据kindID获取对应的kind
      * @param kindID

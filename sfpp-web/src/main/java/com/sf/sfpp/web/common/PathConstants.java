@@ -15,20 +15,25 @@ public interface PathConstants {
     String CACHED_PATH = "index";
     //因为项目用到了其他系统的用户验证登录模块，（有些地方直接用的代码），为了区分，所以本项目代码jsp文件单独放置
     String GLOBAL_JSP_PATH = "/jsp";
+    String HOME_JSP_PATH = "/home";
     String UPDATE_PATH = "/update";
     String CREATE_PATH = "/create";
     String REMOVE_PATH = "/remove";
     String FETCH_PATH = "/fetch";
+    String HELP_PATH = "/help";
 
     String INDEX_PATH = Constants.FOLDER_PATH_SEPARATOR + CACHED_PATH;
     String HOMEPAGE_PATH = INDEX_PATH;
-    String HOMEPAGE_JSP_PATH = GLOBAL_JSP_PATH + "/home" + HOMEPAGE_PATH;
+    String HOMEPAGE_JSP_PATH = HOME_JSP_PATH  + HOMEPAGE_PATH;
 
 
     String PCOMP_PATH = "/pcomp";
     String VALIDATE_PATH = "/validate";
     String PCOMP_HOMEPAGE_PATH = PCOMP_PATH + INDEX_PATH;
-    String PCOMP_HOMEPAGE_JSP_PATH = GLOBAL_JSP_PATH + PCOMP_HOMEPAGE_PATH;
+    String PCOMP_HOMEPAGE_JSP_PATH =GLOBAL_JSP_PATH+ PCOMP_HOMEPAGE_PATH;
+
+    String PCOMP_HELP_PATH = PCOMP_PATH + HELP_PATH;
+    String PCOMP_HELP_JSP_PATH = GLOBAL_JSP_PATH + PCOMP_HELP_PATH;
 
     String PCOMP_TITLE_PATH = PCOMP_PATH + Constants.FOLDER_PATH_SEPARATOR + PcompConstants.PCOMP_TITLE;
     String PCOMP_TITLE_VALIDATE_PATH = PCOMP_TITLE_PATH + VALIDATE_PATH;

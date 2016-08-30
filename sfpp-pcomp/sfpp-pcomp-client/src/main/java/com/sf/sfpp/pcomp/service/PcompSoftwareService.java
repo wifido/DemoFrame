@@ -16,6 +16,7 @@ public interface PcompSoftwareService {
 
     /**
      * 根据title还有kind查找所有符合的software，具有分页
+     *
      * @param kindId
      * @param pageNumber
      * @return
@@ -25,6 +26,7 @@ public interface PcompSoftwareService {
 
     /**
      * 根据software的id获取这个software的详细信息
+     *
      * @param softwareId
      * @return
      * @throws PcompException
@@ -33,6 +35,7 @@ public interface PcompSoftwareService {
 
     /**
      * 根据software的name还有kindID获取这个software的详细信息
+     *
      * @param kindId
      * @param softwareName
      * @return
@@ -40,8 +43,13 @@ public interface PcompSoftwareService {
      */
     PcompSoftware fetchSoftware(String kindId, String softwareName) throws PcompException;
 
+    PageInfo<PcompSoftware> fetchRecommendedSoftwares() throws PcompException;
+
+    PageInfo<PcompSoftware> fetchLatestSoftwares() throws PcompException;
+
     /**
      * 判断对应title还有对应kind下是否存在同名software
+     *
      * @param kindId
      * @param softwareId
      * @return 存在为true
@@ -51,6 +59,7 @@ public interface PcompSoftwareService {
 
     /**
      * 获取相似的software名称
+     *
      * @param softwareName
      * @return
      * @throws PcompException
@@ -59,6 +68,7 @@ public interface PcompSoftwareService {
 
     /**
      * 添加software
+     *
      * @param software
      * @return
      * @throws PcompException
@@ -67,6 +77,7 @@ public interface PcompSoftwareService {
 
     /**
      * 更新对应的software信息，只有和version不相关的信息调用这个方法更新
+     *
      * @param software
      * @return
      * @throws PcompException
@@ -75,6 +86,7 @@ public interface PcompSoftwareService {
 
     /**
      * 移除对应的software
+     *
      * @param softwareId
      * @param userId
      * @return

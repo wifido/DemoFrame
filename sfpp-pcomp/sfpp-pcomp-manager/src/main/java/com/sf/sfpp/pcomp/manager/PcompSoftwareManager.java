@@ -68,6 +68,16 @@ public class PcompSoftwareManager {
         return (Page<PcompSoftware>) pcompSoftwareMapper.selectAllAvailableByKindId(kindId);
     }
 
+    public Page<PcompSoftware> getRecommendedPcompSoftwares() {
+        PageHelper.startPage(1, PcompConstants.NUMBER_PER_PAGE);
+        return (Page<PcompSoftware>) pcompSoftwareMapper.selectLatest();
+    }
+
+    public Page<PcompSoftware> getLatestPcompSoftwares() {
+        PageHelper.startPage(1, PcompConstants.NUMBER_PER_PAGE);
+        return (Page<PcompSoftware>) pcompSoftwareMapper.selectLatest();
+    }
+
     public PcompSoftware getPcompSoftwareByPcompSoftwareId(String pcompSoftwareId) {
         PcompSoftwareExtend pcompSoftware = PcompSoftwareExtend.fromPcompSoftware(pcompSoftwareMapper.selectByPrimaryKey(pcompSoftwareId));
         List<PcompVersion> pcompVersions = pcompVersionMapper.selectAvailableBySoftwareId(pcompSoftwareId);

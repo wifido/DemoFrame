@@ -108,7 +108,7 @@ public class PcompVersionController extends AbstractCachedController {
                 pcompVersionDoucumentDownload.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
                 pcompVersionDoucumentDownload.setPcompVersionId(pcompVersion.getId());
                 pcompVersionDoucumentDownload.setDescription(descriptions[i]);
-                pcompVersionDoucumentDownload.setDownload(fileService.saveFile(softwares[i].getOriginalFilename(), softwares[i].getInputStream()));
+                pcompVersionDoucumentDownload.setDownload(fileService.saveFile(documents[i].getOriginalFilename(), documents[i].getInputStream()));
                 pcompVersionExtend.getPcompVersionDoucumentDownloads().add(pcompVersionDoucumentDownload);
             }
             User user = null;

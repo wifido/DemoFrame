@@ -3,6 +3,7 @@
 <head>
     <jsp:include page="../../common/commonHead.jsp"></jsp:include>
     <jsp:include page="./common/CSS.jsp"></jsp:include>
+    <jsp:include page="../common/CSS.jsp"></jsp:include>
 </head>
 <body background="/sfpp-web/assets/img/backgrounds/1.jpg" style=" background-repeat:no-repeat ;
         background-size:cover;
@@ -56,6 +57,7 @@
 </div>
 <jsp:include page="../../common/commonJS.jsp"></jsp:include>
 <jsp:include page="./common/JS.jsp"></jsp:include>
+<jsp:include page="../common/JS.jsp"></jsp:include>
 <jsp:include page="./element/addTitle_JS.jsp"></jsp:include>
 <jsp:include page="./element/addKind_JS.jsp"></jsp:include>
 </body>
