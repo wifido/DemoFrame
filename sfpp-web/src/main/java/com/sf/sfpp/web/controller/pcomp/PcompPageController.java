@@ -77,7 +77,7 @@ public class PcompPageController extends AbstractCachedController {
                 pcompCacheObject.setPcompTitle(pcompTitle);
             }
 
-        } catch (PcompException e) {
+        } catch (Exception e) {
             model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
             return handleException(e, webCache);
         }
@@ -104,7 +104,7 @@ public class PcompPageController extends AbstractCachedController {
             pathTree.put(Constants.PUBLIC_COMPONENT_SYSTEM, PathUtils.makePath(PathConstants.PCOMP_HOMEPAGE_PATH));
             pathTree.put(pcompKind.getName(), PathUtils.makeKindPath(pcompKind.getId()));
             webCache.setPathTree(pathTree);
-        } catch (PcompException e) {
+        } catch (Exception e) {
             model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
             return handleException(e, webCache);
         }
@@ -127,7 +127,7 @@ public class PcompPageController extends AbstractCachedController {
             pathTree.put(pcompKind.getName(), PathUtils.makeKindPath(pcompKind.getId()));
             pathTree.put(pcompSoftware.getName(), PathUtils.makeSoftwarePath(pcompSoftware.getId()));
             pcompCacheObject.setPcompSoftware(pcompSoftware);
-        } catch (PcompException e) {
+        } catch (Exception e) {
             model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
             return handleException(e, webCache);
         }
@@ -147,7 +147,7 @@ public class PcompPageController extends AbstractCachedController {
             List<PcompTitle> pcompTitles = pcompTitleService.fetchAllTitles();
             pcompCacheObject.setPcompTitles(pcompTitles);
             webCache.setCacheObject(pcompCacheObject);
-        } catch (PcompException e) {
+        } catch (Exception e) {
             model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
             return handleException(e, webCache);
         }
@@ -179,7 +179,7 @@ public class PcompPageController extends AbstractCachedController {
             List<PcompTitle> pcompTitles = pcompTitleService.fetchAllTitles();
             pcompCacheObject.setPcompTitles(pcompTitles);
             webCache.setCacheObject(pcompCacheObject);
-        } catch (PcompException e) {
+        } catch (Exception e) {
             model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
             return handleException(e, webCache);
         }

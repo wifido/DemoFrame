@@ -20,37 +20,10 @@
             <properties>
                 <env.devMode>dev</env.devMode>
                 <skipAssemblyDEV>false</skipAssemblyDEV>
-                <skipAssemblyUAT>true</skipAssemblyUAT>
-                <skipAssemblySTG>true</skipAssemblySTG>
                 <skipAssemblyPROD>true</skipAssemblyPROD>
             </properties>
         </profile>
-        <profile>
-            <id>uat</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <properties>
-                <env.devMode>uat</env.devMode>
-                <skipAssemblyDEV>true</skipAssemblyDEV>
-                <skipAssemblyUAT>false</skipAssemblyUAT>
-                <skipAssemblySTG>true</skipAssemblySTG>
-                <skipAssemblyPROD>true</skipAssemblyPROD>
-            </properties>
-        </profile>
-        <profile>
-            <id>stg</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <properties>
-                <env.devMode>stg</env.devMode>
-                <skipAssemblyDEV>true</skipAssemblyDEV>
-                <skipAssemblyUAT>true</skipAssemblyUAT>
-                <skipAssemblySTG>false</skipAssemblySTG>
-                <skipAssemblyPROD>true</skipAssemblyPROD>
-            </properties>
-        </profile>
+
         <profile>
             <id>prod</id>
             <activation>
@@ -59,8 +32,6 @@
             <properties>
                 <env.devMode>prod</env.devMode>
                 <skipAssemblyDEV>true</skipAssemblyDEV>
-                <skipAssemblyUAT>true</skipAssemblyUAT>
-                <skipAssemblySTG>true</skipAssemblySTG>
                 <skipAssemblyPROD>false</skipAssemblyPROD>
             </properties>
         </profile>
@@ -111,20 +82,7 @@
                             <finalName>${project.artifactId}</finalName>
                         </configuration>
                     </execution>
-                    <execution>
-                        <id>make-assembly-uat</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <skipAssembly>${skipAssemblyUAT}</skipAssembly>
-                            <descriptors>
-                                <descriptor>src/main/assembly/uat/assembly.xml</descriptor>
-                            </descriptors>
-                            <finalName>${project.artifactId}</finalName>
-                        </configuration>
-                    </execution>
+
                     <execution>
                         <id>make-assembly-prod</id>
                         <phase>package</phase>

@@ -83,7 +83,7 @@ public class SearchController extends AbstractCachedController {
             model.addAttribute(PathConstants.PCOMP_SEARCH_CATEGORY_PARA, category);
             model.addAttribute(PathConstants.PCOMP_SEARCH_SORTED_BY_PARA, sortedBy);
             return PathConstants.PCOMP_SEARCH_JSP_PATH;
-        } catch (PcompException e) {
+        } catch (Exception e) {
             model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
             return handleException(e, webCache);
         }

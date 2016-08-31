@@ -16,6 +16,7 @@
         <module>sfpp-resource</module>
         <module>sfpp-user</module>
         <module>sfpp-es</module>
+        <module>sfpp-schedule</module>
     </modules>
 
     <properties>
@@ -113,6 +114,7 @@
         <commons-jxpath_version>1.3</commons-jxpath_version>
         <es_version>2.3.4</es_version>
         <mybatis_pagehelper_version>4.1.6</mybatis_pagehelper_version>
+        <quartz_version>2.2.1</quartz_version>
     </properties>
 
     <dependencyManagement>
@@ -397,6 +399,11 @@
                 <version>${org.springframework.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-tx</artifactId>
+                <version>${org.springframework.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.freemarker</groupId>
                 <artifactId>freemarker</artifactId>
                 <version>2.3.20</version>
@@ -639,6 +646,12 @@
                 <artifactId>pagehelper</artifactId>
                 <version>${mybatis_pagehelper_version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.quartz-scheduler</groupId>
+                <artifactId>quartz</artifactId>
+                <version>${quartz_version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <repositories>
@@ -646,6 +659,11 @@
             <id>releases</id>
             <name>Nexus Release Repository</name>
             <url> http://nexus.sf-express.com/nexus/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>public-reponsitory</id>
+            <name>global maven repository</name>
+            <url>http://mvnrepository.com/</url>
         </repository>
     </repositories>
     <distributionManagement>

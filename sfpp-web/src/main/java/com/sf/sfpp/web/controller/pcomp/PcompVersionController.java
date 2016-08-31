@@ -60,7 +60,7 @@ public class PcompVersionController extends AbstractCachedController {
             PcompSoftware pcompSoftware = pcompSoftwareService.fetchSoftware(pcompKind.getId(), softwareName);
             result.setData(pcompVersionService.existsVersion(pcompSoftware.getId(), versionNumber));
             return result;
-        } catch (PcompException e) {
+        } catch (Exception e) {
             result.setMessage(e.getMessage());
         }
         result.setData(true);
@@ -169,7 +169,7 @@ public class PcompVersionController extends AbstractCachedController {
                 }
             }
             pcompVersionService.updateVersion(pcompVersion);
-        } catch (PcompException e) {
+        } catch (Exception e) {
             handleException(e, webCache);
         }
         redirectAttributes.addAttribute(PcompConstants.PCOMP_SOFTWARE, pcomp_software_id);

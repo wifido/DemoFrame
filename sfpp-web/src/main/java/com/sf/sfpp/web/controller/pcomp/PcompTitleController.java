@@ -3,7 +3,6 @@ package com.sf.sfpp.web.controller.pcomp;
 import com.sf.sfpp.common.Constants;
 import com.sf.sfpp.common.domain.WebCache;
 import com.sf.sfpp.common.dto.JsonResult;
-import com.sf.sfpp.pcomp.common.exception.PcompException;
 import com.sf.sfpp.pcomp.service.PcompTitleService;
 import com.sf.sfpp.web.common.PathConstants;
 import com.sf.sfpp.web.controller.common.AbstractCachedController;
@@ -36,7 +35,7 @@ public class PcompTitleController extends AbstractCachedController {
         try {
             result.setData(pcompTitleService.existsTitle(titleName));
             return result;
-        } catch (PcompException e) {
+        } catch (Exception e) {
             result.setMessage(e.getMessage());
         }
         result.setData(true);
@@ -52,7 +51,7 @@ public class PcompTitleController extends AbstractCachedController {
             if(!pcompTitleService.existsTitle(pcomp_title_name)) {
                 pcompTitleService.addNewTitle(pcomp_title_name);
             }
-        } catch (PcompException e) {
+        } catch (Exception e) {
             model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
             return handleException(e, webCache);
         }

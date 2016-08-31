@@ -29,7 +29,7 @@
               <h1>404</h1>
               <h3>Opps, 页面找不到啦~.</h3>
               <p>We can not find the page you're looking for.</p>
-              <a class="btn btn-warning btn-big"  href="/sfpp-web/pages/index">回到首页</a> </div>
+              <a class="btn btn-warning btn-big"  href="<%=PathUtils.makePath(PathConstants.HOMEPAGE_PATH)%>">回到首页</a> </div>
           </div>
         </div>
       </div>

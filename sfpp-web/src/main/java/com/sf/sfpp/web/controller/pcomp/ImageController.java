@@ -53,7 +53,7 @@ public class ImageController {
         ImageObject imageObject = getImageObject(Constants.PUBLIC_COMPONENT_SYSTEM, imgageToBase64);
         try {
             imageUploadReturn.setUrl(imageService.saveImage(imageObject));
-        } catch (IOException e) {
+        } catch (Exception e) {
             imageUploadReturn.setSuccess(ImageUploadReturn.FAIL);
             imageUploadReturn.setMessage("Resource service has exception:" + e.getMessage());
             response.getWriter().write(JSON.toJSONString(imageUploadReturn));

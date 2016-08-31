@@ -34,8 +34,8 @@
 
 	<root>
 		<priority value="info" />
-		<!-- <appender-ref ref="console" /> -->
-		<appender-ref ref="user" />
+		 <appender-ref ref="console" />
+		<!--<appender-ref ref="user" />-->
 	</root>
 
 </log4j:configuration>

@@ -5,7 +5,6 @@ import com.sf.sfpp.common.domain.WebCache;
 import com.sf.sfpp.common.dto.JsonResult;
 import com.sf.sfpp.common.utils.ImageKind;
 import com.sf.sfpp.pcomp.common.PcompConstants;
-import com.sf.sfpp.pcomp.common.exception.PcompException;
 import com.sf.sfpp.pcomp.common.model.PcompKind;
 import com.sf.sfpp.pcomp.service.PcompKindService;
 import com.sf.sfpp.pcomp.service.PcompTitleService;
@@ -51,7 +50,7 @@ public class PcompKindController extends AbstractCachedController {
         try {
             result.setData(pcompKindService.existsKind(titleName, kindName));
             return result;
-        } catch (PcompException e) {
+        } catch (Exception e) {
             result.setMessage(e.getMessage());
         }
         result.setData(true);
@@ -68,7 +67,7 @@ public class PcompKindController extends AbstractCachedController {
             String titleId = pcompTitleService.fetchTitleByTitleName(titleName).getId();
             result.setData(pcompKindService.fetchAllKindsSeparatelyByTitle(titleId, Constants.ALL_PAGE_NUMBER).getList());
             return result;
-        } catch (PcompException e) {
+        } catch (Exception e) {
             result.setMessage(e.getMessage());
         }
         List<PcompKind> pcompKinds = new LinkedList<>();
