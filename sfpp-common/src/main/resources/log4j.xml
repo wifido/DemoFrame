@@ -11,7 +11,7 @@
 	
 	<appender name="server-file" class="org.apache.log4j.DailyRollingFileAppender">
         <param name="DatePattern" value="'.'yyyy-MM-dd" />
-		<param name="file" value="./logs/log4j.log" />
+		<param name="file" value="./logs/log4j.html" />
 		<layout class="com.sf.sfpp.common.log.FormatHTMLLayout">
 		</layout>
 	</appender>

@@ -1,6 +1,7 @@
 package com.sf.sfpp.web.controller.pcomp;
 
 import com.alibaba.fastjson.JSON;
+import com.sf.sfpp.ambry.HTTPUpload;
 import com.sf.sfpp.common.Constants;
 import com.sf.sfpp.common.domain.ImageObject;
 import com.sf.sfpp.common.idgen.IDGenerator;
@@ -34,25 +35,16 @@ public class ImageController {
     private final static Logger log = LoggerFactory.getLogger(ImageController.class);
 
     @Autowired
-    private ImageService imageService;
+    private HTTPUpload httpUpload;
 
     @RequestMapping(PathConstants.PCOMP_SOFTWARE_CONTENT_IMAGE_UPLOAD_PATH)
     public void upload(@RequestParam("editormd-image-file") MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws IOException {
         ImageUploadReturn imageUploadReturn = new ImageUploadReturn();
-
-        String imgageToBase64 = null;
+//        CommonsMultipartFile cf= (CommonsMultipartFile)file;
+//        DiskFileItem fi = (DiskFileItem)cf.getFileItem();
+//        File f = fi.getStoreLocation();
         try {
-            imgageToBase64 = ImageUtils.encodeImgageToBase64(ImageUtils.intelligentZip(file.getInputStream(), ImageKind.CONTENT_IMAGE));
-        } catch (IOException e) {
-            imageUploadReturn.setSuccess(ImageUploadReturn.FAIL);
-            imageUploadReturn.setMessage(e.getMessage());
-            response.getWriter().write(JSON.toJSONString(imageUploadReturn));
-            e.printStackTrace();
-            return;
-        }
-        ImageObject imageObject = getImageObject(Constants.PUBLIC_COMPONENT_SYSTEM, imgageToBase64);
-        try {
-            imageUploadReturn.setUrl(imageService.saveImage(imageObject));
+            imageUploadReturn.setUrl(httpUpload.uploadFile(file.getInputStream(),file.getSize(),Constants.PUBLIC_COMPONENT_SYSTEM_ENG,"","image",""));
         } catch (Exception e) {
             imageUploadReturn.setSuccess(ImageUploadReturn.FAIL);
             imageUploadReturn.setMessage("Resource service has exception:" + e.getMessage());
@@ -65,13 +57,10 @@ public class ImageController {
     }
 
     public String uploadImage(MultipartFile file, ImageKind imageKind) throws IOException {
-        if (file == null) {
-            return null;
-        }
-        String imgageToBase64 = null;
-        imgageToBase64 = ImageUtils.encodeImgageToBase64(ImageUtils.intelligentZip(file.getInputStream(), imageKind));
-        ImageObject imageObject = getImageObject(Constants.PUBLIC_COMPONENT_SYSTEM, imgageToBase64);
-        return imageService.saveImage(imageObject);
+//        CommonsMultipartFile cf= (CommonsMultipartFile)file;
+//        DiskFileItem fi = (DiskFileItem)cf.getFileItem();
+//        File f = fi.getStoreLocation();
+        return httpUpload.uploadFile(file.getInputStream(),file.getSize(),Constants.PUBLIC_COMPONENT_SYSTEM_ENG,"","image","");
     }
 
     private static ImageObject getImageObject(String sys, String imgageToBase64) {

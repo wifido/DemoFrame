@@ -38,6 +38,11 @@
             <version>${sfpp.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.sf</groupId>
+            <artifactId>sfpp.sfpp-ambry</artifactId>
+            <version>${sfpp.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.sf.sgs</groupId>
             <artifactId>sgs-framework-boot-cache</artifactId>
             <version>${sgs-framework-boot-cache.version}</version>
@@ -162,6 +167,8 @@
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
         </dependency>
+
+
     </dependencies>
 
     <profiles>

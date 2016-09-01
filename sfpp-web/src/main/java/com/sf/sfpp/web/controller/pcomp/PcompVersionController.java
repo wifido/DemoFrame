@@ -1,5 +1,6 @@
 package com.sf.sfpp.web.controller.pcomp;
 
+import com.sf.sfpp.ambry.HTTPUpload;
 import com.sf.sfpp.common.Constants;
 import com.sf.sfpp.common.domain.WebCache;
 import com.sf.sfpp.common.dto.JsonResult;
@@ -12,7 +13,6 @@ import com.sf.sfpp.pcomp.common.model.extend.PcompVersionExtend;
 import com.sf.sfpp.pcomp.service.PcompKindService;
 import com.sf.sfpp.pcomp.service.PcompSoftwareService;
 import com.sf.sfpp.pcomp.service.PcompVersionService;
-import com.sf.sfpp.resource.client.file.FileService;
 import com.sf.sfpp.user.dao.domain.User;
 import com.sf.sfpp.web.common.PathConstants;
 import com.sf.sfpp.web.controller.common.AbstractCachedController;
@@ -45,7 +45,7 @@ public class PcompVersionController extends AbstractCachedController {
     private PcompSoftwareService pcompSoftwareService;
 
     @Autowired
-    private FileService fileService;
+    private HTTPUpload httpUpload;
 
     @ResponseBody
     @RequestMapping(value = PathConstants.PCOMP_VERSION_VALIDATE_PATH, method = RequestMethod.GET)
@@ -100,7 +100,7 @@ public class PcompVersionController extends AbstractCachedController {
                 pcompVersionPlatformDownload.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
                 pcompVersionPlatformDownload.setPcompVersionId(pcompVersion.getId());
                 pcompVersionPlatformDownload.setPlatform(platforms[i]);
-                pcompVersionPlatformDownload.setDownload(fileService.saveFile(softwares[i].getOriginalFilename(), softwares[i].getInputStream()));
+                pcompVersionPlatformDownload.setDownload(httpUpload.uploadFile(softwares[i].getInputStream(),softwares[i].getSize(),Constants.PUBLIC_COMPONENT_SYSTEM_ENG,pcompVersionPlatformDownload.getId(),"file",""));
                 pcompVersionExtend.getPcompVersionPlatformDownloads().add(pcompVersionPlatformDownload);
             }
             for (int i = 0; i < documents.length; i++) {
@@ -108,7 +108,7 @@ public class PcompVersionController extends AbstractCachedController {
                 pcompVersionDoucumentDownload.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
                 pcompVersionDoucumentDownload.setPcompVersionId(pcompVersion.getId());
                 pcompVersionDoucumentDownload.setDescription(descriptions[i]);
-                pcompVersionDoucumentDownload.setDownload(fileService.saveFile(documents[i].getOriginalFilename(), documents[i].getInputStream()));
+                pcompVersionDoucumentDownload.setDownload(httpUpload.uploadFile(documents[i].getInputStream(),documents[i].getSize(),Constants.PUBLIC_COMPONENT_SYSTEM_ENG,pcompVersionDoucumentDownload.getId(),"file",""));
                 pcompVersionExtend.getPcompVersionDoucumentDownloads().add(pcompVersionDoucumentDownload);
             }
             User user = null;
@@ -237,7 +237,7 @@ public class PcompVersionController extends AbstractCachedController {
                 PcompVersionPlatformDownload pcompVersionPlatformDownload = pcompVersionService.fetchVersionDownload(versionDownloadId);
                 pcompVersionPlatformDownload.setPlatform(platform);
                 if (software != null && software.getSize() > 0) {
-                    pcompVersionPlatformDownload.setDownload(fileService.saveFile(software.getOriginalFilename(), software.getInputStream()));
+                    pcompVersionPlatformDownload.setDownload(httpUpload.uploadFile(software.getInputStream(),software.getSize(),Constants.PUBLIC_COMPONENT_SYSTEM_ENG,pcompVersionPlatformDownload.getId(),"file",""));
                 }
                 pcompVersionService.updateVersionDownload(pcompVersionPlatformDownload, user.getId());
             }
@@ -270,7 +270,7 @@ public class PcompVersionController extends AbstractCachedController {
                 pcompVersionPlatformDownload.setPcompVersionId(pcompVersion.getId());
                 pcompVersionPlatformDownload.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
                 if (software != null && software.getSize() > 0) {
-                    pcompVersionPlatformDownload.setDownload(fileService.saveFile(software.getOriginalFilename(), software.getInputStream()));
+                    pcompVersionPlatformDownload.setDownload(httpUpload.uploadFile(software.getInputStream(),software.getSize(),Constants.PUBLIC_COMPONENT_SYSTEM_ENG,pcompVersionPlatformDownload.getId(),"file",""));
                 }
                 pcompVersionService.addVersionDownload(pcompVersionPlatformDownload, user.getId());
             }
@@ -326,7 +326,7 @@ public class PcompVersionController extends AbstractCachedController {
                 PcompVersionDoucumentDownload pcompVersionDoucumentDownload = pcompVersionService.fetchVersionDocument(versionDocumentId);
                 pcompVersionDoucumentDownload.setDescription(description);
                 if (document != null && document.getSize() > 0) {
-                    pcompVersionDoucumentDownload.setDownload(fileService.saveFile(document.getOriginalFilename(), document.getInputStream()));
+                    pcompVersionDoucumentDownload.setDownload(httpUpload.uploadFile(document.getInputStream(),document.getSize(),Constants.PUBLIC_COMPONENT_SYSTEM_ENG,pcompVersionDoucumentDownload.getId(),"file",""));
                 }
                 pcompVersionService.updateVersionDocument(pcompVersionDoucumentDownload, user.getId());
             }
@@ -359,7 +359,7 @@ public class PcompVersionController extends AbstractCachedController {
                 pcompVersionDoucumentDownload.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
                 pcompVersionDoucumentDownload.setPcompVersionId(pcompVersion.getId());
                 if (document != null && document.getSize() > 0) {
-                    pcompVersionDoucumentDownload.setDownload(fileService.saveFile(document.getOriginalFilename(), document.getInputStream()));
+                    pcompVersionDoucumentDownload.setDownload(httpUpload.uploadFile(document.getInputStream(),document.getSize(),Constants.PUBLIC_COMPONENT_SYSTEM_ENG,pcompVersionDoucumentDownload.getId(),"file",""));
                 }
                 pcompVersionService.addVersionDocument(pcompVersionDoucumentDownload, user.getId());
             }
