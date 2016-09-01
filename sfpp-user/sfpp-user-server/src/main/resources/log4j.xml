@@ -3,39 +3,24 @@
 
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
-
-	
-	<!-- <appender name="console" class="org.apache.log4j.ConsoleAppender">
+	<appender name="Console" class="org.apache.log4j.ConsoleAppender">
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="[%p] %-d{yyyy-MM-dd HH:mm:ss} [%c][%L]- %m%n" />
-		</layout>
-	</appender> -->
-	
-	<!-- <appender name="connect" class="org.apache.log4j.ConsoleAppender">
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="[%p] %-d{yyyy-MM-dd HH:mm:ss} [%c][%L]- %m%n" />
-		</layout>
-	</appender> -->
-	
-	<appender name="user" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="./logs/sfpp-user.log" />
-		<param name="Append" value="true" />
-		<param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="[%p] %-d{yyyy-MM-dd HH:mm:ss} [%c][%L]- %m%n" />
+			<param name="ConversionPattern" value="%-d{yyyy-MM-dd HH:mm:ss} [%p] [%c{1}] [%t] %30.30C.%M():%L - %m%n" />
 		</layout>
 	</appender>
 	
-	<logger name="user" additivity="false">  
-       <level value="info" />
-       <appender-ref ref="user" />  
-    </logger>
-
-
+	<appender name="server-file" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<param name="file" value="./logs/sfpp-user.log" />
+		<layout class="com.sf.sfpp.common.log.FormatHTMLLayout">
+		</layout>
+	</appender>
+	
 	<root>
 		<priority value="info" />
-		 <appender-ref ref="console" />
-		<!--<appender-ref ref="user" />-->
+		<appender-ref ref="Console" />
+		<!--<appender-ref ref="server-file" />-->
 	</root>
 
+	
 </log4j:configuration>

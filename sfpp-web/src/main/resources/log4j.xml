@@ -3,32 +3,23 @@
 
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
-	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+	<appender name="Console" class="org.apache.log4j.ConsoleAppender">
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="[%d] [%p] [%c{1}] [%t] %30.30C.%M():%L - %m%n" />
-		</layout>
-
-	</appender>
-
-
-	<appender name="sgs-smp" class="org.apache.log4j.FileAppender">
-		<param name="Append" value="true" />
-		<param name="file" value="../logs/sfapp-web.log" />
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="[%d] [%p] [%c{1}] [%t] %30.30C.%M():%L - %m%n" />
+			<param name="ConversionPattern" value="%-d{yyyy-MM-dd HH:mm:ss} [%p] [%c{1}] [%t] %30.30C.%M():%L - %m%n" />
 		</layout>
 	</appender>
-
-
-
-	<logger name="com.sf.sgs.smp.dao.mapper" additivity="true">
-		<level value="DEBUG"/>
-	</logger>
-
+	
+	<appender name="server-file" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<param name="file" value="./logs/sfpp-web.log" />
+		<layout class="com.sf.sfpp.common.log.FormatHTMLLayout">
+		</layout>
+	</appender>
+	
 	<root>
-		<priority value="INFO" />
-		<appender-ref ref="CONSOLE" />
-		<appender-ref ref="sgs-smp" />
+		<priority value="warn" />
+		<appender-ref ref="Console" />
+		<!--<appender-ref ref="server-file" />-->
 	</root>
 
 	

@@ -6,11 +6,13 @@
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 	
 	<context:component-scan base-package="com.sf.sfpp.schedule" />
-	
-	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<bean id="propertyConfigurerForSFPPResource" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="order" value="1" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
 		<property name="locations">
 			<list>
+				<value>classpath:jdbc.properties</value>
+				<value>classpath:elasticsearch.properties</value>
 			</list>
 		</property>
 	</bean>
@@ -23,21 +25,45 @@
 	</bean>
 
 	<!-- 调度业务 -->
-	<bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetObject" ref="testProcess" />
-		<property name="targetMethod" value="doJob" />
+	<bean id="cleanMySQLDBJob1" class="com.sf.sfpp.schedule.clean.CleanMySQLDBJob">
+		<constructor-arg index="0" value="${mysql1.jdbc.url}"/>
+		<constructor-arg index="1" value="${mysql1.jdbc.username}"/>
+		<constructor-arg index="2" value="${mysql1.jdbc.password}"/>
+		<constructor-arg index="3" value=""/>
+		<constructor-arg index="4" value=""/>
 	</bean>
 
-	<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-		<property name="jobDetail" ref="jobDetail" />
-		<property name="cronExpression" value="10 0/1 * * * ?" />
+	<bean id="mysqlDBClean1" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="cleanMySQLDBJob1" />
+		<property name="targetMethod" value="cleanTables" />
+	</bean>
+
+	<bean id="cleanElasticSearchJob1" class="com.sf.sfpp.schedule.clean.CleanElasticSearchJob">
+		<constructor-arg index="0" value="${es.cluster1.name}"/>
+		<constructor-arg index="1" value="${es.cluster1.hosts}"/>
+	</bean>
+
+	<bean id="elasticSearchClean1" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="cleanElasticSearchJob1" />
+		<property name="targetMethod" value="cleanDocuments" />
+	</bean>
+
+	<bean id="cronTrigger1" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="mysqlDBClean1" />
+		<property name="cronExpression" value="0 0 * * * ?" />
+	</bean>
+
+	<bean id="cronTrigger2" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="elasticSearchClean1" />
+		<property name="cronExpression" value="0 0 * * * ?" />
 	</bean>
 
 	<!-- 设置调度 -->
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
-				<ref bean="cronTrigger" />
+				<ref bean="cronTrigger1" />
+				<ref bean="cronTrigger2" />
 			</list>
 		</property>
 		<property name="taskExecutor" ref="executor" />

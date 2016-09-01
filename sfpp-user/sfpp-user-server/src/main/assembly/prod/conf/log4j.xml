@@ -11,15 +11,15 @@
 	
 	<appender name="server-file" class="org.apache.log4j.DailyRollingFileAppender">
         <param name="DatePattern" value="'.'yyyy-MM-dd" />
-		<param name="file" value="./logs/log4j.log" />
+		<param name="file" value="./logs/sfpp-user.log" />
 		<layout class="com.sf.sfpp.common.log.FormatHTMLLayout">
 		</layout>
 	</appender>
 	
 	<root>
-		<priority value="info" />
-		<appender-ref ref="Console" />
-		<!--<appender-ref ref="server-file" />-->
+		<priority value="warn" />
+		<!--<appender-ref ref="Console" />-->
+		<appender-ref ref="server-file" />
 	</root>
 
 	

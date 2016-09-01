@@ -49,58 +49,6 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>**/dubbo.properties</exclude>
-                        <exclude>**/fileSystem.properties</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>make-assembly-dev</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <skipAssembly>${skipAssemblyDEV}</skipAssembly>
-                            <descriptors>
-                                <descriptor>src/main/assembly/dev/assembly.xml</descriptor>
-                            </descriptors>
-                            <finalName>${project.artifactId}</finalName>
-                        </configuration>
-                    </execution>
-
-                    <execution>
-                        <id>make-assembly-prod</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <skipAssembly>${skipAssemblyPROD}</skipAssembly>
-                            <descriptors>
-                                <descriptor>src/main/assembly/prod/assembly.xml</descriptor>
-                            </descriptors>
-                            <finalName>${project.artifactId}</finalName>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <source>1.7</source>
