@@ -1,0 +1,271 @@
+ol, ul {
+    list-style: none;
+}
+
+.mainCol {
+    width: 1170px;
+    margin: 0 auto;
+    min-height: 800px;
+}
+
+.hide {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
+.kn_left {
+    float: left;
+}
+
+.kn_right {
+    float: right;
+}
+
+a:hover {
+    color: #666;
+}
+
+.csdn-toolbar {
+    height: 40px;
+    background: #f6f6f6 !important;
+    border-bottom: 1px solid #dfdfdf;
+}
+
+.csdn-toolbar .container {
+    width: 1140px;
+}
+
+.csdn-toolbar .loginlink {
+    background: 0 0 !important;
+}
+
+.padding15px {
+    padding: 0 15px;
+}
+
+.knlib-pagination {
+    text-align: center;
+    margin: 40px auto;
+}
+
+.knlib-pagination .btn {
+    border: 1px solid #ccc;
+    color: #333;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+    border-radius: 2px;
+    height: 25px;
+    min-width: 25px;
+    line-height: 20px;
+    background: 0 0;
+    margin: 0 2px;
+}
+
+.knlib-pagination .btn:hover {
+    color: #7b7b7b;
+    background-color: snow;
+}
+
+.knlib-pagination .active, .knlib-pagination .active:hover {
+    color: #fff;
+    border: 1px solid #ccc;
+}
+
+.knlib-pagination .page-nav b {
+    font-style: normal;
+    font-size: 12px;
+    color: #7b7b7b;
+    font-weight: 400;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.knlib-pagination .page-nav b i {
+    color: #333;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.page1 .btn:hover {
+    border: 1px solid #4d4b3e;
+}
+
+.page1 .active, .page1 .active:hover {
+    background: #4d4b3e;
+}
+
+.page2 .btn:hover {
+    border: 1px solid #039ac5;
+}
+
+.page2 .active, .page2 .active:hover {
+    background: #039ac5;
+}
+
+.page3 .btn:hover {
+    border: 1px solid #85b120;
+}
+
+.page3 .active, .page3 .active:hover {
+    background: #85b120;
+}
+
+.page4 .btn:hover {
+    border: 1px solid #251f1f;
+}
+
+.page4 .active, .page4 .active:hover {
+    background: #251f1f;
+}
+
+.page5 .btn:hover {
+    border: 1px solid #f26b33;
+}
+
+.page5 .active, .page5 .active:hover {
+    background: #f26b33;
+}
+
+body {
+    background-color: #ececec;
+    font-family: Microsoft Yahei;
+}
+
+.whitebk {
+    background: #fff;
+}
+
+.pos {
+    position: relative;
+}
+
+.header_top .banner {
+    height: 165px;
+    background-size: cover;
+    width: 100%;
+}
+
+.header_top .text {
+    font-size: 26px;
+    color: #fff;
+    text-align: center;
+    padding-top: 60px;
+}
+
+.kn_column_content .mantitle {
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+    margin-top: 40px;
+    font-family: Microsoft Yahei;
+    font-weight: 400;
+}
+
+.kn_column_content .listwenzi {
+    font-size: 14px;
+    color: #6b7378;
+    margin-top: 30px;
+}
+
+.kn_column_content .listwenzi a {
+    display: inline-block;
+    margin-right: 30px;
+}
+
+.kn_column_content .listwenzi a .xian {
+    color: #ddd;
+    margin-left: 10px;
+}
+
+.kn_column_content .listwenzi .root {
+    color: #ea9d38;
+}
+
+li .whitebk {
+    width: 360px;
+    height: 270px;
+    margin-left: 30px;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    float: left;
+    -webkit-box-shadow: 0 1px 3px #ccc;
+    -moz-box-shadow: 0 1px 3px #ccc;
+    -o-box-shadow: 0 1px 3px #ccc;
+    -ms-box-shadow: 0 1px 3px #ccc;
+    box-shadow: 0 1px 3px #ccc;
+}
+
+li .divtop {
+    height: 134px;
+}
+
+li .topphoto {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    margin-left: -40px;
+}
+
+li .topphoto img {
+    -webkit-border-radius: 80px;
+    -moz-border-radius: 80px;
+    -ms-border-radius: 80px;
+    -o-border-radius: 80px;
+    border-radius: 80px;
+}
+
+li .divbottoms {
+    text-align: center;
+    margin-top: 20px;
+}
+
+li .divbottoms .title {
+    font-size: 18px;
+    color: #333;
+}
+
+li .divbottoms .pext {
+    font-size: 12px;
+    color: #666;
+    margin-top: 15px;
+}
+
+li .divbottoms .pext em {
+    color: #333;
+}
+
+li .divbottoms .pabtn {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+li .divbottoms .pabtn a {
+    font-size: 14px;
+    color: #4981A9;
+    border: 1px solid #4981A9;
+    display: inline-block;
+    padding: 4px 8px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+}
+
+li .divbottoms .pabtn a:hover {
+    color: #5faed3;
+    border-color: #5faed3;
+}
+
+img.bannerimg {
+    width: 100%;
+    height: 134px;
+}
+ul{
+    -webkit-padding-start: 0px;
+}

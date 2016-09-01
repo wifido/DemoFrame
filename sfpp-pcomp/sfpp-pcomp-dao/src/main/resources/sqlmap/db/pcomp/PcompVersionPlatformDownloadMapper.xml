@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sf.sfpp.pcomp.dao.PcompVersionPlatformDownloadMapper" >
+  <resultMap id="BaseResultMap" type="com.sf.sfpp.pcomp.common.model.PcompVersionPlatformDownload" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="pcomp_version_id" property="pcompVersionId" jdbcType="VARCHAR" />
+    <result column="platform" property="platform" jdbcType="VARCHAR" />
+    <result column="download" property="download" jdbcType="VARCHAR" />
+    <result column="is_deleted" property="isDeleted" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, pcomp_version_id, platform, download, is_deleted
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from pcomp_version_platform_download
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByVersionId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from pcomp_version_platform_download
+    where pcomp_version_id = #{id,jdbcType=VARCHAR}
+    and is_deleted = 0
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from pcomp_version_platform_download
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.sf.sfpp.pcomp.common.model.PcompVersionPlatformDownload" >
+    insert into pcomp_version_platform_download (id, pcomp_version_id, platform, 
+      download, is_deleted)
+    values (#{id,jdbcType=VARCHAR}, #{pcompVersionId,jdbcType=VARCHAR}, #{platform,jdbcType=VARCHAR}, 
+      #{download,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sf.sfpp.pcomp.common.model.PcompVersionPlatformDownload" >
+    insert into pcomp_version_platform_download
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="pcompVersionId != null" >
+        pcomp_version_id,
+      </if>
+      <if test="platform != null" >
+        platform,
+      </if>
+      <if test="download != null" >
+        download,
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="pcompVersionId != null" >
+        #{pcompVersionId,jdbcType=VARCHAR},
+      </if>
+      <if test="platform != null" >
+        #{platform,jdbcType=VARCHAR},
+      </if>
+      <if test="download != null" >
+        #{download,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sf.sfpp.pcomp.common.model.PcompVersionPlatformDownload" >
+    update pcomp_version_platform_download
+    <set >
+      <if test="pcompVersionId != null" >
+        pcomp_version_id = #{pcompVersionId,jdbcType=VARCHAR},
+      </if>
+      <if test="platform != null" >
+        platform = #{platform,jdbcType=VARCHAR},
+      </if>
+      <if test="download != null" >
+        download = #{download,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sf.sfpp.pcomp.common.model.PcompVersionPlatformDownload" >
+    update pcomp_version_platform_download
+    set pcomp_version_id = #{pcompVersionId,jdbcType=VARCHAR},
+      platform = #{platform,jdbcType=VARCHAR},
+      download = #{download,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=BIT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <dubbo:reference id="imageService" interface="com.sf.sfpp.resource.client.image.ImageService" check="false"/>
+    <dubbo:reference id="fileService" interface="com.sf.sfpp.resource.client.file.FileService" check="false"/>
+    <dubbo:reference id="pcompTitleService" interface="com.sf.sfpp.pcomp.service.PcompTitleService" check="false"/>
+    <dubbo:reference id="pcompKindService" interface="com.sf.sfpp.pcomp.service.PcompKindService" check="false"/>
+    <dubbo:reference id="pcompSoftwareService" interface="com.sf.sfpp.pcomp.service.PcompSoftwareService" check="false"/>
+    <dubbo:reference id="pcompVersionService" interface="com.sf.sfpp.pcomp.service.PcompVersionService" check="false"/>
+    <dubbo:reference id="resourceService"  interface="com.sf.sfpp.user.service.ResourceService" check="false"/>
+	<dubbo:reference id="roleService" interface="com.sf.sfpp.user.service.RoleService"  check="false"/>
+	<dubbo:reference id="userService"  interface="com.sf.sfpp.user.service.UserService" check="false"/>
+    <dubbo:reference id="pcompSearchService" interface="com.sf.sfpp.elasticsearch.pcomp.PcompSearchService" check="false"/>
+</beans>

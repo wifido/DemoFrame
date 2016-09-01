@@ -1,0 +1,247 @@
+.navbar{
+  margin-bottom:0;
+  border:none;
+}
+
+.navbar-brand .glyphicon{
+  margin-right:6px;
+}
+
+.hero_kind{
+  background:url(../../../assets/img/201511090939542401.jpg) no-repeat center;
+  background-size:cover;
+  border:none;
+}
+
+
+
+
+@media (min-width:992px) {
+  .hero_kind .get-it{
+    text-align:right;
+    margin-top:80px;
+    padding-right:30px;
+  }
+}
+
+@media (max-width:992px) {
+  .hero_kind .get-it{
+    text-align:center;
+  }
+}
+
+@media (max-width:992px) {
+  .hero_kind .phone-preview{
+    text-align:center;
+  }
+}
+
+.hero_kind_kind .get-it h1, .hero_kind .get-it p{
+  color:#fff;
+  text-shadow:2px 2px 3px rgba(0,0,0,0.3);
+  margin-bottom:40px;
+}
+
+.hero_kind .get-it .btn{
+  margin-left:10px;
+  margin-bottom:10px;
+  text-shadow:none;
+}
+
+
+.hero{
+  background:url(../../../assets/img/pcomp.jpg) no-repeat center;
+  background-size:cover;
+  border:none;
+}
+
+
+
+
+@media (min-width:992px) {
+  .hero .get-it{
+    text-align:right;
+    margin-top:80px;
+    padding-right:30px;
+  }
+}
+
+@media (max-width:992px) {
+  .hero .get-it{
+    text-align:center;
+  }
+}
+
+@media (max-width:992px) {
+  .hero .phone-preview{
+    text-align:center;
+  }
+}
+
+.hero .get-it h1, .hero .get-it p{
+  color:#fff;
+  text-shadow:2px 2px 3px rgba(0,0,0,0.3);
+  margin-bottom:40px;
+}
+
+.hero .get-it .btn{
+  margin-left:10px;
+  margin-bottom:10px;
+  text-shadow:none;
+}
+
+div.iphone-mockup{
+  position:relative;
+  max-width:250px;
+  margin:20px;
+  display:inline-block;
+}
+
+.iphone-mockup img.device{
+  width:100%;
+  height:auto;
+}
+
+.iphone-mockup .screen{
+  position:absolute;
+  width:88%;
+  height:77%;
+  top:12%;
+  border-radius:2px;
+  left:6%;
+  border:1px solid #444;
+  background-color:#aaa;
+  overflow:hidden;
+  background:url(../../assets/img/screen-content-iphone-6.jpg);
+  background-size:cover;
+  background-position:center;
+}
+
+.iphone-mockup .screen:before{
+  content:'';
+  background-color:#fff;
+  position:absolute;
+  width:70%;
+  height:140%;
+  top:-12%;
+  right:-60%;
+  transform:rotate(-19deg);
+  opacity:0.2;
+}
+
+.icon-feature{
+  text-align:center;
+}
+
+.icon-feature .glyphicon{
+  font-size:60px;
+}
+
+section.features{
+  background-color:#369;
+  padding:40px 0;
+  color:#fff;
+}
+
+.features h2{
+  color:#fff;
+}
+
+.features .icon-features{
+  margin-top:15px;
+}
+
+.testimonials blockquote{
+  text-align:center;
+}
+
+section.testimonials{
+  margin:50px 0;
+}
+
+.site-footer{
+  padding:20px 0;
+  text-align:center;
+}
+
+.site-footer h5{
+  color:inherit;
+  font-size:20px;
+}
+
+.site-footer .social-icons a:hover{
+  opacity:1;
+}
+
+.site-footer .social-icons a{
+  display:inline-block;
+  width:32px;
+  border:none;
+  font-size:20px;
+  border-radius:50%;
+  margin:4px;
+  color:#fff;
+  text-align:center;
+  background-color:#798FA5;
+  height:32px;
+  opacity:0.8;
+  line-height:32px;
+}
+
+@media (min-width:768px) {
+  .site-footer .social-icons{
+    text-align:right;
+  }
+}
+
+.navbar-black{
+  background-color:#444;
+}
+
+.text-big-icon{
+  font-size:100px;
+}
+
+h1, h2, h3, h4, h5, p{
+  font-family:Microsoft YaHei;
+}
+
+div.row > div.col-lg-3.col-md-3.col-sm-6.col-xs-12:hover{
+  background-color:#e2e4e3;
+}
+
+nav.navbar.navbar-default.navbar-child{
+  background-color:#000000;
+}
+
+#search-btn {
+	color: #ffffff;
+}
+
+
+p.bannerlist {
+	margin-left: 40px;
+	margin-right: 40px;
+}
+p.bannerlist > a{
+	font-family: "微软雅黑";
+	font-size: 12px;
+	margin: 0px 5px 10px 0px;
+	border:1px solid ;
+	border-color: #00232C;
+	padding: 5px 20px;
+	line-height: 40px;
+	border-radius: 5px;
+	color: #00232C;
+}
+p.bannerlist > a.active{
+	background: #BBBBBB;
+	
+}
+
+li.whitebk:hover,.box.box-default:hover{
+  box-shadow:0 3px 10px #000;
+}
+
+
+

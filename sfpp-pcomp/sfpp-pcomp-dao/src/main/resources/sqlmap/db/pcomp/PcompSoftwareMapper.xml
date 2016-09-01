@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sf.sfpp.pcomp.dao.PcompSoftwareMapper" >
+  <resultMap id="BaseResultMap" type="com.sf.sfpp.pcomp.common.model.PcompSoftware" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="pcomp_kind_id" property="pcompKindId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
+    <result column="is_deleted" property="isDeleted" jdbcType="BIT" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="created_by" property="createdBy" jdbcType="INTEGER" />
+    <result column="modified_time" property="modifiedTime" jdbcType="TIMESTAMP" />
+    <result column="modified_by" property="modifiedBy" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.sf.sfpp.pcomp.common.model.PcompSoftware" extends="BaseResultMap" >
+    <result column="introduction_short" property="introductionShort" jdbcType="LONGVARCHAR" />
+    <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, pcomp_kind_id, name, avatar, is_deleted, created_time, created_by, modified_time, 
+    modified_by
+  </sql>
+  <sql id="Blob_Column_List" >
+    introduction_short, introduction
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from pcomp_software
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+
+  <select id="selectLatest" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from pcomp_software
+    where is_deleted = 0
+    order by modified_time desc
+  </select>
+
+  <select id="selectByUniqueKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from pcomp_software
+    where pcomp_kind_id = #{pcomp_kind_id,jdbcType=VARCHAR}
+    and name = #{name,jdbcType=VARCHAR}
+    and is_deleted = 0
+  </select>
+  <select id="selectAllAvailableByKindId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from pcomp_software
+    where pcomp_kind_id = #{pcomp_kind_id,jdbcType=VARCHAR}
+    and is_deleted = 0
+  </select>
+
+  <select id="selectAllAvailableIdByKindId" resultType="java.lang.String" parameterType="java.lang.String" >
+    select
+    id
+    from pcomp_software
+    where pcomp_kind_id = #{pcomp_kind_id,jdbcType=VARCHAR}
+    and is_deleted = 0
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from pcomp_software
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.sf.sfpp.pcomp.common.model.PcompSoftware" >
+    insert into pcomp_software (id, pcomp_kind_id, name, 
+      avatar, is_deleted, created_time, 
+      created_by, modified_time, modified_by, 
+      introduction_short, introduction
+      )
+    values (#{id,jdbcType=VARCHAR}, #{pcompKindId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{avatar,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}, #{createdTime,jdbcType=TIMESTAMP}, 
+      #{createdBy,jdbcType=INTEGER}, #{modifiedTime,jdbcType=TIMESTAMP}, #{modifiedBy,jdbcType=INTEGER}, 
+      #{introductionShort,jdbcType=LONGVARCHAR}, #{introduction,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sf.sfpp.pcomp.common.model.PcompSoftware" >
+    insert into pcomp_software
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="pcompKindId != null" >
+        pcomp_kind_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="avatar != null" >
+        avatar,
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="modifiedTime != null" >
+        modified_time,
+      </if>
+      <if test="modifiedBy != null" >
+        modified_by,
+      </if>
+      <if test="introductionShort != null" >
+        introduction_short,
+      </if>
+      <if test="introduction != null" >
+        introduction,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="pcompKindId != null" >
+        #{pcompKindId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="modifiedTime != null" >
+        #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedBy != null" >
+        #{modifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="introductionShort != null" >
+        #{introductionShort,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="introduction != null" >
+        #{introduction,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sf.sfpp.pcomp.common.model.PcompSoftware" >
+    update pcomp_software
+    <set >
+      <if test="pcompKindId != null" >
+        pcomp_kind_id = #{pcompKindId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        created_by = #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="modifiedTime != null" >
+        modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedBy != null" >
+        modified_by = #{modifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="introductionShort != null" >
+        introduction_short = #{introductionShort,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="introduction != null" >
+        introduction = #{introduction,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.sf.sfpp.pcomp.common.model.PcompSoftware" >
+    update pcomp_software
+    set pcomp_kind_id = #{pcompKindId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      created_by = #{createdBy,jdbcType=INTEGER},
+      modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      modified_by = #{modifiedBy,jdbcType=INTEGER},
+      introduction_short = #{introductionShort,jdbcType=LONGVARCHAR},
+      introduction = #{introduction,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sf.sfpp.pcomp.common.model.PcompSoftware" >
+    update pcomp_software
+    set pcomp_kind_id = #{pcompKindId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      created_by = #{createdBy,jdbcType=INTEGER},
+      modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      modified_by = #{modifiedBy,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
