@@ -1,6 +1,5 @@
-<%@ page import="com.sf.sfpp.common.domain.WebCache" %>
 <%@ page import="com.sf.sfpp.common.Constants" %>
-<%@ page import="com.sf.sfpp.common.utils.StrUtils" %>
+<%@ page import="com.sf.sfpp.common.domain.WebCache" %>
 <%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,16 +9,6 @@
     %>
     <%=webCache.getTitle()%>
 </title>
-<%
-    String message = webCache.getMessage();
-    if(!StrUtils.isNull(message)){
-%>
-<jsp:forward page="./page/ErrorMessage.jsp">
-    <jsp:param name="Message" value="<%=message%>"/>
-</jsp:forward>
-<%
-    }
-%>
 <link rel="stylesheet" href="/sfpp-web/assets/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="/sfpp-web/assets/fonts/font-awesome.min.css">
 <link rel="stylesheet" href="/sfpp-web/assets/css/common/borderlist.css">

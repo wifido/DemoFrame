@@ -81,8 +81,8 @@ $.resource = {
 			var btn = $("#"+treeNode.tId+"_add");
 			if (btn) btn.bind("click", function(){
 //				console.log(treeNode.id);
-				$("input[name='parentId'").val(treeNode.id);
-				$("input[name='remark'").val(treeNode.resourceType);
+				$("input[name='parentId']").val(treeNode.id);
+				$("input[name='remark']").val(treeNode.resourceType);
 				$("#addResourceDialog").modal("show");
 				return false;
 			});
