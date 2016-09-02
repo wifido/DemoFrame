@@ -117,9 +117,9 @@ public class PcompVersionController extends AbstractCachedController {
             }
             if (user != null) {
                 pcompVersionExtend.setCreatedBy(user.getId());
-                pcompVersionExtend.setCreatedBy(user.getId());
+                pcompVersionExtend.setModifiedBy(user.getId());
             } else {
-                pcompVersionExtend.setModifiedBy(-1);
+                pcompVersionExtend.setCreatedBy(-1);
                 pcompVersionExtend.setModifiedBy(-1);
             }
             pcompVersionService.addVersion(pcompVersionExtend);

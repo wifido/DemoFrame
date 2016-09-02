@@ -1,0 +1,34 @@
+<assembly>
+	<id></id>
+	<formats>
+		<format>war</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<fileSets>
+		<fileSet>
+			<directory>src/main/webapp</directory>
+			<outputDirectory>/</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>target/classes</directory>
+			<excludes>
+				<exclude>**/log4j.xml</exclude>
+				<exclude>**/dubbo.properties</exclude>
+				<exclude>**/ambry.properties</exclude>
+				<exclude>**/redis.properties</exclude>
+				<exclude>**/system.properties</exclude>
+			</excludes>
+			<outputDirectory>/WEB-INF/classes</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>src/main/assembly/prod/resources</directory>
+			<outputDirectory>WEB-INF/classes</outputDirectory>
+		</fileSet>
+	</fileSets>
+	<dependencySets>
+		<dependencySet>
+			<useProjectArtifact>false</useProjectArtifact>
+			<outputDirectory>WEB-INF/lib</outputDirectory>
+		</dependencySet>
+	</dependencySets>
+</assembly>

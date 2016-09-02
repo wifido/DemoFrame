@@ -75,23 +75,19 @@ public class PcompVersionManager {
     }
 
     public boolean addPcompVersionExtend(PcompVersionExtend pcompVersionExtend) throws KafkaException {
+
+        boolean b = pcompVersionMapper.insertSelective(pcompVersionExtend) >= 0;
+        PcompVersion pcompVersion = pcompVersionMapper.selectByPrimaryKey(pcompVersionExtend.getId());
+        if (b) {
+            kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
+                    .send(StrUtils.makeString(PcompConstants.PCOMP_VERSION, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompVersion)));
+            executorService.submit(new UpdatePcompSoftwareModifiedTimeWork(pcompVersionExtend.getPcompSoftwareId(), pcompVersionExtend.getModifiedBy()));
+        }
         for (PcompVersionDoucumentDownload pcompVersionDoucumentDownload : pcompVersionExtend.getPcompVersionDoucumentDownloads()) {
-            boolean b = pcompVersionDoucumentDownloadMapper.insertSelective(pcompVersionDoucumentDownload) >= 0;
-            if (!b) {
-                return false;
-            }
+            pcompVersionDoucumentDownloadMapper.insertSelective(pcompVersionDoucumentDownload) ;
         }
         for (PcompVersionPlatformDownload pcompVersionPlatformDownload : pcompVersionExtend.getPcompVersionPlatformDownloads()) {
-            boolean b = pcompVersionPlatformDownloadMapper.insertSelective(pcompVersionPlatformDownload) >= 0;
-            if (!b) {
-                return false;
-            }
-        }
-        boolean b = pcompVersionMapper.insertSelective(pcompVersionExtend) >= 0;
-        if (b) {
-            executorService.submit(new UpdatePcompSoftwareModifiedTimeWork(pcompVersionExtend.getPcompSoftwareId(), pcompVersionExtend.getModifiedBy()));
-            kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
-                    .send(StrUtils.makeString(PcompConstants.PCOMP_VERSION, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(PcompVersionExtend.toPcompVersion(pcompVersionExtend))));
+            pcompVersionPlatformDownloadMapper.insertSelective(pcompVersionPlatformDownload);
         }
         return b;
     }
@@ -132,9 +128,9 @@ public class PcompVersionManager {
         pcompVersion.setModifiedBy(userId);
         boolean b = pcompVersionMapper.updateByPrimaryKey(pcompVersion) >= 0;
         if (b) {
-            executorService.submit(new UpdatePcompSoftwareModifiedTimeWork(pcompVersion.getPcompSoftwareId(), userId));
             kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
                     .send(StrUtils.makeString(PcompConstants.PCOMP_VERSION, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompVersion)));
+            executorService.submit(new UpdatePcompSoftwareModifiedTimeWork(pcompVersion.getPcompSoftwareId(), userId));
         }
         return b;
     }

@@ -12,10 +12,11 @@
 		<fileSet>
 			<directory>target/classes</directory>
 			<excludes>
-				<!--<exclude>**/config.properties</exclude>-->
-				<!--<exclude>**/log4j.xml</exclude>-->
-				<!--<exclude>**/schema.xml</exclude>-->
-				<!--<exclude>**/tasks.properties</exclude>-->
+				<exclude>**/log4j.xml</exclude>
+				<exclude>**/dubbo.properties</exclude>
+				<exclude>**/ambry.properties</exclude>
+				<exclude>**/redis.properties</exclude>
+				<exclude>**/system.properties</exclude>
 			</excludes>
 			<outputDirectory>/WEB-INF/classes</outputDirectory>
 		</fileSet>

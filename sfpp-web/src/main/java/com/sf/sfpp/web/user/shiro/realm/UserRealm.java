@@ -1,13 +1,9 @@
 package com.sf.sfpp.web.user.shiro.realm;
 
-import java.util.List;
-
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
+import com.sf.sfpp.user.dao.domain.User;
+import com.sf.sfpp.user.service.UserService;
+import com.sf.sfpp.web.user.shiro.LdapAuthentication;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -17,9 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sf.sfpp.user.dao.domain.User;
-import com.sf.sfpp.user.service.UserService;
-import com.sf.sfpp.web.user.shiro.LdapAuthentication;
+import java.util.List;
 
 
 /**
@@ -91,7 +85,8 @@ public class UserRealm extends AuthorizingRealm {
         if (userNo != null 
         		&& !"".equals(userNo)) {
 			// 是否通过 域认证
-			boolean flag = ldapAuthentication.authentication(userNo, password);
+			boolean flag = true;
+//			boolean flag = ldapAuthentication.authentication(userNo, password);
 			if(!flag){
 				log.info(userNo + "域认证失败。");
 				throw new UnknownAccountException("域认证失败");

@@ -29,11 +29,6 @@
         </dependency>
         <dependency>
             <groupId>com.sf</groupId>
-            <artifactId>sfpp.sfpp-resource-client</artifactId>
-            <version>${sfpp.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sf</groupId>
             <artifactId>sfpp.sfpp-es-client</artifactId>
             <version>${sfpp.version}</version>
         </dependency>
@@ -210,10 +205,11 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <excludes>
-                        <!--<exclude>**/tasks.properties</exclude>-->
-                        <!--<exclude>**/config.properties</exclude>-->
-                        <!--<exclude>**/log4j.xml</exclude>-->
-                        <!--<exclude>**/schema.xml</exclude>-->
+                        <exclude>**/log4j.xml</exclude>
+                        <exclude>**/dubbo.properties</exclude>
+                        <exclude>**/ambry.properties</exclude>
+                        <exclude>**/redis.properties</exclude>
+                        <exclude>**/system.properties</exclude>
                     </excludes>
                 </configuration>
             </plugin>
@@ -235,20 +231,20 @@
                             <finalName>${artifactId}</finalName>
                         </configuration>
                     </execution>
-                    <!--<execution>-->
-                        <!--<id>make-assembly-prod</id>-->
-                        <!--<phase>package</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>single</goal>-->
-                        <!--</goals>-->
-                        <!--<configuration>-->
-                            <!--<skipAssembly>${skipAssemblyPROD}</skipAssembly>-->
-                            <!--<descriptors>-->
-                                <!--<descriptor>src/main/assembly/prod/assembly.xml</descriptor>-->
-                            <!--</descriptors>-->
-                            <!--<finalName>${artifactId}</finalName>-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
+                    <execution>
+                        <id>make-assembly-prod</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <skipAssembly>${skipAssemblyPROD}</skipAssembly>
+                            <descriptors>
+                                <descriptor>src/main/assembly/prod/assembly.xml</descriptor>
+                            </descriptors>
+                            <finalName>${artifactId}</finalName>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>

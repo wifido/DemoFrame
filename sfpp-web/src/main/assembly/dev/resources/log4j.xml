@@ -11,16 +11,15 @@
 	
 	<appender name="server-file" class="org.apache.log4j.DailyRollingFileAppender">
         <param name="DatePattern" value="'.'yyyy-MM-dd" />
-		<param name="file" value="./logs/server-dao.log" />
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%-d{yyyy-MM-dd HH:mm:ss} [%p] [%c{1}] [%t] %30.30C.%M():%L - %m%n" />
+		<param name="file" value="./logs/sfpp-web.html" />
+		<layout class="com.sf.sfpp.common.log.FormatHTMLLayout">
 		</layout>
 	</appender>
 	
 	<root>
-		<priority value="info" />
+		<priority value="warn" />
 		<appender-ref ref="Console" />
-		<!--<appender-ref ref="sf-framework-dao" />-->
+		<!--<appender-ref ref="server-file" />-->
 	</root>
 
 	

@@ -13,7 +13,6 @@
         <module>sfpp-common</module>
         <module>sfpp-pcomp</module>
         <module>sfpp-kafka</module>
-        <module>sfpp-resource</module>
         <module>sfpp-user</module>
         <module>sfpp-es</module>
         <module>sfpp-schedule</module>
@@ -23,7 +22,7 @@
     <properties>
         <!-- projet -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <sfpp.version>1.0.0-SNAPSHOT</sfpp.version>
+        <sfpp.version>1.0.1-RELEASE</sfpp.version>
         <!--java common libs-->
         <guava_version>19.0</guava_version>
         <!-- dubbo and dubbox -->
