@@ -3,6 +3,7 @@ package com.sf.sfpp.web.controller.pcomp;
 import com.sf.sfpp.common.Constants;
 import com.sf.sfpp.common.domain.WebCache;
 import com.sf.sfpp.common.dto.JsonResult;
+import com.sf.sfpp.common.utils.ExceptionUtils;
 import com.sf.sfpp.common.utils.ImageKind;
 import com.sf.sfpp.pcomp.common.PcompConstants;
 import com.sf.sfpp.pcomp.common.model.PcompKind;
@@ -74,6 +75,21 @@ public class PcompKindController extends AbstractCachedController {
         result.setData(pcompKinds);
         return result;
     }
+
+    @ResponseBody
+    @RequestMapping(value = "pcomp/kind/recommended", method = RequestMethod.GET)
+    public JsonResult<List<PcompKind>> getRecommendedSoftware() {
+        JsonResult<List<PcompKind>> result = new JsonResult<>();
+        try {
+            result.setData(pcompKindService.fetchRecommendedKinds().getList());
+        } catch (Exception e) {
+            String stackTrace = ExceptionUtils.getStackTrace(e);
+            log.warn(stackTrace);
+            result.setMessage(stackTrace);
+        }
+        return result;
+    }
+
 
     @RequestMapping(value = PathConstants.PCOMP_KIND_CREATE_PATH, method = RequestMethod.POST)
     public String createKind(@RequestParam(PathConstants.PCOMP_KIND_BANNER_IMAGE) MultipartFile bannerImage, @RequestParam(PathConstants.PCOMP_KIND_TOP_PHOTO) MultipartFile topPhoto, HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {

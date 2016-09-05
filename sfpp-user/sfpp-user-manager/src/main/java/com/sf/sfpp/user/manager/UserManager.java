@@ -4,9 +4,9 @@
 
 package com.sf.sfpp.user.manager;
 
-import java.util.List;
-
 import com.sf.sfpp.user.dao.domain.User;
+
+import java.util.List;
 
 
 /**
@@ -18,6 +18,9 @@ public interface UserManager {
     
     /** 通过工号获取用户信息  */
     User getUserByUserNo(String userNo);
+
+    /** 通过ID获取用户信息  */
+    User getUserByUserId(int userId);
     
     /** 获取所有用户列表 */
     List<User> getAllUsers();

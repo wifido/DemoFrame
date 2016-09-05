@@ -4,14 +4,13 @@
 
 package com.sf.sfpp.user.manager.impl;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.sf.sfpp.user.dao.domain.User;
 import com.sf.sfpp.user.dao.mapper.UserMapper;
 import com.sf.sfpp.user.manager.UserManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 
 /**
@@ -29,6 +28,11 @@ public class UserMangerImpl implements UserManager {
     public User getUserByUserNo(String userNo) {
         User user = userMapper.getUserByUserNo(userNo);
         return user ;
+    }
+
+    @Override
+    public User getUserByUserId(int userId) {
+        return userMapper.selectByPrimaryKey(userId);
     }
 
     @Override

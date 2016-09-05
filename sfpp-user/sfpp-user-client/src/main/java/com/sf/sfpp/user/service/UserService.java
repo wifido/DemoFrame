@@ -4,9 +4,9 @@
 
 package com.sf.sfpp.user.service;
 
-import java.util.List;
-
 import com.sf.sfpp.user.dao.domain.User;
+
+import java.util.List;
 
 
 /**
@@ -18,6 +18,8 @@ public interface UserService {
     
     /** 通过工号获取用户信息*/
 	User getUserByUserNo(String userNo) throws Exception;
+	/** 通过id获取用户信息*/
+	User getUserByUserId(int userId) throws Exception;
     /***
 	 * 通过用户名获取权限资源
 	 * 

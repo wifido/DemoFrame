@@ -1,0 +1,34 @@
+$.user={
+    get:function(){
+        var result;
+        $.ajax({
+            url: getContextPath() + "/user/get",
+            async:false,
+            success: function (response) {
+                if(response.message!=""){
+                    alert(response.message);
+                    return;
+                }else{
+                    result = response.data;
+                }
+            }
+        });
+        return result;
+    },
+    getUserInfo:function(userId){
+        var result;
+        $.ajax({
+            url: getContextPath() + "/user/getUserInfo",
+            async:false,
+            success: function (response) {
+                if(response.message!=""){
+                    alert(response.message);
+                    return;
+                }else{
+                    result = response.data;
+                }
+            }
+        });
+        return result;
+    }
+}

@@ -4,6 +4,7 @@ import com.sf.sfpp.common.Constants;
 import com.sf.sfpp.common.domain.WebCache;
 import com.sf.sfpp.common.dto.JsonResult;
 import com.sf.sfpp.common.idgen.IDGenerator;
+import com.sf.sfpp.common.utils.ExceptionUtils;
 import com.sf.sfpp.common.utils.ImageKind;
 import com.sf.sfpp.common.utils.StrUtils;
 import com.sf.sfpp.pcomp.common.PcompConstants;
@@ -17,6 +18,8 @@ import com.sf.sfpp.pcomp.service.PcompTitleService;
 import com.sf.sfpp.user.dao.domain.User;
 import com.sf.sfpp.web.common.PathConstants;
 import com.sf.sfpp.web.controller.common.AbstractCachedController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -38,6 +41,8 @@ import java.util.List;
  */
 @Controller
 public class PcompSoftwareController extends AbstractCachedController {
+    private final static Logger log = LoggerFactory.getLogger(PcompSoftwareController.class);
+
     @Autowired
     private PcompTitleService pcompTitleService;
 
@@ -84,6 +89,21 @@ public class PcompSoftwareController extends AbstractCachedController {
             result.setMessage(e.getMessage());
         }
         result.setData(pcompSoftwares);
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "pcomp/software/recommended", method = RequestMethod.GET)
+    public JsonResult<List<PcompSoftware>> getRecommendedSoftware() {
+        JsonResult<List<PcompSoftware>> result = new JsonResult<>();
+        try {
+            result.setData(pcompSoftwareService.fetchRecommendedSoftwares().getList());
+        } catch (Exception e) {
+            String stackTrace = ExceptionUtils.getStackTrace(e);
+            log.warn(stackTrace);
+            result.setMessage(stackTrace);
+        }
+
         return result;
     }
 

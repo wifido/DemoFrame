@@ -4,17 +4,16 @@
 
 package com.sf.sfpp.user.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.sf.sfpp.user.dao.domain.Resource;
 import com.sf.sfpp.user.dao.domain.User;
 import com.sf.sfpp.user.manager.ResourceManager;
 import com.sf.sfpp.user.manager.UserManager;
 import com.sf.sfpp.user.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -35,6 +34,11 @@ public class UserServiceImpl implements UserService {
 	public User getUserByUserNo(String userNo) throws Exception {
 		User user = userManager.getUserByUserNo(userNo);
 		return user;
+	}
+
+	@Override
+	public User getUserByUserId(int userId) throws Exception {
+		return userManager.getUserByUserId(userId);
 	}
 
 	/***
