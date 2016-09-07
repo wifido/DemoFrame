@@ -90,6 +90,20 @@ public class PcompKindController extends AbstractCachedController {
         return result;
     }
 
+    @ResponseBody
+    @RequestMapping(value = "pcomp/kind/getById", method = RequestMethod.GET)
+    public JsonResult<PcompKind> getKindById(HttpServletRequest request) {
+        JsonResult<PcompKind> result = new JsonResult<>();
+        try {
+            result.setData(pcompKindService.fetchKindByKindId(request.getParameter("pcompKindId")));
+        } catch (Exception e) {
+            String stackTrace = ExceptionUtils.getStackTrace(e);
+            log.warn(stackTrace);
+            result.setMessage(stackTrace);
+        }
+        return result;
+    }
+
 
     @RequestMapping(value = PathConstants.PCOMP_KIND_CREATE_PATH, method = RequestMethod.POST)
     public String createKind(@RequestParam(PathConstants.PCOMP_KIND_BANNER_IMAGE) MultipartFile bannerImage, @RequestParam(PathConstants.PCOMP_KIND_TOP_PHOTO) MultipartFile topPhoto, HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {

@@ -1,5 +1,6 @@
 package com.sf.sfpp.web.controller.pcomp;
 
+import com.github.pagehelper.PageInfo;
 import com.sf.sfpp.common.Constants;
 import com.sf.sfpp.common.domain.WebCache;
 import com.sf.sfpp.common.dto.JsonResult;
@@ -92,18 +93,56 @@ public class PcompSoftwareController extends AbstractCachedController {
         return result;
     }
 
+    //todo 各种推荐实现
     @ResponseBody
     @RequestMapping(value = "pcomp/software/recommended", method = RequestMethod.GET)
-    public JsonResult<List<PcompSoftware>> getRecommendedSoftware() {
+    public JsonResult<List<PcompSoftware>> getRecommendedSoftware(HttpServletRequest request) {
         JsonResult<List<PcompSoftware>> result = new JsonResult<>();
         try {
-            result.setData(pcompSoftwareService.fetchRecommendedSoftwares().getList());
+            String pcompKindId = request.getParameter("pcompKindId");
+            if (pcompKindId == null) {
+                result.setData(pcompSoftwareService.fetchRecommendedSoftwares().getList());
+            } else {
+                result.setData(pcompSoftwareService.fetchAllSoftwaresSeparatelyByKind(pcompKindId, 1).getList());
+            }
         } catch (Exception e) {
             String stackTrace = ExceptionUtils.getStackTrace(e);
             log.warn(stackTrace);
             result.setMessage(stackTrace);
         }
 
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "pcomp/software/getAllByKind", method = RequestMethod.GET)
+    public JsonResult<PageInfo<PcompSoftware>> getAllSoftwareByKind(HttpServletRequest request) {
+        JsonResult<PageInfo<PcompSoftware>> result = new JsonResult<>();
+        try {
+            String pcompKindId = request.getParameter("pcompKindId");
+            String pageNumber = request.getParameter("pageNumber");
+                result.setData(pcompSoftwareService.fetchAllSoftwaresSeparatelyByKind(pcompKindId, Integer.parseInt(pageNumber)));
+        } catch (Exception e) {
+            String stackTrace = ExceptionUtils.getStackTrace(e);
+            log.warn(stackTrace);
+            result.setMessage(stackTrace);
+        }
+
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "pcomp/software/getById", method = RequestMethod.GET)
+    public JsonResult<PcompSoftware> getSoftwareById(HttpServletRequest request) {
+        JsonResult<PcompSoftware> result = new JsonResult<>();
+        try {
+            String pcompSoftwareId = request.getParameter("pcompSoftwareId");
+            result.setData(pcompSoftwareService.fetchSoftware(pcompSoftwareId));
+        } catch (Exception e) {
+            String stackTrace = ExceptionUtils.getStackTrace(e);
+            log.warn(stackTrace);
+            result.setMessage(stackTrace);
+        }
         return result;
     }
 
@@ -144,10 +183,11 @@ public class PcompSoftwareController extends AbstractCachedController {
         return "redirect:" + PathConstants.PCOMP_SOFTWARE_PATH;
     }
 
-
+    @ResponseBody
     @RequestMapping(value = PathConstants.PCOMP_SOFTWARE_MODIFICATION_PATH, method = RequestMethod.POST)
-    public String updateSoftware(@RequestParam(value = PathConstants.PCOMP_SOFTWARE_AVATAR, required = false) MultipartFile avatar, HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
+    public JsonResult<Boolean> updateSoftware(@RequestParam(value = PathConstants.PCOMP_SOFTWARE_AVATAR, required = false) MultipartFile avatar, HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
         WebCache webCache = getWebCache(request);
+        JsonResult<Boolean> booleanJsonResult = new JsonResult<>();
         boolean modified = false;
         String pcomp_software_id = request.getParameter(PathConstants.PCOMP_SOFTWARE_ID);
         String pcomp_software_name = request.getParameter(PathConstants.PCOMP_SOFTWARE_NAME);
@@ -180,12 +220,12 @@ public class PcompSoftwareController extends AbstractCachedController {
                 }
             }
             pcompSoftwareService.updateSoftware(pcompSoftware);
+            booleanJsonResult.setData(true);
         } catch (Exception e) {
-            model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
-            return handleException(e, webCache);
+            booleanJsonResult.setMessage(ExceptionUtils.getStackTrace(e));
+            booleanJsonResult.setData(false);
         }
-        redirectAttributes.addAttribute(PcompConstants.PCOMP_SOFTWARE, pcomp_software_id);
-        return "redirect:" + PathConstants.PCOMP_SOFTWARE_PATH;
+        return booleanJsonResult;
     }
 
     @RequestMapping(value = PathConstants.PCOMP_SOFTWARE_REMOVE_PATH, method = RequestMethod.GET)

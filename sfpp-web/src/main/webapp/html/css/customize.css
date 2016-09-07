@@ -22,3 +22,15 @@
     -moz-box-shadow: 0 0 10px #74cc0f;
     box-shadow: 0 0 10px #74cc0f;
 }
+
+a.list-group-item.clearfix:hover {
+    -webkit-box-shadow: 0 0 10px #DBFF00;
+    -moz-box-shadow: 0 0 10px #DBFF00;
+    box-shadow: 0 0 10px #DBFF00;
+}
+
+.btn-box-tool{
+    padding: 0px;
+    margin: 3px;
+    background-color: transparent;
+}

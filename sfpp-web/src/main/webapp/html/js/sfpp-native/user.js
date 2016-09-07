@@ -18,7 +18,7 @@ $.user={
     getUserInfo:function(userId){
         var result;
         $.ajax({
-            url: getContextPath() + "/user/getUserInfo",
+            url: getContextPath() + "/user/getUserInfo?userId=" + userId,
             async:false,
             success: function (response) {
                 if(response.message!=""){

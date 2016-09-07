@@ -5,6 +5,7 @@ import com.sf.sfpp.common.Constants;
 import com.sf.sfpp.common.domain.WebCache;
 import com.sf.sfpp.common.dto.JsonResult;
 import com.sf.sfpp.common.idgen.IDGenerator;
+import com.sf.sfpp.common.utils.ExceptionUtils;
 import com.sf.sfpp.common.utils.StrUtils;
 import com.sf.sfpp.pcomp.common.PcompConstants;
 import com.sf.sfpp.pcomp.common.exception.PcompException;
@@ -49,7 +50,7 @@ public class PcompVersionController extends AbstractCachedController {
 
     @ResponseBody
     @RequestMapping(value = PathConstants.PCOMP_VERSION_VALIDATE_PATH, method = RequestMethod.GET)
-    public JsonResult<Boolean> validateSoftwareName(HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
+    public JsonResult<Boolean> validateVersionNumber(HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
         JsonResult<Boolean> result = new JsonResult<>();
         String titleName = request.getParameter(PathConstants.PCOMP_TITLE_NAME);
         String kindName = request.getParameter(PathConstants.PCOMP_KIND_NAME);
@@ -68,7 +69,7 @@ public class PcompVersionController extends AbstractCachedController {
     }
 
     @RequestMapping(value = PathConstants.PCOMP_VERSION_EXTEND_CREATE_PATH, method = RequestMethod.POST)
-    public String createSoftware(@RequestParam(PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_DOWNLOAD) MultipartFile[] documents
+    public String createVersion(@RequestParam(PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_DOWNLOAD) MultipartFile[] documents
             , @RequestParam(PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_DOWNLOAD) MultipartFile[] softwares
             , @RequestParam(PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_DESCRIPTION) String[] descriptions
             , @RequestParam(PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_PLATFORM) String[] platforms
@@ -129,13 +130,12 @@ public class PcompVersionController extends AbstractCachedController {
         redirectAttributes.addAttribute(PcompConstants.PCOMP_SOFTWARE, pcompSoftware.getId());
         return "redirect:" + PathConstants.PCOMP_SOFTWARE_PATH;
     }
-
+    @ResponseBody
     @RequestMapping(value = PathConstants.PCOMP_VERSION_MODIFICATION_PATH, method = RequestMethod.POST)
-    public String updateVersion(HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
+    public JsonResult<Boolean> updateVersion(HttpServletRequest request) {
         WebCache webCache = getWebCache(request);
+        JsonResult<Boolean> result = new JsonResult<>();
         boolean modified = false;
-        String pcomp_software_id = request.getParameter(PathConstants.PCOMP_SOFTWARE_ID);
-        String page_navi = request.getParameter(PcompConstants.SOFTWARE_PAGE_NAVIGATION);
         String pcomp_version_id = request.getParameter(PathConstants.PCOMP_VERSION_ID);
         String pcomp_version_number = request.getParameter(PathConstants.PCOMP_VERSION_NUMBER);
         String pcomp_version_introduction = request.getParameter(PathConstants.PCOMP_VERSION_INTRODUCTION);
@@ -169,13 +169,12 @@ public class PcompVersionController extends AbstractCachedController {
                 }
             }
             pcompVersionService.updateVersion(pcompVersion);
+            result.setData(true);
         } catch (Exception e) {
-            handleException(e, webCache);
+            result.setMessage(ExceptionUtils.getStackTrace(e));
+            result.setData(false);
         }
-        redirectAttributes.addAttribute(PcompConstants.PCOMP_SOFTWARE, pcomp_software_id);
-        redirectAttributes.addAttribute(PcompConstants.SOFTWARE_PAGE_NAVIGATION, page_navi);
-        redirectAttributes.addAttribute(PcompConstants.PCOMP_VERSION, pcomp_version_id);
-        return "redirect:" + PathConstants.PCOMP_SOFTWARE_PATH;
+        return result;
     }
 
     @RequestMapping(value = PathConstants.PCOMP_VERSION_REMOVE_PATH, method = RequestMethod.GET)
