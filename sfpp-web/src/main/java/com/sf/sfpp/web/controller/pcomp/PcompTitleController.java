@@ -3,6 +3,7 @@ package com.sf.sfpp.web.controller.pcomp;
 import com.sf.sfpp.common.Constants;
 import com.sf.sfpp.common.domain.WebCache;
 import com.sf.sfpp.common.dto.JsonResult;
+import com.sf.sfpp.pcomp.common.model.PcompTitle;
 import com.sf.sfpp.pcomp.service.PcompTitleService;
 import com.sf.sfpp.web.common.PathConstants;
 import com.sf.sfpp.web.controller.common.AbstractCachedController;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author Hash Zhang
@@ -29,7 +31,7 @@ public class PcompTitleController extends AbstractCachedController {
 
     @ResponseBody
     @RequestMapping(value = PathConstants.PCOMP_TITLE_VALIDATE_PATH, method = RequestMethod.GET)
-    public JsonResult<Boolean> validateTitleName(HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
+    public JsonResult<Boolean> validateTitleName(HttpServletRequest request) {
         JsonResult<Boolean> result = new JsonResult<>();
         String titleName = request.getParameter(PathConstants.PCOMP_TITLE_NAME);
         try {
@@ -39,6 +41,19 @@ public class PcompTitleController extends AbstractCachedController {
             result.setMessage(e.getMessage());
         }
         result.setData(true);
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/pcomp/pcomp_title/get", method = RequestMethod.GET)
+    public JsonResult<List<PcompTitle>> getAllTitle() {
+        JsonResult<List<PcompTitle>> result = new JsonResult<>();
+        try {
+            result.setData(pcompTitleService.fetchAllTitles());
+            return result;
+        } catch (Exception e) {
+            result.setMessage(e.getMessage());
+        }
         return result;
     }
 

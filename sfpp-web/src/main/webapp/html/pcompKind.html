@@ -63,7 +63,7 @@
               <span class="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm">
                 <img src="images/a0.png" alt="...">
               </span>
-                        <userNo>John.Smith</userNo>
+                        <userNo></userNo>
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight">
@@ -92,31 +92,31 @@
                                         版块
                                     </li>
                                     <li>
-                                        <a href="#">
+                                        <a href="index.html" data-transition="pop">
                                             <i class="icon-home icon text-success"></i>
                                             <span class="font-bold">主页</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="genres.html">
+                                        <a href="pcompTitle.html" data-transition="pop">
                                             <i class="icon-grid icon text-info"></i>
                                             <span class="font-bold">公共组件</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="events.html">
+                                        <a href="#" data-transition="pop">
                                             <i class="icon-drawer icon text-primary-lter"></i>
                                             <span class="font-bold">开放平台</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="listen.html">
+                                        <a href="#" data-transition="pop">
                                             <i class="icon-list icon  text-info-dker"></i>
                                             <span class="font-bold">技术学院</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="video.html" data-target="#content" data-el="#bjax-el"
+                                        <a href="#" data-target="#content" data-el="#bjax-el" data-transition="pop"
                                            data-replace="true">
                                             <i class="icon-social-youtube icon  text-primary"></i>
                                             <span class="font-bold">IT社区</span>
@@ -128,7 +128,6 @@
                             <!-- / nav -->
                         </div>
                     </section>
-
                 </section>
             </aside>
             <!-- /.aside -->
@@ -142,6 +141,7 @@
 
                                 <h2 class="font-thin m-b" id="pcompKindAllSoftwaresTitle">
                                     <pcompKindAllSoftwaresTitle></pcompKindAllSoftwaresTitle>
+                                    <button class="btn btn-info btn-rounded">添加新组件</button>
                                     <span class="musicbar animate inline m-l-sm" style="width:20px;height:20px">
                                         <span class="bar1 a1 bg-primary lter"></span>
                                         <span class="bar2 a2 bg-info lt"></span>
@@ -169,6 +169,7 @@
 
                                         <h3 class="font-thin">
                                             <pcompKindLatestSoftwaresTitle></pcompKindLatestSoftwaresTitle>
+
                                             <span class="musicbar animate inline m-l-sm" style="width:20px;height:20px">
                                                 <span class="bar1 a1 bg-primary lter"></span>
                                                 <span class="bar2 a2 bg-info lt"></span>
@@ -275,7 +276,7 @@
             $("pcompKindLatestSoftwaresTitle").html("本分类最新组件");
             var data = $.pcomp.software.getRecommendedByKind(pcompKindId);
             for (i = 0; i < data.length; i++) {
-                html += matrix_item_1 + matrix_item_2 + matrix_item_3 + data[i].avatar + matrix_item_4 + matrix_item_5 + data[i].name + matrix_item_6;
+                html += matrix_item_1 + matrix_item_2+ getHtmlPath() + '/pcompSoftware.html?pcompSoftwareId=' + data[i].id + matrix_item_3 + data[i].avatar + matrix_item_4+ getHtmlPath() + '/pcompSoftware.html?pcompSoftwareId=' + data[i].id + matrix_item_5 + data[i].name + matrix_item_6;
             }
             $("pcompKindLatestSoftwares").html(html);
             var pcompSoftwareMatrixItem = $(".col-xs-6.col-sm-4.col-md-4.col-lg-4");
@@ -300,7 +301,7 @@
             var data = $.pcomp.software.getHotByKind(pcompKindId);
             for (i = 0; i < data.length; i++) {
                 var b = $.user.getUserInfo(data[i].createdBy);
-                html += list_item_1 + list_item_2 + (i + 1) + list_item_3 + data[i].avatar + list_item_4 + data[i].name + list_item_5 + b.userNo + list_item_6;
+                html += list_item_1+ getHtmlPath() + '/pcompSoftware.html?pcompSoftwareId=' + data[i].id + list_item_2 + (i + 1) + list_item_3 + data[i].avatar + list_item_4 + data[i].name + list_item_5 + b.userNo + list_item_6;
             }
             $("pcompKindHotestSoftwares").html(html);
             var pcompSoftwareListItem = $("a.list-group-item.clearfix");
