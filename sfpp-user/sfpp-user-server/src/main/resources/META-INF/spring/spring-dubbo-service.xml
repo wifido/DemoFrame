@@ -23,5 +23,5 @@
 	<dubbo:service interface="com.sf.sfpp.user.service.ResourceService" ref="resourceServiceImpl" protocol="dubbo" />
 	<dubbo:service interface="com.sf.sfpp.user.service.RoleService" ref="roleServiceImpl" protocol="dubbo" />
 	<dubbo:service interface="com.sf.sfpp.user.service.UserService" ref="userServiceImpl" protocol="dubbo" />
-	<dubbo:service interface="com.sf.sfpp.user.service.UserHistoryService" ref="UserHistoryServiceImpl" protocol="dubbo" />
+	<dubbo:service interface="com.sf.sfpp.user.service.UserHistoryService" ref="userHistoryServiceImpl" protocol="dubbo" />
 </beans>
