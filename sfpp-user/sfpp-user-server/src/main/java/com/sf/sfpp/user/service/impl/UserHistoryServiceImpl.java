@@ -5,11 +5,13 @@ import com.sf.sfpp.user.dao.domain.UserHistory;
 import com.sf.sfpp.user.manager.UserHistoryManager;
 import com.sf.sfpp.user.service.UserHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * @author ding.yang 01139954
  * @date 2016/9/7.
  */
+@Service
 public class UserHistoryServiceImpl implements UserHistoryService {
 
     @Autowired

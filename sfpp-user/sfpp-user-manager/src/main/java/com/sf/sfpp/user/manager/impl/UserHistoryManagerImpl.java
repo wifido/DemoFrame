@@ -9,11 +9,13 @@ import com.sf.sfpp.user.dao.domain.UserHistory;
 import com.sf.sfpp.user.dao.mapper.UserHistoryMapper;
 import com.sf.sfpp.user.manager.UserHistoryManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * @author ding.yang 01139954
  * @date 2016/9/7.
  */
+@Component
 public class UserHistoryManagerImpl implements UserHistoryManager {
 
     @Autowired
