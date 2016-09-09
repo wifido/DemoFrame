@@ -59,28 +59,19 @@ public interface PcompTitleService {
     PcompTitle fetchTitleBySoftwareId(String softwareId) throws PcompException;
     /**
      * 新建title
-     * @param newName
+     * @param pcompTitle
      * @return 失败返回false
      * @throws PcompException
      */
-    boolean addNewTitle(String newName) throws PcompException;
-
-    /**
-     * 批量添加，一个失败，都失败
-     * @param newNames
-     * @return 失败返回false
-     * @throws PcompException
-     */
-    boolean batchAddTitles(List<String> newNames) throws PcompException;
+    boolean addNewTitle(PcompTitle pcompTitle) throws PcompException;
 
     /**
      * 修改名称
-     * @param oldName
-     * @param newName
+     * @param pcompTitle
      * @return 失败返回false
      * @throws PcompException
      */
-    boolean modifyTitleName(String oldName,String newName) throws PcompException;
+    boolean modifyTitle(PcompTitle pcompTitle) throws PcompException;
 
     /**
      * 删除

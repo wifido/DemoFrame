@@ -4,10 +4,10 @@
 
 package com.sf.sfpp.user.service;
 
-import java.util.List;
-
 import com.sf.sfpp.user.dao.domain.Role;
 import com.sf.sfpp.user.dao.dto.UserRole;
+
+import java.util.List;
 
 
 
@@ -18,9 +18,10 @@ import com.sf.sfpp.user.dao.dto.UserRole;
  */
 public interface RoleService {
     
-    /** 通过工号获取用户信息*/
     Role getRoleByRoleId(String userNo) throws Exception;
-	
+
+    Role getRoleByRoleName(String roleName) throws Exception;
+
 	List<Role> getAllRole() throws Exception;
 	
 	int addRole(Role role) throws Exception;

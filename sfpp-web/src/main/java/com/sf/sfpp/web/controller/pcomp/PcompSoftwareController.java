@@ -45,6 +45,8 @@ public class PcompSoftwareController extends AbstractCachedController {
     private final static Logger log = LoggerFactory.getLogger(PcompSoftwareController.class);
 
     @Autowired
+    private UserRightController userRightController;
+    @Autowired
     private PcompTitleService pcompTitleService;
 
     @Autowired
