@@ -135,7 +135,7 @@ public class PcompVersionManager {
         return b;
     }
 
-    public boolean updateModifiedTime(String pcompVersionId, int userId) {
+    public boolean updateModifiedTime(String pcompVersionId, int userId) throws KafkaException {
         PcompVersion pcompVersion = pcompVersionMapper.selectByPrimaryKey(pcompVersionId);
         if (pcompVersion == null) {
             return false;
@@ -143,6 +143,8 @@ public class PcompVersionManager {
         pcompVersion.setModifiedTime(new Date());
         boolean b = pcompVersionMapper.updateByPrimaryKey(pcompVersion) >= 0;
         if (b) {
+            kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
+                    .send(StrUtils.makeString(PcompConstants.PCOMP_VERSION, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompVersion)));
             executorService.submit(new UpdatePcompSoftwareModifiedTimeWork(pcompVersion.getPcompSoftwareId(), userId));
         }
         return b;
@@ -167,18 +169,18 @@ public class PcompVersionManager {
         }
     }
 
-    public boolean addPcompVersionPlatformDownload(PcompVersionPlatformDownload pcompVersionPlatformDownload, int userId) {
+    public boolean addPcompVersionPlatformDownload(PcompVersionPlatformDownload pcompVersionPlatformDownload, int userId) throws KafkaException {
         updateModifiedTime(pcompVersionPlatformDownload.getPcompVersionId(), userId);
         return pcompVersionPlatformDownloadMapper.insertSelective(pcompVersionPlatformDownload) >= 0;
 
     }
 
-    public boolean updatePcompVersionPlatformDownload(PcompVersionPlatformDownload pcompVersionPlatformDownload, int userId) {
+    public boolean updatePcompVersionPlatformDownload(PcompVersionPlatformDownload pcompVersionPlatformDownload, int userId) throws KafkaException {
         updateModifiedTime(pcompVersionPlatformDownload.getPcompVersionId(), userId);
         return pcompVersionPlatformDownloadMapper.updateByPrimaryKey(pcompVersionPlatformDownload) >= 0;
     }
 
-    public boolean deletePcompVersionPlatformDownloadLogically(String versionDownloadId, int userId) {
+    public boolean deletePcompVersionPlatformDownloadLogically(String versionDownloadId, int userId) throws KafkaException {
         PcompVersionPlatformDownload pcompVersionPlatformDownload = pcompVersionPlatformDownloadMapper.selectByPrimaryKey(versionDownloadId);
         updateModifiedTime(pcompVersionPlatformDownload.getPcompVersionId(), userId);
         pcompVersionPlatformDownload.setIsDeleted(true);
@@ -189,17 +191,17 @@ public class PcompVersionManager {
         return pcompVersionPlatformDownloadMapper.selectByPrimaryKey(pcompVersionPlatformDownloadId);
     }
 
-    public boolean addPcompVersionDoucumentDownload(PcompVersionDoucumentDownload pcompVersionDoucumentDownload, int userId) {
+    public boolean addPcompVersionDoucumentDownload(PcompVersionDoucumentDownload pcompVersionDoucumentDownload, int userId) throws KafkaException {
         updateModifiedTime(pcompVersionDoucumentDownload.getPcompVersionId(), userId);
         return pcompVersionDoucumentDownloadMapper.insertSelective(pcompVersionDoucumentDownload) >= 0;
     }
 
-    public boolean updatePcompVersionDoucumentDownload(PcompVersionDoucumentDownload pcompVersionDoucumentDownload, int userId) {
+    public boolean updatePcompVersionDoucumentDownload(PcompVersionDoucumentDownload pcompVersionDoucumentDownload, int userId) throws KafkaException {
         updateModifiedTime(pcompVersionDoucumentDownload.getPcompVersionId(), userId);
         return pcompVersionDoucumentDownloadMapper.updateByPrimaryKey(pcompVersionDoucumentDownload) >= 0;
     }
 
-    public boolean deletePcompVersionDoucumentDownloadLogically(String versionDoucumentId, int userId) {
+    public boolean deletePcompVersionDoucumentDownloadLogically(String versionDoucumentId, int userId) throws KafkaException {
         PcompVersionDoucumentDownload pcompVersionDoucumentDownload = pcompVersionDoucumentDownloadMapper.selectByPrimaryKey(versionDoucumentId);
         updateModifiedTime(pcompVersionDoucumentDownload.getPcompVersionId(), userId);
         pcompVersionDoucumentDownload.setIsDeleted(true);
