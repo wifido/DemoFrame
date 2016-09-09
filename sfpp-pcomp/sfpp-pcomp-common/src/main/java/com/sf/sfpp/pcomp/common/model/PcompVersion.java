@@ -3,7 +3,7 @@ package com.sf.sfpp.pcomp.common.model;
 import java.io.Serializable;
 import java.util.Date;
 
-public class PcompVersion implements Serializable {
+public class PcompVersion implements Serializable, PcompState {
     private String id;
 
     private String pcompSoftwareId;

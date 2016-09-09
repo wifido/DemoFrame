@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sf.sfpp.user.dao.mapper.UserHistoryMapper">
+    <resultMap id="BaseResultMap" type="com.sf.sfpp.user.dao.domain.UserHistory">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="action" property="action" jdbcType="VARCHAR"/>
+        <result column="target_id" property="targetId" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="modified_time" property="modifiedTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, user_id, action, target_id, description, modified_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from user_history
+        where user_id = #{userId,jdbcType=INTEGER}
+        order BY modified_time DESC
+    </select>
+    <insert id="insert" parameterType="com.sf.sfpp.user.dao.domain.UserHistory">
+      insert into user_history (id, user_id, action,
+      target_id, description, modified_time)
+      values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER},
+      #{action,jdbcType=VARCHAR}, #{targetId,jdbcType=VARCHAR},
+      #{description,jdbcType=VARCHAR}, #{modifiedTime,jdbcType=TIMESTAMP})
+    </insert>
+</mapper>

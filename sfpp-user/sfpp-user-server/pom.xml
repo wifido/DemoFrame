@@ -119,6 +119,15 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.11</version>
         </dependency>
-        
+        <dependency>
+            <groupId>com.sf</groupId>
+            <artifactId>sfpp.sfpp-pcomp-common</artifactId>
+            <version>${sfpp.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sf</groupId>
+            <artifactId>sfpp.sfpp-kafka</artifactId>
+            <version>${sfpp.version}</version>
+        </dependency>
     </dependencies>
 </project>
