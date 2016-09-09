@@ -1,7 +1,5 @@
 package com.sf.sfpp.pcomp.service.impl;
 
-import com.sf.sfpp.common.Constants;
-import com.sf.sfpp.common.idgen.IDGenerator;
 import com.sf.sfpp.pcomp.common.exception.PcompException;
 import com.sf.sfpp.pcomp.common.model.PcompTitle;
 import com.sf.sfpp.pcomp.manager.PcompTitleManager;
@@ -43,7 +41,7 @@ public class PcompTitleServiceImpl implements PcompTitleService {
     @Override
     public PcompTitle fetchTitleByTitleId(String titleId) throws PcompException {
         try {
-            return null;
+            return pcompTitleManager.getPcompTitleByPcompTitleId(titleId);
         } catch (Exception e) {
             throw new PcompException(e);
         }
@@ -77,30 +75,19 @@ public class PcompTitleServiceImpl implements PcompTitleService {
     }
 
     @Override
-    public boolean addNewTitle(String newName) throws PcompException {
+    public boolean addNewTitle(PcompTitle pcompTitle) throws PcompException {
         try {
-            PcompTitle pcompTitle = new PcompTitle();
-            pcompTitle.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
-            pcompTitle.setName(newName);
             return pcompTitleManager.addPcompTitle(pcompTitle);
         } catch (Exception e) {
             throw new PcompException(e);
         }
     }
 
-    @Override
-    public boolean batchAddTitles(List<String> newNames) throws PcompException {
-        try {
-            return false;
-        } catch (Exception e) {
-            throw new PcompException(e);
-        }
-    }
 
     @Override
-    public boolean modifyTitleName(String oldName, String newName) throws PcompException {
+    public boolean modifyTitle(PcompTitle pcompTitle) throws PcompException {
         try {
-            return false;
+            return pcompTitleManager.updatePcompTitle(pcompTitle);
         } catch (Exception e) {
             throw new PcompException(e);
         }

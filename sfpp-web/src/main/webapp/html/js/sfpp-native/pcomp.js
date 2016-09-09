@@ -1,6 +1,38 @@
 $.pcomp = {};
+$.pcomp.userRight = {
+    getHasModifyTitleRight: function () {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/title/addKind/hasRight",
+            async: false,
+            success: function (response) {
+                if (response.data != null) {
+                    result = response.data;
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+        return result;
+    },
+    getHasAddKindRight: function () {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/title/addKind/hasRight",
+            async: false,
+            success: function (response) {
+                if (response.data != null) {
+                    result = response.data;
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+        return result;
+    }
+};
 $.pcomp.title = {
-    getAll :function (){
+    getAll: function () {
         var result;
         $.ajax({
             url: getContextPath() + "/pcomp/pcomp_title/get",
@@ -14,8 +46,55 @@ $.pcomp.title = {
             }
         });
         return result;
+    },
+    ifExists: function (titlename) {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/pcomp_title/validate?pcomp_title_title_name=" + titlename,
+            async: false,
+            success: function (response) {
+                if (!isNull(response.message)) {
+                    alert(response.message)
+                } else {
+                    result = response.data;
+                }
+            }
+        });
+        return result;
+    },
+    add: function (titlename, fn) {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/pcomp_title/create?pcomp_title_title_name=" + titlename,
+            async: false,
+            success: function (response) {
+                if (!isNull(response.message)) {
+                    alert(response.message)
+                } else {
+                    result = response.data;
+                    fn()
+                }
+            }
+        });
+        return result;
+    },
+    update: function (titleId, titlename, fn) {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/pcomp_title/update?pcomp_title_title_name=" + titlename + "&pcomp_title=" + titleId,
+            async: false,
+            success: function (response) {
+                if (!isNull(response.message)) {
+                    alert(response.message)
+                } else {
+                    result = response.data;
+                    fn()
+                }
+            }
+        });
+        return result;
     }
-}
+};
 $.pcomp.version = {
     delete: function (softwareId, versionId, fn) {
         var a = "";

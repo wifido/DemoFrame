@@ -2,7 +2,7 @@
 <html lang="en" class="app">
 <head>
     <meta charset="utf-8"/>
-    <title>添加新分类</title>
+    <title>添加新主题</title>
     <meta name="description"
           content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
@@ -24,28 +24,21 @@
 <body class="bg-info dker">
 <section id="content" class="m-t-lg wrapper-md animated fadeInDown">
     <div class="container aside-xl">
-        <a class="navbar-brand block" href="index.html"><span class="h1 font-bold">新分类</span></a>
+        <a class="navbar-brand block" href="index.html"><span class="h1 font-bold">新主题</span></a>
         <section class="m-b-lg">
             <header class="wrapper text-center">
                 <strong></strong>
             </header>
-            <form action="index.html">
-                <div class="form-group">
-                    <input placeholder="分类名称" class="form-control rounded input-lg text-center" notNull>
-                </div>
-                <div class="form-group">
-                    <input placeholder="简单描述，不为空" class="form-control rounded input-lg text-center" notNull>
-                </div>
-                <div class="form-group">
-                    <input id="file" class="file" type="file" name="">
-                </div>
-                <button type="submit" class="btn btn-lg btn-warning lt b-white b-2x btn-block btn-rounded"><i
-                        class="icon-arrow-right pull-right"></i><span class="m-r-n-lg">确认</span></button>
-                <div class="line line-dashed"></div>
-                <p class="text-muted text-center">
-                </p>
-                <a href="pcompTitle.html" class="btn btn-lg btn-info btn-block btn-rounded">返回</a>
-            </form>
+            <div class="form-group">
+                <label>主题名称：</label>
+                <input placeholder="主题名称" class="form-control rounded input-lg" name="pcomp_title_tile_name" notNull>
+            </div>
+            <button type="submit" class="btn btn-lg btn-warning lt b-white b-2x btn-block btn-rounded"><i
+                    class="icon-arrow-right pull-right"></i><span class="m-r-n-lg">确认</span></button>
+            <div class="line line-dashed"></div>
+            <p class="text-muted text-center">
+            </p>
+            <a href="pcompTitle.html" class="btn btn-lg btn-info btn-block btn-rounded">返回</a>
         </section>
     </div>
 </section>
@@ -90,7 +83,13 @@
 
 <script>
     $(document).ready(function () {
-        $("div[class*=file-caption-name]").html("背景图片，最好不为空");
+        $("button[type=submit]").click(function () {
+            if(validatePcomp()){
+                $.pcomp.title.add($("input[name='pcomp_title_tile_name']")[0].value,function(){
+                    window.location.href="./pcompTitle.html";
+                })
+            }
+        });
     });
 </script>
 </body>

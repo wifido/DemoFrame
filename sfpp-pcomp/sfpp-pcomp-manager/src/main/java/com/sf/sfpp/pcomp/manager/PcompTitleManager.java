@@ -101,6 +101,21 @@ public class PcompTitleManager {
         return b;
     }
 
+    public boolean updatePcompTitle(PcompTitle pcompTitle) throws KafkaException {
+        pcompTitle.setModifiedTime(new Date());
+        boolean b = pcompTitleMapper.updateByPrimaryKeySelective(pcompTitle) >= 0;
+        pcompTitle = pcompTitleMapper.selectByPrimaryKey(pcompTitle.getId());
+        if (b) {
+            kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
+                    .send(StrUtils.makeString(PcompConstants.PCOMP_TITLE, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompTitle)));
+        }
+        return b;
+    }
+
+    public PcompTitle getPcompTitleByPcompTitleId(String titleId) {
+        return pcompTitleMapper.selectByPrimaryKey(titleId);
+    }
+
     private class DeletePcompKindLogicallyWork implements Runnable {
         private final String pcompTileId;
         private final int userId;

@@ -39,6 +39,8 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class PcompVersionController extends AbstractCachedController {
     @Autowired
+    private UserRightController userRightController;
+    @Autowired
     private PcompVersionService pcompVersionService;
 
     @Autowired

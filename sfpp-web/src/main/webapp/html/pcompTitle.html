@@ -13,6 +13,9 @@
     <link rel="stylesheet" href="css/simple-line-icons.css" type="text/css"/>
     <link rel="stylesheet" href="css/font.css" type="text/css"/>
     <link rel="stylesheet" href="css/app.css" type="text/css"/>
+    <link rel="stylesheet" href="css/editormd.min.css" type="text/css"/>
+    <link rel="stylesheet" href="plugins/jQueryUI/jquery-ui.min.css" type="text/css"/>
+    <link rel="stylesheet" href="plugins/bootstrap3-fileinput/css/fileinput.min.css" type="text/css"/>
 
     <link rel="stylesheet" href="css/customize.css" type="text/css"/>
     <!--[if lt IE 9]>
@@ -149,22 +152,62 @@
         </section>
     </section>
 </section>
+<script src="js/jquery.min.js"></script>
 
 <script src="js/jquery.min.js"></script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function initialize() {
         $("userNo").html(($.user.get()).userNo);
+        var hasModifyTitleRight = $.pcomp.userRight.getHasModifyTitleRight();
+        var hasAddKindRight = $.pcomp.userRight.getHasAddKindRight();
         var pcompTitles = $.pcomp.title.getAll();
-
+        var content = $("#bjax-target");
+        var dialogDiv = $("[role=dialog]");
+        content.empty();
+        if (hasModifyTitleRight) {
+            content.append($("<button class='btn btn-info btn-rounded title'>添加新主题</button>"));
+            $("button[class*=btn][class*=btn-info][class*=btn-rounded][class*=title]").click(function () {
+                dialogDiv.remove();
+                var dialog = $(dialog_str);
+                dialog.attr("title", "添加新主题");
+                var label = $(label_str);
+                label.html("请输入新主题名称,不能为空");
+                dialog.append(label);
+                var titleNameInput = $(pcomp_title_name_textInput_str);
+                dialog.append(titleNameInput);
+                dialog.dialog({
+                    autoOpen: false,
+                    minWidth: 400,
+                    minHeight: 400,
+                    show: {effect: "blind", duration: 1000},
+                    hide: {effect: "explode", duration: 1000},
+                    modal: true,
+                    buttons: {
+                        "提交修改": function () {
+                            if (validatePcomp()) {
+                                $.pcomp.title.add(titleNameInput[0].value, initialize);
+                                $(this).dialog("close");
+                            }
+                        },
+                        "取消": function () {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+                dialog.dialog("open");
+            });
+        }
         for (i = 0; i < pcompTitles.length; i++) {
             var a = $("<a href='#' class='pull-right text-muted m-t-lg' id='" + i + "'><i class='icon-refresh i-lg  inline'></i></a>");
             var h2 = "<h2 class='font-thin m-b'>" + pcompTitles[i].name;
             h2 += "<span class='musicbar animate inline m-l-sm' style='width:20px;height:20px'><span class='bar1 a1 bg-primary lter'></span><span class='bar2 a2 bg-info lt'></span><span class='bar3 a3 bg-success'></span><span class='bar4 a4 bg-warning dk'></span><span class='bar5 a5 bg-danger dker'></span></span>";
-            h2 += "<a href='pcompKindAdd.html' class='btn btn-info btn-rounded' id='" + i + "'>添加新分类</a>";
+            if (hasAddKindRight) {
+                h2 += "<button class='btn btn-success btn-rounded title'id='" + i + "'>修改本主题</button><button class='btn btn-danger btn-rounded title'>删除本主题</button>";
+                h2 += "<a href='pcompKindAdd.html' class='btn btn-info btn-rounded' id='" + i + "'>添加新分类</a>";
+            }
             h2 += "</h2>";
             h2 = $(h2);
             var div = $("<div class='row row-sm'></div>");
-            var content = $("#bjax-target");
             var pcompKinds = $.pcomp.kind.getByTitleName(pcompTitles[i].name);
             var matrix_item_2 = "<a href=\"";
             var matrix_item_3 = "\"><img src=\"";
@@ -181,6 +224,39 @@
             content.append(h2);
             content.append(div);
         }
+
+        $("button[class*=btn][class*=btn-success][class*=btn-rounded][class*=title]").click(function () {
+            dialogDiv.remove();
+            var dialog = $(dialog_str);
+            dialog.attr("title", "修改主题");
+            var label = $(label_str);
+            label.html("请输入修改后的主题名称,不能为空");
+            dialog.append(label);
+            var titleNameInput = $(pcomp_title_name_textInput_str);
+            var id = this.id;
+            titleNameInput[0].value = pcompTitles[id].name;
+            dialog.append(titleNameInput);
+            dialog.dialog({
+                autoOpen: false,
+                minWidth: 400,
+                minHeight: 400,
+                show: {effect: "blind", duration: 1000},
+                hide: {effect: "explode", duration: 1000},
+                modal: true,
+                buttons: {
+                    "提交修改": function () {
+                        if (validatePcomp()) {
+                            $.pcomp.title.update(pcompTitles[id].id, titleNameInput[0].value, initialize);
+                            $(this).dialog("close");
+                        }
+                    },
+                    "取消": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+            dialog.dialog("open");
+        });
 
         $("a[class*=pull-right][class*=text-muted][class*=m-t-lg]").click(function () {
             $(this).next().next().remove();
@@ -229,6 +305,19 @@
 <script type="text/javascript" src="js/sfpp-native/util.js"></script>
 <script type="text/javascript" src="js/sfpp-native/user.js"></script>
 <script type="text/javascript" src="js/sfpp-native/pcomp.js"></script>
+<script type="text/javascript" src="js/sfpp-native/pcompform.js"></script>
+
+<script type="text/javascript" src="js/editormd.min.js"></script>
+<script src="js/jquery-form.js"></script>
+<script src="lib/raphael.min.js"></script>
+<script src="lib/underscore.min.js"></script>
+<script src="lib/sequence-diagram.min.js"></script>
+<script src="lib/flowchart.min.js"></script>
+<script src="lib/jquery.flowchart.min.js"></script>
+<script src="lib/prettify.min.js"></script>
+<script src="lib/marked.min.js"></script>
+<script src="plugins/jQueryUI/jquery-ui.min.js"></script>
+<script src="plugins/bootstrap3-fileinput/js/fileinput.min.js"></script>
 
 </body>
 </html>

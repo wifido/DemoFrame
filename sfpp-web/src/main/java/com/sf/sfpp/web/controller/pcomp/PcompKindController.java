@@ -34,6 +34,8 @@ import java.util.List;
 @Controller
 public class PcompKindController extends AbstractCachedController {
     @Autowired
+    private UserRightController userRightController;
+    @Autowired
     private PcompKindService pcompKindService;
 
     @Autowired
