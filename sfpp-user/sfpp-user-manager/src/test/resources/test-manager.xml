@@ -24,9 +24,7 @@
 			</list>
 		</property>
 	</bean>
-	
 	<import resource="classpath*:META-INF/spring/*.xml" />
-	 
 </beans>
 
 

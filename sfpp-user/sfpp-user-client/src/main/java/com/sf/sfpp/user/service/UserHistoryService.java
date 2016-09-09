@@ -2,6 +2,7 @@ package com.sf.sfpp.user.service;
 
 import com.github.pagehelper.PageInfo;
 import com.sf.sfpp.user.dao.domain.UserHistory;
+
 /**
  * 用户操作历史
  *
@@ -10,7 +11,9 @@ import com.sf.sfpp.user.dao.domain.UserHistory;
  */
 public interface UserHistoryService {
 
-    public PageInfo<UserHistory> getUserHistoryByUserId(Integer userId, int pageNumber);
+    PageInfo<UserHistory> getUserHistoryByUserId(Integer userId, int pageNumber);
+
+    PageInfo<UserHistory> getUserHistoryByUserId(Integer userId, int pageNumber, String... actions);
 
     boolean addUserHistory(UserHistory userHistory);
 

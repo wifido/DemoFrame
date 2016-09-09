@@ -11,6 +11,9 @@ import com.sf.sfpp.user.manager.UserHistoryManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * @author ding.yang 01139954
  * @date 2016/9/7.
@@ -21,6 +24,8 @@ public class UserHistoryManagerImpl implements UserHistoryManager {
     @Autowired
     private UserHistoryMapper userHistoryMapper;
 
+
+
     @Override
     public Page<UserHistory> getUserHistorysByUserId(Integer UserId, int pageNumber) {
         if (pageNumber != Constants.ALL_PAGE_NUMBER) {
@@ -29,6 +34,31 @@ public class UserHistoryManagerImpl implements UserHistoryManager {
             PageHelper.startPage(1, Integer.MAX_VALUE);
         }
         return (Page<UserHistory>) userHistoryMapper.selectByPrimaryKey(UserId);
+    }
+
+    @Override
+    public Page<UserHistory> getUserHistorysByUserId(Integer UserId, int pageNumber, String... actions) {
+        if (pageNumber != Constants.ALL_PAGE_NUMBER) {
+            PageHelper.startPage(pageNumber, PcompConstants.NUMBER_PER_PAGE);
+        } else {
+            PageHelper.startPage(1, Integer.MAX_VALUE);
+        }
+        List<UserHistory> userHistorys = userHistoryMapper.selectByPrimaryKey(UserId);
+        Iterator<UserHistory> iterator = userHistorys.iterator();
+        while(iterator.hasNext()){
+            UserHistory userHistory = iterator.next();
+            boolean isDelete = true;
+            String userHistoryAction = userHistory.getAction();
+            for(String action : actions){
+                if(userHistoryAction.endsWith(action)){
+                    isDelete = false;
+                }
+            }
+            if(isDelete){
+                iterator.remove();
+            }
+        }
+        return (Page<UserHistory>) userHistorys;
     }
 
     @Override
