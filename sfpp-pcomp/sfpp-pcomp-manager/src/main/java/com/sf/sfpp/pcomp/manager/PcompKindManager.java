@@ -158,6 +158,7 @@ public class PcompKindManager {
             return false;
         }
         pcompKind.setModifiedTime(new Date());
+        pcompKind.setModifiedBy(userId);
         boolean b = pcompKindMapper.updateByPrimaryKey(pcompKind) >= 0;
         if (b) {
             kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)

@@ -4,15 +4,14 @@
 
 package com.sf.sfpp.user.service.impl;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.sf.sfpp.user.dao.domain.Role;
 import com.sf.sfpp.user.dao.dto.UserRole;
 import com.sf.sfpp.user.manager.RoleManager;
 import com.sf.sfpp.user.service.RoleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 角色dubbo服务对外接口实现类
@@ -28,6 +27,11 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Role getRoleByRoleId(String userNo) throws Exception{
         return roleManager.getRoleById(userNo);
+    }
+
+    @Override
+    public Role getRoleByRoleName(String roleName) throws Exception {
+        return roleManager.getRoleByName(roleName);
     }
 
     @Override

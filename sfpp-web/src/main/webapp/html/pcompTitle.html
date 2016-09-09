@@ -137,61 +137,7 @@
                     <section>
                         <section class="vbox">
                             <section class="scrollable padder-lg w-f-md" id="bjax-target">
-                                <a href="#" class="pull-right text-muted m-t-lg" id="refreshPcompKindMatrixItem"><i
-                                        class="icon-refresh i-lg  inline"></i></a>
 
-                                <h2 class="font-thin m-b">公共组件分类推荐<span class="musicbar animate inline m-l-sm"
-                                                                        style="width:20px;height:20px">
-                    <span class="bar1 a1 bg-primary lter"></span>
-                    <span class="bar2 a2 bg-info lt"></span>
-                    <span class="bar3 a3 bg-success"></span>
-                    <span class="bar4 a4 bg-warning dk"></span>
-                    <span class="bar5 a5 bg-danger dker"></span>
-                  </span></h2>
-
-                                <div class="row row-sm">
-                                    <pcompKindMatrixItem></pcompKindMatrixItem>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-7">
-                                        <a href="#" class="pull-right text-muted m-t-lg"
-                                           id="refreshPcompSoftwareMatrixItem"><i
-                                                class="icon-refresh i-lg  inline"></i></a>
-
-                                        <h3 class="font-thin">最新公共组件<span class="musicbar animate inline m-l-sm"
-                                                                          style="width:20px;height:20px">
-                    <span class="bar1 a1 bg-primary lter"></span>
-                    <span class="bar2 a2 bg-info lt"></span>
-                    <span class="bar3 a3 bg-success"></span>
-                    <span class="bar4 a4 bg-warning dk"></span>
-                    <span class="bar5 a5 bg-danger dker"></span>
-                  </span></h3>
-
-                                        <div class="row row-sm">
-                                            <pcompSoftwareMatrixItem></pcompSoftwareMatrixItem>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-5">
-                                        <a href="#" class="pull-right text-muted m-t-lg"
-                                           id="refreshPcompSoftwareListItem"><i
-                                                class="icon-refresh i-lg  inline"></i></a>
-
-                                        <h3 class="font-thin">最火公共组件榜单
-                                            <span class="musicbar animate inline m-l-sm"
-                                                                            style="width:20px;height:20px">
-                                            <span class="bar1 a1 bg-primary lter"></span>
-                                            <span class="bar2 a2 bg-info lt"></span>
-                                            <span class="bar3 a3 bg-success"></span>
-                                            <span class="bar4 a4 bg-warning dk"></span>
-                                            <span class="bar5 a5 bg-danger dker"></span>
-                                            </span>
-                                        </h3>
-
-                                        <div class="list-group bg-white list-group-lg no-bg auto">
-                                            <pcompSoftwareListItem></pcompSoftwareListItem>
-                                        </div>
-                                    </div>
-                                </div>
                             </section>
                         </section>
                     </section>
@@ -208,37 +154,18 @@
 <script>
     $(document).ready(function () {
         $("userNo").html(($.user.get()).userNo);
-        refreshPcompKindMatrixItem();
-        refreshPcompSoftwareMatrixItem();
-        refreshPcompSoftwareListItem();
-        $("#refreshPcompKindMatrixItem").click(
-                function () {
-                    $("#refreshPcompKindMatrixItem").attr("class", "pull-right text-muted m-t-lg fa-spin");
-                    refreshPcompKindMatrixItem();
-                    setTimeout(function () {
-                        $("#refreshPcompKindMatrixItem").attr("class", "pull-right text-muted m-t-lg");
-                    }, 1000);
-                }
-        );
-        $("#refreshPcompSoftwareMatrixItem").click(
-                function () {
-                    $("#refreshPcompSoftwareMatrixItem").attr("class", "pull-right text-muted m-t-lg fa-spin");
-                    refreshPcompSoftwareMatrixItem();
-                    setTimeout(function () {
-                        $("#refreshPcompSoftwareMatrixItem").attr("class", "pull-right text-muted m-t-lg");
-                    }, 1000);
-                }
-        );
-        $("#refreshPcompSoftwareListItem").click(
-                function () {
-                    $("#refreshPcompSoftwareListItem").attr("class", "pull-right text-muted m-t-lg fa-spin");
-                    refreshPcompSoftwareListItem();
-                    setTimeout(function () {
-                        $("#refreshPcompSoftwareListItem").attr("class", "pull-right text-muted m-t-lg");
-                    }, 1000);
-                }
-        );
-        function refreshPcompKindMatrixItem() {
+        var pcompTitles = $.pcomp.title.getAll();
+
+        for (i = 0; i < pcompTitles.length; i++) {
+            var a = $("<a href='#' class='pull-right text-muted m-t-lg' id='" + i + "'><i class='icon-refresh i-lg  inline'></i></a>");
+            var h2 = "<h2 class='font-thin m-b'>" + pcompTitles[i].name;
+            h2 += "<span class='musicbar animate inline m-l-sm' style='width:20px;height:20px'><span class='bar1 a1 bg-primary lter'></span><span class='bar2 a2 bg-info lt'></span><span class='bar3 a3 bg-success'></span><span class='bar4 a4 bg-warning dk'></span><span class='bar5 a5 bg-danger dker'></span></span>";
+            h2 += "<a href='pcompKindAdd.html' class='btn btn-info btn-rounded' id='" + i + "'>添加新分类</a>";
+            h2 += "</h2>";
+            h2 = $(h2);
+            var div = $("<div class='row row-sm'></div>");
+            var content = $("#bjax-target");
+            var pcompKinds = $.pcomp.kind.getByTitleName(pcompTitles[i].name);
             var matrix_item_2 = "<a href=\"";
             var matrix_item_3 = "\"><img src=\"";
             var matrix_item_4 = "\" alt=\"\" class=\"r r-2x img-full\"></a></div><div class=\"padder-v\"><a href=\"";
@@ -246,12 +173,36 @@
             var matrix_item_6 = "</a></div></div></div>";
             var matrix_item_7 = "<div class=\"col-xs-6 col-sm-4 col-md-3 col-lg-2\" style='display: none'><div class=\"item\"><div class=\"pos-rlt\">";
             var html = "";
-            var data = $.pcomp.kind.getRecommended();
-            for (i = 0; i < data.length; i++) {
-                html += matrix_item_7 + matrix_item_2 + getHtmlPath() + '/pcompKind.html?pcompKindId=' + data[i].id + matrix_item_3 + data[i].topPhoto + matrix_item_4 + getHtmlPath() + '/pcompKind.html?pcompKindId=' + data[i].id + matrix_item_5 + data[i].name + matrix_item_6;
+            for (j = 0; j < pcompKinds.length; j++) {
+                html += matrix_item_7 + matrix_item_2 + getHtmlPath() + '/pcompKind.html?pcompKindId=' + pcompKinds[j].id + matrix_item_3 + pcompKinds[j].topPhoto + matrix_item_4 + getHtmlPath() + '/pcompKind.html?pcompKindId=' + pcompKinds[j].id + matrix_item_5 + pcompKinds[j].name + matrix_item_6;
             }
-            $("pcompKindMatrixItem").html(html);
-            var pcompKindMatrixItem = $(".col-xs-6.col-sm-4.col-md-3.col-lg-2");
+            div.html(html);
+            content.append(a);
+            content.append(h2);
+            content.append(div);
+        }
+
+        $("a[class*=pull-right][class*=text-muted][class*=m-t-lg]").click(function () {
+            $(this).next().next().remove();
+            var div = $("<div class='row row-sm'></div>");
+            var pcompKinds = $.pcomp.kind.getByTitleName(pcompTitles[this.id].name);
+            var matrix_item_2 = "<a href=\"";
+            var matrix_item_3 = "\"><img src=\"";
+            var matrix_item_4 = "\" alt=\"\" class=\"r r-2x img-full\"></a></div><div class=\"padder-v\"><a href=\"";
+            var matrix_item_5 = "\" class=\"text-ellipsis\" style=\"text-align:center\">";
+            var matrix_item_6 = "</a></div></div></div>";
+            var matrix_item_7 = "<div class=\"col-xs-6 col-sm-4 col-md-3 col-lg-2\" style='display: none'><div class=\"item\"><div class=\"pos-rlt\">";
+            var html = "";
+            for (j = 0; j < pcompKinds.length; j++) {
+                html += matrix_item_7 + matrix_item_2 + getHtmlPath() + '/pcompKind.html?pcompKindId=' + pcompKinds[j].id + matrix_item_3 + pcompKinds[j].topPhoto + matrix_item_4 + getHtmlPath() + '/pcompKind.html?pcompKindId=' + pcompKinds[j].id + matrix_item_5 + pcompKinds[j].name + matrix_item_6;
+            }
+            div.html(html);
+            $(this).next().after(div);
+            blink();
+        });
+        blink();
+        function blink() {
+            var pcompKindMatrixItem = $(".col-xs-6.col-sm-4.col-md-3.col-lg-2[style*=display]");
             for (i = 0; i < pcompKindMatrixItem.length; i++) {
                 var time = i * 500;
                 if (time >= 5000) {
@@ -259,53 +210,9 @@
                 }
                 $(pcompKindMatrixItem[i]).fadeIn(time);
             }
+        }
 
-        };
-        function refreshPcompSoftwareMatrixItem() {
-            var matrix_item_1 = "<div class=\"col-xs-6 col-sm-4 col-md-4 col-lg-4\" style='display: none'><div class=\"item\"><div class=\"pos-rlt\">";
-            var matrix_item_2 = "<a href=\"";
-            var matrix_item_3 = "\"><img src=\"";
-            var matrix_item_4 = "\" alt=\"\" class=\"r r-2x img-full\"></a></div><div class=\"padder-v\"><a href=\"";
-            var matrix_item_5 = "\" class=\"text-ellipsis\" style=\"text-align:center\">";
-            var matrix_item_6 = "</a></div></div></div>";
-            var html = "";
-            var data = $.pcomp.software.getRecommended();
-            for (i = 0; i < data.length; i++) {
-                html += matrix_item_1 + matrix_item_2+ getHtmlPath() + '/pcompSoftware.html?pcompSoftwareId=' + data[i].id +matrix_item_3 + data[i].avatar + matrix_item_4 + getHtmlPath() + '/pcompSoftware.html?pcompSoftwareId=' + data[i].id + matrix_item_5 + data[i].name + matrix_item_6;
-            }
-            $("pcompSoftwareMatrixItem").html(html);
-            var pcompSoftwareMatrixItem = $(".col-xs-6.col-sm-4.col-md-4.col-lg-4");
-            for (i = 0; i < pcompSoftwareMatrixItem.length; i++) {
-                var time = i * 500;
-                if (time >= 5000) {
-                    time = 5000;
-                }
-                $(pcompSoftwareMatrixItem[i]).fadeIn(time);
-            }
-        };
-        function refreshPcompSoftwareListItem() {
-            var list_item_1 = "<a href=\"";
-            var list_item_2 = "\" class=\"list-group-item clearfix\" style='display:none'><span class=\"pull-right h2 text-muted m-l\">";
-            var list_item_3 = "</span><span class=\"pull-left thumb-sm avatar m-r\"><img src=\"";
-            var list_item_4 = "\" alt=\"...\"></span><span class=\"clear\"><span>";
-            var list_item_5 = "</span><small class=\"text-muted clear text-ellipsis\">";
-            var list_item_6 = "</small></span></a>"
-            var html = "";
-            var data = $.pcomp.software.getHot();
-            for (i = 0; i < data.length; i++) {
-                var b = $.user.getUserInfo(data[i].createdBy);
-                html += list_item_1+ getHtmlPath() + '/pcompSoftware.html?pcompSoftwareId=' + data[i].id + list_item_2 + (i + 1) + list_item_3 + data[i].avatar + list_item_4 + data[i].name + list_item_5 + b.userNo + list_item_6;
-            }
-            $("pcompSoftwareListItem").html(html);
-            var pcompSoftwareListItem = $("a.list-group-item.clearfix");
-            for (i = 0; i < pcompSoftwareListItem.length; i++) {
-                var time = i * 500;
-                if (time >= 5000) {
-                    time = 5000;
-                }
-                $(pcompSoftwareListItem[i]).fadeIn(time);
-            }
-        };
+
     });
 
 </script>
