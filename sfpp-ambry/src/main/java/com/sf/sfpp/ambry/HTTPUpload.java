@@ -36,7 +36,7 @@ public class HTTPUpload {
         //zip存放主路径
         String tempFilePath = "C:/content/";
 
-        //生成的压缩包名称
+        //压缩包名称
         String zipName = "ZipFile";
 
         /**
@@ -49,7 +49,7 @@ public class HTTPUpload {
             FileInputStream fileInput = new FileInputStream(file);
             out.putNextEntry(new ZipEntry(file.getName()));
             int temp = 0;
-            //读入需要下载的文件的内容，打包到zip文件
+            //读取文件并打包
             while ((temp = fileInput.read(buffer)) > 0) {
                 out.write(buffer, 0, temp);
             }
