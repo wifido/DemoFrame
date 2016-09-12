@@ -153,20 +153,18 @@
     </section>
 </section>
 <script src="js/jquery.min.js"></script>
-
-<script src="js/jquery.min.js"></script>
 <script>
     $(document).ready(function initialize() {
+        var pcompTitles = $.pcomp.title.getAll();
         $("userNo").html(($.user.get()).userNo);
         var hasModifyTitleRight = $.pcomp.userRight.getHasModifyTitleRight();
         var hasAddKindRight = $.pcomp.userRight.getHasAddKindRight();
-        var pcompTitles = $.pcomp.title.getAll();
         var content = $("#bjax-target");
-        var dialogDiv = $("[role=dialog]");
         content.empty();
         if (hasModifyTitleRight) {
             content.append($("<button class='btn btn-info btn-rounded title'>添加新主题</button>"));
             $("button[class*=btn][class*=btn-info][class*=btn-rounded][class*=title]").click(function () {
+                var dialogDiv = $("[role=dialog]");
                 dialogDiv.remove();
                 var dialog = $(dialog_str);
                 dialog.attr("title", "添加新主题");
@@ -202,8 +200,8 @@
             var h2 = "<h2 class='font-thin m-b'>" + pcompTitles[i].name;
             h2 += "<span class='musicbar animate inline m-l-sm' style='width:20px;height:20px'><span class='bar1 a1 bg-primary lter'></span><span class='bar2 a2 bg-info lt'></span><span class='bar3 a3 bg-success'></span><span class='bar4 a4 bg-warning dk'></span><span class='bar5 a5 bg-danger dker'></span></span>";
             if (hasAddKindRight) {
-                h2 += "<button class='btn btn-success btn-rounded title'id='" + i + "'>修改本主题</button><button class='btn btn-danger btn-rounded title'>删除本主题</button>";
-                h2 += "<a href='pcompKindAdd.html' class='btn btn-info btn-rounded' id='" + i + "'>添加新分类</a>";
+                h2 += "<button class='btn btn-success btn-rounded title'id='" + i + "'>修改本主题</button><button class='btn btn-danger btn-rounded title'id='" + i + "'>删除本主题</button>";
+                h2 += "<button class='btn btn-info btn-rounded kind' id='" + i + "'>添加新分类</button>";
             }
             h2 += "</h2>";
             h2 = $(h2);
@@ -226,6 +224,7 @@
         }
 
         $("button[class*=btn][class*=btn-success][class*=btn-rounded][class*=title]").click(function () {
+            var dialogDiv = $("[role=dialog]");
             dialogDiv.remove();
             var dialog = $(dialog_str);
             dialog.attr("title", "修改主题");
@@ -247,6 +246,61 @@
                     "提交修改": function () {
                         if (validatePcomp()) {
                             $.pcomp.title.update(pcompTitles[id].id, titleNameInput[0].value, initialize);
+                            $(this).dialog("close");
+                        }
+                    },
+                    "取消": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+            dialog.dialog("open");
+        });
+
+        $("button[class*=btn][class*=btn-danger][class*=btn-rounded][class*=title]").click(function () {
+            if (confirm("你确定要删除" + pcompTitles[this.id].name + "吗？")) {
+                $.pcomp.title.remove(pcompTitles[this.id].id, initialize)
+            }
+        });
+
+        $("button[class*=btn][class*=btn-info][class*=btn-rounded][class*=kind]").click(function () {
+            var dialogDiv = $("[role=dialog]");
+            var id = this.id;
+            dialogDiv.remove();
+            var dialog = $(dialog_str);
+            dialog.attr("title", "添加分类");
+            var label = $("<h4></h4>");
+            label.html("所属主题：<b>" + pcompTitles[id].name + "</b>");
+            dialog.append(label);
+            label = $(label_str);
+            label.html("请输入新分类名称（不为空）：");
+            dialog.append(label);
+            var kindNameInput = $(pcomp_kind_name_textInput_str);
+            dialog.append(kindNameInput);
+            label = $(label_str);
+            label.html("请输入新分类简介（不为空）：");
+            dialog.append(label);
+            var notNullText = $(notNull_textInput_str);
+            dialog.append(notNullText);
+            label = $(label_str);
+            label.html("请为此分类上传一个头像（不为空）：");
+            dialog.append(label);
+            var notNullFile = $(notNull_fileInput_str);
+            notNullFile.attr("name", "pcomp_kind_top_photo");
+            notNullFile.attr("id", "pcomp_kind_top_photo");
+            dialog.append(notNullFile);
+            notNullFile.fileinput();
+            dialog.dialog({
+                autoOpen: false,
+                minWidth: 400,
+                minHeight: 400,
+                show: {effect: "blind", duration: 1000},
+                hide: {effect: "explode", duration: 1000},
+                modal: true,
+                buttons: {
+                    "提交修改": function () {
+                        if (validatePcomp(pcompTitles[id].name)) {
+                            $.pcomp.kind.add(pcompTitles[id].name, kindNameInput[0].value, notNullText[0].value, initialize);
                             $(this).dialog("close");
                         }
                     },
@@ -309,6 +363,7 @@
 
 <script type="text/javascript" src="js/editormd.min.js"></script>
 <script src="js/jquery-form.js"></script>
+<script src="js/ajaxfileupload.js"></script>
 <script src="lib/raphael.min.js"></script>
 <script src="lib/underscore.min.js"></script>
 <script src="lib/sequence-diagram.min.js"></script>

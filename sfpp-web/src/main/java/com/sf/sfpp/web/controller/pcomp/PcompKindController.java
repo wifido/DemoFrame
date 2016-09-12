@@ -55,6 +55,7 @@ public class PcompKindController extends AbstractCachedController {
             return result;
         } catch (Exception e) {
             result.setMessage(e.getMessage());
+            log.warn(ExceptionUtils.getStackTrace(e));
         }
         result.setData(true);
         return result;
@@ -106,11 +107,10 @@ public class PcompKindController extends AbstractCachedController {
         return result;
     }
 
-
+    @ResponseBody
     @RequestMapping(value = PathConstants.PCOMP_KIND_CREATE_PATH, method = RequestMethod.POST)
-    public String createKind(@RequestParam(PathConstants.PCOMP_KIND_BANNER_IMAGE) MultipartFile bannerImage, @RequestParam(PathConstants.PCOMP_KIND_TOP_PHOTO) MultipartFile topPhoto, HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
-        WebCache webCache = getWebCache(request);
-        model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
+    public JsonResult<Boolean> createKind(@RequestParam(value = PathConstants.PCOMP_KIND_BANNER_IMAGE, required = false) MultipartFile bannerImage, @RequestParam(value = PathConstants.PCOMP_KIND_TOP_PHOTO, required = false) MultipartFile topPhoto, HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
+        JsonResult<Boolean> result = new JsonResult<>();
         String titleName = request.getParameter(PathConstants.PCOMP_TITLE_NAME);
         String kindName = request.getParameter(PathConstants.PCOMP_KIND_NAME);
         String kindIntroduction = request.getParameter(PathConstants.PCOMP_KIND_INTRODUCTION);
@@ -121,16 +121,21 @@ public class PcompKindController extends AbstractCachedController {
 
             String titleId = pcompTitleService.fetchTitleByTitleName(titleName).getId();
             pcompKind.setPcompTitleId(titleId);
-
-            pcompKind.setBannerImage(bannerImage.getSize() > 0 ? imageController.uploadImage(bannerImage, ImageKind.BANNER_IMAGE) : "");
-            pcompKind.setTopPhoto(topPhoto.getSize() > 0 ? imageController.uploadImage(topPhoto, ImageKind.TOP_PHOTO) : "");
+            if (bannerImage != null) {
+                pcompKind.setBannerImage(bannerImage.getSize() > 0 ? imageController.uploadImage(bannerImage, ImageKind.BANNER_IMAGE) : "");
+            }
+            if (topPhoto != null) {
+                pcompKind.setTopPhoto(topPhoto.getSize() > 0 ? imageController.uploadImage(topPhoto, ImageKind.TOP_PHOTO) : "");
+            }
             if (!pcompKindService.existsKind(titleName, kindName)) {
                 pcompKindService.addKind(pcompKind);
             }
+            result.setData(true);
         } catch (Exception e) {
-            return handleException(e, webCache);
+            result.setMessage(e.getMessage());
+            log.warn(ExceptionUtils.getStackTrace(e));
         }
-        return "redirect:" + PathConstants.PCOMP_HOMEPAGE_PATH;
+        return result;
     }
 
     @RequestMapping(value = PathConstants.PCOMP_KIND_REMOVE_PATH, method = RequestMethod.GET)
