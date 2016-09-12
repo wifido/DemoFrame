@@ -81,7 +81,7 @@ public class StreamGenerator {
         /**
          * 输出流转为uploadFile方法的输入流
          */
-        ByteArrayInputStream in = new ByteArrayInputStream(byteOut.toByteArray());
-        return in;
+        ByteArrayInputStream inStream = new ByteArrayInputStream(byteOut.toByteArray());
+        return inStream;
     }
 }

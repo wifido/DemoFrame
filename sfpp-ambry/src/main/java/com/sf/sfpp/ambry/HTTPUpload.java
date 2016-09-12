@@ -97,7 +97,7 @@ public class HTTPUpload {
         System.out.println(httpUpload.uploadFile(inputStream, file.length(), "", "", "", ""));
 
         Scheduler scheduler = new Scheduler();
-        scheduler.schedule("09 14 * * *", new DeleteTask(tempFilePath));
+        scheduler.schedule("28 20 * * *", new DeleteTask(tempFilePath));
         scheduler.start();
     }
 }

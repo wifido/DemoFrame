@@ -16,8 +16,8 @@ public class DeleteTask implements Runnable {
         this.tempFilePath = tempFilePath;
     }
 
-    public static void DeleteAll(File f){
-        for(File fi:f.listFiles()){
+    public static void DeleteAll(File file){
+        for(File fi:file.listFiles()){
             if(fi.isDirectory()){
                 DeleteAll(fi);
             }
@@ -25,12 +25,12 @@ public class DeleteTask implements Runnable {
                 fi.delete();
             }
         }
-        f.delete();
+        file.delete();
     }
 
     @Override
     public void run(){
-        File f = new File(tempFilePath);
-        DeleteAll(f);
+        File file = new File(tempFilePath);
+        DeleteAll(file);
     }
 }
