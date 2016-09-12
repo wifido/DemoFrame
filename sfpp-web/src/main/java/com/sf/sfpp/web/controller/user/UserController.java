@@ -1,14 +1,5 @@
 package com.sf.sfpp.web.controller.user;
 
-import com.github.pagehelper.PageInfo;
-import com.sf.sfpp.common.dto.JsonResult;
-import com.sf.sfpp.common.utils.ExceptionUtils;
-import com.sf.sfpp.user.dao.domain.User;
-import com.sf.sfpp.user.dao.domain.UserHistory;
-import com.sf.sfpp.user.service.UserService;
-import com.sf.sfpp.user.service.UserHistoryService;
-import com.sf.sfpp.web.controller.common.AbstractCachedController;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
@@ -89,9 +80,8 @@ public class UserController {
         return userJsonResult;
     }
     
-    @ResponseBody
     @RequestMapping(value = "user/getHistory", method = RequestMethod.GET)
-    public JsonResult<PageInfo<UserHistory>> userHistoryPage(HttpServletRequest request) {
+    public JsonResult<PageInfo<UserHistory>> getUserHistoryPage(HttpServletRequest request) {
         JsonResult<PageInfo<UserHistory>> userHistoryJsonResult = new JsonResult<>();
         try {
             int userId = Integer.parseInt(request.getParameter("userId"));
@@ -105,5 +95,4 @@ public class UserController {
         }
         return userHistoryJsonResult;
     }
-    
 }
