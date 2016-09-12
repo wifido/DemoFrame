@@ -1,7 +1,6 @@
 package com.sf.sfpp.web.controller.pcomp;
 
 import com.sf.sfpp.common.Constants;
-import com.sf.sfpp.common.domain.WebCache;
 import com.sf.sfpp.common.dto.JsonResult;
 import com.sf.sfpp.common.utils.ExceptionUtils;
 import com.sf.sfpp.common.utils.ImageKind;
@@ -12,6 +11,7 @@ import com.sf.sfpp.pcomp.service.PcompTitleService;
 import com.sf.sfpp.user.dao.domain.User;
 import com.sf.sfpp.web.common.PathConstants;
 import com.sf.sfpp.web.controller.common.AbstractCachedController;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -115,22 +115,30 @@ public class PcompKindController extends AbstractCachedController {
         String kindName = request.getParameter(PathConstants.PCOMP_KIND_NAME);
         String kindIntroduction = request.getParameter(PathConstants.PCOMP_KIND_INTRODUCTION);
         try {
-            PcompKind pcompKind = new PcompKind();
-            pcompKind.setName(kindName);
-            pcompKind.setIntroduction(kindIntroduction);
+            JsonResult<Boolean> hasModifyPcompTitleRight = userRightController.getHasAddPcompKindRight();
+            if (hasModifyPcompTitleRight.getData()) {
+                PcompKind pcompKind = new PcompKind();
+                pcompKind.setName(kindName);
+                pcompKind.setIntroduction(kindIntroduction);
 
-            String titleId = pcompTitleService.fetchTitleByTitleName(titleName).getId();
-            pcompKind.setPcompTitleId(titleId);
-            if (bannerImage != null) {
-                pcompKind.setBannerImage(bannerImage.getSize() > 0 ? imageController.uploadImage(bannerImage, ImageKind.BANNER_IMAGE) : "");
+                String titleId = pcompTitleService.fetchTitleByTitleName(titleName).getId();
+                pcompKind.setPcompTitleId(titleId);
+                if (bannerImage != null) {
+                    pcompKind.setBannerImage(bannerImage.getSize() > 0 ? imageController.uploadImage(bannerImage, ImageKind.BANNER_IMAGE) : "");
+                }
+                if (topPhoto != null) {
+                    pcompKind.setTopPhoto(topPhoto.getSize() > 0 ? imageController.uploadImage(topPhoto, ImageKind.TOP_PHOTO) : "");
+                }
+                if (!pcompKindService.existsKind(titleName, kindName)) {
+                    pcompKind.setCreatedBy(((User) SecurityUtils.getSubject().getPrincipal()).getId());
+                    pcompKind.setModifiedBy(((User) SecurityUtils.getSubject().getPrincipal()).getId());
+                    pcompKindService.addKind(pcompKind);
+                }
+                result.setData(true);
+            } else {
+                result.setData(false);
+                result.setMessage("Permission Denied!");
             }
-            if (topPhoto != null) {
-                pcompKind.setTopPhoto(topPhoto.getSize() > 0 ? imageController.uploadImage(topPhoto, ImageKind.TOP_PHOTO) : "");
-            }
-            if (!pcompKindService.existsKind(titleName, kindName)) {
-                pcompKindService.addKind(pcompKind);
-            }
-            result.setData(true);
         } catch (Exception e) {
             result.setMessage(e.getMessage());
             log.warn(ExceptionUtils.getStackTrace(e));
@@ -138,17 +146,58 @@ public class PcompKindController extends AbstractCachedController {
         return result;
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/pcomp/pcomp_kind/update", method = RequestMethod.POST)
+    public JsonResult<Boolean> updateKind(@RequestParam(value = PathConstants.PCOMP_KIND_BANNER_IMAGE, required = false) MultipartFile bannerImage, @RequestParam(value = PathConstants.PCOMP_KIND_TOP_PHOTO, required = false) MultipartFile topPhoto, HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
+        JsonResult<Boolean> result = new JsonResult<>();
+        String kindId = request.getParameter(PcompConstants.PCOMP_KIND);
+        String kindName = request.getParameter(PathConstants.PCOMP_KIND_NAME);
+        String kindIntroduction = request.getParameter(PathConstants.PCOMP_KIND_INTRODUCTION);
+        try {
+            JsonResult<Boolean> hasModifyPcompTitleRight = userRightController.getHasAddPcompKindRight();
+            if (hasModifyPcompTitleRight.getData()) {
+                PcompKind pcompKind = pcompKindService.fetchKindByKindId(kindId);
+                pcompKind.setName(kindName);
+                pcompKind.setIntroduction(kindIntroduction);
+                if (bannerImage != null && bannerImage.getSize() > 0) {
+                    pcompKind.setBannerImage(imageController.uploadImage(bannerImage, ImageKind.BANNER_IMAGE));
+                }
+                if (topPhoto != null && topPhoto.getSize() > 0) {
+                    pcompKind.setTopPhoto(imageController.uploadImage(topPhoto, ImageKind.TOP_PHOTO));
+                }
+                pcompKind.setModifiedBy(((User) SecurityUtils.getSubject().getPrincipal()).getId());
+                pcompKindService.updateKind(pcompKind);
+                result.setData(true);
+            } else {
+                result.setData(false);
+                result.setMessage("Permission Denied!");
+            }
+        } catch (Exception e) {
+            result.setMessage(e.getMessage());
+            log.warn(ExceptionUtils.getStackTrace(e));
+        }
+        return result;
+    }
+
+    @ResponseBody
     @RequestMapping(value = PathConstants.PCOMP_KIND_REMOVE_PATH, method = RequestMethod.GET)
-    public String removeKind(HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
-        WebCache webCache = getWebCache(request);
-        model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
+    public JsonResult<Boolean> removeKind(HttpServletRequest request) {
+        JsonResult<Boolean> result = new JsonResult<>();
         String kindId = request.getParameter(PcompConstants.PCOMP_KIND);
         try {
-            pcompKindService.removeKind(kindId, ((User) webCache.getUser()).getId());
+            JsonResult<Boolean> hasModifyPcompTitleRight = userRightController.getHasAddPcompKindRight();
+            if (hasModifyPcompTitleRight.getData()) {
+                pcompKindService.removeKind(kindId, ((User) SecurityUtils.getSubject().getPrincipal()).getId());
+                result.setData(true);
+            } else {
+                result.setData(false);
+                result.setMessage("Permission Denied!");
+            }
         } catch (Exception e) {
-            return handleException(e, webCache);
+            result.setMessage(e.getMessage());
+            log.warn(ExceptionUtils.getStackTrace(e));
         }
-        return "redirect:" + PathConstants.PCOMP_HOMEPAGE_PATH;
+        return result;
     }
 
 }

@@ -13,6 +13,9 @@
     <link rel="stylesheet" href="css/simple-line-icons.css" type="text/css"/>
     <link rel="stylesheet" href="css/font.css" type="text/css"/>
     <link rel="stylesheet" href="css/app.css" type="text/css"/>
+    <link rel="stylesheet" href="css/editormd.min.css" type="text/css"/>
+    <link rel="stylesheet" href="plugins/jQueryUI/jquery-ui.min.css" type="text/css"/>
+    <link rel="stylesheet" href="plugins/bootstrap3-fileinput/css/fileinput.min.css" type="text/css"/>
 
     <link rel="stylesheet" href="css/customize.css" type="text/css"/>
     <!--[if lt IE 9]>
@@ -231,8 +234,23 @@
 <script type="text/javascript" src="js/sfpp-native/util.js"></script>
 <script type="text/javascript" src="js/sfpp-native/user.js"></script>
 <script type="text/javascript" src="js/sfpp-native/pcomp.js"></script>
+<script type="text/javascript" src="js/sfpp-native/pcompform.js"></script>
+
+<script type="text/javascript" src="js/editormd.min.js"></script>
+<script src="js/jquery-form.js"></script>
+<script src="js/ajaxfileupload.js"></script>
+<script src="lib/raphael.min.js"></script>
+<script src="lib/underscore.min.js"></script>
+<script src="lib/sequence-diagram.min.js"></script>
+<script src="lib/flowchart.min.js"></script>
+<script src="lib/jquery.flowchart.min.js"></script>
+<script src="lib/prettify.min.js"></script>
+<script src="lib/marked.min.js"></script>
+<script src="plugins/jQueryUI/jquery-ui.min.js"></script>
+<script src="plugins/bootstrap3-fileinput/js/fileinput.min.js"></script>
 <script>
     var pcompKindId = getUrlParam("pcompKindId");
+    var pcompKind = $.pcomp.kind.getByKindId(pcompKindId);
     $(document).ready(function () {
         $("userNo").html(($.user.get()).userNo);
         displayPcompKindAllSoftwares(1);
@@ -276,7 +294,7 @@
             $("pcompKindLatestSoftwaresTitle").html("本分类最新组件");
             var data = $.pcomp.software.getRecommendedByKind(pcompKindId);
             for (i = 0; i < data.length; i++) {
-                html += matrix_item_1 + matrix_item_2+ getHtmlPath() + '/pcompSoftware.html?pcompSoftwareId=' + data[i].id + matrix_item_3 + data[i].avatar + matrix_item_4+ getHtmlPath() + '/pcompSoftware.html?pcompSoftwareId=' + data[i].id + matrix_item_5 + data[i].name + matrix_item_6;
+                html += matrix_item_1 + matrix_item_2 + getHtmlPath() + '/pcompSoftware.html?pcompSoftwareId=' + data[i].id + matrix_item_3 + data[i].avatar + matrix_item_4 + getHtmlPath() + '/pcompSoftware.html?pcompSoftwareId=' + data[i].id + matrix_item_5 + data[i].name + matrix_item_6;
             }
             $("pcompKindLatestSoftwares").html(html);
             var pcompSoftwareMatrixItem = $(".col-xs-6.col-sm-4.col-md-4.col-lg-4");
@@ -301,7 +319,7 @@
             var data = $.pcomp.software.getHotByKind(pcompKindId);
             for (i = 0; i < data.length; i++) {
                 var b = $.user.getUserInfo(data[i].createdBy);
-                html += list_item_1+ getHtmlPath() + '/pcompSoftware.html?pcompSoftwareId=' + data[i].id + list_item_2 + (i + 1) + list_item_3 + data[i].avatar + list_item_4 + data[i].name + list_item_5 + b.userNo + list_item_6;
+                html += list_item_1 + getHtmlPath() + '/pcompSoftware.html?pcompSoftwareId=' + data[i].id + list_item_2 + (i + 1) + list_item_3 + data[i].avatar + list_item_4 + data[i].name + list_item_5 + b.userNo + list_item_6;
             }
             $("pcompKindHotestSoftwares").html(html);
             var pcompSoftwareListItem = $("a.list-group-item.clearfix");
@@ -316,6 +334,8 @@
     });
 
     function displayPcompKindAllSoftwares(pageNumber) {
+        pcompKind = $.pcomp.kind.getByKindId(pcompKindId);
+        $("title").html(pcompKind.name)
         var matrix_item_2 = "<a href=\"";
         var matrix_item_3 = "\"><img src=\"";
         var matrix_item_4 = "\" alt=\"\" class=\"r r-2x img-full\"></a></div><div class=\"padder-v\"><a href=\"";
@@ -323,12 +343,22 @@
         var matrix_item_6 = "</a></div></div></div>";
         var matrix_item_7 = "<div class=\"col-xs-6 col-sm-4 col-md-3 col-lg-2\" style='display: none'><div class=\"item\"><div class=\"pos-rlt\">";
         var html = "";
-        var data = $.pcomp.software.getAllByKind(pcompKindId, pageNumber);
+        var data;
+        if (!isNull(pageNumber)) {
+            data = $.pcomp.software.getAllByKind(pcompKindId, pageNumber);
+        }else{
+            data = $.pcomp.software.getAllByKind(pcompKindId, 1);
+        }
         var list = data.list;
         for (i = 0; i < list.length; i++) {
             html += matrix_item_7 + matrix_item_2 + getHtmlPath() + '/pcompSoftware.html?pcompSoftwareId=' + list[i].id + matrix_item_3 + list[i].avatar + matrix_item_4 + matrix_item_5 + list[i].name + matrix_item_6;
         }
-        $("pcompKindAllSoftwaresTitle").html($.pcomp.kind.getByKindId(pcompKindId).name + "-全部组件");
+
+        var titleHtml = "<img src=\"" + pcompKind.topPhoto + "\" style=\"width: 100%;max-width: 55px;height: auto;border-radius: 50%;padding: 5px\">" + pcompKind.name + "-全部组件";
+        if ($.pcomp.userRight.getHasAddKindRight()) {
+            titleHtml += "<button class='btn btn-success btn-rounded'>修改本分类</button><button class='btn btn-danger btn-rounded'>删除本分类</button>";
+        }
+        $("pcompKindAllSoftwaresTitle").html(titleHtml);
         $("pcompKindAllSoftwares").html(html);
         var pcompKindMatrixItem = $(".col-xs-6.col-sm-4.col-md-3.col-lg-2");
         for (i = 0; i < pcompKindMatrixItem.length; i++) {
@@ -347,9 +377,59 @@
             html += "><a onclick=\"displayPcompKindAllSoftwares(" + i + ")\">" + i + "</a></li>";
         }
         $("#pcompKindAllSoftwaresPagination").html(html);
+        $("button[class*=btn][class*=btn-success][class*=btn-rounded]").click(function () {
+            var dialogDiv = $("[role=dialog]");
+            var id = this.id;
+            dialogDiv.remove();
+            var dialog = $(dialog_str);
+            dialog.attr("title", "修改分类");
+            label = $(label_str);
+            label.html("请输入新分类名称（不为空）：");
+            dialog.append(label);
+            var kindNameInput = $(notNull_textInput_str);
+            kindNameInput.attr("value", pcompKind.name);
+            dialog.append(kindNameInput);
+            label = $(label_str);
+            label.html("请输入新分类简介（不为空）：");
+            dialog.append(label);
+            var notNullText = $(notNull_textInput_str);
+            notNullText.attr("value", pcompKind.introduction);
+            dialog.append(notNullText);
+            label = $(label_str);
+            label.html("请为此分类上传一个头像（留空为不修改）：");
+            dialog.append(label);
+            var File = $(fileInput_str);
+            File.attr("name", "pcomp_kind_top_photo");
+            File.attr("id", "pcomp_kind_top_photo");
+            dialog.append(File);
+            File.fileinput();
+            dialog.dialog({
+                autoOpen: false,
+                minWidth: 400,
+                minHeight: 400,
+                show: {effect: "blind", duration: 1000},
+                hide: {effect: "explode", duration: 1000},
+                modal: true,
+                buttons: {
+                    "提交修改": function () {
+                        if (validatePcomp()) {
+                            $.pcomp.kind.update(pcompKind.id, kindNameInput[0].value, notNullText[0].value, displayPcompKindAllSoftwares);
+                            $(this).dialog("close");
+                        }
+                    },
+                    "取消": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+            dialog.dialog("open");
+        });
+        $("button[class*=btn][class*=btn-danger][class*=btn-rounded]").click(function () {
+            if (confirm("你确定要删除" + pcompKind.name + "吗？")) {
+                $.pcomp.kind.remove(pcompKind.id)
+            }
+        });
     }
-    ;
-
 </script>
 </body>
 </html>

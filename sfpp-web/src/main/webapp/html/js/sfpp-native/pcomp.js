@@ -490,6 +490,48 @@ function handleSuccess(data) {
     }
 }
 $.pcomp.kind = {
+    remove: function (pcompKindId) {
+        var a = "";
+        $.ajax({
+            url: getContextPath() + "/pcomp/pcomp_kind/index/remove?pcomp_kind=" + pcompKindId,
+            async: false,
+            success: function (response) {
+                if (!response.data) {
+                    alert(response.message);
+                } else {
+                    window.location.href = getContextPath() + "/html/pcompTitle.html";
+                }
+            }
+        });
+        return a;
+    },
+    update: function (kind_id, kind_name, introduction, fn) {
+        $.ajaxFileUpload
+        (
+            {
+                url: getContextPath() + "/pcomp/pcomp_kind/update",
+                type: 'post',
+                data: {
+                    pcomp_kind: kind_id,
+                    pcomp_kind_name: kind_name,
+                    pcomp_kind_introduction: introduction
+                },
+                secureuri: false, //一般设置为false
+                fileElementId: 'pcomp_kind_top_photo',
+                dataType: 'json', //返回值类型 一般设置为json
+                success: function (data)  //服务器成功响应处理函数
+                {
+                    handleSuccess(data);
+                    fn();
+                },
+                error: function (data)//服务器响应失败处理函数
+                {
+                    alert("连接异常");
+                }
+            }
+        )
+        return false;
+    },
     add: function (title_name, kind_name, introduction, fn) {
         $.ajaxFileUpload
         (
