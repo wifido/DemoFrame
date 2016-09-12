@@ -116,6 +116,7 @@
         <es_version>2.3.4</es_version>
         <mybatis_pagehelper_version>4.1.6</mybatis_pagehelper_version>
         <quartz_version>2.2.1</quartz_version>
+        <cron4j_version>2.2.5</cron4j_version>
     </properties>
 
     <dependencyManagement>
@@ -645,6 +646,13 @@
                 <artifactId>elasticsearch</artifactId>
                 <version>${es_version}</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/it.sauronsoftware.cron4j/cron4j -->
+            <dependency>
+                <groupId>it.sauronsoftware.cron4j</groupId>
+                <artifactId>cron4j</artifactId>
+                <version>${cron4j_version}</version>
+            </dependency>
+
 
             <!--mybatis分页-->
             <dependency>
@@ -708,4 +716,6 @@
             </plugin>
         </plugins>
     </build>
+
+
 </project>
