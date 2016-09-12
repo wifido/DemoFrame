@@ -14,6 +14,12 @@ public interface UserHistoryManager {
      */
     Page<UserHistory> getUserHistorysByUserId(Integer UserId, int pageNumber);
 
+    /**
+     * 通过用户ID和页数以及actions码获取用户操作历史
+     * 传入的actions是action码的后4位
+     */
+    Page<UserHistory> getUserHistorysByUserId(Integer UserId, int pageNumber, String... actions);
+
 
     /**
      * 新增用户操作历史

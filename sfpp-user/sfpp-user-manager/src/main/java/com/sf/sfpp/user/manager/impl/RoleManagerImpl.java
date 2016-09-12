@@ -4,19 +4,17 @@
 
 package com.sf.sfpp.user.manager.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.sf.sfpp.user.dao.domain.Role;
+import com.sf.sfpp.user.dao.dto.UserRole;
+import com.sf.sfpp.user.dao.mapper.RoleMapper;
+import com.sf.sfpp.user.manager.RoleManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.alibaba.druid.support.logging.Log;
-import com.sf.sfpp.user.dao.domain.Role;
-import com.sf.sfpp.user.dao.dto.UserRole;
-import com.sf.sfpp.user.dao.mapper.RoleMapper;
-import com.sf.sfpp.user.manager.RoleManager;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -101,6 +99,11 @@ public class RoleManagerImpl implements RoleManager {
             result = roleMapper.unBindUserRole(roleId, userNo);
         }
         return result;
+    }
+
+    @Override
+    public Role getRoleByName(String roleName) {
+        return roleMapper.selectByPrimaryRoleName(roleName);
     }
 
 }

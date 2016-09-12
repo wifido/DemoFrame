@@ -45,6 +45,8 @@ public class PcompSoftwareController extends AbstractCachedController {
     private final static Logger log = LoggerFactory.getLogger(PcompSoftwareController.class);
 
     @Autowired
+    private UserRightController userRightController;
+    @Autowired
     private PcompTitleService pcompTitleService;
 
     @Autowired
@@ -227,24 +229,24 @@ public class PcompSoftwareController extends AbstractCachedController {
         }
         return booleanJsonResult;
     }
-
+    @ResponseBody
     @RequestMapping(value = PathConstants.PCOMP_SOFTWARE_REMOVE_PATH, method = RequestMethod.GET)
-    public String removeSoftware(HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
+    public JsonResult<Boolean> removeSoftware(HttpServletRequest request) {
         WebCache webCache = getWebCache(request);
-        model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
+        JsonResult<Boolean> result = new JsonResult<>();
         String softwareID = request.getParameter(PcompConstants.PCOMP_SOFTWARE);
         try {
             PcompSoftware pcompSoftware = pcompSoftwareService.fetchSoftware(softwareID);
-            redirectAttributes.addAttribute(PcompConstants.PCOMP_KIND, pcompSoftware.getPcompKindId());
             User user = (User) webCache.getUser();
             if (!user.getId().equals(pcompSoftware.getCreatedBy())) {
                 throw new PcompException(Constants.PERMISSION_DENIED);
             }
             pcompSoftwareService.removeSoftware(softwareID, user.getId());
+            result.setData(true);
         } catch (Exception e) {
-            return handleException(e, webCache);
+            result.setMessage(ExceptionUtils.getStackTrace(e));
+            result.setData(false);
         }
-        redirectAttributes.addAttribute(Constants.PAGE_NUMBER, 1);
-        return "redirect:" + PathConstants.PCOMP_KIND_PATH;
+        return result;
     }
 }

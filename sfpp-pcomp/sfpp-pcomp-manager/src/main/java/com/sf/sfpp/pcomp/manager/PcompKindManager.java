@@ -130,6 +130,17 @@ public class PcompKindManager {
         return b;
     }
 
+    public boolean updatePcompKind(PcompKind pcompKind) throws KafkaException {
+        pcompKind.setModifiedTime(new Date());
+        boolean b = pcompKindMapper.updateByPrimaryKey(pcompKind) >= 0;
+        if (b) {
+            kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
+                    .send(StrUtils.makeString(PcompConstants.PCOMP_KIND, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompKind)));
+            executorService.submit(new UpdatePcompTitleModifiedTimeWork(pcompKind.getPcompTitleId(), pcompKind.getModifiedBy()));
+        }
+        return b;
+    }
+
     private class DeletePcompSoftwareLogicallyWork implements Runnable {
         private final String pcompKindId;
         private final int userId;
@@ -158,6 +169,7 @@ public class PcompKindManager {
             return false;
         }
         pcompKind.setModifiedTime(new Date());
+        pcompKind.setModifiedBy(userId);
         boolean b = pcompKindMapper.updateByPrimaryKey(pcompKind) >= 0;
         if (b) {
             kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)

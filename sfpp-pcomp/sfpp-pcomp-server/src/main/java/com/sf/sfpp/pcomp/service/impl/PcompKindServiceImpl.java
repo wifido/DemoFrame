@@ -115,7 +115,7 @@ public class PcompKindServiceImpl implements PcompKindService {
     @Override
     public boolean updateKind(PcompKind kind) throws PcompException {
         try {
-            return false;
+            return pcompKindManager.updatePcompKind(kind);
         } catch (Exception e) {
             throw new PcompException(e);
         }

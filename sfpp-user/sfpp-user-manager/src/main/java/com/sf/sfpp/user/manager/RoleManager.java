@@ -4,10 +4,10 @@
 
 package com.sf.sfpp.user.manager;
 
-import java.util.List;
-
 import com.sf.sfpp.user.dao.domain.Role;
 import com.sf.sfpp.user.dao.dto.UserRole;
+
+import java.util.List;
 
 
 
@@ -45,5 +45,6 @@ public interface RoleManager {
     List<UserRole> getUserRoleList(String userNo);
 
     int changeUserRole(String roleId, Boolean state, String userNo);
-    
+
+    Role getRoleByName(String roleName);
 }

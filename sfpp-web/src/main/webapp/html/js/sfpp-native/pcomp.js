@@ -1,25 +1,260 @@
 $.pcomp = {};
+$.pcomp.userRight = {
+    getHasModifyTitleRight: function () {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/title/addKind/hasRight",
+            async: false,
+            success: function (response) {
+                if (response.data != null) {
+                    result = response.data;
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+        return result;
+    },
+    getHasAddKindRight: function () {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/title/addKind/hasRight",
+            async: false,
+            success: function (response) {
+                if (response.data != null) {
+                    result = response.data;
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+        return result;
+    }
+};
+$.pcomp.title = {
+    getAll: function () {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/pcomp_title/get",
+            async: false,
+            success: function (response) {
+                if (!isNull(response.message)) {
+                    alert(response.message)
+                } else {
+                    result = response.data;
+                }
+            }
+        });
+        return result;
+    },
+    ifExists: function (titlename) {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/pcomp_title/validate?pcomp_title_title_name=" + titlename,
+            async: false,
+            success: function (response) {
+                if (!isNull(response.message)) {
+                    alert(response.message)
+                } else {
+                    result = response.data;
+                }
+            }
+        });
+        return result;
+    },
+    add: function (titlename, fn) {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/pcomp_title/create?pcomp_title_title_name=" + titlename,
+            async: false,
+            success: function (response) {
+                if (!isNull(response.message)) {
+                    alert(response.message)
+                } else {
+                    result = response.data;
+                    fn()
+                }
+            }
+        });
+        return result;
+    },
+    update: function (titleId, titlename, fn) {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/pcomp_title/update?pcomp_title_title_name=" + titlename + "&pcomp_title=" + titleId,
+            async: false,
+            success: function (response) {
+                if (!isNull(response.message)) {
+                    alert(response.message)
+                } else {
+                    result = response.data;
+                    fn()
+                }
+            }
+        });
+        return result;
+    },
+    remove: function (titleId, fn) {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/pcomp_title/delete?pcomp_title=" + titleId,
+            async: false,
+            success: function (response) {
+                if (!isNull(response.message)) {
+                    alert(response.message)
+                } else {
+                    result = response.data;
+                    fn()
+                }
+            }
+        });
+        return result;
+    }
+};
 $.pcomp.version = {
-    newSoftwareDownload: function (platform, fn) {
+    delete: function (softwareId, versionId, fn) {
+        var a = "";
+        $.ajax({
+            url: getContextPath() + "/pcomp/pcomp_version/index/remove?pcomp_version=" + versionId + "&pcomp_software=" + softwareId,
+            async: false,
+            success: function (response) {
+                if (!response.data) {
+                    alert(response.message)
+                } else {
+                    fn();
+                }
+            }
+        });
+        return a;
+    },
+    deleteSoftwareDownload: function (softwareId, versionId, softwareDownloadId, fn) {
+        var a = "";
+        $.ajax({
+            url: getContextPath() + "/pcomp/pcomp_version_platform_download/remove?pcomp_version_platform_download=" + softwareDownloadId + "&pcomp_version=" + versionId + "&pcomp_software=" + softwareId,
+            async: false,
+            success: function (response) {
+                if (!response.data) {
+                    alert(response.message)
+                } else {
+                    fn();
+                }
+            }
+        });
+        return a;
+    },
+    deleteDocumentDownload: function (softwareId, versionId, documentDownloadId, fn) {
+        var a = "";
+        $.ajax({
+            url: getContextPath() + "/pcomp/pcomp_version_description_document/remove?pcomp_version_description_document=" + documentDownloadId + "&pcomp_version=" + versionId + "&pcomp_software=" + softwareId,
+            async: false,
+            success: function (response) {
+                if (!response.data) {
+                    alert(response.message)
+                } else {
+                    fn();
+                }
+            }
+        });
+        return a;
+    },
+    newSoftwareDownload: function (versionId, platform, fn) {
         $.ajaxFileUpload
         (
             {
-                url: getContextPath() + "/pcomp/pcomp_version/update",
+                url: getContextPath() + "/pcomp/pcomp_version_platform_download/create",
                 type: 'post',
-                data: {pcomp_version_id: versionId, pcomp_version_introduction: introduction},
+                data: {pcomp_version: versionId, pcomp_version_platform_download_platform: platform},
                 secureuri: false, //一般设置为false
                 fileElementId: 'file',
                 dataType: 'json', //返回值类型 一般设置为json
                 success: function (data)  //服务器成功响应处理函数
                 {
                     handleSuccess(data);
+                    fn();
                 },
                 error: function (data)//服务器响应失败处理函数
                 {
                     alert("连接异常");
                 }
             }
-        )
+        );
+        return false;
+    },
+    newDocumentDownload: function (versionId, description, fn) {
+        $.ajaxFileUpload
+        (
+            {
+                url: getContextPath() + "/pcomp/pcomp_version_description_document/create",
+                type: 'post',
+                data: {pcomp_version: versionId, pcomp_version_document_download_description: description},
+                secureuri: false, //一般设置为false
+                fileElementId: 'file',
+                dataType: 'json', //返回值类型 一般设置为json
+                success: function (data)  //服务器成功响应处理函数
+                {
+                    handleSuccess(data);
+                    fn();
+                },
+                error: function (data)//服务器响应失败处理函数
+                {
+                    alert("连接异常");
+                }
+            }
+        );
+        return false;
+    },
+    modifySoftwareDownload: function (versionId, softwareDownloadId, platform, fn) {
+        $.ajaxFileUpload
+        (
+            {
+                url: getContextPath() + "/pcomp/pcomp_version_platform_download/update",
+                type: 'post',
+                data: {
+                    pcomp_version: versionId,
+                    pcomp_version_platform_download: softwareDownloadId,
+                    pcomp_version_platform_download_platform: platform
+                },
+                secureuri: false, //一般设置为false
+                fileElementId: 'file',
+                dataType: 'json', //返回值类型 一般设置为json
+                success: function (data)  //服务器成功响应处理函数
+                {
+                    handleSuccess(data);
+                    fn();
+                },
+                error: function (data)//服务器响应失败处理函数
+                {
+                    alert("连接异常");
+                }
+            }
+        );
+        return false;
+    },
+    modifyDocumentDownload: function (versionId, documentId, description, fn) {
+        $.ajaxFileUpload
+        (
+            {
+                url: getContextPath() + "/pcomp/pcomp_version_description_document/update",
+                type: 'post',
+                data: {
+                    pcomp_version: versionId,
+                    pcomp_version_description_document: documentId,
+                    pcomp_version_document_download_description: description
+                },
+                secureuri: false, //一般设置为false
+                fileElementId: 'file',
+                dataType: 'json', //返回值类型 一般设置为json
+                success: function (data)  //服务器成功响应处理函数
+                {
+                    handleSuccess(data);
+                    fn();
+                },
+                error: function (data)//服务器响应失败处理函数
+                {
+                    alert("连接异常");
+                }
+            }
+        );
         return false;
     },
     updateIntroduction: function (versionId, introduction) {
@@ -90,16 +325,16 @@ $.pcomp.version = {
     }
 };
 $.pcomp.software = {
-    delete: function (pcompVersionId, pcompSoftwareId) {
+    delete: function (pcompKindId, pcompSoftwareId) {
         var a = "";
         $.ajax({
             url: getContextPath() + "/pcomp/pcomp_software/remove?pcomp_software=" + pcompSoftwareId,
             async: false,
             success: function (response) {
-                if (response.message != "") {
-                    window.location.href = getContextPath() + "/html/pcompKind.html?pcompKindId=" + pcompVersionId;
+                if (!response.data) {
+                    alert(response.message);
                 } else {
-                    a = response.data
+                    window.location.href = getContextPath() + "/html/pcompKind.html?pcompKindId=" + pcompKindId;
                 }
             }
         });
@@ -255,6 +490,91 @@ function handleSuccess(data) {
     }
 }
 $.pcomp.kind = {
+    remove: function (pcompKindId) {
+        var a = "";
+        $.ajax({
+            url: getContextPath() + "/pcomp/pcomp_kind/index/remove?pcomp_kind=" + pcompKindId,
+            async: false,
+            success: function (response) {
+                if (!response.data) {
+                    alert(response.message);
+                } else {
+                    window.location.href = getContextPath() + "/html/pcompTitle.html";
+                }
+            }
+        });
+        return a;
+    },
+    update: function (kind_id, kind_name, introduction, fn) {
+        $.ajaxFileUpload
+        (
+            {
+                url: getContextPath() + "/pcomp/pcomp_kind/update",
+                type: 'post',
+                data: {
+                    pcomp_kind: kind_id,
+                    pcomp_kind_name: kind_name,
+                    pcomp_kind_introduction: introduction
+                },
+                secureuri: false, //一般设置为false
+                fileElementId: 'pcomp_kind_top_photo',
+                dataType: 'json', //返回值类型 一般设置为json
+                success: function (data)  //服务器成功响应处理函数
+                {
+                    handleSuccess(data);
+                    fn();
+                },
+                error: function (data)//服务器响应失败处理函数
+                {
+                    alert("连接异常");
+                }
+            }
+        )
+        return false;
+    },
+    add: function (title_name, kind_name, introduction, fn) {
+        $.ajaxFileUpload
+        (
+            {
+                url: getContextPath() + "/pcomp/pcomp_kind/index/create",
+                type: 'post',
+                data: {
+                    pcomp_title_title_name: title_name,
+                    pcomp_kind_name: kind_name,
+                    pcomp_kind_introduction: introduction
+                },
+                secureuri: false, //一般设置为false
+                fileElementId: 'pcomp_kind_top_photo',
+                dataType: 'json', //返回值类型 一般设置为json
+                success: function (data)  //服务器成功响应处理函数
+                {
+                    handleSuccess(data);
+                    fn();
+                },
+                error: function (data)//服务器响应失败处理函数
+                {
+                    alert("连接异常");
+                }
+            }
+        )
+        return false;
+    },
+    exists:function(title_name, kind_name){
+        var a;
+        $.ajax({
+            url: getContextPath() + "/pcomp/pcomp_kind/index/validate?pcomp_title_title_name="+title_name+"&pcomp_kind_name="+kind_name,
+            async: false,
+            success: function (response) {
+                if (response.message != "") {
+                    alert(response.message);
+                    return;
+                } else {
+                    a = response.data;
+                }
+            }
+        });
+        return a;
+    },
     getRecommended: function () {
         var a;
         $.ajax({
@@ -277,7 +597,7 @@ $.pcomp.kind = {
             url: getContextPath() + "/pcomp/kind/getById?pcompKindId=" + kindId,
             async: false,
             success: function (response) {
-                if (response.message != "") {
+                if (!isNull(response.message)) {
                     alert(response.message);
                     return;
                 } else {
@@ -286,6 +606,22 @@ $.pcomp.kind = {
             }
         });
         return a;
+    },
+    getByTitleName: function (titleName) {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/pcomp_kind/index/fetch?pcomp_title_title_name=" + titleName,
+            async: false,
+            success: function (response) {
+                if (!isNull(response.message)) {
+                    alert(response.message);
+                    return;
+                } else {
+                    result = response.data;
+                }
+            }
+        });
+        return result;
     }
 };
 
