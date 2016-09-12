@@ -1,5 +1,7 @@
 package com.sf.sfpp.pcomp.dao;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.sf.sfpp.pcomp.common.model.PcompKind;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +31,10 @@ public class TestPcompSoftwareMapper extends AbstractJUnit4SpringContextTests {
     @Test
     @Transactional
     public void testSelectAllAvailableIdByKindId() {
+        PageHelper.startPage(1,6);
         List<PcompKind> pcompKinds = pcompKindMapper.selectAllAvailabeleKinds();
-        for (PcompKind pcompKind : pcompKinds) {
+        Page<PcompKind> pcompKindsd  = (Page<PcompKind>)pcompKinds;
+        for (PcompKind pcompKind : pcompKindsd) {
             System.out.println(pcompSoftwareMapper.selectAllAvailableIdByKindId(pcompKind.getId()));
         }
     }
