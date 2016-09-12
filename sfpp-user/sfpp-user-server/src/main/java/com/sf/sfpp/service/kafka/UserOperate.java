@@ -35,16 +35,17 @@ public class UserOperate {
 			PcompTitle pt = (PcompTitle) object;
 			uh.setUserId(pt.getModifiedBy());
 			uh.setTargetId(pt.getId());
-			uh.setDescription("");
 			uh.setModifiedTime(pt.getModifiedTime());
 			if (isDelete(pt)) {
 				uh.setAction(StrUtils.makeString(DELETE, TITLE));
-				uh.setDescription(pt.getName());
+				uh.setDescription("删除了\""+pt.getName()+"\"主题");
 			} else {
 				if (isAdd(pt)) {
 					uh.setAction(StrUtils.makeString(ADD, TITLE));
+					uh.setDescription("<a href=\"../pcomp/index?pcomp_title="+pt.getId()+"\">"+"添加了\""+pt.getName()+"\"主题</a>");
 				} else {
 					uh.setAction(StrUtils.makeString(UPDATE, TITLE));
+					uh.setDescription("<a href=\"../pcomp/index?pcomp_title="+pt.getId()+"\">"+"更新了\""+pt.getName()+"\"主题</a>");
 				}
 			}
 			return uh;
@@ -53,16 +54,17 @@ public class UserOperate {
 				PcompKind pk = (PcompKind) object;
 				uh.setUserId(pk.getModifiedBy());
 				uh.setTargetId(pk.getId());
-				uh.setDescription("");
 				uh.setModifiedTime(pk.getModifiedTime());
 				if (isDelete(pk)) {
 					uh.setAction(StrUtils.makeString(DELETE, KIND));
-					uh.setDescription(pk.getName());
+					uh.setDescription("删除了\""+pk.getName()+"\"类别");
 				} else {
 					if (isAdd(pk)) {
 						uh.setAction(StrUtils.makeString(ADD, KIND));
+						uh.setDescription("<a href=\"../pcomp/pcomp_kind/index?pcomp_kind="+pk.getId()+"\">"+"添加了\""+pk.getName()+"\"类别</a>");
 					} else {
 						uh.setAction(StrUtils.makeString(UPDATE, KIND));
+						uh.setDescription("<a href=\"../pcomp/pcomp_kind/index?pcomp_kind="+pk.getId()+"\">"+"更新了\""+pk.getName()+"\"类别</a>");
 					}
 				}
 			}
@@ -71,16 +73,17 @@ public class UserOperate {
 				PcompSoftware ps = (PcompSoftware) object;
 				uh.setUserId(ps.getModifiedBy());
 				uh.setTargetId(ps.getId());
-				uh.setDescription("");
 				uh.setModifiedTime(ps.getModifiedTime());
 				if (isDelete(ps)) {
 					uh.setAction(StrUtils.makeString(DELETE, SOFTWARE));
-					uh.setDescription(ps.getName());
+					uh.setDescription("删除了\""+ps.getName()+"\"软件");
 				} else {
 					if (isAdd(ps)) {
 						uh.setAction(StrUtils.makeString(ADD, SOFTWARE));
+						uh.setDescription("<a href=\"../pcomp/pcomp_software/index?pcomp_software="+ps.getId()+"\">"+"添加了\""+ps.getName()+"\"软件</a>");
 					} else {
 						uh.setAction(StrUtils.makeString(UPDATE, SOFTWARE));
+						uh.setDescription("<a href=\"../pcomp/pcomp_software/index?pcomp_software="+ps.getId()+"\">"+"更新了\""+ps.getName()+"\"软件</a>");
 					}
 				}
 			}
@@ -89,16 +92,17 @@ public class UserOperate {
 				PcompVersion pv = (PcompVersion) object;
 				uh.setUserId(pv.getModifiedBy());
 				uh.setTargetId(pv.getId());
-				uh.setDescription("");
 				uh.setModifiedTime(pv.getModifiedTime());
 				if (isDelete(pv)) {
 					uh.setAction(StrUtils.makeString(DELETE, VERSION));
-					uh.setDescription(pv.getVersionNumber());
+					uh.setDescription("删除了\""+pv.getVersionNumber()+"\"版本");
 				} else {
 					if (isAdd(pv)) {
 						uh.setAction(StrUtils.makeString(ADD, VERSION));
+						uh.setDescription("<a href=\"../pcomp/pcomp_software/index?pcomp_software="+pv.getPcompSoftwareId()+"&sw_nav=download&pcomp_version="+pv.getId()+"\">"+"添加了\""+pv.getVersionNumber()+"\"版本</a>");
 					} else {
 						uh.setAction(StrUtils.makeString(UPDATE, VERSION));
+						uh.setDescription("<a href=\"../pcomp/pcomp_software/index?pcomp_software="+pv.getPcompSoftwareId()+"&sw_nav=download&pcomp_version="+pv.getId()+"\">"+"更新了\""+pv.getVersionNumber()+"\"版本</a>");
 					}
 				}
 			}

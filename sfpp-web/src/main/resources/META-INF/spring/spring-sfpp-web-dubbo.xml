@@ -11,6 +11,7 @@
     <dubbo:reference id="pcompVersionService" interface="com.sf.sfpp.pcomp.service.PcompVersionService" check="false"/>
     <dubbo:reference id="resourceService"  interface="com.sf.sfpp.user.service.ResourceService" check="false"/>
 	<dubbo:reference id="roleService" interface="com.sf.sfpp.user.service.RoleService"  check="false"/>
-	<dubbo:reference id="userService"  interface="com.sf.sfpp.user.service.UserService" check="false"/>
+	<dubbo:reference id="userService"  interface="com.sf.sfpp.user.service.UserService" check="false" version="1.0.1"/>
     <dubbo:reference id="pcompSearchService" interface="com.sf.sfpp.elasticsearch.pcomp.PcompSearchService" check="false"/>
+    
 </beans>
