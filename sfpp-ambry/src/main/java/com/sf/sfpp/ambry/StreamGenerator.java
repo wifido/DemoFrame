@@ -10,27 +10,27 @@ import java.util.zip.ZipOutputStream;
 /**
  * @author wujiang
  * @version 1.0.0.
- * @date 2016/9/12
+ * @date 2016/9/9
  */
 public class StreamGenerator {
 
     private static File file;
+    private static String tempFilePath;
 
-    public StreamGenerator(File file){
+    public StreamGenerator(File file,String tempFilePath){
         this.file = file;
+        this.tempFilePath = tempFilePath;
     }
+
     /**
      * 压缩传入的文件，返回流
      * @return inputstream
      */
     public static InputStream getInputStream() {
 
-        //zip存放主路径
-        String tempFilePath = "D:/Program Files (x86)/temp/temp1/";
-
         String zipName =  IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM);
 
-        //判断是否有该文件夹，如果没有就创建
+        //判断是否有文件夹，如果没有就创建
         File tempF = new File(tempFilePath);
 
         if(!tempF.exists()){
