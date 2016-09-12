@@ -26,10 +26,17 @@ public class StreamGenerator {
     public static InputStream getInputStream() {
 
         //zip存放主路径
-        String tempFilePath = "D:/Program Files (x86)/apache-tomcat-7.0.70/temp/temp1/";
+        String tempFilePath = "D:/Program Files (x86)/temp/temp1/";
 
         String zipName =  IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM);
-        //String zipName = "1234";
+
+        //判断是否有该文件夹，如果没有就创建
+        File tempF = new File(tempFilePath);
+
+        if(!tempF.exists()){
+            tempF.mkdirs();
+        }
+
         /**
          * 压缩并在指定目录生成临时zip文件
          */

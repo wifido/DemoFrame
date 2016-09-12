@@ -92,13 +92,12 @@ public class HTTPUpload {
     public static void main(String[] args) throws FileNotFoundException {
         HTTPUpload httpUpload = new HTTPUpload("http://10.202.7.85:1174");
         File file = new File("D:/diagram7.png");
-        StreamGenerator strGen = new StreamGenerator(file);
-        InputStream inputStream = strGen.getInputStream();
+        InputStream inputStream = new StreamGenerator(file).getInputStream();
         System.out.println(httpUpload.uploadFile(inputStream, file.length(), "", "", "", ""));
 
         DeleteTask deltask = new DeleteTask();
         Scheduler scheduler = new Scheduler();
-        scheduler.schedule("20 21 * * *", deltask);
+        scheduler.schedule("52 11 * * *", deltask);
         scheduler.start();
     }
 }

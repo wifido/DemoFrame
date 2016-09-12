@@ -22,7 +22,7 @@ public class DeleteTask implements Runnable {
 
     @Override
     public void run() {
-        File f = new File("D:/Program Files (x86)/apache-tomcat-7.0.70/temp/temp1/");
+        File f = new File("D:/Program Files (x86)/temp/temp1/");
         DeleteAll(f);
     }
 }
