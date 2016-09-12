@@ -9,6 +9,7 @@ import java.io.File;
  * @date 2016/9/9
  */
 public class DeleteTask implements Runnable {
+
     private String tempFilePath;
 
     public DeleteTask(String tempFilePath){
