@@ -283,6 +283,51 @@
                     }, 1000);
                 }
         );
+
+        $("button[class*=btn][class*=btn-info][class*=btn-rounded]").click(function () {
+            var dialogDiv = $("[role=dialog]");
+            var id = this.id;
+            dialogDiv.remove();
+            var dialog = $(dialog_str);
+            dialog.attr("title", "添加软件");
+            var label = $("<h4></h4>");
+            label.html("所属分类：<b>" + pcompKind.name + "</b>");
+            dialog.append(label);
+            label = $(label_str);
+            label.html("请输入新软件名称（不为空）：");
+            dialog.append(label);
+            var kindNameInput = $(notNull_textInput_str);
+            dialog.append(kindNameInput);
+            label = $(label_str);
+            label.html("请为此分类上传一个头像（留空为不修改）：");
+            dialog.append(label);
+            var File = $(notNull_fileInput_str);
+            File.attr("name", "pcomp_software_avatar");
+            File.attr("id", "pcomp_software_avatar");
+            dialog.append(File);
+            File.fileinput();
+            dialog.dialog({
+                autoOpen: false,
+                minWidth: 400,
+                minHeight: 400,
+                show: {effect: "blind", duration: 1000},
+                hide: {effect: "explode", duration: 1000},
+                modal: true,
+                buttons: {
+                    "提交修改": function () {
+                        if (validatePcomp()) {
+                            $.pcomp.kind.update(pcompKind.id, kindNameInput[0].value, notNullText[0].value, displayPcompKindAllSoftwares);
+                            $(this).dialog("close");
+                        }
+                    },
+                    "取消": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+            dialog.dialog("open");
+        });
+
         function displayPcompKindLatestSoftwares() {
             var matrix_item_1 = "<div class=\"col-xs-6 col-sm-4 col-md-4 col-lg-4\" style='display: none'><div class=\"item\"><div class=\"pos-rlt\">";
             var matrix_item_2 = "<a href=\"";
@@ -346,7 +391,7 @@
         var data;
         if (!isNull(pageNumber)) {
             data = $.pcomp.software.getAllByKind(pcompKindId, pageNumber);
-        }else{
+        } else {
             data = $.pcomp.software.getAllByKind(pcompKindId, 1);
         }
         var list = data.list;
