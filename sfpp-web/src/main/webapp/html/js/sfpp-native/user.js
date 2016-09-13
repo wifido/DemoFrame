@@ -50,7 +50,7 @@ $.user = {
     getUserHistory:function(userId,pageNum){
         var result;
         $.ajax({
-            url: getContextPath() + "/user/getUserHistory?userId=" + userId + "&pageNum" + pageNum,
+            url: getContextPath() + "/user/getHistory?userId=" + userId + "&pageNum=" + pageNum,
             async:false,
             success: function (response) {
                 if(response.message!=""){
