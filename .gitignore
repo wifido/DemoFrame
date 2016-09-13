@@ -4,3 +4,13 @@ out/*
 */target/*
 .idea/*
 *.bak
+*.classpath
+*/.settings/*
+*.project
+*.MF
+.settings/*
+*.prefs
+*.component
+*.core.xml
+
+
