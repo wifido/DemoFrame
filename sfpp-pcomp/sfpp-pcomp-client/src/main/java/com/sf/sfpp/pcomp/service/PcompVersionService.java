@@ -33,6 +33,15 @@ public interface PcompVersionService {
     PcompVersion fetchVersionById(String versionId) throws PcompException;
 
     /**
+     * 根据软件id和版本号查找version信息
+     * @param softwareId
+     * @param versionNumber
+     * @return
+     * @throws PcompException
+     */
+    PcompVersion fetchVersionBySoftwareIdAndVersionNumber(String softwareId, String versionNumber) throws PcompException;
+
+    /**
      * 根据software id判断version是否已经存在
      *
      * @param softwareId

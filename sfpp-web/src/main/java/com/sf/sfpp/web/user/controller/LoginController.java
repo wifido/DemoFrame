@@ -4,11 +4,7 @@
 
 package com.sf.sfpp.web.user.controller;
 
-import java.io.IOException;
-import java.net.URLEncoder;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.sf.sfpp.web.common.PathConstants;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
@@ -17,9 +13,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import com.sf.sfpp.user.dao.domain.User;
-import com.sf.sfpp.web.common.PathConstants;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URLEncoder;
 
 
 
@@ -63,15 +62,6 @@ public class LoginController {
         return "/error/403";
     }
 
-      
-    @RequestMapping(value = "userInfo", method = RequestMethod.GET)
-    @ResponseBody
-    public User userInfo() {
-        Subject currentUser = SecurityUtils.getSubject();
-        User users = new User();
-        users = (User) currentUser.getPrincipal();
-        return users;
-    }
     /**
      * 登录失败会调用此接口，返回登录界面
      * @throws IOException 

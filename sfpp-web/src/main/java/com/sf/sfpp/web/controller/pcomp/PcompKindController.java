@@ -185,7 +185,7 @@ public class PcompKindController extends AbstractCachedController {
         JsonResult<Boolean> result = new JsonResult<>();
         String kindId = request.getParameter(PcompConstants.PCOMP_KIND);
         try {
-            JsonResult<Boolean> hasModifyPcompTitleRight = userRightController.getHasAddPcompKindRight();
+            JsonResult<Boolean> hasModifyPcompTitleRight = userRightController.getHasModifyPcompKindRight();
             if (hasModifyPcompTitleRight.getData()) {
                 pcompKindService.removeKind(kindId, ((User) SecurityUtils.getSubject().getPrincipal()).getId());
                 result.setData(true);

@@ -9,8 +9,8 @@
     <dubbo:reference id="pcompKindService" interface="com.sf.sfpp.pcomp.service.PcompKindService" check="false"/>
     <dubbo:reference id="pcompSoftwareService" interface="com.sf.sfpp.pcomp.service.PcompSoftwareService" check="false"/>
     <dubbo:reference id="pcompVersionService" interface="com.sf.sfpp.pcomp.service.PcompVersionService" check="false"/>
-    <dubbo:reference id="resourceService"  interface="com.sf.sfpp.user.service.ResourceService" check="false"/>
-	<dubbo:reference id="roleService" interface="com.sf.sfpp.user.service.RoleService"  check="false"/>
-	<dubbo:reference id="userService"  interface="com.sf.sfpp.user.service.UserService" check="false"/>
+    <dubbo:reference id="resourceService"  interface="com.sf.sfpp.user.service.ResourceService" check="false" version="2.0.0"/>
+	<dubbo:reference id="roleService" interface="com.sf.sfpp.user.service.RoleService"  check="false" version="2.0.0"/>
+	<dubbo:reference id="userService"  interface="com.sf.sfpp.user.service.UserService" check="false" version="2.0.0"/>
     <dubbo:reference id="pcompSearchService" interface="com.sf.sfpp.elasticsearch.pcomp.PcompSearchService" check="false"/>
 </beans>

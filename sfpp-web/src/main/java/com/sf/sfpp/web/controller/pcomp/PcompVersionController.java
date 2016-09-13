@@ -2,7 +2,6 @@ package com.sf.sfpp.web.controller.pcomp;
 
 import com.sf.sfpp.ambry.HTTPUpload;
 import com.sf.sfpp.common.Constants;
-import com.sf.sfpp.common.domain.WebCache;
 import com.sf.sfpp.common.dto.JsonResult;
 import com.sf.sfpp.common.idgen.IDGenerator;
 import com.sf.sfpp.common.utils.ExceptionUtils;
@@ -21,13 +20,11 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -53,7 +50,8 @@ public class PcompVersionController extends AbstractCachedController {
     private HTTPUpload httpUpload;
 
     @ResponseBody
-    @RequestMapping(value = PathConstants.PCOMP_VERSION_VALIDATE_PATH, method = RequestMethod.GET)
+    @RequestMapping(value = PathConstants.PCOMP_VERSION_VALIDATE_PATH,
+            method = RequestMethod.GET)
     public JsonResult<Boolean> validateVersionNumber(HttpServletRequest request) {
         JsonResult<Boolean> result = new JsonResult<>();
         String titleName = request.getParameter(PathConstants.PCOMP_TITLE_NAME);
@@ -72,71 +70,96 @@ public class PcompVersionController extends AbstractCachedController {
         return result;
     }
 
-    @RequestMapping(value = PathConstants.PCOMP_VERSION_EXTEND_CREATE_PATH, method = RequestMethod.POST)
-    public String createVersion(@RequestParam(PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_DOWNLOAD) MultipartFile[] documents
-            , @RequestParam(PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_DOWNLOAD) MultipartFile[] softwares
-            , @RequestParam(PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_DESCRIPTION) String[] descriptions
-            , @RequestParam(PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_PLATFORM) String[] platforms
-            , HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
-        WebCache webCache = getWebCache(request);
-        model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
-        String titleName = request.getParameter(PathConstants.PCOMP_TITLE_NAME);
-        String kindName = request.getParameter(PathConstants.PCOMP_KIND_NAME);
-        String pcomp_software_name = request.getParameter(PathConstants.PCOMP_SOFTWARE_NAME);
+    @ResponseBody
+    @RequestMapping(value = PathConstants.PCOMP_VERSION_EXTEND_CREATE_PATH,
+            method = RequestMethod.POST)
+    public JsonResult<Boolean> createVersion(
+            @RequestParam(value = PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_DOWNLOAD,
+                    required = false)
+            MultipartFile[] documents,
+            @RequestParam(value = PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_DOWNLOAD,
+                    required = false)
+            MultipartFile[] softwares,
+            @RequestParam(value = PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_DESCRIPTION,
+                    required = false)
+            String[] descriptions,
+            @RequestParam(value = PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_PLATFORM,
+                    required = false)
+            String[] platforms, HttpServletRequest request) {
+        JsonResult<Boolean> result = new JsonResult<>();
+        String pcomp_software_id = request.getParameter(PcompConstants.PCOMP_SOFTWARE);
         String pcomp_version_number = request.getParameter(PathConstants.PCOMP_VERSION_NUMBER);
         String pcomp_version_introduction = request.getParameter(PathConstants.PCOMP_VERSION_INTRODUCTION);
         String pcomp_version_quickstart = request.getParameter(PathConstants.PCOMP_VERSION_QUICKSTART);
         PcompVersion pcompVersion = new PcompVersion();
-        PcompSoftware pcompSoftware = null;
         try {
-            PcompKind pcompKind = pcompKindService.fetchKind(titleName, kindName);
-            pcompSoftware = pcompSoftwareService.fetchSoftware(pcompKind.getId(), pcomp_software_name);
-            if (pcompVersionService.existsVersion(pcompSoftware.getId(), pcomp_version_number)) {
-                return PathConstants.PCOMP_HOMEPAGE_JSP_PATH;
-            }
-            pcompVersion.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
-            pcompVersion.setVersionNumber(pcomp_version_number);
-            pcompVersion.setIntroduction(pcomp_version_introduction);
-            pcompVersion.setPcompSoftwareId(pcompSoftware.getId());
-            pcompVersion.setQuickStart(pcomp_version_quickstart);
-            PcompVersionExtend pcompVersionExtend = PcompVersionExtend.fromPcompVersion(pcompVersion);
-            for (int i = 0; i < softwares.length; i++) {
-                PcompVersionPlatformDownload pcompVersionPlatformDownload = new PcompVersionPlatformDownload();
-                pcompVersionPlatformDownload.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
-                pcompVersionPlatformDownload.setPcompVersionId(pcompVersion.getId());
-                pcompVersionPlatformDownload.setPlatform(platforms[i]);
-                pcompVersionPlatformDownload.setDownload(httpUpload.uploadFile(softwares[i].getInputStream(), softwares[i].getSize(), Constants.PUBLIC_COMPONENT_SYSTEM_ENG, pcompVersionPlatformDownload.getId(), "file", ""));
-                pcompVersionExtend.getPcompVersionPlatformDownloads().add(pcompVersionPlatformDownload);
-            }
-            for (int i = 0; i < documents.length; i++) {
-                PcompVersionDoucumentDownload pcompVersionDoucumentDownload = new PcompVersionDoucumentDownload();
-                pcompVersionDoucumentDownload.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
-                pcompVersionDoucumentDownload.setPcompVersionId(pcompVersion.getId());
-                pcompVersionDoucumentDownload.setDescription(descriptions[i]);
-                pcompVersionDoucumentDownload.setDownload(httpUpload.uploadFile(documents[i].getInputStream(), documents[i].getSize(), Constants.PUBLIC_COMPONENT_SYSTEM_ENG, pcompVersionDoucumentDownload.getId(), "file", ""));
-                pcompVersionExtend.getPcompVersionDoucumentDownloads().add(pcompVersionDoucumentDownload);
-            }
-            User user = null;
-            if (webCache.getUser() != null) {
-                user = (User) webCache.getUser();
-            }
-            if (user != null) {
-                pcompVersionExtend.setCreatedBy(user.getId());
-                pcompVersionExtend.setModifiedBy(user.getId());
+            JsonResult<Boolean> hasModifyPcompTitleRight = userRightController
+                    .getHasAddPcompVersionRight(pcomp_software_id);
+            if (hasModifyPcompTitleRight.getData()) {
+                if (pcompVersionService.existsVersion(pcomp_software_id, pcomp_version_number)) {
+                    result.setData(false);
+                    result.setMessage("Version exists!");
+                }
+                pcompVersion.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
+                pcompVersion.setVersionNumber(pcomp_version_number);
+                pcompVersion.setIntroduction(pcomp_version_introduction);
+                pcompVersion.setPcompSoftwareId(pcomp_software_id);
+                pcompVersion.setQuickStart(pcomp_version_quickstart);
+                PcompVersionExtend pcompVersionExtend = PcompVersionExtend.fromPcompVersion(pcompVersion);
+                int count = 0;
+                if (softwares != null)
+                    for (int i = 0; i < softwares.length; i++) {
+                        if (softwares[i].getSize() == 0) {
+                            count++;
+                            continue;
+                        }
+                        PcompVersionPlatformDownload pcompVersionPlatformDownload = new PcompVersionPlatformDownload();
+                        pcompVersionPlatformDownload.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
+                        pcompVersionPlatformDownload.setPcompVersionId(pcompVersion.getId());
+                        pcompVersionPlatformDownload.setPlatform(platforms[i - count]);
+                        pcompVersionPlatformDownload.setDownload(httpUpload
+                                .uploadFile(softwares[i].getInputStream(), softwares[i].getSize(),
+                                        Constants.PUBLIC_COMPONENT_SYSTEM_ENG, pcompVersionPlatformDownload.getId(),
+                                        "file", ""));
+                        pcompVersionExtend.getPcompVersionPlatformDownloads().add(pcompVersionPlatformDownload);
+                    }
+                count = 0;
+                if (documents != null)
+                    for (int i = 0; i < documents.length; i++) {
+                        if (documents[i].getSize() == 0) {
+                            count++;
+                            continue;
+                        }
+                        PcompVersionDoucumentDownload pcompVersionDoucumentDownload = new PcompVersionDoucumentDownload();
+                        pcompVersionDoucumentDownload.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
+                        pcompVersionDoucumentDownload.setPcompVersionId(pcompVersion.getId());
+                        pcompVersionDoucumentDownload.setDescription(descriptions[i - count]);
+                        pcompVersionDoucumentDownload.setDownload(httpUpload
+                                .uploadFile(documents[i].getInputStream(), documents[i].getSize(),
+                                        Constants.PUBLIC_COMPONENT_SYSTEM_ENG, pcompVersionDoucumentDownload.getId(),
+                                        "file", ""));
+                        pcompVersionExtend.getPcompVersionDoucumentDownloads().add(pcompVersionDoucumentDownload);
+                    }
+                pcompVersionExtend.setCreatedBy(((User) SecurityUtils.getSubject().getPrincipal()).getId());
+                pcompVersionExtend.setModifiedBy(((User) SecurityUtils.getSubject().getPrincipal()).getId());
+                pcompVersionService.addVersion(pcompVersionExtend);
+                userRightController.addModifyPcompVersionRight(pcomp_software_id, pcompVersionService
+                        .fetchVersionBySoftwareIdAndVersionNumber(pcomp_software_id, pcomp_version_number).getId());
+                result.setData(true);
             } else {
-                pcompVersionExtend.setCreatedBy(-1);
-                pcompVersionExtend.setModifiedBy(-1);
+                result.setData(false);
+                result.setMessage("Permission Denied!");
             }
-            pcompVersionService.addVersion(pcompVersionExtend);
         } catch (Exception e) {
-            handleException(e, webCache);
+            result.setMessage(e.getMessage());
+            log.warn(ExceptionUtils.getStackTrace(e));
         }
-        redirectAttributes.addAttribute(PcompConstants.PCOMP_SOFTWARE, pcompSoftware.getId());
-        return "redirect:" + PathConstants.PCOMP_SOFTWARE_PATH;
+        return result;
     }
 
     @ResponseBody
-    @RequestMapping(value = PathConstants.PCOMP_VERSION_MODIFICATION_PATH, method = RequestMethod.POST)
+    @RequestMapping(value = PathConstants.PCOMP_VERSION_MODIFICATION_PATH,
+            method = RequestMethod.POST)
     public JsonResult<Boolean> updateVersion(HttpServletRequest request) {
         JsonResult<Boolean> result = new JsonResult<>();
         boolean modified = false;
@@ -145,10 +168,13 @@ public class PcompVersionController extends AbstractCachedController {
         String pcomp_version_introduction = request.getParameter(PathConstants.PCOMP_VERSION_INTRODUCTION);
         String pcomp_version_quickstart = request.getParameter(PathConstants.PCOMP_VERSION_QUICKSTART);
         try {
-            PcompVersionExtend pcompVersion = (PcompVersionExtend) pcompVersionService.fetchVersionById(pcomp_version_id);
+            PcompVersionExtend pcompVersion = (PcompVersionExtend) pcompVersionService
+                    .fetchVersionById(pcomp_version_id);
             PcompSoftware pcompSoftware = pcompSoftwareService.fetchSoftware(pcompVersion.getPcompSoftwareId());
             if (pcompVersion == null) {
-                throw new PcompException(new StringBuilder().append("Software:").append(pcomp_version_id).append("不存在").toString(), new Exception());
+                throw new PcompException(
+                        new StringBuilder().append("Software:").append(pcomp_version_id).append("不存在").toString(),
+                        new Exception());
             }
             if (!StrUtils.isNull(pcomp_version_number)) {
                 pcompVersion.setVersionNumber(pcomp_version_number);
@@ -165,7 +191,8 @@ public class PcompVersionController extends AbstractCachedController {
             if (modified) {
                 Subject currentUser = SecurityUtils.getSubject();
                 User user = (User) currentUser.getPrincipal();
-                if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId().equals(pcompVersion.getCreatedBy())) {
+                if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId()
+                        .equals(pcompVersion.getCreatedBy())) {
                     throw new PcompException(Constants.PERMISSION_DENIED);
                 }
                 pcompVersion.setModifiedBy(user.getId());
@@ -178,8 +205,10 @@ public class PcompVersionController extends AbstractCachedController {
         }
         return result;
     }
+
     @ResponseBody
-    @RequestMapping(value = PathConstants.PCOMP_VERSION_REMOVE_PATH, method = RequestMethod.GET)
+    @RequestMapping(value = PathConstants.PCOMP_VERSION_REMOVE_PATH,
+            method = RequestMethod.GET)
     public JsonResult<Boolean> removeVersion(HttpServletRequest request) {
         JsonResult<Boolean> result = new JsonResult<>();
         String versionId = request.getParameter(PcompConstants.PCOMP_VERSION);
@@ -188,7 +217,8 @@ public class PcompVersionController extends AbstractCachedController {
             PcompSoftware pcompSoftware = pcompSoftwareService.fetchSoftware(pcompVersion.getPcompSoftwareId());
             Subject currentUser = SecurityUtils.getSubject();
             User user = (User) currentUser.getPrincipal();
-            if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId().equals(pcompVersion.getCreatedBy())) {
+            if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId()
+                    .equals(pcompVersion.getCreatedBy())) {
                 throw new PcompException(Constants.PERMISSION_DENIED);
             }
             pcompVersionService.removeVersion(versionId, user.getId());
@@ -201,7 +231,8 @@ public class PcompVersionController extends AbstractCachedController {
     }
 
     @ResponseBody
-    @RequestMapping(value = PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_REMOVE_PATH, method = RequestMethod.GET)
+    @RequestMapping(value = PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_REMOVE_PATH,
+            method = RequestMethod.GET)
     public JsonResult<Boolean> removeVersionDownload(HttpServletRequest request) {
         JsonResult<Boolean> result = new JsonResult<>();
         String versionId = request.getParameter(PcompConstants.PCOMP_VERSION);
@@ -211,7 +242,8 @@ public class PcompVersionController extends AbstractCachedController {
             PcompSoftware pcompSoftware = pcompSoftwareService.fetchSoftware(pcompVersion.getPcompSoftwareId());
             Subject currentUser = SecurityUtils.getSubject();
             User user = (User) currentUser.getPrincipal();
-            if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId().equals(pcompVersion.getCreatedBy())) {
+            if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId()
+                    .equals(pcompVersion.getCreatedBy())) {
                 throw new PcompException(Constants.PERMISSION_DENIED);
             }
             pcompVersionService.removeVersionDownload(versionDownloadId, user.getId());
@@ -224,10 +256,13 @@ public class PcompVersionController extends AbstractCachedController {
     }
 
     @ResponseBody
-    @RequestMapping(value = PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_MODIFICATION_PATH, method = RequestMethod.POST)
-    public JsonResult<Boolean> updateVersionDownload(@RequestParam(PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_DOWNLOAD) MultipartFile software,
-                                                     @RequestParam(PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_PLATFORM) String platform,
-                                                     HttpServletRequest request) {
+    @RequestMapping(value = PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_MODIFICATION_PATH,
+            method = RequestMethod.POST)
+    public JsonResult<Boolean> updateVersionDownload(
+            @RequestParam(PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_DOWNLOAD)
+            MultipartFile software,
+            @RequestParam(PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_PLATFORM)
+            String platform, HttpServletRequest request) {
         JsonResult<Boolean> result = new JsonResult<>();
         String versionId = request.getParameter(PcompConstants.PCOMP_VERSION);
         String versionDownloadId = request.getParameter(PcompConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD);
@@ -236,14 +271,19 @@ public class PcompVersionController extends AbstractCachedController {
             PcompSoftware pcompSoftware = pcompSoftwareService.fetchSoftware(pcompVersion.getPcompSoftwareId());
             Subject currentUser = SecurityUtils.getSubject();
             User user = (User) currentUser.getPrincipal();
-            if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId().equals(pcompVersion.getCreatedBy())) {
+            if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId()
+                    .equals(pcompVersion.getCreatedBy())) {
                 throw new PcompException(Constants.PERMISSION_DENIED);
             }
             if (!StrUtils.isNull(platform)) {
-                PcompVersionPlatformDownload pcompVersionPlatformDownload = pcompVersionService.fetchVersionDownload(versionDownloadId);
+                PcompVersionPlatformDownload pcompVersionPlatformDownload = pcompVersionService
+                        .fetchVersionDownload(versionDownloadId);
                 pcompVersionPlatformDownload.setPlatform(platform);
                 if (software != null && software.getSize() > 0) {
-                    pcompVersionPlatformDownload.setDownload(httpUpload.uploadFile(software.getInputStream(), software.getSize(), Constants.PUBLIC_COMPONENT_SYSTEM_ENG, pcompVersionPlatformDownload.getId(), "file", ""));
+                    pcompVersionPlatformDownload.setDownload(httpUpload
+                            .uploadFile(software.getInputStream(), software.getSize(),
+                                    Constants.PUBLIC_COMPONENT_SYSTEM_ENG, pcompVersionPlatformDownload.getId(), "file",
+                                    ""));
                 }
                 pcompVersionService.updateVersionDownload(pcompVersionPlatformDownload, user.getId());
                 result.setData(true);
@@ -256,10 +296,13 @@ public class PcompVersionController extends AbstractCachedController {
     }
 
     @ResponseBody
-    @RequestMapping(value = PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_CREATE_PATH, method = RequestMethod.POST)
-    public JsonResult<Boolean> addVersionDownload(@RequestParam(PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_DOWNLOAD) MultipartFile software,
-                                                  @RequestParam(PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_PLATFORM) String platform,
-                                                  HttpServletRequest request) {
+    @RequestMapping(value = PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_CREATE_PATH,
+            method = RequestMethod.POST)
+    public JsonResult<Boolean> addVersionDownload(
+            @RequestParam(PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_DOWNLOAD)
+            MultipartFile software,
+            @RequestParam(PathConstants.PCOMP_VERSION_PLATFORM_DOWNLOAD_PLATFORM)
+            String platform, HttpServletRequest request) {
         JsonResult<Boolean> result = new JsonResult<>();
         String versionId = request.getParameter(PcompConstants.PCOMP_VERSION);
         try {
@@ -267,7 +310,8 @@ public class PcompVersionController extends AbstractCachedController {
             PcompSoftware pcompSoftware = pcompSoftwareService.fetchSoftware(pcompVersion.getPcompSoftwareId());
             Subject currentUser = SecurityUtils.getSubject();
             User user = (User) currentUser.getPrincipal();
-            if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId().equals(pcompVersion.getCreatedBy())) {
+            if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId()
+                    .equals(pcompVersion.getCreatedBy())) {
                 throw new PcompException(Constants.PERMISSION_DENIED);
             }
             if (!StrUtils.isNull(platform)) {
@@ -276,7 +320,10 @@ public class PcompVersionController extends AbstractCachedController {
                 pcompVersionPlatformDownload.setPcompVersionId(pcompVersion.getId());
                 pcompVersionPlatformDownload.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
                 if (software != null && software.getSize() > 0) {
-                    pcompVersionPlatformDownload.setDownload(httpUpload.uploadFile(software.getInputStream(), software.getSize(), Constants.PUBLIC_COMPONENT_SYSTEM_ENG, pcompVersionPlatformDownload.getId(), "file", ""));
+                    pcompVersionPlatformDownload.setDownload(httpUpload
+                            .uploadFile(software.getInputStream(), software.getSize(),
+                                    Constants.PUBLIC_COMPONENT_SYSTEM_ENG, pcompVersionPlatformDownload.getId(), "file",
+                                    ""));
                 }
                 pcompVersionService.addVersionDownload(pcompVersionPlatformDownload, user.getId());
                 result.setData(true);
@@ -289,7 +336,8 @@ public class PcompVersionController extends AbstractCachedController {
     }
 
     @ResponseBody
-    @RequestMapping(value = PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_REMOVE_PATH, method = RequestMethod.GET)
+    @RequestMapping(value = PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_REMOVE_PATH,
+            method = RequestMethod.GET)
     public JsonResult<Boolean> removeVersionDocument(HttpServletRequest request) {
         JsonResult<Boolean> result = new JsonResult<>();
         String versionId = request.getParameter(PcompConstants.PCOMP_VERSION);
@@ -299,7 +347,8 @@ public class PcompVersionController extends AbstractCachedController {
             PcompSoftware pcompSoftware = pcompSoftwareService.fetchSoftware(pcompVersion.getPcompSoftwareId());
             Subject currentUser = SecurityUtils.getSubject();
             User user = (User) currentUser.getPrincipal();
-            if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId().equals(pcompVersion.getCreatedBy())) {
+            if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId()
+                    .equals(pcompVersion.getCreatedBy())) {
                 throw new PcompException(Constants.PERMISSION_DENIED);
             }
             pcompVersionService.removeVersionDocument(versionDocumentId, user.getId());
@@ -312,10 +361,13 @@ public class PcompVersionController extends AbstractCachedController {
     }
 
     @ResponseBody
-    @RequestMapping(value = PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_MODIFICATION_PATH, method = RequestMethod.POST)
-    public JsonResult<Boolean> updateVersionDocument(@RequestParam(PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_DOWNLOAD) MultipartFile document,
-                                                     @RequestParam(PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_DESCRIPTION) String description,
-                                                     HttpServletRequest request) {
+    @RequestMapping(value = PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_MODIFICATION_PATH,
+            method = RequestMethod.POST)
+    public JsonResult<Boolean> updateVersionDocument(
+            @RequestParam(PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_DOWNLOAD)
+            MultipartFile document,
+            @RequestParam(PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_DESCRIPTION)
+            String description, HttpServletRequest request) {
         JsonResult<Boolean> result = new JsonResult<>();
         String versionId = request.getParameter(PcompConstants.PCOMP_VERSION);
         String versionDocumentId = request.getParameter(PcompConstants.PCOMP_VERSION_DESCRIPTION_DOCUMENT);
@@ -324,14 +376,19 @@ public class PcompVersionController extends AbstractCachedController {
             PcompSoftware pcompSoftware = pcompSoftwareService.fetchSoftware(pcompVersion.getPcompSoftwareId());
             Subject currentUser = SecurityUtils.getSubject();
             User user = (User) currentUser.getPrincipal();
-            if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId().equals(pcompVersion.getCreatedBy())) {
+            if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId()
+                    .equals(pcompVersion.getCreatedBy())) {
                 throw new PcompException(Constants.PERMISSION_DENIED);
             }
             if (!StrUtils.isNull(description)) {
-                PcompVersionDoucumentDownload pcompVersionDoucumentDownload = pcompVersionService.fetchVersionDocument(versionDocumentId);
+                PcompVersionDoucumentDownload pcompVersionDoucumentDownload = pcompVersionService
+                        .fetchVersionDocument(versionDocumentId);
                 pcompVersionDoucumentDownload.setDescription(description);
                 if (document != null && document.getSize() > 0) {
-                    pcompVersionDoucumentDownload.setDownload(httpUpload.uploadFile(document.getInputStream(), document.getSize(), Constants.PUBLIC_COMPONENT_SYSTEM_ENG, pcompVersionDoucumentDownload.getId(), "file", ""));
+                    pcompVersionDoucumentDownload.setDownload(httpUpload
+                            .uploadFile(document.getInputStream(), document.getSize(),
+                                    Constants.PUBLIC_COMPONENT_SYSTEM_ENG, pcompVersionDoucumentDownload.getId(),
+                                    "file", ""));
                 }
                 pcompVersionService.updateVersionDocument(pcompVersionDoucumentDownload, user.getId());
                 result.setData(true);
@@ -344,10 +401,13 @@ public class PcompVersionController extends AbstractCachedController {
     }
 
     @ResponseBody
-    @RequestMapping(value = PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_CREATE_PATH, method = RequestMethod.POST)
-    public JsonResult<Boolean> addVersionDocument(@RequestParam(PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_DOWNLOAD) MultipartFile document,
-                                                  @RequestParam(PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_DESCRIPTION) String description,
-                                                  HttpServletRequest request) {
+    @RequestMapping(value = PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_CREATE_PATH,
+            method = RequestMethod.POST)
+    public JsonResult<Boolean> addVersionDocument(
+            @RequestParam(PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_DOWNLOAD)
+            MultipartFile document,
+            @RequestParam(PathConstants.PCOMP_VERSION_DOCUMENT_DOWNLOAD_DESCRIPTION)
+            String description, HttpServletRequest request) {
         JsonResult<Boolean> result = new JsonResult<>();
         String versionId = request.getParameter(PcompConstants.PCOMP_VERSION);
         try {
@@ -355,7 +415,8 @@ public class PcompVersionController extends AbstractCachedController {
             PcompSoftware pcompSoftware = pcompSoftwareService.fetchSoftware(pcompVersion.getPcompSoftwareId());
             Subject currentUser = SecurityUtils.getSubject();
             User user = (User) currentUser.getPrincipal();
-            if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId().equals(pcompVersion.getCreatedBy())) {
+            if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId()
+                    .equals(pcompVersion.getCreatedBy())) {
                 throw new PcompException(Constants.PERMISSION_DENIED);
             }
             if (!StrUtils.isNull(description)) {
@@ -364,7 +425,10 @@ public class PcompVersionController extends AbstractCachedController {
                 pcompVersionDoucumentDownload.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
                 pcompVersionDoucumentDownload.setPcompVersionId(pcompVersion.getId());
                 if (document != null && document.getSize() > 0) {
-                    pcompVersionDoucumentDownload.setDownload(httpUpload.uploadFile(document.getInputStream(), document.getSize(), Constants.PUBLIC_COMPONENT_SYSTEM_ENG, pcompVersionDoucumentDownload.getId(), "file", ""));
+                    pcompVersionDoucumentDownload.setDownload(httpUpload
+                            .uploadFile(document.getInputStream(), document.getSize(),
+                                    Constants.PUBLIC_COMPONENT_SYSTEM_ENG, pcompVersionDoucumentDownload.getId(),
+                                    "file", ""));
                 }
                 pcompVersionService.addVersionDocument(pcompVersionDoucumentDownload, user.getId());
                 result.setData(true);

@@ -71,7 +71,7 @@
                     </a>
                     <ul class="dropdown-menu animated fadeInRight">
                         <li>
-                            <a href="modal.lockme.html" data-toggle="ajaxModal">Logout</a>
+                            <a href="../logout" >Logout</a>
                         </li>
                     </ul>
                 </li>
@@ -101,28 +101,21 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="pcompTitle.html" data-transition="pop">
+                                        <a href="internal.html" data-transition="pop">
                                             <i class="icon-grid icon text-info"></i>
-                                            <span class="font-bold">公共组件</span>
+                                            <span class="font-bold">内部组件</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" data-transition="pop">
+                                        <a href="pcompTitle.html" data-transition="pop">
                                             <i class="icon-drawer icon text-primary-lter"></i>
-                                            <span class="font-bold">开放平台</span>
+                                            <span class="font-bold">开放软件</span>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="#" data-transition="pop">
                                             <i class="icon-list icon  text-info-dker"></i>
                                             <span class="font-bold">技术学院</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" data-target="#content" data-el="#bjax-el" data-transition="pop"
-                                           data-replace="true">
-                                            <i class="icon-social-youtube icon  text-primary"></i>
-                                            <span class="font-bold">IT社区</span>
                                         </a>
                                     </li>
                                     <li class="m-b hidden-nav-xs"></li>
@@ -195,12 +188,13 @@
                                         <button id="submitButton"
                                                 class="btn btn-s-md btn-primary btn-rounded " style="display:none;">提交
                                         </button>
-                                        <i class="icon-pencil i-lg ">编辑</i>
+
                                     </a>
 
                                     <h2 class="font-thin m-b" id="title">
 
-                                    </h2> <button class="btn btn-info btn-rounded">添加新版本</button>
+                                    </h2>
+
 
                                     <div class="row row-sm" id="mdEditor">
 
@@ -249,6 +243,7 @@
 <script type="text/javascript" src="js/sfpp-native/util.js"></script>
 <script type="text/javascript" src="js/sfpp-native/user.js"></script>
 <script type="text/javascript" src="js/sfpp-native/pcomp.js"></script>
+<script type="text/javascript" src="js/sfpp-native/pcompform.js"></script>
 
 <script type="text/javascript" src="js/editormd.min.js"></script>
 <script src="js/jquery-form.js"></script>
@@ -275,11 +270,129 @@
         var pcompVersions;
         var title = $("#title");
         var allList;
+        if ($.pcomp.userRight.getHasAddVersionRight(pcompSoftwareId)) {
+            var button1 = $("<button class='btn btn-info btn-rounded'>添加新版本</button>");
+            title.after(button1);
+            button1.click(function () {
+                var dialogDiv = $("[role=dialog]");
+                var id = this.id;
+                dialogDiv.remove();
+                var dialog = $(dialog_str);
+                dialog.attr("title", "添加版本");
+                var label = $("<h4></h4>");
+                label.html("所属软件：<b>" + pcompSoftware.name + "</b>");
+                dialog.append(label);
+                label = $(label_str);
+                label.html("请输入新版本号（不为空）：");
+                dialog.append(label);
+                var versionNumber = $(pcomp_software_name_textInput_str);
+                dialog.append(versionNumber);
+                label = $(label_str);
+                label.html("请输入本版本介绍：");
+                dialog.append(label);
+                var md = $(md_div);
+                md.attr("id", "versionIntroduction");
+                dialog.append(md);
+                label = $(label_str);
+                label.html("请输入本版本快速上手：");
+                dialog.append(label);
+                md = $(md_div);
+                md.attr("id", "versionQuickstart");
+                dialog.append(md);
+                label = $(label_str);
+                label.html("请上传本版本软件下载：");
+                dialog.append(label);
+                addline(label, 1);
+                label = $(label_str);
+                label.html("请上传本版本文档下载：");
+                dialog.append(label);
+                addline(label, 2);
+                function addline(but, kind) {
+                    var div = $("<div class='row'></div>");
+                    var col = $("<div class='col-xs-12 col-sm-12 col-md-5 col-lg-5'></div>");
+                    label = $(label_str);
+                    col.append(label);
+                    var softwareDescription = $(notNull_textInput_str);
+                    if (kind == 1) {
+                        label.html("<small>请输入软件描述：</small>");
+                        softwareDescription.attr("name", "software_description");
+                    } else if (kind == 2) {
+                        label.html("<small>请输入文档描述：</small>");
+                        softwareDescription.attr("name", "document_description");
+                    }
+                    col.append(softwareDescription);
+                    div.append(col);
+                    col = $("<div class='col-xs-12 col-sm-12 col-md-5 col-lg-5'></div>");
+                    label = $(label_str);
+
+                    col.append(label);
+                    var softwareDownload = $(notNull_fileInput_str);
+                    col.append(softwareDownload);
+                    if (kind == 1) {
+                        label.html("<small>请上传软件：</small>");
+                        softwareDownload.attr("name", "pcomp_version_platform_download_download");
+                    } else if (kind == 2) {
+                        label.html("<small>请上传文档：</small>");
+                        softwareDownload.attr("name", "pcomp_version_document_download_download");
+                    }
+                    softwareDownload.fileinput();
+                    div.append(col);
+                    col = $("<div class='col-xs-12 col-sm-12 col-md-2 col-lg-2'></div>");
+                    var but1 = $("<button class='btn btn-success softwareline'>增加一行</button>");
+                    col.append(but1);
+                    var but2 = $("<button class='btn btn-danger softwareline'>删除一行</button>");
+                    col.append(but2);
+                    div.append(col);
+                    but1.click(function () {
+                        addline($(this).parent().parent(), kind)
+                    });
+                    but2.click(function () {
+                        div.remove()
+                    });
+                    but.after(div);
+                }
+
+                dialog.dialog({
+                    autoOpen: false,
+                    minWidth: 800,
+                    minHeight: 600,
+                    maxHeight: 600,
+//                    show: {effect: "blind", duration: 1000},
+                    hide: {effect: "explode", duration: 1000},
+                    modal: true,
+                    buttons: {
+                        "提交修改": function () {
+                            if (validatePcomp()) {
+                                $.pcomp.version.add(pcompSoftwareId, versionNumber[0].value, mdEditorText.getMarkdown(), mdEditorText2.getMarkdown(), $("input[name=software_description]").arrayVal(), $("input[name=document_description]").arrayVal(), initialize);
+                                $(this).dialog("close");
+                            }
+                        },
+                        "取消": function () {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+                dialog.dialog("open");
+                var mdEditorText = editormd("versionIntroduction", editorMdEditing);
+                var mdEditorText2 = editormd("versionQuickstart", editorMdEditing);
+            });
+        }
         initialize();
+
         function initialize() {
             pcompSoftware = $.pcomp.software.getBySoftwareId(pcompSoftwareId);
             pcompVersions = pcompSoftware.pcompVersions;
             setPcompSoftwareProfile(pcompSoftware);
+            if ($.pcomp.userRight.getHasModifySoftwareRight(pcompSoftwareId)) {
+                button.next().remove();
+                button.after($("<i class='icon-pencil i-lg '>编辑</i>"));
+                edit = $("i[class*=icon-pencil]");
+                edit.click(function () {
+                    setMD(typeof(button.attr("style")) != "undefined", null);
+                });
+            }else{
+                button.next().remove();
+            }
             setMD(false, pcompSoftware.introduction);
             $("#history").find("li").remove();
             $("#history").append(getList("history"));
@@ -293,7 +406,17 @@
                 var id = this.id.substring(this.id.indexOf("history") + "history".length);
                 $(this).parent().parent().attr("class", "active");
                 var html = pcompSoftware.name + " - " + pcompVersions[id].versionNumber;
-                html += "<button class='btn btn-success btn-rounded'>修改</button><button class='btn btn-danger btn-rounded'>删除</button>";
+                if ($.pcomp.userRight.getHasModifyVersionRight(pcompSoftwareId, pcompVersions[getVersionId(this)].id)) {
+                    html += "<button class='btn btn-success btn-rounded'>修改</button><button class='btn btn-danger btn-rounded'>删除</button>";
+                    button.next().remove();
+                    button.after($("<i class='icon-pencil i-lg '>编辑</i>"));
+                    edit = $("i[class*=icon-pencil]");
+                    edit.click(function () {
+                        setMD(typeof(button.attr("style")) != "undefined", null);
+                    });
+                }else{
+                    button.next().remove();
+                }
                 title.html(html);
                 $("button[class*=btn-success][class*=btn-rounded]").click(function () {
                     dialog.attr("title", "修改");
@@ -329,6 +452,16 @@
                 var id = this.id.substring(this.id.indexOf("quickstart") + "quickstart".length);
                 var html = pcompSoftware.name + " - " + pcompVersions[id].versionNumber;
                 title.html(html);
+                if ($.pcomp.userRight.getHasModifyVersionRight(pcompSoftwareId, pcompVersions[getVersionId(this)].id)) {
+                    button.next().remove();
+                    button.after($("<i class='icon-pencil i-lg '>编辑</i>"));
+                    edit = $("i[class*=icon-pencil]");
+                    edit.click(function () {
+                        setMD(typeof(button.attr("style")) != "undefined", null);
+                    });
+                }else{
+                    button.next().remove();
+                }
                 setMD(false, pcompVersions[id].quickStart);
             });
             allList = $("li");
@@ -348,6 +481,16 @@
         $("#introduction").click(function () {
             edit.attr("style", "");
             title.html(pcompSoftware.name);
+            if ($.pcomp.userRight.getHasModifySoftwareRight(pcompSoftwareId)) {
+                button.next().remove();
+                button.after($("<i class='icon-pencil i-lg '>编辑</i>"));
+                edit = $("i[class*=icon-pencil]");
+                edit.click(function () {
+                    setMD(typeof(button.attr("style")) != "undefined", null);
+                });
+            }else{
+                button.next().remove();
+            }
             setMD(false, pcompSoftware.introduction);
         });
 
@@ -375,9 +518,7 @@
             return ul;
         }
 
-        edit.click(function () {
-            setMD(typeof(button.attr("style")) != "undefined", null);
-        });
+
 
 
         function setMD(isEditing, content) {
@@ -407,8 +548,10 @@
             var div = $("<div class='markdown-body editormd-html-preview'style='display: none'></div>");
             var h2 = $("<h2>软件下载：</h2>");
             div.append(h2);
-            var button = $("<button class='btn btn-primary software' id='addSoftware'>增加</button>");
-            h2.append(button);
+            if ($.pcomp.userRight.getHasModifyVersionRight(pcompSoftwareId, pcompVersion.id)) {
+                var button = $("<button class='btn btn-primary software' id='addSoftware'>增加</button>");
+                h2.append(button);
+            }
             var table = $("<table></table>");
             div.append(table);
             var tbody = $("<tbody></tbody>");
@@ -425,14 +568,18 @@
                 a.html("点我下载");
                 td.append(a);
                 tr.append(td);
-                td = $("<td><button class='btn btn-success software'id='" + i + "' >修改</button><button class='btn btn-danger software' id='" + i + "'>删除</button></td>");
-                tr.append(td);
+                if ($.pcomp.userRight.getHasModifyVersionRight(pcompSoftwareId, pcompVersion.id)) {
+                    td = $("<td><button class='btn btn-success software'id='" + i + "' >修改</button><button class='btn btn-danger software' id='" + i + "'>删除</button></td>");
+                    tr.append(td);
+                }
                 tbody.append(tr);
             }
             var h2 = $("<h2>文档下载：</h2>");
             div.append(h2);
-            var button = $("<button class='btn btn-primary document' id='addDocument'>增加</button>");
-            h2.append(button);
+            if ($.pcomp.userRight.getHasModifyVersionRight(pcompSoftwareId, pcompVersion.id)) {
+                var button = $("<button class='btn btn-primary document' id='addDocument'>增加</button>");
+                h2.append(button);
+            }
             table = $("<table></table>");
             div.append(table);
             tbody = $("<tbody></tbody>");
@@ -449,8 +596,10 @@
                 a.html("点我下载");
                 td.append(a);
                 tr.append(td);
-                td = $("<td><button class='btn btn-success document'id='" + i + "'>修改</button><button class='btn btn-danger document'id='" + i + "' >删除</button></td>");
-                tr.append(td);
+                if ($.pcomp.userRight.getHasModifyVersionRight(pcompSoftwareId, pcompVersion.id)) {
+                    td = $("<td><button class='btn btn-success document'id='" + i + "'>修改</button><button class='btn btn-danger document'id='" + i + "' >删除</button></td>");
+                    tr.append(td);
+                }
                 tbody.append(tr);
             }
             mdEditor.empty();
@@ -492,7 +641,7 @@
                                 $("#text-input").next().html("不能超过32字符!");
                                 return false;
                             }
-                            $.pcomp.version.newSoftwareDownload(pcompVersions[getVersionId()].id, n[0].value, initialize);
+                            $.pcomp.version.newSoftwareDownload(pcompVersion.id, n[0].value, initialize);
                             $(this).dialog("close");
                         },
                         "取消": function () {
@@ -652,7 +801,9 @@
         function setPcompSoftwareProfile() {
             pcompSoftware = $.pcomp.software.getBySoftwareId(pcompSoftwareId);
             $("softwareProfile").html("<img src=\"" + pcompSoftware.avatar + "\" style=\"width: 100%;max-width: 55px;height: auto;border-radius: 50%;padding: 5px\"><b style=\"padding: 5px\">" + pcompSoftware.name + "</b>");
-            $("softwareProfile").append($("<button type='button' class='btn btn-box-tool edit'><i class='fa fa-pencil'></i></button><button type='button' class='btn btn-box-tool delete' ><i class=\"fa fa-trash\"></i></button>"));
+            if ($.pcomp.userRight.getHasModifySoftwareRight(pcompSoftwareId)) {
+                $("softwareProfile").append($("<button type='button' class='btn btn-box-tool edit'><i class='fa fa-pencil'></i></button><button type='button' class='btn btn-box-tool delete' ><i class=\"fa fa-trash\"></i></button>"));
+            }
             $("button[class*=btn][class*=btn-box-tool][class*=edit]").click(function () {
                 dialog.attr("title", "修改");
                 name.attr("value", pcompSoftware.name);
@@ -702,16 +853,28 @@
             }
         }
 
-        function getVersionId() {
+        function getVersionId(para) {
             var id;
             if ($("#history[class^=active]").length != 0) {
-                id = $("li[id^=history][class^=active][id!=history]")[0].id;
+                if (isNull(para)) {
+                    id = $("li[id^=history][class^=active][id!=history]")[0].id;
+                } else {
+                    id = para.id;
+                }
                 id = id.substring(id.indexOf("history") + "history".length);
             } else if ($("#download[class^=active]").length != 0) {
-                id = $("li[id^=download][class^=active][id!=download]")[0].id;
+                if (isNull(para)) {
+                    id = $("li[id^=download][class^=active][id!=download]")[0].id;
+                } else {
+                    id = para.id;
+                }
                 id = id.substring(id.indexOf("download") + "download".length);
             } else if ($("#quickstart[class^=active]").length != 0) {
-                id = $("li[id^=quickstart][class^=active][id!=quickstart]")[0].id;
+                if (isNull(para)) {
+                    id = $("li[id^=quickstart][class^=active][id!=quickstart]")[0].id;
+                } else {
+                    id = para.id;
+                }
                 id = id.substring(id.indexOf("quickstart") + "quickstart".length);
             }
             return id;

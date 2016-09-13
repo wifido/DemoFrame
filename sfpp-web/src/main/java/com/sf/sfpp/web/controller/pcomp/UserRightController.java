@@ -11,7 +11,10 @@ import com.sf.sfpp.user.dao.domain.User;
 import com.sf.sfpp.user.service.ResourceService;
 import com.sf.sfpp.user.service.RoleService;
 import com.sf.sfpp.user.service.UserService;
+import com.sf.sfpp.web.user.shiro.realm.UserRealm;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.mgt.RealmSecurityManager;
+import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -68,7 +72,7 @@ public class UserRightController {
 
     @ResponseBody
     @RequestMapping(value = "/pcomp/kind/addSoftware/hasRight", method = RequestMethod.GET)
-    public JsonResult<Boolean> getHasAddPcompSoftwareRight() {
+    public JsonResult<Boolean> getHasAddPcompSoftwareRight(String pcompKindId) {
         JsonResult<Boolean> result = new JsonResult<>();
         result.setData(true);
         return result;
@@ -99,8 +103,7 @@ public class UserRightController {
 
     @ResponseBody
     @RequestMapping(value = "/pcomp/software/modify/hasRight", method = RequestMethod.GET)
-    public JsonResult<Boolean> getHasModifyPcompSoftwareRight(HttpServletRequest request) {
-        String softwareId = request.getParameter(PcompConstants.PCOMP_SOFTWARE);
+    public JsonResult<Boolean> getHasModifyPcompSoftwareRight(@RequestParam(value = PcompConstants.PCOMP_SOFTWARE)String softwareId ) {
         Subject currentUser = SecurityUtils.getSubject();
         JsonResult<Boolean> result = new JsonResult<>();
         try {
@@ -121,8 +124,7 @@ public class UserRightController {
 
     @ResponseBody
     @RequestMapping(value = "/pcomp/software/addVersion/hasRight", method = RequestMethod.GET)
-    public JsonResult<Boolean> getHasAddPcompVersionRight(HttpServletRequest request) {
-        String softwareId = request.getParameter(PcompConstants.PCOMP_SOFTWARE);
+    public JsonResult<Boolean> getHasAddPcompVersionRight(@RequestParam(value = PcompConstants.PCOMP_SOFTWARE)String softwareId) {
         Subject currentUser = SecurityUtils.getSubject();
         JsonResult<Boolean> result = new JsonResult<>();
         try {
@@ -143,9 +145,7 @@ public class UserRightController {
 
     @ResponseBody
     @RequestMapping(value = "/pcomp/version/modify/hasRight", method = RequestMethod.GET)
-    public JsonResult<Boolean> getHasModifyPcompVersionRight(HttpServletRequest request) {
-        String softwareId = request.getParameter(PcompConstants.PCOMP_SOFTWARE);
-        String versionId = request.getParameter(PcompConstants.PCOMP_VERSION);
+    public JsonResult<Boolean> getHasModifyPcompVersionRight(@RequestParam(value = PcompConstants.PCOMP_SOFTWARE) String softwareId,@RequestParam(value = PcompConstants.PCOMP_VERSION)String versionId) {
         Subject currentUser = SecurityUtils.getSubject();
         JsonResult<Boolean> result = new JsonResult<>();
         try {
@@ -166,8 +166,7 @@ public class UserRightController {
 
     @ResponseBody
     @RequestMapping(value = "/pcomp/software/modify/addRight", method = RequestMethod.GET)
-    public JsonResult<Boolean> addModifyPcompSoftwareRight(HttpServletRequest request) {
-        String softwareId = request.getParameter(PcompConstants.PCOMP_SOFTWARE);
+    public JsonResult<Boolean> addModifyPcompSoftwareRight(@RequestParam(value = PcompConstants.PCOMP_SOFTWARE) String softwareId) {
         Subject currentUser = SecurityUtils.getSubject();
         JsonResult<Boolean> result = new JsonResult<>();
         try {
@@ -190,8 +189,10 @@ public class UserRightController {
                 resource.setResourceName(StrUtils.makeString("软件", softwareId, "增加版本权限"));
                 resource.setResourceUrl(getSoftwareRights(softwareId, "/addChild"));
                 resourceService.addResource(resource);
+                resource = resourceService.selectResourceByUrl(resource.getResourceUrl());
                 resourceIdList.add(resource.getResourceId());
                 resourceService.updateRoleResource(StrUtils.makeString(role.getRoleId()), resourceIdList);
+                refreshUserRight(currentUser.getPrincipals());
             }
         } catch (Exception e) {
             result.setMessage(e.getMessage());
@@ -266,9 +267,7 @@ public class UserRightController {
 
     @ResponseBody
     @RequestMapping(value = "/pcomp/version/modify/addRight", method = RequestMethod.GET)
-    public JsonResult<Boolean> addModifyPcompVersionRight(HttpServletRequest request) throws Exception {
-        String softwareId = request.getParameter(PcompConstants.PCOMP_SOFTWARE);
-        String versionId = request.getParameter(PcompConstants.PCOMP_VERSION);
+    public JsonResult<Boolean> addModifyPcompVersionRight(String softwareId, String versionId) throws Exception {
         Subject currentUser = SecurityUtils.getSubject();
         JsonResult<Boolean> result = new JsonResult<>();
         try {
@@ -288,6 +287,7 @@ public class UserRightController {
                 List<Integer> resourceIdList = new LinkedList<>();
                 resourceIdList.add(resource.getResourceId());
                 resourceService.updateRoleResource(StrUtils.makeString(role.getRoleId()), resourceIdList);
+                refreshUserRight(currentUser.getPrincipals());
             }
         } catch (Exception e) {
             result.setMessage(e.getMessage());
@@ -295,5 +295,10 @@ public class UserRightController {
         }
         return result;
     }
-
+    private void refreshUserRight(PrincipalCollection principalCollection){
+        RealmSecurityManager securityManager =
+                (RealmSecurityManager) SecurityUtils.getSecurityManager();
+        UserRealm userRealm = (UserRealm) securityManager.getRealms().iterator().next();
+        userRealm.refreshAuthorizationInfo(principalCollection);
+    }
 }

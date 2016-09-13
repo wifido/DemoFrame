@@ -19,6 +19,7 @@ import com.sf.sfpp.pcomp.service.PcompTitleService;
 import com.sf.sfpp.user.dao.domain.User;
 import com.sf.sfpp.web.common.PathConstants;
 import com.sf.sfpp.web.controller.common.AbstractCachedController;
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,26 +60,28 @@ public class PcompSoftwareController extends AbstractCachedController {
     private ImageController imageController;
 
     @ResponseBody
-    @RequestMapping(value = PathConstants.PCOMP_SOFTWARE_VALIDATE_PATH, method = RequestMethod.GET)
-    public JsonResult<Boolean> validateSoftwareName(HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
+    @RequestMapping(value = PathConstants.PCOMP_SOFTWARE_VALIDATE_PATH,
+            method = RequestMethod.GET)
+    public JsonResult<Boolean> validateSoftwareName(HttpServletRequest request) {
         JsonResult<Boolean> result = new JsonResult<>();
-        String titleName = request.getParameter(PathConstants.PCOMP_TITLE_NAME);
-        String kindName = request.getParameter(PathConstants.PCOMP_KIND_NAME);
+        String kindId = request.getParameter(PcompConstants.PCOMP_KIND);
         String softwareName = request.getParameter(PathConstants.PCOMP_SOFTWARE_NAME);
         try {
-            PcompKind pcompKind = pcompKindService.fetchKind(titleName, kindName);
-            result.setData(pcompSoftwareService.existsSoftware(pcompKind.getId(), softwareName));
+            result.setData(pcompSoftwareService.existsSoftware(kindId, softwareName));
             return result;
         } catch (Exception e) {
             result.setMessage(e.getMessage());
+            log.warn(ExceptionUtils.getStackTrace(e));
         }
         result.setData(true);
         return result;
     }
 
     @ResponseBody
-    @RequestMapping(value = PathConstants.PCOMP_SOFTWARE_FETCH_PATH, method = RequestMethod.GET)
-    public JsonResult<List<PcompSoftware>> getSoftwareList(HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
+    @RequestMapping(value = PathConstants.PCOMP_SOFTWARE_FETCH_PATH,
+            method = RequestMethod.GET)
+    public JsonResult<List<PcompSoftware>> getSoftwareList(HttpServletRequest request, ModelMap model,
+            RedirectAttributes redirectAttributes) {
         JsonResult<List<PcompSoftware>> result = new JsonResult<>();
         List<PcompSoftware> pcompSoftwares = new LinkedList<>();
         String titleName = request.getParameter(PathConstants.PCOMP_TITLE_NAME);
@@ -86,10 +89,12 @@ public class PcompSoftwareController extends AbstractCachedController {
         String softwareName = request.getParameter(PathConstants.PCOMP_SOFTWARE_NAME);
         try {
             PcompKind pcompKind = pcompKindService.fetchKind(titleName, kindName);
-            result.setData((List<PcompSoftware>) pcompSoftwareService.fetchAllSoftwaresSeparatelyByKind(pcompKind.getId(), Constants.ALL_PAGE_NUMBER).getList());
+            result.setData((List<PcompSoftware>) pcompSoftwareService
+                    .fetchAllSoftwaresSeparatelyByKind(pcompKind.getId(), Constants.ALL_PAGE_NUMBER).getList());
             return result;
         } catch (Exception e) {
             result.setMessage(e.getMessage());
+            log.warn(ExceptionUtils.getStackTrace(e));
         }
         result.setData(pcompSoftwares);
         return result;
@@ -97,7 +102,8 @@ public class PcompSoftwareController extends AbstractCachedController {
 
     //todo 各种推荐实现
     @ResponseBody
-    @RequestMapping(value = "pcomp/software/recommended", method = RequestMethod.GET)
+    @RequestMapping(value = "pcomp/software/recommended",
+            method = RequestMethod.GET)
     public JsonResult<List<PcompSoftware>> getRecommendedSoftware(HttpServletRequest request) {
         JsonResult<List<PcompSoftware>> result = new JsonResult<>();
         try {
@@ -117,13 +123,15 @@ public class PcompSoftwareController extends AbstractCachedController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "pcomp/software/getAllByKind", method = RequestMethod.GET)
+    @RequestMapping(value = "pcomp/software/getAllByKind",
+            method = RequestMethod.GET)
     public JsonResult<PageInfo<PcompSoftware>> getAllSoftwareByKind(HttpServletRequest request) {
         JsonResult<PageInfo<PcompSoftware>> result = new JsonResult<>();
         try {
             String pcompKindId = request.getParameter("pcompKindId");
             String pageNumber = request.getParameter("pageNumber");
-                result.setData(pcompSoftwareService.fetchAllSoftwaresSeparatelyByKind(pcompKindId, Integer.parseInt(pageNumber)));
+            result.setData(
+                    pcompSoftwareService.fetchAllSoftwaresSeparatelyByKind(pcompKindId, Integer.parseInt(pageNumber)));
         } catch (Exception e) {
             String stackTrace = ExceptionUtils.getStackTrace(e);
             log.warn(stackTrace);
@@ -134,7 +142,8 @@ public class PcompSoftwareController extends AbstractCachedController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "pcomp/software/getById", method = RequestMethod.GET)
+    @RequestMapping(value = "pcomp/software/getById",
+            method = RequestMethod.GET)
     public JsonResult<PcompSoftware> getSoftwareById(HttpServletRequest request) {
         JsonResult<PcompSoftware> result = new JsonResult<>();
         try {
@@ -148,46 +157,58 @@ public class PcompSoftwareController extends AbstractCachedController {
         return result;
     }
 
-    @RequestMapping(value = PathConstants.PCOMP_SOFTWARE_CREATE_PATH, method = RequestMethod.POST)
-    public String createSoftware(@RequestParam(PathConstants.PCOMP_SOFTWARE_AVATAR) MultipartFile avatar, HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
-        WebCache webCache = getWebCache(request);
-        String titleName = request.getParameter(PathConstants.PCOMP_TITLE_NAME);
-        String kindName = request.getParameter(PathConstants.PCOMP_KIND_NAME);
+    @ResponseBody
+    @RequestMapping(value = PathConstants.PCOMP_SOFTWARE_CREATE_PATH,
+            method = RequestMethod.POST)
+    public JsonResult<Boolean> createSoftware(
+            @RequestParam(PathConstants.PCOMP_SOFTWARE_AVATAR)
+            MultipartFile avatar, HttpServletRequest request) {
+        JsonResult<Boolean> result = new JsonResult<>();
+        String kindId = request.getParameter(PcompConstants.PCOMP_KIND);
         String pcomp_software_name = request.getParameter(PathConstants.PCOMP_SOFTWARE_NAME);
-        String pcomp_software_short_introduction = request.getParameter(PathConstants.PCOMP_SOFTWARE_SHORT_INTRODUCTION);
+        String pcomp_software_short_introduction = request
+                .getParameter(PathConstants.PCOMP_SOFTWARE_SHORT_INTRODUCTION);
         String pcomp_software_introduction = request.getParameter(PathConstants.PCOMP_SOFTWARE_INTRODUCTION);
         PcompSoftware pcompSoftware = null;
         try {
-            pcompSoftware = new PcompSoftware();
-            PcompKind pcompKind = pcompKindService.fetchKind(titleName, kindName);
-            if (pcompSoftwareService.existsSoftware(pcompKind.getId(), pcomp_software_name)) {
-                return "redirect:" + PathConstants.PCOMP_HOMEPAGE_PATH;
-            }
-            pcompSoftware.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
-            pcompSoftware.setName(pcomp_software_name);
-            pcompSoftware.setPcompKindId(pcompKind.getId());
-            pcompSoftware.setIntroduction(pcomp_software_introduction);
-            pcompSoftware.setIntroductionShort(pcomp_software_short_introduction);
-            pcompSoftware.setAvatar(avatar.getSize() > 0 ? imageController.uploadImage(avatar, ImageKind.AVATAR) : "");
-            User user = (User) webCache.getUser();
-            if (user != null) {
-                pcompSoftware.setCreatedBy(user.getId());
-                pcompSoftware.setCreatedBy(user.getId());
+            JsonResult<Boolean> hasModifyPcompTitleRight = userRightController.getHasAddPcompSoftwareRight(kindId);
+            if (hasModifyPcompTitleRight.getData()) {
+                pcompSoftware = new PcompSoftware();
+                if (pcompSoftwareService.existsSoftware(kindId, pcomp_software_name)) {
+                    result.setData(false);
+                    result.setMessage("Software exists!");
+                }
+                pcompSoftware.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
+                pcompSoftware.setName(pcomp_software_name);
+                pcompSoftware.setPcompKindId(kindId);
+                pcompSoftware.setIntroduction(pcomp_software_introduction);
+                pcompSoftware.setIntroductionShort(pcomp_software_short_introduction);
+                pcompSoftware
+                        .setAvatar(avatar.getSize() > 0 ? imageController.uploadImage(avatar, ImageKind.AVATAR) : "");
+                pcompSoftware.setCreatedBy(((User) SecurityUtils.getSubject().getPrincipal()).getId());
+                pcompSoftware.setModifiedBy(((User) SecurityUtils.getSubject().getPrincipal()).getId());
+                pcompSoftwareService.addSoftware(pcompSoftware);
+                PcompSoftware pcompSoftware1 = pcompSoftwareService.fetchSoftware(kindId, pcomp_software_name);
+                userRightController.addModifyPcompSoftwareRight(pcompSoftware1.getId());
+                result.setData(true);
             } else {
-                throw new PcompException(Constants.PERMISSION_DENIED);
+                result.setData(false);
+                result.setMessage("Permission Denied!");
             }
-            pcompSoftwareService.addSoftware(pcompSoftware);
         } catch (Exception e) {
-            model.addAttribute(Constants.WEB_CACHE_KEY, webCache);
-            return handleException(e, webCache);
+            result.setMessage(e.getMessage());
+            log.warn(ExceptionUtils.getStackTrace(e));
         }
-        redirectAttributes.addAttribute(PcompConstants.PCOMP_SOFTWARE, pcompSoftware.getId());
-        return "redirect:" + PathConstants.PCOMP_SOFTWARE_PATH;
+        return result;
     }
 
     @ResponseBody
-    @RequestMapping(value = PathConstants.PCOMP_SOFTWARE_MODIFICATION_PATH, method = RequestMethod.POST)
-    public JsonResult<Boolean> updateSoftware(@RequestParam(value = PathConstants.PCOMP_SOFTWARE_AVATAR, required = false) MultipartFile avatar, HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
+    @RequestMapping(value = PathConstants.PCOMP_SOFTWARE_MODIFICATION_PATH,
+            method = RequestMethod.POST)
+    public JsonResult<Boolean> updateSoftware(
+            @RequestParam(value = PathConstants.PCOMP_SOFTWARE_AVATAR,
+                    required = false)
+            MultipartFile avatar, HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
         WebCache webCache = getWebCache(request);
         JsonResult<Boolean> booleanJsonResult = new JsonResult<>();
         boolean modified = false;
@@ -195,9 +216,12 @@ public class PcompSoftwareController extends AbstractCachedController {
         String pcomp_software_name = request.getParameter(PathConstants.PCOMP_SOFTWARE_NAME);
         String pcomp_software_introduction = request.getParameter(PathConstants.PCOMP_SOFTWARE_INTRODUCTION);
         try {
-            PcompSoftwareExtend pcompSoftware = (PcompSoftwareExtend) pcompSoftwareService.fetchSoftware(pcomp_software_id);
+            PcompSoftwareExtend pcompSoftware = (PcompSoftwareExtend) pcompSoftwareService
+                    .fetchSoftware(pcomp_software_id);
             if (pcompSoftware == null) {
-                throw new PcompException(new StringBuilder().append("Software:").append(pcomp_software_id).append("不存在").toString(), new Exception());
+                throw new PcompException(
+                        new StringBuilder().append("Software:").append(pcomp_software_id).append("不存在").toString(),
+                        new Exception());
             }
 
             if (avatar != null && avatar.getSize() != 0) {
@@ -229,8 +253,10 @@ public class PcompSoftwareController extends AbstractCachedController {
         }
         return booleanJsonResult;
     }
+
     @ResponseBody
-    @RequestMapping(value = PathConstants.PCOMP_SOFTWARE_REMOVE_PATH, method = RequestMethod.GET)
+    @RequestMapping(value = PathConstants.PCOMP_SOFTWARE_REMOVE_PATH,
+            method = RequestMethod.GET)
     public JsonResult<Boolean> removeSoftware(HttpServletRequest request) {
         WebCache webCache = getWebCache(request);
         JsonResult<Boolean> result = new JsonResult<>();

@@ -96,6 +96,10 @@ public class PcompVersionManager {
         return pcompVersionMapper.selectByUniqueKey(softwareId, version) != null;
     }
 
+    public PcompVersion getPcompVersion(String softwareId, String version) {
+        return pcompVersionMapper.selectByUniqueKey(softwareId, version);
+    }
+
     /**
      * 逻辑删除一个版本，版本包含的软件文档为同步删除，会同步更新版本所属的软件
      *

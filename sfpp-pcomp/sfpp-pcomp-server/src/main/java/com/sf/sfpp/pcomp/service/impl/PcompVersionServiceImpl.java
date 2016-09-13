@@ -43,6 +43,16 @@ public class PcompVersionServiceImpl implements PcompVersionService {
     }
 
     @Override
+    public PcompVersion fetchVersionBySoftwareIdAndVersionNumber(String softwareId, String versionNumber)
+            throws PcompException {
+        try {
+            return pcompVersionManager.getPcompVersion(softwareId,versionNumber);
+        } catch (Exception e) {
+            throw new PcompException(e);
+        }
+    }
+
+    @Override
     public boolean existsVersion(String softwareId, String version) throws PcompException {
         try {
             return pcompVersionManager.existsPcompVersion(softwareId, version);

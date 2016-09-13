@@ -3,13 +3,13 @@ package com.sf.sfpp.web.user.shiro.realm;
 import com.sf.sfpp.common.utils.StrUtils;
 import com.sf.sfpp.user.dao.domain.Role;
 import com.sf.sfpp.user.dao.domain.User;
-import com.sf.sfpp.user.dao.dto.UserRole;
 import com.sf.sfpp.user.service.RoleService;
 import com.sf.sfpp.user.service.UserService;
 import com.sf.sfpp.web.user.shiro.LdapAuthentication;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.cache.Cache;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
@@ -51,18 +51,13 @@ public class UserRealm extends AuthorizingRealm {
         User user = (User) principalCollection.getPrimaryPrincipal();
         if (user != null) {
             List<String> pers;
-            List<UserRole> userRoleList;
             try {
                 pers = userService.getPermissionsByUserName(user.getUserNo());
-                userRoleList = roleService.getUserRoleList(user.getUserNo());
                 if (pers != null && !pers.isEmpty()) {
                     SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
                     for (String each : pers) {
                         //将权限资源添加到用户信息中
                         info.addStringPermission(each);
-                    }
-                    for (UserRole userRole : userRoleList) {
-                        info.addRole(userRole.getRoleName());
                     }
                     return info;
                 }
@@ -72,6 +67,13 @@ public class UserRealm extends AuthorizingRealm {
 
         }
         return null;
+    }
+
+    public void refreshAuthorizationInfo(PrincipalCollection principals) {
+        Cache<Object, AuthorizationInfo> cache = getAuthorizationCache();
+        Object key = this.getAuthorizationCacheKey(principals);
+        AuthorizationInfo info = doGetAuthorizationInfo(principals);
+        cache.put(key, info);
     }
 
     /**

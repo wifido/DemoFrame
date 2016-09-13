@@ -1,9 +1,84 @@
 $.pcomp = {};
 $.pcomp.userRight = {
+    getHasModifyVersionRight: function (softwareId, versionId) {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/version/modify/hasRight?pcomp_software=" + softwareId + "&pcomp_version=" + versionId,
+            async: false,
+            success: function (response) {
+                if (response.data != null) {
+                    result = response.data;
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+        return result;
+    },
+    getHasAddVersionRight: function (softwareId) {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/software/addVersion/hasRight?pcomp_software=" + softwareId,
+            async: false,
+            success: function (response) {
+                if (response.data != null) {
+                    result = response.data;
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+        return result;
+    },
+    getHasModifySoftwareRight: function (softwareId) {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/software/modify/hasRight?pcomp_software=" + softwareId,
+            async: false,
+            success: function (response) {
+                if (response.data != null) {
+                    result = response.data;
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+        return result;
+    },
+    getHasAddSoftwareRight: function () {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/kind/addSoftware/hasRight",
+            async: false,
+            success: function (response) {
+                if (response.data != null) {
+                    result = response.data;
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+        return result;
+    },
+    getHasModifyKindRight: function () {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/kind/modify/hasRight",
+            async: false,
+            success: function (response) {
+                if (response.data != null) {
+                    result = response.data;
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+        return result;
+    },
     getHasModifyTitleRight: function () {
         var result;
         $.ajax({
-            url: getContextPath() + "/pcomp/title/addKind/hasRight",
+            url: getContextPath() + "/pcomp/title/modify/hasRight",
             async: false,
             success: function (response) {
                 if (response.data != null) {
@@ -112,6 +187,36 @@ $.pcomp.title = {
     }
 };
 $.pcomp.version = {
+    add: function (softwareId, versionNumber, versionIntro, versionQuickStart, versionDownloadsDes, versionDocumentsDes, fn) {
+        $.ajaxFileUpload
+        (
+            {
+                url: getContextPath() + "/pcomp/pcomp_version_extend/create",
+                type: 'post',
+                data: {
+                    pcomp_software: softwareId,
+                    pcomp_version_number: versionNumber,
+                    pcomp_version_introduction: versionIntro,
+                    pcomp_version_quickstart: versionQuickStart,
+                    pcomp_version_platform_download_platform: versionDownloadsDes,
+                    pcomp_version_document_download_description: versionDocumentsDes
+                },
+                secureuri: false, //一般设置为false
+                fileElementId: 'pcomp_version_document_download_download,pcomp_version_platform_download_download',
+                dataType: 'json', //返回值类型 一般设置为json
+                success: function (data)  //服务器成功响应处理函数
+                {
+                    handleSuccess(data);
+                    fn();
+                },
+                error: function (data)//服务器响应失败处理函数
+                {
+                    alert("连接异常");
+                }
+            }
+        );
+        return false;
+    },
     delete: function (softwareId, versionId, fn) {
         var a = "";
         $.ajax({
@@ -325,6 +430,48 @@ $.pcomp.version = {
     }
 };
 $.pcomp.software = {
+    add: function (kindId, software_name, introduction, fn) {
+        $.ajaxFileUpload
+        (
+            {
+                url: getContextPath() + "/pcomp/pcomp_software/create",
+                type: 'post',
+                data: {
+                    pcomp_kind: kindId,
+                    pcomp_software_name: software_name,
+                    pcomp_software_introduction: introduction
+                },
+                secureuri: false, //一般设置为false
+                fileElementId: 'pcomp_software_avatar',
+                dataType: 'json', //返回值类型 一般设置为json
+                success: function (data)  //服务器成功响应处理函数
+                {
+                    handleSuccess(data);
+                    fn();
+                },
+                error: function (data)//服务器响应失败处理函数
+                {
+                    alert("连接异常");
+                }
+            }
+        )
+        return false;
+    },
+    exists: function (pcompKindId, pcompSoftwareName) {
+        var a = "";
+        $.ajax({
+            url: getContextPath() + "/pcomp/pcomp_software/index/validate?pcomp_software_name=" + pcompSoftwareName + "&pcomp_kind=" + pcompKindId,
+            async: false,
+            success: function (response) {
+                if (!isNull(response.message)) {
+                    alert(response.message);
+                } else {
+                    a = response.data;
+                }
+            }
+        });
+        return a;
+    },
     delete: function (pcompKindId, pcompSoftwareId) {
         var a = "";
         $.ajax({
@@ -559,10 +706,10 @@ $.pcomp.kind = {
         )
         return false;
     },
-    exists:function(title_name, kind_name){
+    exists: function (title_name, kind_name) {
         var a;
         $.ajax({
-            url: getContextPath() + "/pcomp/pcomp_kind/index/validate?pcomp_title_title_name="+title_name+"&pcomp_kind_name="+kind_name,
+            url: getContextPath() + "/pcomp/pcomp_kind/index/validate?pcomp_title_title_name=" + title_name + "&pcomp_kind_name=" + kind_name,
             async: false,
             success: function (response) {
                 if (response.message != "") {
