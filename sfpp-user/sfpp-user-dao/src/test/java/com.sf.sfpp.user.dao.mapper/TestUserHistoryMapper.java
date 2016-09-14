@@ -2,6 +2,7 @@ package com.sf.sfpp.user.dao.mapper;
 
 
 import com.sf.sfpp.user.dao.domain.UserHistory;
+import com.sf.sfpp.user.dao.dto.UserHistoryPara;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -10,7 +11,7 @@ import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import java.util.List;
 import java.util.Date;
-
+import com.sf.sfpp.user.dao.mapper.UserHistoryMapper;
 
 /**
  *
@@ -39,8 +40,11 @@ public class TestUserHistoryMapper extends AbstractJUnit4SpringContextTests {
 
     @Test
     public void testselectByPrimaryKey() {
-        UserHistory userHistory = new UserHistory();
-
-        List<UserHistory> list = userHistoryMapper.selectByPrimaryKey(12);
+        UserHistoryPara userHistoryPara = new UserHistoryPara();
+        userHistoryPara.getTargetKinds().add("pcomp_title");
+        userHistoryPara.getTargetKinds().add("pcomp_kind");
+        userHistoryPara.setUserId(1);
+        List<UserHistory> list = userHistoryMapper.selectByPrimaryKey(userHistoryPara);
+        System.out.println(list);
     }
 }

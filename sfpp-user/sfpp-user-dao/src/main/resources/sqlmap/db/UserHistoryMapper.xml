@@ -8,22 +8,34 @@
         <result column="target_id" property="targetId" jdbcType="VARCHAR"/>
         <result column="description" property="description" jdbcType="VARCHAR"/>
         <result column="modified_time" property="modifiedTime" jdbcType="TIMESTAMP"/>
+        <result column="target_kind" property="targetKind" jdbcType="VARCHAR"/>
+        <result column="created_time" property="createdTime" jdbcType="TIMESTAMP"/>
+        <result column="created_by" property="createdBy" jdbcType="INTEGER"/>
+        <result column="modified_by" property="modifiedBy" jdbcType="INTEGER"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, user_id, action, target_id, description, modified_time
+        id, user_id, action, target_id, description, modified_time, target_kind, created_time, created_by, modified_by
     </sql>
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.sf.sfpp.user.dao.dto.UserHistoryPara">
         select
         <include refid="Base_Column_List"/>
         from user_history
         where user_id = #{userId,jdbcType=INTEGER}
-        order BY modified_time DESC
+        <if test="targetKinds.size()!=0">
+            AND target_kind in
+            <foreach collection="targetKinds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        order BY created_time DESC
     </select>
     <insert id="insert" parameterType="com.sf.sfpp.user.dao.domain.UserHistory">
-      insert into user_history (id, user_id, action,
-      target_id, description, modified_time)
+      insert into user_history (id, user_id, action, target_id, description, modified_time,
+      target_kind, created_time, created_by, modified_by)
       values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER},
       #{action,jdbcType=VARCHAR}, #{targetId,jdbcType=VARCHAR},
-      #{description,jdbcType=VARCHAR}, #{modifiedTime,jdbcType=TIMESTAMP})
+      #{description,jdbcType=VARCHAR}, #{modifiedTime,jdbcType=TIMESTAMP},
+      #{target_kind,jdbcType=VARCHAR},#{created_time,jdbcType=TIMESTAMP},
+      #{created_by,jdbcType=INTEGER},#{modified_by,jdbcType=INTEGER})
     </insert>
 </mapper>

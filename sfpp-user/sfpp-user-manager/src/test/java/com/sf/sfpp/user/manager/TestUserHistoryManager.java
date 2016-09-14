@@ -25,7 +25,7 @@ public class TestUserHistoryManager extends AbstractJUnit4SpringContextTests {
 
     @Test
     public void testGetUserHistory() {
-        Page<UserHistory> userHistorys = userHistoryManager.getUserHistorysByUserId(1, 1, "0000", "0010");
+        Page<UserHistory> userHistorys = userHistoryManager.getUserHistorysByUserId(1, 1, "pcomp_title", "pcomp_kind");
         log.info(userHistorys.toString());
     }
 
