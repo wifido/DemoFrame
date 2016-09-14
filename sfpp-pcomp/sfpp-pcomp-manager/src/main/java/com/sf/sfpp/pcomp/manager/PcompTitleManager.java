@@ -13,6 +13,7 @@ import com.sf.sfpp.pcomp.common.model.PcompTitle;
 import com.sf.sfpp.pcomp.dao.PcompKindMapper;
 import com.sf.sfpp.pcomp.dao.PcompSoftwareMapper;
 import com.sf.sfpp.pcomp.dao.PcompTitleMapper;
+import com.sf.sfpp.user.dao.domain.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ import java.util.concurrent.Executors;
  * @date 2016/8/15
  */
 @Component
-public class PcompTitleManager {
+public class PcompTitleManager extends EventManager {
     //// TODO: 2016/8/25 AOP改写麻烦的方法
     private final static Logger log = LoggerFactory.getLogger(PcompKindManager.class);
     @Value("${pcomp.connection.key}")
@@ -72,12 +73,24 @@ public class PcompTitleManager {
         return pcompTitleMapper.selectByUniqueKey(pcompTitleName) != null;
     }
 
+    public String getResourceUrl(String pcompTitleId){
+        return StrUtils.makeString(":sfpp:pcomp:",pcompTitleId);
+    }
+
+    @Override
+    public void modifyResource(Resource resource, String id) {
+        resource.setResourceType(PcompConstants.PCOMP_TITLE);
+        resource.setResourceName(id);
+        resource.setRemark("全部权限");
+    }
+
     public boolean addPcompTitle(PcompTitle pcompTitle) throws KafkaException {
         boolean b = pcompTitleMapper.insertSelective(pcompTitle) > 0;
         pcompTitle = pcompTitleMapper.selectByPrimaryKey(pcompTitle.getId());
         if (b) {
             kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
                     .send(StrUtils.makeString(PcompConstants.PCOMP_TITLE, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompTitle)));
+            addInitialResource(pcompTitle.getId(),pcompTitle.getCreatedBy());
         }
         return b;
     }

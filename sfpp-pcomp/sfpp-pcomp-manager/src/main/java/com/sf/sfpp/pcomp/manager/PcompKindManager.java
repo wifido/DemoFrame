@@ -15,6 +15,10 @@ import com.sf.sfpp.pcomp.common.model.PcompTitle;
 import com.sf.sfpp.pcomp.dao.PcompKindMapper;
 import com.sf.sfpp.pcomp.dao.PcompSoftwareMapper;
 import com.sf.sfpp.pcomp.dao.PcompTitleMapper;
+import com.sf.sfpp.user.dao.domain.Resource;
+import com.sf.sfpp.user.dao.mapper.ResourceMapper;
+import com.sf.sfpp.user.dao.mapper.RoleMapper;
+import com.sf.sfpp.user.dao.mapper.UserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +36,7 @@ import java.util.concurrent.Executors;
  * @date 2016/8/15
  */
 @Component
-public class PcompKindManager {
+public class PcompKindManager extends EventManager {
     //// TODO: 2016/8/25 AOP改写麻烦的方法
     private final static Logger log = LoggerFactory.getLogger(PcompKindManager.class);
     @Value("${pcomp.connection.key}")
@@ -45,13 +49,19 @@ public class PcompKindManager {
     private PcompKindMapper pcompKindMapper;
     @Autowired
     private PcompSoftwareMapper pcompSoftwareMapper;
-
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private RoleMapper roleMapper;
+    @Autowired
+    private ResourceMapper resourceMapper;
     @Autowired
     private PcompSoftwareManager pcompSoftwareManager;
     @Autowired
     private PcompTitleManager pcompTitleManager;
 
-    private final ExecutorService executorService = Executors.newFixedThreadPool(PcompConstants.HEAVY_WORK_THREAD_POOL_SIZE);
+    private final ExecutorService executorService = Executors
+            .newFixedThreadPool(PcompConstants.HEAVY_WORK_THREAD_POOL_SIZE);
 
     public Page<PcompKind> getKindsByTitle(String titleId, int pageNumber) {
         if (pageNumber != Constants.ALL_PAGE_NUMBER) {
@@ -105,9 +115,12 @@ public class PcompKindManager {
         boolean b = pcompKindMapper.insertSelective(pcompKind) > 0;
         pcompKind = pcompKindMapper.selectByPrimaryKey(pcompKind.getId());
         if (b) {
-            kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
-                    .send(StrUtils.makeString(PcompConstants.PCOMP_KIND, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompKind)));
-            executorService.submit(new UpdatePcompTitleModifiedTimeWork(pcompKind.getPcompTitleId(), pcompKind.getModifiedBy()));
+            kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey).send(StrUtils
+                    .makeString(PcompConstants.PCOMP_KIND, Constants.KAFKA_TYPE_SEPARATOR,
+                            JSON.toJSONString(pcompKind)));
+            addInitialResource(pcompKind.getId(), pcompKind.getCreatedBy());
+            executorService.submit(new UpdatePcompTitleModifiedTimeWork(pcompKind.getPcompTitleId(),
+                    pcompKind.getModifiedBy()));
         }
         return b;
     }
@@ -122,8 +135,9 @@ public class PcompKindManager {
         pcompKind.setModifiedTime(new Date());
         boolean b = pcompKindMapper.updateByPrimaryKey(pcompKind) >= 0;
         if (b) {
-            kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
-                    .send(StrUtils.makeString(PcompConstants.PCOMP_KIND, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompKind)));
+            kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey).send(StrUtils
+                    .makeString(PcompConstants.PCOMP_KIND, Constants.KAFKA_TYPE_SEPARATOR,
+                            JSON.toJSONString(pcompKind)));
             executorService.submit(new UpdatePcompTitleModifiedTimeWork(pcompKind.getPcompTitleId(), userId));
         }
         executorService.submit(new DeletePcompSoftwareLogicallyWork(pcompKindId, userId));
@@ -134,11 +148,26 @@ public class PcompKindManager {
         pcompKind.setModifiedTime(new Date());
         boolean b = pcompKindMapper.updateByPrimaryKey(pcompKind) >= 0;
         if (b) {
-            kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
-                    .send(StrUtils.makeString(PcompConstants.PCOMP_KIND, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompKind)));
-            executorService.submit(new UpdatePcompTitleModifiedTimeWork(pcompKind.getPcompTitleId(), pcompKind.getModifiedBy()));
+            kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey).send(StrUtils
+                    .makeString(PcompConstants.PCOMP_KIND, Constants.KAFKA_TYPE_SEPARATOR,
+                            JSON.toJSONString(pcompKind)));
+            executorService.submit(new UpdatePcompTitleModifiedTimeWork(pcompKind.getPcompTitleId(),
+                    pcompKind.getModifiedBy()));
         }
         return b;
+    }
+
+    public String getResourceUrl(String kindId) {
+        return StrUtils
+                .makeString(pcompTitleManager.getResourceUrl(getPcompKindByPcompKindId(kindId).getPcompTitleId()), ":",
+                        kindId);
+    }
+
+    @Override
+    public void modifyResource(Resource resource, String id) {
+        resource.setResourceType(PcompConstants.PCOMP_KIND);
+        resource.setResourceName(id);
+        resource.setRemark("全部权限");
     }
 
     private class DeletePcompSoftwareLogicallyWork implements Runnable {
@@ -172,8 +201,9 @@ public class PcompKindManager {
         pcompKind.setModifiedBy(userId);
         boolean b = pcompKindMapper.updateByPrimaryKey(pcompKind) >= 0;
         if (b) {
-            kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
-                    .send(StrUtils.makeString(PcompConstants.PCOMP_KIND, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompKind)));
+            kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey).send(StrUtils
+                    .makeString(PcompConstants.PCOMP_KIND, Constants.KAFKA_TYPE_SEPARATOR,
+                            JSON.toJSONString(pcompKind)));
             executorService.submit(new UpdatePcompTitleModifiedTimeWork(pcompKind.getPcompTitleId(), userId));
         }
         return b;
@@ -182,6 +212,7 @@ public class PcompKindManager {
     private class UpdatePcompTitleModifiedTimeWork implements Runnable {
         private final String pcompTitleId;
         private final int userId;
+
         private UpdatePcompTitleModifiedTimeWork(String pcompTitleId, int userId) {
             this.pcompTitleId = pcompTitleId;
             this.userId = userId;
@@ -190,7 +221,7 @@ public class PcompKindManager {
         @Override
         public void run() {
             try {
-                pcompTitleManager.updateModifiedTime(pcompTitleId,userId);
+                pcompTitleManager.updateModifiedTime(pcompTitleId, userId);
             } catch (Exception e) {
                 log.warn(ExceptionUtils.getStackTrace(e));
             }

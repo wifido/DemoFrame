@@ -32,7 +32,7 @@
     </bean>
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="mapperLocations" value="classpath*:/sqlmap/db/pcomp/*Mapper.xml"/>
+        <property name="mapperLocations" value="classpath*:/sqlmap/db/**/*Mapper.xml"/>
         <property name="dataSource" ref="dataSource"/>
         <property name="plugins">
             <array>
@@ -55,7 +55,7 @@
 
     <!-- ScanMapperFiles -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.sf.sfpp.pcomp.dao"/>
+        <property name="basePackage" value="com.sf.sfpp"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
 </beans>

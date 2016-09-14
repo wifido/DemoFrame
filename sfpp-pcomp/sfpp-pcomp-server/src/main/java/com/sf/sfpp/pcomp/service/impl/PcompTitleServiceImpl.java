@@ -75,6 +75,11 @@ public class PcompTitleServiceImpl implements PcompTitleService {
     }
 
     @Override
+    public String getResourceUrl(String titleId) {
+        return pcompTitleManager.getResourceUrl(titleId);
+    }
+
+    @Override
     public boolean addNewTitle(PcompTitle pcompTitle) throws PcompException {
         try {
             return pcompTitleManager.addPcompTitle(pcompTitle);

@@ -30,7 +30,7 @@
         </tx:attributes>
     </tx:advice>
     <aop:config>
-        <aop:pointcut id="dataPointcut" expression="execution(* com.sf.sfpp.pcomp.dao.*.*(..))"/>
+        <aop:pointcut id="dataPointcut" expression="execution(* com.sf.sfpp.pcomp.manager.*.*(..))"/>
         <aop:advisor pointcut-ref="dataPointcut" advice-ref="dataAdvice"/>
     </aop:config>
 </beans>

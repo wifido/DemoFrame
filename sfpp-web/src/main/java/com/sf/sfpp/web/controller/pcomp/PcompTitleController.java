@@ -10,6 +10,7 @@ import com.sf.sfpp.pcomp.service.PcompTitleService;
 import com.sf.sfpp.user.dao.domain.User;
 import com.sf.sfpp.web.common.PathConstants;
 import com.sf.sfpp.web.controller.common.AbstractCachedController;
+import com.sf.sfpp.web.controller.user.UserRightController;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
@@ -64,8 +65,8 @@ public class PcompTitleController extends AbstractCachedController {
             }
             Subject currentUser = SecurityUtils.getSubject();
             User user = (User) currentUser.getPrincipal();
-            JsonResult<Boolean> hasModifyPcompTitleRight = userRightController.getHasModifyPcompTitleRight();
-            if (hasModifyPcompTitleRight.getData()) {
+            JsonResult<Boolean> hasRight = userRightController.getIsPcompAdmin();
+            if (hasRight.getData()) {
                 PcompTitle pcompTitle = new PcompTitle();
                 pcompTitle.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
                 pcompTitle.setName(titleName);
@@ -98,13 +99,26 @@ public class PcompTitleController extends AbstractCachedController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "/pcomp/pcomp_title/fetch", method = RequestMethod.GET)
+    public JsonResult<PcompTitle> getTitle(HttpServletRequest request) {
+        JsonResult<PcompTitle> result = new JsonResult<>();
+        try {
+            result.setData(pcompTitleService.fetchTitleByTitleId(request.getParameter(PcompConstants.PCOMP_TITLE)));
+            return result;
+        } catch (Exception e) {
+            result.setMessage(e.getMessage());
+        }
+        return result;
+    }
+
+    @ResponseBody
     @RequestMapping(value = "/pcomp/pcomp_title/delete", method = RequestMethod.GET)
     public JsonResult<Boolean> deleteTitle(HttpServletRequest request) {
         JsonResult<Boolean> result = new JsonResult<>();
         String titleId = request.getParameter(PcompConstants.PCOMP_TITLE);
         try {
-            JsonResult<Boolean> hasModifyPcompTitleRight = userRightController.getHasModifyPcompTitleRight();
-            if (hasModifyPcompTitleRight.getData()) {
+            JsonResult<Boolean> hasRight = userRightController.getHasModifyPcompTitleRight(titleId);
+            if (hasRight.getData()) {
                 Subject currentUser = SecurityUtils.getSubject();
                 User user = (User) currentUser.getPrincipal();
                 pcompTitleService.removeTitle(titleId, user.getId());
@@ -126,8 +140,8 @@ public class PcompTitleController extends AbstractCachedController {
         String titleId = request.getParameter(PcompConstants.PCOMP_TITLE);
         String titleName = request.getParameter(PathConstants.PCOMP_TITLE_NAME);
         try {
-            JsonResult<Boolean> hasModifyPcompTitleRight = userRightController.getHasModifyPcompTitleRight();
-            if (hasModifyPcompTitleRight.getData()) {
+            JsonResult<Boolean> hasRight = userRightController.getHasModifyPcompTitleRight(titleId);
+            if (hasRight.getData()) {
                 Subject currentUser = SecurityUtils.getSubject();
                 User user = (User) currentUser.getPrincipal();
                 PcompTitle pcompTitle = pcompTitleService.fetchTitleByTitleId(titleId);

@@ -2,7 +2,6 @@ package com.sf.sfpp.web.controller.pcomp;
 
 import com.github.pagehelper.PageInfo;
 import com.sf.sfpp.common.Constants;
-import com.sf.sfpp.common.domain.WebCache;
 import com.sf.sfpp.common.dto.JsonResult;
 import com.sf.sfpp.common.idgen.IDGenerator;
 import com.sf.sfpp.common.utils.ExceptionUtils;
@@ -19,18 +18,17 @@ import com.sf.sfpp.pcomp.service.PcompTitleService;
 import com.sf.sfpp.user.dao.domain.User;
 import com.sf.sfpp.web.common.PathConstants;
 import com.sf.sfpp.web.controller.common.AbstractCachedController;
+import com.sf.sfpp.web.controller.user.UserRightController;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedList;
@@ -80,17 +78,21 @@ public class PcompSoftwareController extends AbstractCachedController {
     @ResponseBody
     @RequestMapping(value = PathConstants.PCOMP_SOFTWARE_FETCH_PATH,
             method = RequestMethod.GET)
-    public JsonResult<List<PcompSoftware>> getSoftwareList(HttpServletRequest request, ModelMap model,
-            RedirectAttributes redirectAttributes) {
+    public JsonResult<List<PcompSoftware>> getSoftwareList(HttpServletRequest request) {
         JsonResult<List<PcompSoftware>> result = new JsonResult<>();
         List<PcompSoftware> pcompSoftwares = new LinkedList<>();
         String titleName = request.getParameter(PathConstants.PCOMP_TITLE_NAME);
         String kindName = request.getParameter(PathConstants.PCOMP_KIND_NAME);
-        String softwareName = request.getParameter(PathConstants.PCOMP_SOFTWARE_NAME);
         try {
             PcompKind pcompKind = pcompKindService.fetchKind(titleName, kindName);
-            result.setData((List<PcompSoftware>) pcompSoftwareService
-                    .fetchAllSoftwaresSeparatelyByKind(pcompKind.getId(), Constants.ALL_PAGE_NUMBER).getList());
+            List<PcompSoftware> list = pcompSoftwareService
+                    .fetchAllSoftwaresSeparatelyByKind(pcompKind.getId(), Constants.ALL_PAGE_NUMBER).getList();
+            for (PcompSoftware pcompSoftware : list) {
+                if (!userRightController.getHasViewPcompSoftwareRight(pcompSoftware.getId()).getData()) {
+                    list.remove(pcompSoftware);
+                }
+            }
+            result.setData(list);
             return result;
         } catch (Exception e) {
             result.setMessage(e.getMessage());
@@ -108,15 +110,21 @@ public class PcompSoftwareController extends AbstractCachedController {
         JsonResult<List<PcompSoftware>> result = new JsonResult<>();
         try {
             String pcompKindId = request.getParameter("pcompKindId");
+            List<PcompSoftware> list;
             if (pcompKindId == null) {
-                result.setData(pcompSoftwareService.fetchRecommendedSoftwares().getList());
+                list = pcompSoftwareService.fetchRecommendedSoftwares().getList();
             } else {
-                result.setData(pcompSoftwareService.fetchAllSoftwaresSeparatelyByKind(pcompKindId, 1).getList());
+                list = pcompSoftwareService.fetchAllSoftwaresSeparatelyByKind(pcompKindId, 1).getList();
             }
+            for (PcompSoftware pcompSoftware : list) {
+                if (!userRightController.getHasViewPcompSoftwareRight(pcompSoftware.getId()).getData()) {
+                    list.remove(pcompSoftware);
+                }
+            }
+            result.setData(list);
         } catch (Exception e) {
-            String stackTrace = ExceptionUtils.getStackTrace(e);
-            log.warn(stackTrace);
-            result.setMessage(stackTrace);
+            log.warn(ExceptionUtils.getStackTrace(e));
+            result.setMessage(e.getMessage());
         }
 
         return result;
@@ -130,14 +138,18 @@ public class PcompSoftwareController extends AbstractCachedController {
         try {
             String pcompKindId = request.getParameter("pcompKindId");
             String pageNumber = request.getParameter("pageNumber");
-            result.setData(
-                    pcompSoftwareService.fetchAllSoftwaresSeparatelyByKind(pcompKindId, Integer.parseInt(pageNumber)));
+            PageInfo<PcompSoftware> pcompSoftwarePageInfo = pcompSoftwareService
+                    .fetchAllSoftwaresSeparatelyByKind(pcompKindId, Integer.parseInt(pageNumber));
+            for (PcompSoftware pcompSoftware : pcompSoftwarePageInfo.getList()) {
+                if (!userRightController.getHasViewPcompSoftwareRight(pcompSoftware.getId()).getData()) {
+                    pcompSoftwarePageInfo.getList().remove(pcompSoftware);
+                }
+            }
+            result.setData(pcompSoftwarePageInfo);
         } catch (Exception e) {
-            String stackTrace = ExceptionUtils.getStackTrace(e);
-            log.warn(stackTrace);
-            result.setMessage(stackTrace);
+            log.warn(ExceptionUtils.getStackTrace(e));
+            result.setMessage(e.getMessage());
         }
-
         return result;
     }
 
@@ -148,7 +160,12 @@ public class PcompSoftwareController extends AbstractCachedController {
         JsonResult<PcompSoftware> result = new JsonResult<>();
         try {
             String pcompSoftwareId = request.getParameter("pcompSoftwareId");
-            result.setData(pcompSoftwareService.fetchSoftware(pcompSoftwareId));
+            if (userRightController.getHasViewPcompSoftwareRight(pcompSoftwareId).getData()) {
+                result.setData(pcompSoftwareService.fetchSoftware(pcompSoftwareId));
+            }else{
+                result.setData(null);
+                result.setMessage("Permission Denied");
+            }
         } catch (Exception e) {
             String stackTrace = ExceptionUtils.getStackTrace(e);
             log.warn(stackTrace);
@@ -160,9 +177,8 @@ public class PcompSoftwareController extends AbstractCachedController {
     @ResponseBody
     @RequestMapping(value = PathConstants.PCOMP_SOFTWARE_CREATE_PATH,
             method = RequestMethod.POST)
-    public JsonResult<Boolean> createSoftware(
-            @RequestParam(PathConstants.PCOMP_SOFTWARE_AVATAR)
-            MultipartFile avatar, HttpServletRequest request) {
+    public JsonResult<Boolean> createSoftware(@RequestParam(PathConstants.PCOMP_SOFTWARE_AVATAR) MultipartFile avatar,
+            HttpServletRequest request) {
         JsonResult<Boolean> result = new JsonResult<>();
         String kindId = request.getParameter(PcompConstants.PCOMP_KIND);
         String pcomp_software_name = request.getParameter(PathConstants.PCOMP_SOFTWARE_NAME);
@@ -171,8 +187,8 @@ public class PcompSoftwareController extends AbstractCachedController {
         String pcomp_software_introduction = request.getParameter(PathConstants.PCOMP_SOFTWARE_INTRODUCTION);
         PcompSoftware pcompSoftware = null;
         try {
-            JsonResult<Boolean> hasModifyPcompTitleRight = userRightController.getHasAddPcompSoftwareRight(kindId);
-            if (hasModifyPcompTitleRight.getData()) {
+            JsonResult<Boolean> hasRight = userRightController.getHasAddPcompSoftwareRight(kindId);
+            if (hasRight.getData()) {
                 pcompSoftware = new PcompSoftware();
                 if (pcompSoftwareService.existsSoftware(kindId, pcomp_software_name)) {
                     result.setData(false);
@@ -188,8 +204,6 @@ public class PcompSoftwareController extends AbstractCachedController {
                 pcompSoftware.setCreatedBy(((User) SecurityUtils.getSubject().getPrincipal()).getId());
                 pcompSoftware.setModifiedBy(((User) SecurityUtils.getSubject().getPrincipal()).getId());
                 pcompSoftwareService.addSoftware(pcompSoftware);
-                PcompSoftware pcompSoftware1 = pcompSoftwareService.fetchSoftware(kindId, pcomp_software_name);
-                userRightController.addModifyPcompSoftwareRight(pcompSoftware1.getId());
                 result.setData(true);
             } else {
                 result.setData(false);
@@ -205,73 +219,71 @@ public class PcompSoftwareController extends AbstractCachedController {
     @ResponseBody
     @RequestMapping(value = PathConstants.PCOMP_SOFTWARE_MODIFICATION_PATH,
             method = RequestMethod.POST)
-    public JsonResult<Boolean> updateSoftware(
-            @RequestParam(value = PathConstants.PCOMP_SOFTWARE_AVATAR,
-                    required = false)
-            MultipartFile avatar, HttpServletRequest request, ModelMap model, RedirectAttributes redirectAttributes) {
-        WebCache webCache = getWebCache(request);
-        JsonResult<Boolean> booleanJsonResult = new JsonResult<>();
+    public JsonResult<Boolean> updateSoftware(@RequestParam(value = PathConstants.PCOMP_SOFTWARE_AVATAR,
+            required = false) MultipartFile avatar, HttpServletRequest request) {
+        JsonResult<Boolean> result = new JsonResult<>();
         boolean modified = false;
         String pcomp_software_id = request.getParameter(PathConstants.PCOMP_SOFTWARE_ID);
         String pcomp_software_name = request.getParameter(PathConstants.PCOMP_SOFTWARE_NAME);
         String pcomp_software_introduction = request.getParameter(PathConstants.PCOMP_SOFTWARE_INTRODUCTION);
         try {
-            PcompSoftwareExtend pcompSoftware = (PcompSoftwareExtend) pcompSoftwareService
-                    .fetchSoftware(pcomp_software_id);
-            if (pcompSoftware == null) {
-                throw new PcompException(
-                        new StringBuilder().append("Software:").append(pcomp_software_id).append("不存在").toString(),
-                        new Exception());
-            }
-
-            if (avatar != null && avatar.getSize() != 0) {
-                pcompSoftware.setAvatar(imageController.uploadImage(avatar, ImageKind.AVATAR));
-                modified = true;
-            }
-
-            if (!StrUtils.isNull(pcomp_software_name)) {
-                pcompSoftware.setName(pcomp_software_name);
-                modified = true;
-            }
-            if (!StrUtils.isNull(pcomp_software_introduction)) {
-                pcompSoftware.setIntroduction(pcomp_software_introduction);
-                modified = true;
-            }
-            if (modified) {
-                User user = (User) webCache.getUser();
-                if (!user.getId().equals(pcompSoftware.getCreatedBy())) {
-                    throw new PcompException(Constants.PERMISSION_DENIED);
-                } else {
-                    pcompSoftware.setModifiedBy(user.getId());
+            JsonResult<Boolean> hasRight = userRightController.getHasModifyPcompSoftwareRight(pcomp_software_id);
+            if (hasRight.getData()) {
+                PcompSoftwareExtend pcompSoftware = (PcompSoftwareExtend) pcompSoftwareService
+                        .fetchSoftware(pcomp_software_id);
+                if (pcompSoftware == null) {
+                    throw new PcompException(
+                            new StringBuilder().append("Software:").append(pcomp_software_id).append("不存在").toString(),
+                            new Exception());
                 }
+
+                if (avatar != null && avatar.getSize() != 0) {
+                    pcompSoftware.setAvatar(imageController.uploadImage(avatar, ImageKind.AVATAR));
+                    modified = true;
+                }
+
+                if (!StrUtils.isNull(pcomp_software_name)) {
+                    pcompSoftware.setName(pcomp_software_name);
+                    modified = true;
+                }
+                if (!StrUtils.isNull(pcomp_software_introduction)) {
+                    pcompSoftware.setIntroduction(pcomp_software_introduction);
+                    modified = true;
+                }
+                if (modified) {
+                }
+                pcompSoftwareService.updateSoftware(pcompSoftware);
+                result.setData(true);
+            } else {
+                result.setData(false);
+                result.setMessage("Permission Denied!");
             }
-            pcompSoftwareService.updateSoftware(pcompSoftware);
-            booleanJsonResult.setData(true);
         } catch (Exception e) {
-            booleanJsonResult.setMessage(ExceptionUtils.getStackTrace(e));
-            booleanJsonResult.setData(false);
+            result.setMessage(e.getMessage());
+            log.warn(ExceptionUtils.getStackTrace(e));
         }
-        return booleanJsonResult;
+        return result;
     }
 
     @ResponseBody
     @RequestMapping(value = PathConstants.PCOMP_SOFTWARE_REMOVE_PATH,
             method = RequestMethod.GET)
     public JsonResult<Boolean> removeSoftware(HttpServletRequest request) {
-        WebCache webCache = getWebCache(request);
         JsonResult<Boolean> result = new JsonResult<>();
         String softwareID = request.getParameter(PcompConstants.PCOMP_SOFTWARE);
         try {
-            PcompSoftware pcompSoftware = pcompSoftwareService.fetchSoftware(softwareID);
-            User user = (User) webCache.getUser();
-            if (!user.getId().equals(pcompSoftware.getCreatedBy())) {
-                throw new PcompException(Constants.PERMISSION_DENIED);
+            JsonResult<Boolean> hasRight = userRightController.getHasModifyPcompSoftwareRight(softwareID);
+            if (hasRight.getData()) {
+                User user = (User) SecurityUtils.getSubject().getPrincipal();
+                pcompSoftwareService.removeSoftware(softwareID, user.getId());
+                result.setData(true);
+            } else {
+                result.setData(false);
+                result.setMessage("Permission Denied!");
             }
-            pcompSoftwareService.removeSoftware(softwareID, user.getId());
-            result.setData(true);
         } catch (Exception e) {
-            result.setMessage(ExceptionUtils.getStackTrace(e));
-            result.setData(false);
+            result.setMessage(e.getMessage());
+            log.warn(ExceptionUtils.getStackTrace(e));
         }
         return result;
     }

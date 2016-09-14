@@ -54,7 +54,7 @@
               <button type="submit" class="btn btn-sm bg-white btn-icon rounded"><i class="fa fa-search"></i></button>
             </span>
                     <input type="text" class="form-control input-sm no-border rounded"
-                           placeholder="Search songs, albums...">
+                           placeholder="搜索本站">
                 </div>
             </div>
         </form>
@@ -228,7 +228,7 @@
 <script type="text/javascript" src="js/sfpp-native/user.js"></script>
 <script type="text/javascript" src="js/sfpp-native/pcomp.js"></script>
 <script type="text/javascript" src="js/sfpp-native/pcompform.js"></script>
-
+<script type="text/javascript" src="js/sfpp-native/search.js"></script>
 <script type="text/javascript" src="js/editormd.min.js"></script>
 <script src="js/jquery-form.js"></script>
 <script src="js/ajaxfileupload.js"></script>
@@ -398,17 +398,17 @@
         }
         var list = data.list;
         for (i = 0; i < list.length; i++) {
-            html += matrix_item_7 + matrix_item_2 + getHtmlPath() + '/pcompSoftware.html?pcompSoftwareId=' + list[i].id + matrix_item_3 + list[i].avatar + matrix_item_4 + matrix_item_5 + list[i].name + matrix_item_6;
+            html += matrix_item_7 + matrix_item_2 + getHtmlPath() + '/pcompSoftware.html?pcompSoftwareId=' + list[i].id + matrix_item_3 + list[i].avatar + matrix_item_4 + getHtmlPath() + '/pcompSoftware.html?pcompSoftwareId=' + list[i].id +matrix_item_5 + list[i].name + matrix_item_6;
         }
 
         var titleHtml = "<img src=\"" + pcompKind.topPhoto + "\" style=\"width: 100%;max-width: 55px;height: auto;border-radius: 50%;padding: 5px\">" + pcompKind.name + "-全部组件";
 
 
-        if ($.pcomp.userRight.getHasModifyKindRight()) {
+        if ($.pcomp.userRight.getHasModifyKindRight(pcompKindId)) {
             titleHtml += "<button class='btn btn-success btn-rounded'>修改本分类</button><button class='btn btn-danger btn-rounded'>删除本分类</button>";
         }
-        if ($.pcomp.userRight.getHasAddSoftwareRight()) {
-            titleHtml += "<button class='btn btn-info btn-rounded'>添加新组件</button>";
+        if ($.pcomp.userRight.getHasAddSoftwareRight(pcompKindId)) {
+            titleHtml += "<button class='btn btn-info btn-rounded'>添加新开放软件</button>";
         }
         $("pcompKindAllSoftwaresTitle").html(titleHtml);
         $("pcompKindAllSoftwares").html(html);

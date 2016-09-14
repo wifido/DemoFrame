@@ -94,6 +94,11 @@ public class PcompKindServiceImpl implements PcompKindService {
     }
 
     @Override
+    public String getResourceUrl(String kindId) {
+        return pcompKindManager.getResourceUrl(kindId);
+    }
+
+    @Override
     public boolean addKind(PcompKind pcompKind) throws PcompException {
         try {
             pcompKind.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
