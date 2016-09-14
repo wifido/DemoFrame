@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -113,8 +114,9 @@ public class PcompVersionController extends AbstractCachedController {
                         pcompVersionPlatformDownload.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
                         pcompVersionPlatformDownload.setPcompVersionId(pcompVersion.getId());
                         pcompVersionPlatformDownload.setPlatform(platforms[i - count]);
+                        CommonsMultipartFile cf= (CommonsMultipartFile)softwares[i];
                         pcompVersionPlatformDownload.setDownload(httpUpload
-                                .uploadFile(softwares[i].getInputStream(), softwares[i].getSize(),
+                                .uploadFile(cf, softwares[i].getSize(),
                                         Constants.PUBLIC_COMPONENT_SYSTEM_ENG, pcompVersionPlatformDownload.getId(),
                                         "file", ""));
                         pcompVersionExtend.getPcompVersionPlatformDownloads().add(pcompVersionPlatformDownload);
@@ -130,8 +132,9 @@ public class PcompVersionController extends AbstractCachedController {
                         pcompVersionDoucumentDownload.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
                         pcompVersionDoucumentDownload.setPcompVersionId(pcompVersion.getId());
                         pcompVersionDoucumentDownload.setDescription(descriptions[i - count]);
+                        CommonsMultipartFile cf= (CommonsMultipartFile)documents[i];
                         pcompVersionDoucumentDownload.setDownload(httpUpload
-                                .uploadFile(documents[i].getInputStream(), documents[i].getSize(),
+                                .uploadFile(cf, documents[i].getSize(),
                                         Constants.PUBLIC_COMPONENT_SYSTEM_ENG, pcompVersionDoucumentDownload.getId(),
                                         "file", ""));
                         pcompVersionExtend.getPcompVersionDoucumentDownloads().add(pcompVersionDoucumentDownload);
@@ -292,8 +295,9 @@ public class PcompVersionController extends AbstractCachedController {
                             .fetchVersionDownload(versionDownloadId);
                     pcompVersionPlatformDownload.setPlatform(platform);
                     if (software != null && software.getSize() > 0) {
+                        CommonsMultipartFile cf= (CommonsMultipartFile)software;
                         pcompVersionPlatformDownload.setDownload(httpUpload
-                                .uploadFile(software.getInputStream(), software.getSize(),
+                                .uploadFile(cf, software.getSize(),
                                         Constants.PUBLIC_COMPONENT_SYSTEM_ENG, pcompVersionPlatformDownload.getId(),
                                         "file", ""));
                     }
@@ -340,8 +344,9 @@ public class PcompVersionController extends AbstractCachedController {
                     pcompVersionPlatformDownload.setPcompVersionId(pcompVersion.getId());
                     pcompVersionPlatformDownload.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
                     if (software != null && software.getSize() > 0) {
+                        CommonsMultipartFile cf= (CommonsMultipartFile)software;
                         pcompVersionPlatformDownload.setDownload(httpUpload
-                                .uploadFile(software.getInputStream(), software.getSize(),
+                                .uploadFile(cf, software.getSize(),
                                         Constants.PUBLIC_COMPONENT_SYSTEM_ENG, pcompVersionPlatformDownload.getId(),
                                         "file", ""));
                     }
@@ -419,8 +424,9 @@ public class PcompVersionController extends AbstractCachedController {
                             .fetchVersionDocument(versionDocumentId);
                     pcompVersionDoucumentDownload.setDescription(description);
                     if (document != null && document.getSize() > 0) {
+                        CommonsMultipartFile cf= (CommonsMultipartFile)document;
                         pcompVersionDoucumentDownload.setDownload(httpUpload
-                                .uploadFile(document.getInputStream(), document.getSize(),
+                                .uploadFile(cf, document.getSize(),
                                         Constants.PUBLIC_COMPONENT_SYSTEM_ENG, pcompVersionDoucumentDownload.getId(),
                                         "file", ""));
                     }
@@ -467,8 +473,9 @@ public class PcompVersionController extends AbstractCachedController {
                     pcompVersionDoucumentDownload.setId(IDGenerator.getID(Constants.PUBLIC_COMPONENT_SYSTEM));
                     pcompVersionDoucumentDownload.setPcompVersionId(pcompVersion.getId());
                     if (document != null && document.getSize() > 0) {
+                        CommonsMultipartFile cf= (CommonsMultipartFile)document;
                         pcompVersionDoucumentDownload.setDownload(httpUpload
-                                .uploadFile(document.getInputStream(), document.getSize(),
+                                .uploadFile(cf, document.getSize(),
                                         Constants.PUBLIC_COMPONENT_SYSTEM_ENG, pcompVersionDoucumentDownload.getId(),
                                         "file", ""));
                     }
