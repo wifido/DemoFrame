@@ -104,7 +104,7 @@
     </bean>
 	
    <!--重定向路径 -->
-   <mvc:view-controller path="/" view-name="redirect:/index" />
+   <mvc:view-controller path="/" view-name="redirect:/html/index.html" />
 
 	<!-- 当在web.xml 中 DispatcherServlet使用 <url-pattern>/</url-pattern> 映射时，能映射静态资源 -->
 	<mvc:default-servlet-handler />
@@ -138,7 +138,7 @@
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
 		<property name="loginUrl" value="/login" /> 		<!--需要登录的请求在未登录的情况下会被拦截到这个地址 -->
-		<property name="successUrl" value="/index" />
+		<property name="successUrl" value="/html/index.html" />
 		<property name="unauthorizedUrl" value="/unauthorized" />
 		<property name="filters">
 			<util:map>
@@ -167,7 +167,7 @@
 
 	<!--替换默认的form 验证过滤器-->
 	<bean id="formAuthenticationFilter" class="com.sf.sfpp.web.user.shiro.filter.CustomFormAuthenticationFilter">
-		<property name="successUrl" value="/index"/>
+		<property name="successUrl" value="/html/index.html"/>
 		<property name="loginUrl" value="/login"/>
 		<!--表单上的用户名/密码 下次自动登录的参数名-->
 		<property name="usernameParam" value="username"/>
