@@ -733,7 +733,7 @@ $.pcomp.software = {
             url: getContextPath() + "/pcomp/software/getById?pcompSoftwareId=" + pcompSoftwareId,
             async: false,
             success: function (response) {
-                if (response.message != "") {
+                if (!isNull(response.message)) {
                     alert(response.message);
                     return;
                 } else {
@@ -749,7 +749,7 @@ $.pcomp.software = {
             url: getContextPath() + "/pcomp/software/recommended",
             async: false,
             success: function (response) {
-                if (response.message != "") {
+                if (!isNull(response.message)) {
                     alert(response.message);
                     return;
                 } else {
@@ -765,7 +765,7 @@ $.pcomp.software = {
             url: getContextPath() + "/pcomp/software/recommended",
             async: false,
             success: function (response) {
-                if (response.message != "") {
+                if (!isNull(response.message)) {
                     alert(response.message);
                     return;
                 } else {
@@ -781,7 +781,7 @@ $.pcomp.software = {
             url: getContextPath() + "/pcomp/software/recommended?pcompKindId=" + kindId,
             async: false,
             success: function (response) {
-                if (response.message != "") {
+                if (!isNull(response.message)) {
                     alert(response.message);
                     return;
                 } else {
@@ -797,7 +797,7 @@ $.pcomp.software = {
             url: getContextPath() + "/pcomp/software/recommended?pcompKindId=" + kindId,
             async: false,
             success: function (response) {
-                if (response.message != "") {
+                if (!isNull(response.message)) {
                     alert(response.message);
                     return;
                 } else {
@@ -813,7 +813,7 @@ $.pcomp.software = {
             url: getContextPath() + "/pcomp/software/getAllByKind?pcompKindId=" + kindId + "&pageNumber=" + pageNumber,
             async: false,
             success: function (response) {
-                if (response.message != "") {
+                if (!isNull(response.message)) {
                     alert(response.message);
                     return;
                 } else {
@@ -951,7 +951,7 @@ $.pcomp.kind = {
             url: getContextPath() + "/pcomp/pcomp_kind/index/validate?pcomp_title_title_name=" + title_name + "&pcomp_kind_name=" + kind_name,
             async: false,
             success: function (response) {
-                if (response.message != "") {
+                if (!isNull(response.message)) {
                     alert(response.message);
                     return;
                 } else {
@@ -967,7 +967,7 @@ $.pcomp.kind = {
             url: getContextPath() + "/pcomp/kind/recommended",
             async: false,
             success: function (response) {
-                if (response.message != "") {
+                if (!isNull(response.message)) {
                     alert(response.message);
                     return;
                 } else {
