@@ -191,9 +191,9 @@
             var a = $("<a href='#' class='pull-right text-muted m-t-lg' id='" + i + "'><i class='icon-refresh i-lg  inline'></i></a>");
             var h2 = "<h2 class='font-thin m-b'>" + pcompTitles[i].name;
             h2 += "<span class='musicbar animate inline m-l-sm' style='width:20px;height:20px'><span class='bar1 a1 bg-primary lter'></span><span class='bar2 a2 bg-info lt'></span><span class='bar3 a3 bg-success'></span><span class='bar4 a4 bg-warning dk'></span><span class='bar5 a5 bg-danger dker'></span></span>";
-            var hasAddKindRight = $.pcomp.userRight.getHasModifyTitleRight(pcompTitles[i].id);
-            if (hasAddKindRight) {
+            if ($.pcomp.userRight.getHasModifyTitleRight(pcompTitles[i].id)) {
                 h2 += "<button class='btn btn-success btn-rounded title'id='" + i + "'>修改本主题</button><button class='btn btn-danger btn-rounded title'id='" + i + "'>删除本主题</button>";
+            } if ($.pcomp.userRight.getHasAddKindRight(pcompTitles[i].id)) {
                 h2 += "<button class='btn btn-info btn-rounded kind' id='" + i + "'>添加新分类</button>";
             }
             h2 += "</h2>";
