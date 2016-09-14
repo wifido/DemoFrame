@@ -150,6 +150,13 @@
 		<property name="filterChainDefinitions">
 			<value>
 				/assets/** = anon
+				/html/bootstrap/** = anon
+				/html/css/** = anon
+				/html/fonts/** = anon
+				/html/images/** = anon
+				/html/js/** = anon
+				/html/lib/** = anon
+				/html/plugins/** = anon
 				/*.ico = anon
 				/login = authc
 				/logout = logout

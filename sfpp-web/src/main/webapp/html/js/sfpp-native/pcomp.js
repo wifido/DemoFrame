@@ -871,7 +871,6 @@ $.pcomp.software = {
 function handleSuccess(data) {
     var d = eval('(' + data + ')')
     if (d.data) {
-        alert("修改成功");
     } else {
         alert("修改失败" + d.message);
     }
