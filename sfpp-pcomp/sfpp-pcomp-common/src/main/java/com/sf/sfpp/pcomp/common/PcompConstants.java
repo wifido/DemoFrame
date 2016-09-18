@@ -7,10 +7,14 @@ package com.sf.sfpp.pcomp.common;
  */
 public interface PcompConstants {
     String PCOMP_TITLE = "pcomp_title";
+    String PCOMP_TITLE_ZH = "主题";
     String PCOMP_KIND = "pcomp_kind";
+    String PCOMP_KIND_ZH = "分类";
     String PCOMP_SOFTWARE = "pcomp_software";
+    String PCOMP_SOFTWARE_ZH = "软件";
     String PCOMP_SOFTWARE_EXTEND = "pcomp_software_extend";
     String PCOMP_VERSION = "pcomp_version";
+    String PCOMP_VERSION_ZH = "版本";
     String PCOMP_VERSION_EXTEND = "pcomp_version_extend";
     String PCOMP_VERSION_PLATFORM_DOWNLOAD = "pcomp_version_platform_download";
     String PCOMP_VERSION_DESCRIPTION_DOCUMENT = "pcomp_version_description_document";
