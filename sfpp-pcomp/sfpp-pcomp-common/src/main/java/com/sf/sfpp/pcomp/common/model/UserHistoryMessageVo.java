@@ -1,31 +1,35 @@
 package com.sf.sfpp.pcomp.common.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class PcompTitle extends UserHistoryMessageVo implements Serializable {
+/**
+ * @author 01139940 zyt
+ * @version 1.0.0
+ * @date 2016年9月14日下午2:32:18
+ */
+public class UserHistoryMessageVo {
     private String id;
-
+    
     private String name;
-
+    
     private Boolean isDeleted;
+    
+    private String description;
 
-    private Date createdTime;
+    public String getDescription() {
+        return description;
+    }
 
-    private Integer createdBy;
-
-    private Date modifiedTime;
-
-    private Integer modifiedBy;
-
-    private static final long serialVersionUID = 1L;
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
-        this.id = id == null ? null : id.trim();
+        this.id = id;
     }
 
     public String getName() {
@@ -33,7 +37,7 @@ public class PcompTitle extends UserHistoryMessageVo implements Serializable {
     }
 
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+        this.name = name;
     }
 
     public Boolean getIsDeleted() {
@@ -76,21 +80,31 @@ public class PcompTitle extends UserHistoryMessageVo implements Serializable {
         this.modifiedBy = modifiedBy;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", name=").append(name);
-        sb.append(", isDeleted=").append(isDeleted);
-        sb.append(", createdTime=").append(createdTime);
-        sb.append(", createdBy=").append(createdBy);
-        sb.append(", modifiedTime=").append(modifiedTime);
-        sb.append(", modifiedBy=").append(modifiedBy);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+    private Date createdTime;
+
+    private Integer createdBy;
+
+    private Date modifiedTime;
+
+    private Integer modifiedBy;
+    
+    private String pcompSoftwareId;
+    
+    private String versionNumber;
+
+    public String getPcompSoftwareId() {
+        return pcompSoftwareId;
+    }
+
+    public void setPcompSoftwareId(String pcompSoftwareId) {
+        this.pcompSoftwareId = pcompSoftwareId;
+    }
+
+    public String getVersionNumber() {
+        return versionNumber;
+    }
+
+    public void setVersionNumber(String versionNumber) {
+        this.versionNumber = versionNumber;
     }
 }

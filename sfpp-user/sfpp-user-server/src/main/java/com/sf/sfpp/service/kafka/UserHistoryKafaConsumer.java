@@ -44,31 +44,35 @@ public class UserHistoryKafaConsumer {
 		public void onMessage(List<String> list) throws KafkaConsumeRetryException {
 			UserHistory userHistory = new UserHistory();
 			for (String message : list) {
-				switch (StrUtils.getKafkaMessageType(message)) {
-				case PcompConstants.PCOMP_TITLE:
-					PcompTitle pcompTitle = JSON.parseObject(StrUtils.getKafkaMessageContent(message),
-							PcompTitle.class);
-					userHistory = UserOperate.getUserHistory(pcompTitle);
-					break;
-				case PcompConstants.PCOMP_KIND:
-					PcompKind pcompKind = JSON.parseObject(StrUtils.getKafkaMessageContent(message), PcompKind.class);
-					userHistory = UserOperate.getUserHistory(pcompKind);
-					break;
-				case PcompConstants.PCOMP_SOFTWARE:
-					PcompSoftware pcompSoftware = JSON.parseObject(StrUtils.getKafkaMessageContent(message),
-							PcompSoftware.class);
-					userHistory = UserOperate.getUserHistory(pcompSoftware);
-					break;
-				case PcompConstants.PCOMP_VERSION:
-					PcompVersion pcompVersion = JSON.parseObject(StrUtils.getKafkaMessageContent(message),
-							PcompVersion.class);
-					userHistory = UserOperate.getUserHistory(pcompVersion);
-					break;
-				default:
-					log.warn(message);
+				    userHistory = UserOperate.getUserHistory(message);
 				}
 				userHistoryService.addUserHistory(userHistory);
-			}
 		}
 	}
 }
+
+
+
+
+//switch (StrUtils.getKafkaMessageType(message)) {
+//case PcompConstants.PCOMP_TITLE:
+//    PcompTitle pcompTitle = JSON.parseObject(StrUtils.getKafkaMessageContent(message),
+//            PcompTitle.class);
+//    userHistory = UserOperate.getUserHistory(pcompTitle);
+//    break;
+//case PcompConstants.PCOMP_KIND:
+//    PcompKind pcompKind = JSON.parseObject(StrUtils.getKafkaMessageContent(message), PcompKind.class);
+//    userHistory = UserOperate.getUserHistory(pcompKind);
+//    break;
+//case PcompConstants.PCOMP_SOFTWARE:
+//    PcompSoftware pcompSoftware = JSON.parseObject(StrUtils.getKafkaMessageContent(message),
+//            PcompSoftware.class);
+//    userHistory = UserOperate.getUserHistory(pcompSoftware);
+//    break;
+//case PcompConstants.PCOMP_VERSION:
+//    PcompVersion pcompVersion = JSON.parseObject(StrUtils.getKafkaMessageContent(message),
+//            PcompVersion.class);
+//    userHistory = UserOperate.getUserHistory(pcompVersion);
+//    break;
+//default:
+//    log.warn(message);

@@ -1,11 +1,13 @@
 package com.sf.sfpp.service.kafka;
 
+import com.alibaba.fastjson.JSON;
 import com.sf.sfpp.common.utils.StrUtils;
+import com.sf.sfpp.pcomp.common.PcompConstants;
 import com.sf.sfpp.pcomp.common.model.PcompKind;
 import com.sf.sfpp.pcomp.common.model.PcompSoftware;
-import com.sf.sfpp.pcomp.common.model.PcompState;
 import com.sf.sfpp.pcomp.common.model.PcompTitle;
 import com.sf.sfpp.pcomp.common.model.PcompVersion;
+import com.sf.sfpp.pcomp.common.model.UserHistoryMessageVo;
 import com.sf.sfpp.user.dao.domain.UserHistory;
 
 /**
@@ -20,107 +22,117 @@ import com.sf.sfpp.user.dao.domain.UserHistory;
 
 public class UserOperate {
 
-	private static final String DELETE = "0000";
-	private static final String UPDATE = "0001";
-	private static final String ADD = "0010";
-	private static final String TITLE = "0000";
-	private static final String KIND = "0001";
-	private static final String SOFTWARE = "0010";
-	private static final String VERSION = "0011";
+	private static final String DELETE = "delete";
+	private static final String UPDATE = "update";
+	private static final String ADD = "add";
+	private static final String TITLE = "pcomp_title";
+	private static final String KIND = "pcomp_kind";
+	private static final String SOFTWARE = "pcomp_software";
+	private static final String VERSION = "pcomp_version";
+	
+	/**
+	 * 获取添加内容的UserHistory对象
+	 * @return UserHistory
+	 */
+	public synchronized static UserHistory getUserHistory(String message) {
 
-	// 获取用户行为码
-	public synchronized static UserHistory getUserHistory(Object object) {
-		UserHistory uh = new UserHistory();
-		if (object instanceof PcompTitle) {
-			PcompTitle pt = (PcompTitle) object;
-			uh.setUserId(pt.getModifiedBy());
-			uh.setTargetId(pt.getId());
-			uh.setModifiedTime(pt.getModifiedTime());
-			if (isDelete(pt)) {
-				uh.setAction(StrUtils.makeString(DELETE, TITLE));
-				uh.setDescription("删除了\""+pt.getName()+"\"主题");
-			} else {
-				if (isAdd(pt)) {
-					uh.setAction(StrUtils.makeString(ADD, TITLE));
-					uh.setDescription("<a href=\"../pcomp/index?pcomp_title="+pt.getId()+"\">"+"添加了\""+pt.getName()+"\"主题</a>");
-				} else {
-					uh.setAction(StrUtils.makeString(UPDATE, TITLE));
-					uh.setDescription("<a href=\"../pcomp/index?pcomp_title="+pt.getId()+"\">"+"更新了\""+pt.getName()+"\"主题</a>");
-				}
-			}
-			return uh;
-		} else if (object instanceof PcompKind) {
-			if (object instanceof PcompKind) {
-				PcompKind pk = (PcompKind) object;
-				uh.setUserId(pk.getModifiedBy());
-				uh.setTargetId(pk.getId());
-				uh.setModifiedTime(pk.getModifiedTime());
-				if (isDelete(pk)) {
-					uh.setAction(StrUtils.makeString(DELETE, KIND));
-					uh.setDescription("删除了\""+pk.getName()+"\"类别");
-				} else {
-					if (isAdd(pk)) {
-						uh.setAction(StrUtils.makeString(ADD, KIND));
-						uh.setDescription("<a href=\"../pcomp/pcomp_kind/index?pcomp_kind="+pk.getId()+"\">"+"添加了\""+pk.getName()+"\"类别</a>");
-					} else {
-						uh.setAction(StrUtils.makeString(UPDATE, KIND));
-						uh.setDescription("<a href=\"../pcomp/pcomp_kind/index?pcomp_kind="+pk.getId()+"\">"+"更新了\""+pk.getName()+"\"类别</a>");
-					}
-				}
-			}
-		} else if (object instanceof PcompSoftware) {
-			if (object instanceof PcompSoftware) {
-				PcompSoftware ps = (PcompSoftware) object;
-				uh.setUserId(ps.getModifiedBy());
-				uh.setTargetId(ps.getId());
-				uh.setModifiedTime(ps.getModifiedTime());
-				if (isDelete(ps)) {
-					uh.setAction(StrUtils.makeString(DELETE, SOFTWARE));
-					uh.setDescription("删除了\""+ps.getName()+"\"软件");
-				} else {
-					if (isAdd(ps)) {
-						uh.setAction(StrUtils.makeString(ADD, SOFTWARE));
-						uh.setDescription("<a href=\"../pcomp/pcomp_software/index?pcomp_software="+ps.getId()+"\">"+"添加了\""+ps.getName()+"\"软件</a>");
-					} else {
-						uh.setAction(StrUtils.makeString(UPDATE, SOFTWARE));
-						uh.setDescription("<a href=\"../pcomp/pcomp_software/index?pcomp_software="+ps.getId()+"\">"+"更新了\""+ps.getName()+"\"软件</a>");
-					}
-				}
-			}
-		} else if (object instanceof PcompVersion) {
-			if (object instanceof PcompVersion) {
-				PcompVersion pv = (PcompVersion) object;
-				uh.setUserId(pv.getModifiedBy());
-				uh.setTargetId(pv.getId());
-				uh.setModifiedTime(pv.getModifiedTime());
-				if (isDelete(pv)) {
-					uh.setAction(StrUtils.makeString(DELETE, VERSION));
-					uh.setDescription("删除了\""+pv.getVersionNumber()+"\"版本");
-				} else {
-					if (isAdd(pv)) {
-						uh.setAction(StrUtils.makeString(ADD, VERSION));
-						uh.setDescription("<a href=\"../pcomp/pcomp_software/index?pcomp_software="+pv.getPcompSoftwareId()+"&sw_nav=download&pcomp_version="+pv.getId()+"\">"+"添加了\""+pv.getVersionNumber()+"\"版本</a>");
-					} else {
-						uh.setAction(StrUtils.makeString(UPDATE, VERSION));
-						uh.setDescription("<a href=\"../pcomp/pcomp_software/index?pcomp_software="+pv.getPcompSoftwareId()+"&sw_nav=download&pcomp_version="+pv.getId()+"\">"+"更新了\""+pv.getVersionNumber()+"\"版本</a>");
-					}
-				}
-			}
-		}
-		return uh;
-
+	    String messageType = StrUtils.getKafkaMessageType(message);
+	    
+	    UserHistoryMessageVo userHistoryMessageVo = JSON.parseObject
+	            (StrUtils.getKafkaMessageContent(message),UserHistoryMessageVo.class);
+	    
+	    UserHistory userHistory = new UserHistory();
+	    userHistory.setUserId(userHistoryMessageVo.getModifiedBy());
+	    userHistory.setTargetId(userHistoryMessageVo.getId());
+	    userHistory.setCreatedTime(userHistoryMessageVo.getModifiedTime());
+	    
+	    String action = getAction(userHistoryMessageVo);
+	    userHistory.setAction(action);
+	    
+	    userHistory.setTargetKind(messageType);
+	    
+	    String descrition = getDescription(action,userHistoryMessageVo,messageType);
+	    userHistory.setDescription(descrition);
+	    return userHistory;
+	}
+	
+	
+	
+	/**
+	 * 获取描述description字段
+	 * @param messageType
+	 * @param userHistoryMessageVo
+	 * @return String 
+	 */
+	static String getDescription(String action,UserHistoryMessageVo userHistoryMessageVo,String type){
+	    String description =null;
+	    if (DELETE.equals(action)) {
+	        description = "删除了\""+userHistoryMessageVo.getName()+"\""+toChinese(type);
+        } else {
+            if (ADD.equals(action)) {
+                description = "<a href=\"../pcomp/index?pcomp_title="+userHistoryMessageVo.getId()+"\">"+"添加了\""+userHistoryMessageVo.getName()+"\""+toChinese(type)+"</a>";
+            } else {
+                description = "<a href=\"../pcomp/index?pcomp_title="+userHistoryMessageVo.getId()+"\">"+"更新了\""+userHistoryMessageVo.getName()+"\""+toChinese(type)+"</a>";
+            }
+        }
+	    return description;
+	}
+	/**
+	 * 将类型转换成中文
+	 * @return String
+	 */
+	
+	static String toChinese(String message){
+	    String str = null;
+	    switch (message) {
+        case PcompConstants.PCOMP_TITLE:
+            str = PcompConstants.PCOMP_TITLE_ZH;
+            break;
+        case PcompConstants.PCOMP_KIND:
+            str = PcompConstants.PCOMP_KIND_ZH;
+            break;
+        case PcompConstants.PCOMP_SOFTWARE:
+            str =  PcompConstants.PCOMP_SOFTWARE_ZH;
+            break;
+        case PcompConstants.PCOMP_VERSION:
+            str =  PcompConstants.PCOMP_VERSION_ZH;
+            break;
+        }
+	    return str;
+	}
+	
+	/**
+	 * 获取用户操作类型action字段（增/删/改） 
+	 * @return String
+	 */
+	static String getAction(UserHistoryMessageVo userHistoryMessageVo){
+	    if (isDelete(userHistoryMessageVo)) {
+            return DELETE; 
+        } else {
+            if (isAdd(userHistoryMessageVo)) {
+                return ADD;
+            } else {
+                return UPDATE;
+            }
+        }
 	}
 
-	// 是否为删除操作
-	static boolean isDelete(PcompState object) {
-		if (object.getIsDeleted() == true)
+	/**
+	 * 判断是否为删除操作
+	 * @return boolean
+	 */
+	static boolean isDelete(UserHistoryMessageVo userHistoryMessageVo) {
+		if (userHistoryMessageVo.getIsDeleted() == true)
 			return true;
 		return false;
 	}
 
-	// 是否为添加操作
-	static boolean isAdd(PcompState object) {
-		if (object.getCreatedTime().compareTo(object.getModifiedTime()) == 0)
+	/**
+	 * 判断是否为添加操作
+	 * @return boolean
+	 */
+	static boolean isAdd(UserHistoryMessageVo userHistoryMessageVo) {
+		if (userHistoryMessageVo.getCreatedTime().compareTo(userHistoryMessageVo.getModifiedTime()) == 0)
 			return true;
 		return false;
 	}
