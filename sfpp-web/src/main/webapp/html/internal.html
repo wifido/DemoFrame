@@ -54,7 +54,7 @@
               <button type="submit" class="btn btn-sm bg-white btn-icon rounded"><i class="fa fa-search"></i></button>
             </span>
                     <input type="text" class="form-control input-sm no-border rounded"
-                           placeholder="Search songs, albums...">
+                           placeholder="搜索本站">
                 </div>
             </div>
         </form>
@@ -71,7 +71,7 @@
                     </a>
                     <ul class="dropdown-menu animated fadeInRight">
                         <li>
-                            <a href="../logout" >Logout</a>
+                            <a href="../logout">Logout</a>
                         </li>
                     </ul>
                 </li>
@@ -146,179 +146,24 @@
     </section>
 </section>
 <script src="js/jquery.min.js"></script>
-<script>
-    $(document).ready(function initialize() {
-        var pcompTitles = $.pcomp.title.getAll();
-        $("userNo").html(($.user.get()).userNo);
-        var hasModifyTitleRight = $.pcomp.userRight.getHasModifyTitleRight();
-        var content = $("#bjax-target");
-        content.empty();
-        for (i = 0; i < pcompTitles.length; i++) {
-            var a = $("<a href='#' class='pull-right text-muted m-t-lg' id='" + i + "'><i class='icon-refresh i-lg  inline'></i></a>");
-            var h2 = "<h2 class='font-thin m-b'>" + pcompTitles[i].name;
-            h2 += "<span class='musicbar animate inline m-l-sm' style='width:20px;height:20px'><span class='bar1 a1 bg-primary lter'></span><span class='bar2 a2 bg-info lt'></span><span class='bar3 a3 bg-success'></span><span class='bar4 a4 bg-warning dk'></span><span class='bar5 a5 bg-danger dker'></span></span>";
-            if (hasModifyTitleRight) {
-                h2 += "<button class='btn btn-success btn-rounded title'id='" + i + "'>修改本主题</button><button class='btn btn-danger btn-rounded title'id='" + i + "'>删除本主题</button>";
-                h2 += "<button class='btn btn-info btn-rounded kind' id='" + i + "'>添加新分类</button>";
-            }
-            h2 += "</h2>";
-            h2 = $(h2);
-            var div = $("<div class='row row-sm'></div>");
-            var pcompKinds = $.pcomp.kind.getByTitleName(pcompTitles[i].name);
-            var matrix_item_2 = "<a href=\"";
-            var matrix_item_3 = "\"><img src=\"";
-            var matrix_item_4 = "\" alt=\"\" class=\"r r-2x img-full\"></a></div><div class=\"padder-v\"><a href=\"";
-            var matrix_item_5 = "\" class=\"text-ellipsis\" style=\"text-align:center\">";
-            var matrix_item_6 = "</a></div></div></div>";
-            var matrix_item_7 = "<div class=\"col-xs-6 col-sm-4 col-md-3 col-lg-2\" style='display: none'><div class=\"item\"><div class=\"pos-rlt\">";
-            var html = "";
-            for (j = 0; j < pcompKinds.length; j++) {
-                html += matrix_item_7 + matrix_item_2 + getHtmlPath() + '/pcompKind.html?pcompKindId=' + pcompKinds[j].id + matrix_item_3 + pcompKinds[j].topPhoto + matrix_item_4 + getHtmlPath() + '/pcompKind.html?pcompKindId=' + pcompKinds[j].id + matrix_item_5 + pcompKinds[j].name + matrix_item_6;
-            }
-            div.html(html);
-            content.append(a);
-            content.append(h2);
-            content.append(div);
-        }
-
-        $("button[class*=btn][class*=btn-success][class*=btn-rounded][class*=title]").click(function () {
-            var dialogDiv = $("[role=dialog]");
-            dialogDiv.remove();
-            var dialog = $(dialog_str);
-            dialog.attr("title", "修改主题");
-            var label = $(label_str);
-            label.html("请输入修改后的主题名称,不能为空");
-            dialog.append(label);
-            var titleNameInput = $(pcomp_title_name_textInput_str);
-            var id = this.id;
-            titleNameInput[0].value = pcompTitles[id].name;
-            dialog.append(titleNameInput);
-            dialog.dialog({
-                autoOpen: false,
-                minWidth: 400,
-                minHeight: 400,
-                show: {effect: "blind", duration: 1000},
-                hide: {effect: "explode", duration: 1000},
-                modal: true,
-                buttons: {
-                    "提交修改": function () {
-                        if (validatePcomp()) {
-                            $.pcomp.title.update(pcompTitles[id].id, titleNameInput[0].value, initialize);
-                            $(this).dialog("close");
-                        }
-                    },
-                    "取消": function () {
-                        $(this).dialog("close");
-                    }
-                }
-            });
-            dialog.dialog("open");
-        });
-
-        $("button[class*=btn][class*=btn-danger][class*=btn-rounded][class*=title]").click(function () {
-            if (confirm("你确定要删除" + pcompTitles[this.id].name + "吗？")) {
-                $.pcomp.title.remove(pcompTitles[this.id].id, initialize)
-            }
-        });
-
-        $("button[class*=btn][class*=btn-info][class*=btn-rounded][class*=kind]").click(function () {
-            var dialogDiv = $("[role=dialog]");
-            var id = this.id;
-            dialogDiv.remove();
-            var dialog = $(dialog_str);
-            dialog.attr("title", "添加分类");
-            var label = $("<h4></h4>");
-            label.html("所属主题：<b>" + pcompTitles[id].name + "</b>");
-            dialog.append(label);
-            label = $(label_str);
-            label.html("请输入新分类名称（不为空）：");
-            dialog.append(label);
-            var kindNameInput = $(pcomp_kind_name_textInput_str);
-            dialog.append(kindNameInput);
-            label = $(label_str);
-            label.html("请输入新分类简介（不为空）：");
-            dialog.append(label);
-            var notNullText = $(notNull_textInput_str);
-            dialog.append(notNullText);
-            label = $(label_str);
-            label.html("请为此分类上传一个头像（不为空）：");
-            dialog.append(label);
-            var notNullFile = $(notNull_fileInput_str);
-            notNullFile.attr("name", "pcomp_kind_top_photo");
-            notNullFile.attr("id", "pcomp_kind_top_photo");
-            dialog.append(notNullFile);
-            notNullFile.fileinput();
-            dialog.dialog({
-                autoOpen: false,
-                minWidth: 400,
-                minHeight: 400,
-                show: {effect: "blind", duration: 1000},
-                hide: {effect: "explode", duration: 1000},
-                modal: true,
-                buttons: {
-                    "提交修改": function () {
-                        if (validatePcomp(pcompTitles[id].name)) {
-                            $.pcomp.kind.add(pcompTitles[id].name, kindNameInput[0].value, notNullText[0].value, initialize);
-                            $(this).dialog("close");
-                        }
-                    },
-                    "取消": function () {
-                        $(this).dialog("close");
-                    }
-                }
-            });
-            dialog.dialog("open");
-        });
-
-        $("a[class*=pull-right][class*=text-muted][class*=m-t-lg]").click(function () {
-            $(this).next().next().remove();
-            var div = $("<div class='row row-sm'></div>");
-            var pcompKinds = $.pcomp.kind.getByTitleName(pcompTitles[this.id].name);
-            var matrix_item_2 = "<a href=\"";
-            var matrix_item_3 = "\"><img src=\"";
-            var matrix_item_4 = "\" alt=\"\" class=\"r r-2x img-full\"></a></div><div class=\"padder-v\"><a href=\"";
-            var matrix_item_5 = "\" class=\"text-ellipsis\" style=\"text-align:center\">";
-            var matrix_item_6 = "</a></div></div></div>";
-            var matrix_item_7 = "<div class=\"col-xs-6 col-sm-4 col-md-3 col-lg-2\" style='display: none'><div class=\"item\"><div class=\"pos-rlt\">";
-            var html = "";
-            for (j = 0; j < pcompKinds.length; j++) {
-                html += matrix_item_7 + matrix_item_2 + getHtmlPath() + '/pcompKind.html?pcompKindId=' + pcompKinds[j].id + matrix_item_3 + pcompKinds[j].topPhoto + matrix_item_4 + getHtmlPath() + '/pcompKind.html?pcompKindId=' + pcompKinds[j].id + matrix_item_5 + pcompKinds[j].name + matrix_item_6;
-            }
-            div.html(html);
-            $(this).next().after(div);
-            blink();
-        });
-        blink();
-        function blink() {
-            var pcompKindMatrixItem = $(".col-xs-6.col-sm-4.col-md-3.col-lg-2[style*=display]");
-            for (i = 0; i < pcompKindMatrixItem.length; i++) {
-                var time = i * 500;
-                if (time >= 5000) {
-                    time = 5000;
-                }
-                $(pcompKindMatrixItem[i]).fadeIn(time);
-            }
-        }
-
-
-    });
-
-</script>
 <!-- Bootstrap -->
 <script src="js/bootstrap.js"></script>
 <!-- App -->
 <script src="js/app.js"></script>
 <script src="js/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="js/masonry/tiles.min.js"></script>
+<script src="js/masonry/demo.js"></script>
 <script src="js/app.plugin.js"></script>
 <script type="text/javascript" src="js/jPlayer/jquery.jplayer.min.js"></script>
 <script type="text/javascript" src="js/jPlayer/add-on/jplayer.playlist.min.js"></script>
 <script type="text/javascript" src="js/jPlayer/demo.js"></script>
 
+
 <script type="text/javascript" src="js/sfpp-native/util.js"></script>
 <script type="text/javascript" src="js/sfpp-native/user.js"></script>
 <script type="text/javascript" src="js/sfpp-native/pcomp.js"></script>
 <script type="text/javascript" src="js/sfpp-native/pcompform.js"></script>
-
+<script type="text/javascript" src="js/sfpp-native/search.js"></script>
 <script type="text/javascript" src="js/editormd.min.js"></script>
 <script src="js/jquery-form.js"></script>
 <script src="js/ajaxfileupload.js"></script>
@@ -331,6 +176,257 @@
 <script src="lib/marked.min.js"></script>
 <script src="plugins/jQueryUI/jquery-ui.min.js"></script>
 <script src="plugins/bootstrap3-fileinput/js/fileinput.min.js"></script>
+<script>
+    $(document).ready(function initialize() {
+        $("userNo").html(($.user.get()).userNo);
+        var matrix_item_2 = "<a href=\"";
+        var matrix_item_3 = "\"><img src=\"";
+        var matrix_item_4 = "\" alt=\"\" class=\"r r-2x img-full\"></a></div><div class=\"padder-v\"><a href=\"";
+        var matrix_item_5 = "\" class=\"text-ellipsis\" style=\"text-align:center\">";
+        var matrix_item_6 = "</a></div></div></div>";
+        var matrix_item_7 = "<div class=\"col-xs-6 col-sm-4 col-md-3 col-lg-2\" style='display: none'><div class=\"item\"><div class=\"pos-rlt\">";
 
+        var pcompTitle = $.pcomp.title.get("0000000000000000000000000000000000000000");
+        var pcompKinds = $.pcomp.kind.getByTitleName(pcompTitle.name);
+        var isPcompAdmin = $.pcomp.userRight.getIsPcompAdmin();
+        var content = $("#bjax-target");
+        content.empty();
+        content.append($("<h1>内部组件</h1>"));
+        if (isPcompAdmin) {
+            content.append($("<button class='btn btn-info btn-rounded kind'>增加新内部组件分类</button>"));
+            $("button[class*=btn][class*=btn-info][class*=btn-rounded][class*=kind]").click(function () {
+                var dialogDiv = $("[role=dialog]");
+                var id = this.id;
+                dialogDiv.remove();
+                var dialog = $(dialog_str);
+                dialog.attr("title", "添加分类");
+                var label = $("<h4></h4>");
+                label.html("所属主题：<b>" + pcompTitle.name + "</b>");
+                dialog.append(label);
+                label = $(label_str);
+                label.html("请输入新分类名称（不为空）：");
+                dialog.append(label);
+                var kindNameInput = $(pcomp_kind_name_textInput_str);
+                dialog.append(kindNameInput);
+                label = $(label_str);
+                label.html("请输入新分类简介（不为空）：");
+                dialog.append(label);
+                var notNullText = $(notNull_textInput_str);
+                dialog.append(notNullText);
+                label = $(label_str);
+                label.html("请为此分类上传一个头像（不为空）：");
+                dialog.append(label);
+                var notNullFile = $(notNull_fileInput_str);
+                notNullFile.attr("name", "pcomp_kind_top_photo");
+                notNullFile.attr("id", "pcomp_kind_top_photo");
+                dialog.append(notNullFile);
+                notNullFile.fileinput();
+                dialog.dialog({
+                    autoOpen: false,
+                    minWidth: 400,
+                    minHeight: 400,
+                    show: {effect: "blind", duration: 1000},
+                    hide: {effect: "explode", duration: 1000},
+                    modal: true,
+                    buttons: {
+                        "提交修改": function () {
+                            if (validatePcomp(pcompTitle.name)) {
+                                $.pcomp.kind.add(pcompTitle.name, kindNameInput[0].value, notNullText[0].value, initialize);
+                                $(this).dialog("close");
+                            }
+                        },
+                        "取消": function () {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+                dialog.dialog("open");
+            });
+        }
+        for (ii = 0; ii < pcompKinds.length; ii++) {
+            var a = $("<a href='#' class='pull-right text-muted m-t-lg' id='" + ii + "'><i class='icon-refresh i-lg  inline'></i></a>");
+            var h2 = "<h2 class='font-thin m-b'><span class='thumb-sm avatar m-t-n-sm m-b-n-sm m-l-sm'><img src='" + pcompKinds[ii].topPhoto + "'></span>" + pcompKinds[ii].name;
+            h2 += "<span class='musicbar animate inline m-l-sm' style='width:20px;height:20px'><span class='bar1 a1 bg-primary lter'></span><span class='bar2 a2 bg-info lt'></span><span class='bar3 a3 bg-success'></span><span class='bar4 a4 bg-warning dk'></span><span class='bar5 a5 bg-danger dker'></span></span>";
+
+            if ($.pcomp.userRight.getHasModifyKindRight(pcompKinds[ii].id)) {
+                h2 += "<button class='btn btn-success btn-rounded kind'id='" + ii + "'>修改本分类</button><button class='btn btn-danger btn-rounded kind'id='" + ii + "'>删除本分类</button>";
+            }
+            if ($.pcomp.userRight.getHasAddSoftwareRight(pcompKinds[ii].id)) {
+                h2 += "<button class='btn btn-info btn-rounded software' id='" + ii + "'>添加新软件</button>";
+            }
+            h2 += "</h2>";
+            h2 = $(h2);
+            var div = $("<div class='row row-sm'></div>");
+            var pcompSoftwares = $.pcomp.software.getAllByKind(pcompKinds[ii].id, 1);
+            div.html(getSoftwares(ii,pcompSoftwares));
+            content.append(a);
+            content.append(h2);
+            content.append(div);
+            content.append($(getSoftwaresPage(ii,pcompSoftwares)));
+            $("a[class*="+pcompKinds[ii].id+"]").click(function(){
+                var id = $(this).parent().parent().parent().parent().prev().prev().prev()[0].id;
+                var pageNum = this.id;
+                var div = $(this).parent().parent().parent().parent().prev();
+                updateSoftwares(id,div,pageNum);
+            });
+        }
+        $("i[class*=icon-refresh]").click(function () {
+            var id = $(this).parent()[0].id;
+            var div = $(this).parent().next().next();
+            updateSoftwares(id,div,1);
+            $("a[class*="+pcompKinds[id].id+"]").click(function(){
+                var id = $(this).parent().parent().parent().parent().prev().prev().prev()[0].id;
+                var pageNum = this.id;
+                var div = $(this).parent().parent().parent().parent().prev();
+                updateSoftwares(id,div,pageNum);
+            });
+        });
+        function updateSoftwares(id,div,pageNumber){
+            div.empty();
+            var pcompSoftwares = $.pcomp.software.getAllByKind(pcompKinds[id].id, pageNumber);
+            div.html(getSoftwares(id,pcompSoftwares));
+            div.next().remove();
+            div.after($(getSoftwaresPage(id,pcompSoftwares)));
+            blink();
+        }
+        function getSoftwares(id,pcompSoftwares){
+            var html = "";
+            for (j = 0; j < pcompSoftwares.list.length; j++) {
+                html += matrix_item_7 + matrix_item_2 + getHtmlPath() + '/pcompSoftware.html?pcompSoftwareId=' + pcompSoftwares.list[j].id + matrix_item_3 + pcompSoftwares.list[j].avatar + matrix_item_4 + getHtmlPath() + '/pcompSoftware.html?pcompSoftwareId=' + pcompSoftwares.list[j].id + matrix_item_5 + pcompSoftwares.list[j].name + matrix_item_6;
+            }
+
+            return html;
+        }
+        function getSoftwaresPage(id,pcompSoftwares){
+            var html="";
+            html += "<div class='row row-sm'><div class='text-center'><ul class='pagination pagination'>";
+            for (i = pcompSoftwares.firstPage; i <= pcompSoftwares.lastPage; i++) {
+                html += "<li ";
+                if (i == pcompSoftwares.pageNum) {
+                    html += "class='active'"
+                }
+                html += "><a id='" + i + "' class='"+pcompKinds[id].id+"' \">" + i + "</a></li>";
+            }
+            html += "</ul></div></div>";
+            return html;
+        }
+        blink();
+        function blink() {
+            var divs = $("div[class*=col-xs-6][class*=col-sm-4][class*=col-md-3][class*=col-lg-2]");
+            for (i = 0; i < divs.length; i++) {
+                if (i < 20) {
+                    $(divs[i]).fadeIn(i * 250);
+                } else {
+                    $(divs[i]).fadeIn(5000);
+                }
+            }
+        }
+
+        $("button[class*=btn][class*=btn-success][class*=btn-rounded][class*=kind]").click(function () {
+            var dialogDiv = $("[role=dialog]");
+            var id = this.id;
+            dialogDiv.remove();
+            var dialog = $(dialog_str);
+            dialog.attr("title", "修改分类");
+            label = $(label_str);
+            label.html("请输入新分类名称（不为空）：");
+            dialog.append(label);
+            var kindNameInput = $(notNull_textInput_str);
+            kindNameInput.attr("value", pcompKinds[id].name);
+            dialog.append(kindNameInput);
+            label = $(label_str);
+            label.html("请输入新分类简介（不为空）：");
+            dialog.append(label);
+            var notNullText = $(notNull_textInput_str);
+            notNullText.attr("value", pcompKinds[id].introduction);
+            dialog.append(notNullText);
+            label = $(label_str);
+            label.html("请为此分类上传一个头像（留空为不修改）：");
+            dialog.append(label);
+            var File = $(fileInput_str);
+            File.attr("name", "pcomp_kind_top_photo");
+            File.attr("id", "pcomp_kind_top_photo");
+            dialog.append(File);
+            File.fileinput();
+            dialog.dialog({
+                autoOpen: false,
+                minWidth: 400,
+                minHeight: 400,
+                show: {effect: "blind", duration: 1000},
+                hide: {effect: "explode", duration: 1000},
+                modal: true,
+                buttons: {
+                    "提交修改": function () {
+                        if (validatePcomp()) {
+                            $.pcomp.kind.update(pcompKinds[id].id, kindNameInput[0].value, notNullText[0].value, initialize);
+                            $(this).dialog("close");
+                        }
+                    },
+                    "取消": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+            dialog.dialog("open");
+        });
+        $("button[class*=btn][class*=btn-danger][class*=btn-rounded][class*=kind]").click(function () {
+            var id = this.id;
+            if (confirm("你确定要删除" + pcompKinds[id].name + "吗？")) {
+                $.pcomp.kind.remove(pcompKinds[id].id)
+            }
+        });
+        $("button[class*=btn][class*=btn-info][class*=btn-rounded][class*=software]").click(function () {
+            var dialogDiv = $("[role=dialog]");
+            var id = this.id;
+            dialogDiv.remove();
+            var dialog = $(dialog_str);
+            dialog.attr("title", "添加内部组件");
+            var label = $("<h4></h4>");
+            label.html("所属分类：<b>" + pcompKinds[id].name + "</b>");
+            dialog.append(label);
+            label = $(label_str);
+            label.html("请输入新内部组件名称（不为空）：");
+            dialog.append(label);
+            var softwareNameInput = $(pcomp_software_name_textInput_str);
+            dialog.append(softwareNameInput);
+            label = $(label_str);
+            label.html("请为此内部组件上传一个头像（最好不为空）：");
+            dialog.append(label);
+            var File = $(notNull_fileInput_str);
+            File.attr("name", "pcomp_software_avatar");
+            File.attr("id", "pcomp_software_avatar");
+            dialog.append(File);
+            File.fileinput();
+            label = $(label_str);
+            label.html("请输入内部组件介绍：");
+            dialog.append(label);
+            var md = $(md_div);
+            md.attr("id", "softwareIntroduction");
+            dialog.append(md);
+            dialog.dialog({
+                autoOpen: false,
+                minWidth: 800,
+                minHeight: 600,
+                maxHeight: 600,
+                show: {effect: "blind", duration: 1000},
+                hide: {effect: "explode", duration: 1000},
+                modal: true,
+                buttons: {
+                    "提交修改": function () {
+                        if (validatePcomp(pcompKinds[id].id)) {
+                            $.pcomp.software.add(pcompKinds[id].id, softwareNameInput[0].value, mdEditorText.getMarkdown(), initialize);
+                            $(this).dialog("close");
+                        }
+                    },
+                    "取消": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+            dialog.dialog("open");
+            var mdEditorText = editormd("softwareIntroduction", editorMdEditing);
+        });
+    });
+</script>
 </body>
 </html>

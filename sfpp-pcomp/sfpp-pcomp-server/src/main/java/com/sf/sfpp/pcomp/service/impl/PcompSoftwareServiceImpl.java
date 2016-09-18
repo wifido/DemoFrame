@@ -22,6 +22,11 @@ public class PcompSoftwareServiceImpl implements PcompSoftwareService {
     private PcompSoftwareManager pcompSoftwareManager;
 
     @Override
+    public String getResourceUrl(String softwareId) {
+        return pcompSoftwareManager.getResourceUrl(softwareId);
+    }
+
+    @Override
     public PageInfo<PcompSoftware> fetchAllSoftwaresSeparatelyByKind(String kindId, int pageNumber) throws PcompException {
         try {
             return pcompSoftwareManager.getAllAvailablePcompSoftwaresByPcompKindId(kindId, pageNumber).toPageInfo();

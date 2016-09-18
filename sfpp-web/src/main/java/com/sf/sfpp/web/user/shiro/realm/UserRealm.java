@@ -1,7 +1,5 @@
 package com.sf.sfpp.web.user.shiro.realm;
 
-import com.sf.sfpp.common.utils.StrUtils;
-import com.sf.sfpp.user.dao.domain.Role;
 import com.sf.sfpp.user.dao.domain.User;
 import com.sf.sfpp.user.service.RoleService;
 import com.sf.sfpp.user.service.UserService;
@@ -69,6 +67,10 @@ public class UserRealm extends AuthorizingRealm {
         return null;
     }
 
+    /**
+     * 修改用户权限后，必须调用此方法，重新载入用户权限，更新权限缓存
+     * @param principals
+     */
     public void refreshAuthorizationInfo(PrincipalCollection principals) {
         Cache<Object, AuthorizationInfo> cache = getAuthorizationCache();
         Object key = this.getAuthorizationCacheKey(principals);
@@ -118,14 +120,6 @@ public class UserRealm extends AuthorizingRealm {
                     int i = userService.addUser(user);
                     if (i > 0) {
                         user = userService.getUserByUserNo(userNo);
-                        Role role = new Role();
-                        role.setRoleName(user.getUserNo());
-                        role.setRemark(StrUtils.makeString(user.getUserNo(), "的个人私有角色"));
-                        i = roleService.addRole(role);
-                        if (i > 0) {
-                            role = roleService.getRoleByRoleName(role.getRoleName());
-                            roleService.changeUserRole(StrUtils.makeString(role.getRoleId()), true, user.getUserNo());
-                        }
                     }
                 } catch (Exception e) {
                     log.error("添加用户出错", e);
@@ -134,22 +128,6 @@ public class UserRealm extends AuthorizingRealm {
             } else {
                 if (user.getIsDeleted()) {
                     throw new UnknownAccountException("用户被锁定，请联系管理员。");// 账号锁定
-                }
-                try {
-                    Role role = roleService.getRoleByRoleName(user.getUserNo());
-                    if (role == null) {
-                        role = new Role();
-                        role.setRoleName(user.getUserNo());
-                        role.setRemark(StrUtils.makeString(user.getUserNo(), "的个人私有角色"));
-                        int i = roleService.addRole(role);
-                        if (i > 0) {
-                            role = roleService.getRoleByRoleName(role.getRoleName());
-                            roleService.changeUserRole(StrUtils.makeString(role.getRoleId()), true, user.getUserNo());
-                        }
-                    }
-                } catch (Exception e) {
-                    log.error("添加用户出错", e);
-                    throw new UnknownAccountException("添加用户出错，请联系管理员。");// 账号锁定
                 }
             }
             // 如果身份认证验证成功，返回一个AuthenticationInfo实现；

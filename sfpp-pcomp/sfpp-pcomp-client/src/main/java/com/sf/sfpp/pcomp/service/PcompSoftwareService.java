@@ -12,6 +12,7 @@ import java.util.List;
  * @date 2016/8/11
  */
 public interface PcompSoftwareService {
+    String getResourceUrl(String softwareId);
     final static int NUM_PER_PAGE = 40;
 
     /**

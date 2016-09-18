@@ -8,7 +8,9 @@ package com.sf.sfpp.web.common.search.domain;
 public class SearchResult {
     private String title;
     private String link;
+    private String avatar;
     private String introduction;
+    private String modifiedTime;
 
     public String getTitle() {
         return title;
@@ -33,5 +35,21 @@ public class SearchResult {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getModifiedTime() {
+        return modifiedTime;
+    }
+
+    public void setModifiedTime(String modifiedTime) {
+        this.modifiedTime = modifiedTime;
     }
 }

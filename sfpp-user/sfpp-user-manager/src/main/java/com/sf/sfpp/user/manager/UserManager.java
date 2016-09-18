@@ -36,5 +36,6 @@ public interface UserManager {
      * 返回1表示成功，其它表示失败 
      */
     int updateUser(User user);
-    
+
+    void addUserRelationToResource(String userId, String resourceUrl, String kind, String id, String right);
 }

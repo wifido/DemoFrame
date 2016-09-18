@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,13 +34,13 @@ public class ImageController {
     private HTTPUpload httpUpload;
 
     @RequestMapping(PathConstants.PCOMP_SOFTWARE_CONTENT_IMAGE_UPLOAD_PATH)
-    public void upload(@RequestParam("editormd-image-file") MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void upload(@RequestParam("editormd-image-file") MultipartFile file, HttpServletRequest request,
+            HttpServletResponse response) throws IOException {
         ImageUploadReturn imageUploadReturn = new ImageUploadReturn();
-//        CommonsMultipartFile cf= (CommonsMultipartFile)file;
-//        DiskFileItem fi = (DiskFileItem)cf.getFileItem();
-//        File f = fi.getStoreLocation();
+        CommonsMultipartFile cf = (CommonsMultipartFile) file;
         try {
-            imageUploadReturn.setUrl(httpUpload.uploadFile(file.getInputStream(),file.getSize(),Constants.PUBLIC_COMPONENT_SYSTEM_ENG,"","image",""));
+            imageUploadReturn.setUrl(httpUpload
+                    .uploadFile(cf, file.getSize(), Constants.PUBLIC_COMPONENT_SYSTEM_ENG, "", "image", ""));
         } catch (Exception e) {
             imageUploadReturn.setSuccess(ImageUploadReturn.FAIL);
             imageUploadReturn.setMessage("Resource service has exception:" + e.getMessage());
@@ -52,10 +53,8 @@ public class ImageController {
     }
 
     public String uploadImage(MultipartFile file, ImageKind imageKind) throws IOException {
-//        CommonsMultipartFile cf= (CommonsMultipartFile)file;
-//        DiskFileItem fi = (DiskFileItem)cf.getFileItem();
-//        File f = fi.getStoreLocation();
-        return httpUpload.uploadFile(file.getInputStream(),file.getSize(),Constants.PUBLIC_COMPONENT_SYSTEM_ENG,"","image","");
+        CommonsMultipartFile cf = (CommonsMultipartFile) file;
+        return httpUpload.uploadFile(cf, file.getSize(), Constants.PUBLIC_COMPONENT_SYSTEM_ENG, "", "image", "");
     }
 
     private static ImageObject getImageObject(String sys, String imgageToBase64) {

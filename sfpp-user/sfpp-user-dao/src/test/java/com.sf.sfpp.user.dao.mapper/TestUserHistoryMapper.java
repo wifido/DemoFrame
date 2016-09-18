@@ -25,6 +25,7 @@ public class TestUserHistoryMapper extends AbstractJUnit4SpringContextTests {
     @Autowired
     private UserHistoryMapper userHistoryMapper;
 
+
     @Test
     public void testInsert() {
         UserHistory userHistory = new UserHistory();

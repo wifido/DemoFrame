@@ -25,6 +25,11 @@ public class PcompVersionServiceImpl implements PcompVersionService {
     private PcompVersionManager pcompVersionManager;
 
     @Override
+    public String getResourceUrl(String versionId) {
+        return pcompVersionManager.getResourceUrl(versionId);
+    }
+
+    @Override
     public List<PcompVersion> fetchAllVersionsSeparatelyBySoftware(String softwareId) throws PcompException {
         try {
             return null;

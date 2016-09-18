@@ -11,6 +11,7 @@ import com.sf.sfpp.pcomp.service.PcompTitleService;
 import com.sf.sfpp.user.dao.domain.User;
 import com.sf.sfpp.web.common.PathConstants;
 import com.sf.sfpp.web.controller.common.AbstractCachedController;
+import com.sf.sfpp.web.controller.user.UserRightController;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -115,13 +116,13 @@ public class PcompKindController extends AbstractCachedController {
         String kindName = request.getParameter(PathConstants.PCOMP_KIND_NAME);
         String kindIntroduction = request.getParameter(PathConstants.PCOMP_KIND_INTRODUCTION);
         try {
-            JsonResult<Boolean> hasModifyPcompTitleRight = userRightController.getHasAddPcompKindRight();
-            if (hasModifyPcompTitleRight.getData()) {
+            String titleId = pcompTitleService.fetchTitleByTitleName(titleName).getId();
+            JsonResult<Boolean> hasRight = userRightController.getHasAddPcompKindRight(titleId);
+            if (hasRight.getData()) {
                 PcompKind pcompKind = new PcompKind();
                 pcompKind.setName(kindName);
                 pcompKind.setIntroduction(kindIntroduction);
 
-                String titleId = pcompTitleService.fetchTitleByTitleName(titleName).getId();
                 pcompKind.setPcompTitleId(titleId);
                 if (bannerImage != null) {
                     pcompKind.setBannerImage(bannerImage.getSize() > 0 ? imageController.uploadImage(bannerImage, ImageKind.BANNER_IMAGE) : "");
@@ -154,9 +155,9 @@ public class PcompKindController extends AbstractCachedController {
         String kindName = request.getParameter(PathConstants.PCOMP_KIND_NAME);
         String kindIntroduction = request.getParameter(PathConstants.PCOMP_KIND_INTRODUCTION);
         try {
-            JsonResult<Boolean> hasModifyPcompTitleRight = userRightController.getHasAddPcompKindRight();
-            if (hasModifyPcompTitleRight.getData()) {
-                PcompKind pcompKind = pcompKindService.fetchKindByKindId(kindId);
+            PcompKind pcompKind = pcompKindService.fetchKindByKindId(kindId);
+            JsonResult<Boolean> hasRight = userRightController.getHasAddPcompKindRight(pcompKind.getPcompTitleId());
+            if (hasRight.getData()) {
                 pcompKind.setName(kindName);
                 pcompKind.setIntroduction(kindIntroduction);
                 if (bannerImage != null && bannerImage.getSize() > 0) {
@@ -185,8 +186,9 @@ public class PcompKindController extends AbstractCachedController {
         JsonResult<Boolean> result = new JsonResult<>();
         String kindId = request.getParameter(PcompConstants.PCOMP_KIND);
         try {
-            JsonResult<Boolean> hasModifyPcompTitleRight = userRightController.getHasModifyPcompKindRight();
-            if (hasModifyPcompTitleRight.getData()) {
+            PcompKind pcompKind = pcompKindService.fetchKindByKindId(kindId);
+            JsonResult<Boolean> hasRight = userRightController.getHasModifyPcompKindRight(pcompKind.getId());
+            if (hasRight.getData()) {
                 pcompKindService.removeKind(kindId, ((User) SecurityUtils.getSubject().getPrincipal()).getId());
                 result.setData(true);
             } else {
@@ -199,5 +201,4 @@ public class PcompKindController extends AbstractCachedController {
         }
         return result;
     }
-
 }

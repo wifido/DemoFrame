@@ -57,6 +57,9 @@ public interface PcompTitleService {
      * @throws PcompException
      */
     PcompTitle fetchTitleBySoftwareId(String softwareId) throws PcompException;
+
+    String getResourceUrl(String titleId);
+
     /**
      * 新建title
      * @param pcompTitle

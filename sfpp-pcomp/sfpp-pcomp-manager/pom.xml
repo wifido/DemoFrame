@@ -14,6 +14,11 @@
     <dependencies>
         <dependency>
             <groupId>com.sf</groupId>
+            <artifactId>sfpp.sfpp-user-dao</artifactId>
+            <version>${sfpp.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sf</groupId>
             <artifactId>sfpp.sfpp-kafka</artifactId>
             <version>${sfpp.version}</version>
         </dependency>

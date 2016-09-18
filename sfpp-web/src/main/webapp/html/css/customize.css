@@ -34,3 +34,15 @@ a.list-group-item.clearfix:hover {
     margin: 3px;
     background-color: transparent;
 }
+
+article.media:hover {
+    -webkit-box-shadow: 0 0 10px #27EA6A;
+    -moz-box-shadow: 0 0 10px #27EA6A;
+    box-shadow: 0 0 10px #27EA6A;
+}
+article.media {
+    -webkit-box-shadow: 0 0 10px #C9ECD5;
+    -moz-box-shadow: 0 0 10px #C9ECD5;
+    box-shadow: 0 0 10px #C9ECD5;
+    padding: 10px;
+}

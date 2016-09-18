@@ -1,9 +1,24 @@
 $.pcomp = {};
 $.pcomp.userRight = {
-    getHasModifyVersionRight: function (softwareId, versionId) {
+    getHasModifyVersionRight: function (versionId) {
         var result;
         $.ajax({
-            url: getContextPath() + "/pcomp/version/modify/hasRight?pcomp_software=" + softwareId + "&pcomp_version=" + versionId,
+            url: getContextPath() + "/pcomp/version/modify/hasRight?pcomp_version=" + versionId,
+            async: false,
+            success: function (response) {
+                if (response.data != null) {
+                    result = response.data;
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+        return result;
+    },
+    addModifyVersionRight: function (versionId, userId) {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/version/modify/addRight?pcomp_version=" + versionId + "&userId=" + userId,
             async: false,
             success: function (response) {
                 if (response.data != null) {
@@ -30,6 +45,96 @@ $.pcomp.userRight = {
         });
         return result;
     },
+    addAddVersionRight: function (softwareId, userId) {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/software/addVersion/addRight?pcomp_software=" + softwareId + "&userId=" + userId,
+            async: false,
+            success: function (response) {
+                if (response.data != null) {
+                    result = response.data;
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+        return result;
+    },
+    transferPcompSoftwareToPublic: function (softwareId) {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/software/transferToPublic?pcomp_software=" + softwareId,
+            async: false,
+            success: function (response) {
+                if (response.data != null) {
+                    result = response.data;
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+        return result;
+    },
+    transferPcompSoftwareToPrivate: function (softwareId) {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/software/transferToPrivate?pcomp_software=" + softwareId,
+            async: false,
+            success: function (response) {
+                if (response.data != null) {
+                    result = response.data;
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+        return result;
+    },
+    addViewPcompSoftwareRight: function (softwareId, userId) {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/software/view/addRight?pcomp_software=" + softwareId + "&userId=" + userId,
+            async: false,
+            success: function (response) {
+                if (response.data != null) {
+                    result = response.data;
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+        return result;
+    },
+    getHasViewPcompSoftwareRight: function (softwareId) {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/software/view/hasRight?pcomp_software=" + softwareId,
+            async: false,
+            success: function (response) {
+                if (response.data != null) {
+                    result = response.data;
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+        return result;
+    },
+    addModifySoftwareRight: function (softwareId, userId) {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/software/modify/addRight?pcomp_software=" + softwareId + "&userId=" + userId,
+            async: false,
+            success: function (response) {
+                if (response.data != null) {
+                    result = response.data;
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+        return result;
+    },
     getHasModifySoftwareRight: function (softwareId) {
         var result;
         $.ajax({
@@ -45,10 +150,10 @@ $.pcomp.userRight = {
         });
         return result;
     },
-    getHasAddSoftwareRight: function () {
+    addAddSoftwareRight: function (pcomp_kind, userId) {
         var result;
         $.ajax({
-            url: getContextPath() + "/pcomp/kind/addSoftware/hasRight",
+            url: getContextPath() + "/pcomp/kind/addSoftware/addRight?pcomp_kind=" + pcomp_kind + "&userId=" + userId,
             async: false,
             success: function (response) {
                 if (response.data != null) {
@@ -60,10 +165,10 @@ $.pcomp.userRight = {
         });
         return result;
     },
-    getHasModifyKindRight: function () {
+    getHasAddSoftwareRight: function (pcomp_kind) {
         var result;
         $.ajax({
-            url: getContextPath() + "/pcomp/kind/modify/hasRight",
+            url: getContextPath() + "/pcomp/kind/addSoftware/hasRight?pcomp_kind=" + pcomp_kind,
             async: false,
             success: function (response) {
                 if (response.data != null) {
@@ -75,10 +180,10 @@ $.pcomp.userRight = {
         });
         return result;
     },
-    getHasModifyTitleRight: function () {
+    addModifyKindRight: function (pcomp_kind, userId) {
         var result;
         $.ajax({
-            url: getContextPath() + "/pcomp/title/modify/hasRight",
+            url: getContextPath() + "/pcomp/kind/modify/addRight?pcomp_kind=" + pcomp_kind + "&userId=" + userId,
             async: false,
             success: function (response) {
                 if (response.data != null) {
@@ -90,10 +195,130 @@ $.pcomp.userRight = {
         });
         return result;
     },
-    getHasAddKindRight: function () {
+    getHasModifyKindRight: function (pcomp_kind) {
         var result;
         $.ajax({
-            url: getContextPath() + "/pcomp/title/addKind/hasRight",
+            url: getContextPath() + "/pcomp/kind/modify/hasRight?pcomp_kind=" + pcomp_kind,
+            async: false,
+            success: function (response) {
+                if (response.data != null) {
+                    result = response.data;
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+        return result;
+    },
+    addModifyTitleRight: function (pcomp_title, userId) {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/title/modify/addRight?pcomp_title=" + pcomp_title + "&userId=" + userId,
+            async: false,
+            success: function (response) {
+                if (response.data != null) {
+                    result = response.data;
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+        return result;
+    },
+    getHasModifyTitleRight: function (pcomp_title) {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/title/modify/hasRight?pcomp_title=" + pcomp_title,
+            async: false,
+            success: function (response) {
+                if (response.data != null) {
+                    result = response.data;
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+        return result;
+    },
+    addAddKindRight: function (pcomp_title, userId) {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/title/addKind/addRight?pcomp_title=" + pcomp_title + "&userId=" + userId,
+            async: false,
+            success: function (response) {
+                if (response.data != null) {
+                    result = response.data;
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+        return result;
+    },
+    getHasAddKindRight: function (pcomp_title) {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/title/addKind/hasRight?pcomp_title=" + pcomp_title,
+            async: false,
+            success: function (response) {
+                if (response.data != null) {
+                    result = response.data;
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+        return result;
+    },
+    getIsGlobalAdmin: function () {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/isGlobalAdmin",
+            async: false,
+            success: function (response) {
+                if (response.data != null) {
+                    result = response.data;
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+        return result;
+    },
+    addGlobalAdmin: function (userId) {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/addGlobalAdmin?userId=" + userId,
+            async: false,
+            success: function (response) {
+                if (response.data != null) {
+                    result = response.data;
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+        return result;
+    },
+    getIsPcompAdmin: function () {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/isAdmin",
+            async: false,
+            success: function (response) {
+                if (response.data != null) {
+                    result = response.data;
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+        return result;
+    },
+    addPcompAdmin: function (userId) {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/addAdmin?userId=" + userId,
             async: false,
             success: function (response) {
                 if (response.data != null) {
@@ -107,6 +332,21 @@ $.pcomp.userRight = {
     }
 };
 $.pcomp.title = {
+    get: function (titleId) {
+        var result;
+        $.ajax({
+            url: getContextPath() + "/pcomp/pcomp_title/fetch?pcomp_title=" + titleId,
+            async: false,
+            success: function (response) {
+                if (!isNull(response.message)) {
+                    alert(response.message)
+                } else {
+                    result = response.data;
+                }
+            }
+        });
+        return result;
+    },
     getAll: function () {
         var result;
         $.ajax({
@@ -493,7 +733,7 @@ $.pcomp.software = {
             url: getContextPath() + "/pcomp/software/getById?pcompSoftwareId=" + pcompSoftwareId,
             async: false,
             success: function (response) {
-                if (response.message != "") {
+                if (!isNull(response.message)) {
                     alert(response.message);
                     return;
                 } else {
@@ -509,7 +749,7 @@ $.pcomp.software = {
             url: getContextPath() + "/pcomp/software/recommended",
             async: false,
             success: function (response) {
-                if (response.message != "") {
+                if (!isNull(response.message)) {
                     alert(response.message);
                     return;
                 } else {
@@ -525,7 +765,7 @@ $.pcomp.software = {
             url: getContextPath() + "/pcomp/software/recommended",
             async: false,
             success: function (response) {
-                if (response.message != "") {
+                if (!isNull(response.message)) {
                     alert(response.message);
                     return;
                 } else {
@@ -541,7 +781,7 @@ $.pcomp.software = {
             url: getContextPath() + "/pcomp/software/recommended?pcompKindId=" + kindId,
             async: false,
             success: function (response) {
-                if (response.message != "") {
+                if (!isNull(response.message)) {
                     alert(response.message);
                     return;
                 } else {
@@ -557,7 +797,7 @@ $.pcomp.software = {
             url: getContextPath() + "/pcomp/software/recommended?pcompKindId=" + kindId,
             async: false,
             success: function (response) {
-                if (response.message != "") {
+                if (!isNull(response.message)) {
                     alert(response.message);
                     return;
                 } else {
@@ -573,7 +813,7 @@ $.pcomp.software = {
             url: getContextPath() + "/pcomp/software/getAllByKind?pcompKindId=" + kindId + "&pageNumber=" + pageNumber,
             async: false,
             success: function (response) {
-                if (response.message != "") {
+                if (!isNull(response.message)) {
                     alert(response.message);
                     return;
                 } else {
@@ -631,7 +871,6 @@ $.pcomp.software = {
 function handleSuccess(data) {
     var d = eval('(' + data + ')')
     if (d.data) {
-        alert("修改成功");
     } else {
         alert("修改失败" + d.message);
     }
@@ -712,7 +951,7 @@ $.pcomp.kind = {
             url: getContextPath() + "/pcomp/pcomp_kind/index/validate?pcomp_title_title_name=" + title_name + "&pcomp_kind_name=" + kind_name,
             async: false,
             success: function (response) {
-                if (response.message != "") {
+                if (!isNull(response.message)) {
                     alert(response.message);
                     return;
                 } else {
@@ -728,7 +967,7 @@ $.pcomp.kind = {
             url: getContextPath() + "/pcomp/kind/recommended",
             async: false,
             success: function (response) {
-                if (response.message != "") {
+                if (!isNull(response.message)) {
                     alert(response.message);
                     return;
                 } else {
