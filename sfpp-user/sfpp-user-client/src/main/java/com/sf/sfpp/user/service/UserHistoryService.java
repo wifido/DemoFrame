@@ -11,9 +11,7 @@ import com.sf.sfpp.user.dao.domain.UserHistory;
  */
 public interface UserHistoryService {
 
-    PageInfo<UserHistory> getUserHistoryByUserId(Integer userId, int pageNumber);
-
-    PageInfo<UserHistory> getUserHistoryByUserId(Integer userId, int pageNumber, String... actions);
+    PageInfo<UserHistory> getUserHistoryByUserId(Integer userId, int pageNumber, String... targetKinds);
 
     boolean addUserHistory(UserHistory userHistory);
 
