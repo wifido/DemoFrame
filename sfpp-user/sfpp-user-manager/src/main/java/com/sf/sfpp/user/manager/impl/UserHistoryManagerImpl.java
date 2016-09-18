@@ -6,6 +6,7 @@ import com.sf.sfpp.common.Constants;
 import com.sf.sfpp.common.idgen.IDGenerator;
 import com.sf.sfpp.pcomp.common.PcompConstants;
 import com.sf.sfpp.user.dao.domain.UserHistory;
+import com.sf.sfpp.user.dao.dto.UserHistoryPara;
 import com.sf.sfpp.user.dao.mapper.UserHistoryMapper;
 import com.sf.sfpp.user.manager.UserHistoryManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,40 +25,21 @@ public class UserHistoryManagerImpl implements UserHistoryManager {
     @Autowired
     private UserHistoryMapper userHistoryMapper;
 
-
-
     @Override
-    public Page<UserHistory> getUserHistorysByUserId(Integer UserId, int pageNumber) {
+    public Page<UserHistory> getUserHistorysByUserId(Integer UserId, int pageNumber, String... targetKinds) {
         if (pageNumber != Constants.ALL_PAGE_NUMBER) {
             PageHelper.startPage(pageNumber, PcompConstants.NUMBER_PER_PAGE);
         } else {
             PageHelper.startPage(1, Integer.MAX_VALUE);
         }
-        return (Page<UserHistory>) userHistoryMapper.selectByPrimaryKey(UserId);
-    }
-
-    @Override
-    public Page<UserHistory> getUserHistorysByUserId(Integer UserId, int pageNumber, String... actions) {
-        if (pageNumber != Constants.ALL_PAGE_NUMBER) {
-            PageHelper.startPage(pageNumber, PcompConstants.NUMBER_PER_PAGE);
-        } else {
-            PageHelper.startPage(1, Integer.MAX_VALUE);
-        }
-        List<UserHistory> userHistorys = userHistoryMapper.selectByPrimaryKey(UserId);
-        Iterator<UserHistory> iterator = userHistorys.iterator();
-        while(iterator.hasNext()){
-            UserHistory userHistory = iterator.next();
-            boolean isDelete = true;
-            String userHistoryAction = userHistory.getAction();
-            for(String action : actions){
-                if(userHistoryAction.endsWith(action)){
-                    isDelete = false;
-                }
-            }
-            if(isDelete){
-                iterator.remove();
+        UserHistoryPara userHistoryPara = new UserHistoryPara();
+        userHistoryPara.setUserId(UserId);
+        if(targetKinds != null){
+            for(String targetKind : targetKinds){
+                userHistoryPara.getTargetKinds().add(targetKind);
             }
         }
+        List<UserHistory> userHistorys = userHistoryMapper.selectByPrimaryKey(userHistoryPara);
         return (Page<UserHistory>) userHistorys;
     }
 

@@ -20,8 +20,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 	
-	<dubbo:service interface="com.sf.sfpp.user.service.ResourceService" ref="resourceServiceImpl" protocol="dubbo"  version="2.0.0" />
-	<dubbo:service interface="com.sf.sfpp.user.service.RoleService" ref="roleServiceImpl" protocol="dubbo"  version="2.0.0" />
-	<dubbo:service interface="com.sf.sfpp.user.service.UserService" ref="userServiceImpl" protocol="dubbo"  version="2.0.0" />
-	<!--<dubbo:service interface="com.sf.sfpp.user.service.UserHistoryService" ref="userHistoryServiceImpl" protocol="dubbo" version="2.0.0"/>-->
+	<dubbo:service interface="com.sf.sfpp.user.service.ResourceService" ref="resourceServiceImpl" protocol="dubbo"  />
+	<dubbo:service interface="com.sf.sfpp.user.service.RoleService" ref="roleServiceImpl" protocol="dubbo"  />
+	<dubbo:service interface="com.sf.sfpp.user.service.UserService" ref="userServiceImpl" protocol="dubbo"  />
+	<dubbo:service interface="com.sf.sfpp.user.service.UserHistoryService" ref="userHistoryServiceImpl" protocol="dubbo"/>
 </beans>

@@ -18,13 +18,8 @@ public class UserHistoryServiceImpl implements UserHistoryService {
     private UserHistoryManager userHistoryManager;
 
     @Override
-    public PageInfo<UserHistory> getUserHistoryByUserId(Integer userId, int pageNumber) {
-        return userHistoryManager.getUserHistorysByUserId(userId, pageNumber).toPageInfo();
-    }
-
-    @Override
-    public PageInfo<UserHistory> getUserHistoryByUserId(Integer userId, int pageNumber, String... actions) {
-        return userHistoryManager.getUserHistorysByUserId(userId, pageNumber, actions).toPageInfo();
+    public PageInfo<UserHistory> getUserHistoryByUserId(Integer userId, int pageNumber, String... targetKinds) {
+        return userHistoryManager.getUserHistorysByUserId(userId, pageNumber, targetKinds).toPageInfo();
     }
 
     @Override

@@ -191,7 +191,7 @@
         var isPcompAdmin = $.pcomp.userRight.getIsPcompAdmin();
         var content = $("#bjax-target");
         content.empty();
-        content.append($("<h1>内部组件</h1>"));
+        content.append($("<h1>内部组件-<small>内部标准组件和内部维护组件</small></h1><hr/>"));
         if (isPcompAdmin) {
             content.append($("<button class='btn btn-info btn-rounded kind'>增加新内部组件分类</button>"));
             $("button[class*=btn][class*=btn-info][class*=btn-rounded][class*=kind]").click(function () {
