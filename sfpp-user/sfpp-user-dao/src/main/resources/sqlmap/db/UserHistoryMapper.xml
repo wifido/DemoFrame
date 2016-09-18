@@ -35,7 +35,7 @@
       values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER},
       #{action,jdbcType=VARCHAR}, #{targetId,jdbcType=VARCHAR},
       #{description,jdbcType=VARCHAR}, #{modifiedTime,jdbcType=TIMESTAMP},
-      #{target_kind,jdbcType=VARCHAR},#{created_time,jdbcType=TIMESTAMP},
-      #{created_by,jdbcType=INTEGER},#{modified_by,jdbcType=INTEGER})
+      #{targetKind,jdbcType=VARCHAR},#{createdTime,jdbcType=TIMESTAMP},
+      #{createdBy,jdbcType=INTEGER},#{modifiedBy,jdbcType=INTEGER})
     </insert>
 </mapper>
