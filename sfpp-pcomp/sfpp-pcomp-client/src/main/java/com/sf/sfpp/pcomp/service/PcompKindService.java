@@ -62,6 +62,7 @@ public interface PcompKindService {
      */
     PcompKind fetchKind(String titleName,String kind) throws PcompException;
 
+    String getResourceUrl(String kindId);
     /**
      * 添加kind，注意，这里首先要先判断某一kind是否存在
      * @param kind

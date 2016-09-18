@@ -16,6 +16,7 @@ import java.util.List;
  * @date 2016/8/12
  */
 public interface PcompVersionService {
+    String getResourceUrl(String versionId);
     /**
      * 根据software寻找所有versions信息
      *

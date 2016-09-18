@@ -10,18 +10,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>顺丰开发平台</title>
 
-	<link rel="shortcut icon" href="/favicon.ico" />
+	<link rel="shortcut icon" href="favicon.ico" />
     <!-- CSS -->
-    <link rel="stylesheet" href="/sfpp-web/assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/sfpp-web/assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="/sfpp-web/assets/css/form-elements.css">
-    <link rel="stylesheet" href="/sfpp-web/assets/css/style.css">
+    <link rel="stylesheet" href="html/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="html/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="html/css/form-elements.css">
+    <link rel="stylesheet" href="html/css/style.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-    <script src="/sfpp-web/assets/plugins/html5shiv.min.js"></script>
-    <script src="/sfpp-web/assets/plugins/respond.min.js"></script>
+    <script src="html/plugins/html5shiv.min.js"></script>
+    <script src="html/plugins/respond.min.js"></script>
     <![endif]-->
 
 </head>
@@ -84,14 +84,14 @@
 
 
 <!-- Javascript -->
-<script src="/sfpp-web/assets/plugins/jquery/jquery-2.2.0.min.js"></script>
-<script src="/sfpp-web/assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="/sfpp-web/assets/plugins/jquery/jquery.backstretch.min.js"></script>
-<script src="/sfpp-web/assets/js/login.js"></script>
+<script src="html/plugins/jquery/jquery-2.2.0.min.js"></script>
+<script src="html/bootstrap/js/bootstrap.min.js"></script>
+<script src="html/plugins/jquery/jquery.backstretch.min.js"></script>
+<script src="html/js/login.js"></script>
 <!-- <script src="/sfpp-web/assets/js/matrix.js"></script> -->
 
 <!--[if lt IE 10]>
-<script src="/sfpp-web/assets/plugins/placeholder.js"></script>
+<script src="html/plugins/placeholder.js"></script>
 <![endif]-->
 
 </body>

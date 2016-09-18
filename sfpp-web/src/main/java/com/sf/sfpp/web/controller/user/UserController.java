@@ -61,9 +61,8 @@ public class UserController extends AbstractCachedController {
             User user = getPureUserInfo((User) currentUser.getPrincipal());
             userJsonResult.setData(user);
         } catch (Exception e) {
-            String stackTrace = ExceptionUtils.getStackTrace(e);
-            log.warn(stackTrace);
-            userJsonResult.setMessage(stackTrace);
+            log.warn(ExceptionUtils.getStackTrace(e));
+            userJsonResult.setMessage(e.getMessage());
         }
         return userJsonResult;
     }
@@ -76,7 +75,10 @@ public class UserController extends AbstractCachedController {
             int userId = Integer.parseInt(request.getParameter("userId"));
             User user = getPureUserInfo(userService.getUserByUserId(userId));
             userJsonResult.setData(user);
-        } catch (Exception e) {
+        }catch (NullPointerException we){
+            User user = new User();
+            userJsonResult.setData(user);
+        }  catch (Exception e) {
             String stackTrace = ExceptionUtils.getStackTrace(e);
             log.warn(stackTrace);
             userJsonResult.setMessage(stackTrace);

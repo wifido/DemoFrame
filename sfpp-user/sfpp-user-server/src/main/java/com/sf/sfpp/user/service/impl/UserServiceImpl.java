@@ -15,51 +15,52 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * 用户dubbo服务对外接口实现类
- * @date     2016年8月10日
- * @author   lingjie.wu
+ *
+ * @author lingjie.wu && Hash.Zhang
+ * @date 2016年8月10日
+ * @modify 增加用户与资源操作
  */
 @Service
 public class UserServiceImpl implements UserService {
 
-	@Autowired
-	UserManager userManager;
-	
-	@Autowired
-	ResourceManager resourceManager;
+    @Autowired
+    UserManager userManager;
 
-	@Override
-	public User getUserByUserNo(String userNo) throws Exception {
-		User user = userManager.getUserByUserNo(userNo);
-		return user;
-	}
+    @Autowired
+    ResourceManager resourceManager;
 
-	@Override
-	public User getUserByUserId(int userId) throws Exception {
-		return userManager.getUserByUserId(userId);
-	}
+    @Override
+    public User getUserByUserNo(String userNo) throws Exception {
+        User user = userManager.getUserByUserNo(userNo);
+        return user;
+    }
 
-	/***
-	 * 通过用户名获取权限资源
-	 * 
-	 * @param username
-	 * @return
-	 */
-	public List<String> getPermissionsByUserName(String username) throws Exception {
-		User user = getUserByUserNo(username);
-		if (user == null) {
-			return null;
-		}
-		List<String> list = new ArrayList<String>();
+    @Override
+    public User getUserByUserId(int userId) throws Exception {
+        return userManager.getUserByUserId(userId);
+    }
 
-		List<Resource> resource = resourceManager.getResourceByUserNo(username);
-		for (Resource r : resource) {
-			list.add(r.getResourceUrl());
-		}
-		return list;
-	}
+    /***
+     * 通过用户名获取权限资源
+     *
+     * @param username
+     * @return
+     */
+    public List<String> getPermissionsByUserName(String username) throws Exception {
+        User user = getUserByUserNo(username);
+        if (user == null) {
+            return null;
+        }
+        List<String> list = new ArrayList<String>();
+
+        List<Resource> resource = resourceManager.getResourceByUserNo(username);
+        for (Resource r : resource) {
+            list.add(r.getResourceUrl());
+        }
+        return list;
+    }
 
     @Override
     public List<User> getAllUsers() throws Exception {
@@ -74,6 +75,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public int updateUser(User user) throws Exception {
         return userManager.updateUser(user);
+    }
+
+    @Override
+    public void bindUserWithResource(String userId, String resourceUrl, String kind, String id, String right) {
+        userManager.addUserRelationToResource(userId, resourceUrl, kind, id, right);
     }
 
 }

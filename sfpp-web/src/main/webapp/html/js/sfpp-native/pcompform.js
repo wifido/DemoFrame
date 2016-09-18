@@ -4,6 +4,7 @@ var notNull_textInput_str = "<input type='text' class='form-control' notNull>";
 var pcomp_title_name_textInput_str = "<input type='text' class='form-control' name='pcomp_title_tile_name' notNull>";
 var pcomp_kind_name_textInput_str = "<input type='text' class='form-control' name='pcomp_kind_name' notNull>";
 var pcomp_software_name_textInput_str = "<input type='text' class='form-control' name='pcomp_software_name' notNull>";
+var pcomp_version_number_textInput_str = "<input type='text' class='form-control' name='pcomp_version_number' notNull>";
 var textInput_str = "<input type='text' class='form-control'>";
 var notNull_fileInput_str = "<input class='file' type='file' notNull>";
 var fileInput_str = "<input class='file' type='file'>";

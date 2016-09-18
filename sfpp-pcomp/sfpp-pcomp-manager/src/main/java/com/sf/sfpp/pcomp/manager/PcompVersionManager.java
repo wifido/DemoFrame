@@ -15,6 +15,7 @@ import com.sf.sfpp.pcomp.dao.PcompSoftwareMapper;
 import com.sf.sfpp.pcomp.dao.PcompVersionDoucumentDownloadMapper;
 import com.sf.sfpp.pcomp.dao.PcompVersionMapper;
 import com.sf.sfpp.pcomp.dao.PcompVersionPlatformDownloadMapper;
+import com.sf.sfpp.user.dao.domain.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ import java.util.concurrent.Executors;
  * @date 2016/8/17
  */
 @Component
-public class PcompVersionManager {
+public class PcompVersionManager extends EventManager{
     //// TODO: 2016/8/25 AOP改写麻烦的方法
     private final static Logger log = LoggerFactory.getLogger(PcompSoftwareManager.class);
 
@@ -81,6 +82,7 @@ public class PcompVersionManager {
         if (b) {
             kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
                     .send(StrUtils.makeString(PcompConstants.PCOMP_VERSION, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompVersion)));
+            addInitialResource(pcompVersionExtend.getId(),pcompVersionExtend.getCreatedBy());
             executorService.submit(new UpdatePcompSoftwareModifiedTimeWork(pcompVersionExtend.getPcompSoftwareId(), pcompVersionExtend.getModifiedBy()));
         }
         for (PcompVersionDoucumentDownload pcompVersionDoucumentDownload : pcompVersionExtend.getPcompVersionDoucumentDownloads()) {
@@ -152,6 +154,20 @@ public class PcompVersionManager {
             executorService.submit(new UpdatePcompSoftwareModifiedTimeWork(pcompVersion.getPcompSoftwareId(), userId));
         }
         return b;
+    }
+
+    @Override
+    public String getResourceUrl(String id) {
+        return StrUtils
+                .makeString(pcompSoftwareManager.getResourceUrl(getPcompVersionByPcompVersionId(id).getPcompSoftwareId()), ":",
+                        id);
+    }
+
+    @Override
+    public void modifyResource(Resource resource, String id) {
+        resource.setResourceType(PcompConstants.PCOMP_VERSION);
+        resource.setResourceName(id);
+        resource.setRemark("全部权限");
     }
 
     private class UpdatePcompSoftwareModifiedTimeWork implements Runnable {

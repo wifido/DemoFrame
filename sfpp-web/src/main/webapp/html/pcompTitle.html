@@ -54,7 +54,7 @@
               <button type="submit" class="btn btn-sm bg-white btn-icon rounded"><i class="fa fa-search"></i></button>
             </span>
                     <input type="text" class="form-control input-sm no-border rounded"
-                           placeholder="Search songs, albums...">
+                           placeholder="搜索本站">
                 </div>
             </div>
         </form>
@@ -150,11 +150,10 @@
     $(document).ready(function initialize() {
         var pcompTitles = $.pcomp.title.getAll();
         $("userNo").html(($.user.get()).userNo);
-        var hasModifyTitleRight = $.pcomp.userRight.getHasModifyTitleRight();
-        var hasAddKindRight = $.pcomp.userRight.getHasAddKindRight();
+        var isPcompAdmin =  $.pcomp.userRight.getIsPcompAdmin();
         var content = $("#bjax-target");
         content.empty();
-        if (hasModifyTitleRight) {
+        if (isPcompAdmin) {
             content.append($("<button class='btn btn-info btn-rounded title'>添加新主题</button>"));
             $("button[class*=btn][class*=btn-info][class*=btn-rounded][class*=title]").click(function () {
                 var dialogDiv = $("[role=dialog]");
@@ -192,8 +191,9 @@
             var a = $("<a href='#' class='pull-right text-muted m-t-lg' id='" + i + "'><i class='icon-refresh i-lg  inline'></i></a>");
             var h2 = "<h2 class='font-thin m-b'>" + pcompTitles[i].name;
             h2 += "<span class='musicbar animate inline m-l-sm' style='width:20px;height:20px'><span class='bar1 a1 bg-primary lter'></span><span class='bar2 a2 bg-info lt'></span><span class='bar3 a3 bg-success'></span><span class='bar4 a4 bg-warning dk'></span><span class='bar5 a5 bg-danger dker'></span></span>";
-            if (hasAddKindRight) {
+            if ($.pcomp.userRight.getHasModifyTitleRight(pcompTitles[i].id)) {
                 h2 += "<button class='btn btn-success btn-rounded title'id='" + i + "'>修改本主题</button><button class='btn btn-danger btn-rounded title'id='" + i + "'>删除本主题</button>";
+            } if ($.pcomp.userRight.getHasAddKindRight(pcompTitles[i].id)) {
                 h2 += "<button class='btn btn-info btn-rounded kind' id='" + i + "'>添加新分类</button>";
             }
             h2 += "</h2>";
@@ -353,7 +353,7 @@
 <script type="text/javascript" src="js/sfpp-native/user.js"></script>
 <script type="text/javascript" src="js/sfpp-native/pcomp.js"></script>
 <script type="text/javascript" src="js/sfpp-native/pcompform.js"></script>
-
+<script type="text/javascript" src="js/sfpp-native/search.js"></script>
 <script type="text/javascript" src="js/editormd.min.js"></script>
 <script src="js/jquery-form.js"></script>
 <script src="js/ajaxfileupload.js"></script>

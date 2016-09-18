@@ -29,7 +29,7 @@
   <select id="selectAllAvailable" resultMap="BaseResultMap">
     select *
     from pcomp_title
-    where is_deleted = 0
+    where is_deleted = 0 and id != '0000000000000000000000000000000000000000'
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from pcomp_title

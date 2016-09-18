@@ -19,17 +19,17 @@
 			<list>
 				<value>classpath:jdbc.properties</value>
                 <value>classpath:system.properties</value>
-                <value>classpath:kafka.properties</value>
+                <!--<value>classpath:kafka.properties</value>-->
 			</list>
 		</property>
 	</bean>
 	
-	<bean class="com.sf.sfpp.service.kafka.UserHistoryKafaConsumer" id="userHistoryKafaConsumer">
-		<constructor-arg index="0" value="${pcomp.kafka.consume.token}"></constructor-arg>
-		<constructor-arg index="1" value="${pcomp.kafka.url}"></constructor-arg>
-		<constructor-arg index="2" value="${pcomp.kafka.cluster}"></constructor-arg>
-		<constructor-arg index="3" value="${pcomp.kafka.topic}"></constructor-arg>
-		<constructor-arg index="4" value="${pcomp.kafka.pool.size}"></constructor-arg>
-	</bean>
+	<!--<bean class="com.sf.sfpp.service.kafka.UserHistoryKafaConsumer" id="userHistoryKafaConsumer">-->
+		<!--<constructor-arg index="0" value="${pcomp.kafka.consume.token}"></constructor-arg>-->
+		<!--<constructor-arg index="1" value="${pcomp.kafka.url}"></constructor-arg>-->
+		<!--<constructor-arg index="2" value="${pcomp.kafka.cluster}"></constructor-arg>-->
+		<!--<constructor-arg index="3" value="${pcomp.kafka.topic}"></constructor-arg>-->
+		<!--<constructor-arg index="4" value="${pcomp.kafka.pool.size}"></constructor-arg>-->
+	<!--</bean>-->
 
 </beans>
