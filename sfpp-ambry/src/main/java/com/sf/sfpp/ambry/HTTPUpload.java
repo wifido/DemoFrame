@@ -24,7 +24,13 @@ public class HTTPUpload {
 
     public HTTPUpload(final String ambryUrl) {
         this.ambryUrl = ambryUrl;
-        this.tmpFilePath = "./tmp";
+        this.tmpFilePath = StrUtils.makeString(HTTPUpload.class.getResource("").getFile().toString(),"tmp");
+        File file1 = new File(tmpFilePath);
+        if(!file1.exists()){
+            file1.mkdirs();
+        }
+        Scheduler scheduler = new Scheduler();
+        scheduler.schedule("50 13 * * *", new DeleteTask(tmpFilePath));
     }
 
     public String uploadFile(MultipartFile file1, long size, String ServiceId, String owner, String fileFormat,
@@ -102,14 +108,16 @@ public class HTTPUpload {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        HTTPUpload httpUpload = new HTTPUpload("http://10.202.7.85:1174");
-        File file = new File("D:/diagram7.png");
-        final String tempFilePath = "D:/Program Files (x86)/temp/temp1/";
-//        InputStream inputStream = new StreamGenerator(file, tempFilePath).getInputStream();
-//                System.out.println(httpUpload.uploadFile(file, file.length(), "", "", "", ""));
-
-        Scheduler scheduler = new Scheduler();
-        scheduler.schedule("28 20 * * *", new DeleteTask(tempFilePath));
-        scheduler.start();
+//        HTTPUpload httpUpload = new HTTPUpload("http://10.202.7.85:1174");
+//        File file = new File("D:/diagram7.png");
+//        final String tempFilePath = "D:/Program Files (x86)/temp/temp1/";
+////        InputStream inputStream = new StreamGenerator(file, tempFilePath).getInputStream();
+////                System.out.println(httpUpload.uploadFile(file, file.length(), "", "", "", ""));
+//
+//        Scheduler scheduler = new Scheduler();
+//        scheduler.schedule("28 20 * * *", new DeleteTask(tempFilePath));
+//        scheduler.start();
+        String rootPath=HTTPUpload.class.getResource("").getFile().toString();
+        System.out.println(rootPath);
     }
 }

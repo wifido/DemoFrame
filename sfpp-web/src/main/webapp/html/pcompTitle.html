@@ -153,6 +153,7 @@
         var isPcompAdmin =  $.pcomp.userRight.getIsPcompAdmin();
         var content = $("#bjax-target");
         content.empty();
+        content.append($("<h1><b>开放软件</b>-<small>开源软件共享平台</small></h1><hr/>"));
         if (isPcompAdmin) {
             content.append($("<button class='btn btn-info btn-rounded title'>添加新主题</button>"));
             $("button[class*=btn][class*=btn-info][class*=btn-rounded][class*=title]").click(function () {

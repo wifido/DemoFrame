@@ -190,10 +190,6 @@ public class PcompVersionController extends AbstractCachedController {
                 if (modified) {
                     Subject currentUser = SecurityUtils.getSubject();
                     User user = (User) currentUser.getPrincipal();
-                    if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId()
-                            .equals(pcompVersion.getCreatedBy())) {
-                        throw new PcompException(Constants.PERMISSION_DENIED);
-                    }
                     pcompVersion.setModifiedBy(user.getId());
                 }
                 pcompVersionService.updateVersion(pcompVersion);
@@ -222,10 +218,6 @@ public class PcompVersionController extends AbstractCachedController {
                 PcompSoftware pcompSoftware = pcompSoftwareService.fetchSoftware(pcompVersion.getPcompSoftwareId());
                 Subject currentUser = SecurityUtils.getSubject();
                 User user = (User) currentUser.getPrincipal();
-                if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId()
-                        .equals(pcompVersion.getCreatedBy())) {
-                    throw new PcompException(Constants.PERMISSION_DENIED);
-                }
                 pcompVersionService.removeVersion(versionId, user.getId());
                 result.setData(true);
             } else {
@@ -252,10 +244,6 @@ public class PcompVersionController extends AbstractCachedController {
                 PcompSoftware pcompSoftware = pcompSoftwareService.fetchSoftware(pcompVersion.getPcompSoftwareId());
                 Subject currentUser = SecurityUtils.getSubject();
                 User user = (User) currentUser.getPrincipal();
-                if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId()
-                        .equals(pcompVersion.getCreatedBy())) {
-                    throw new PcompException(Constants.PERMISSION_DENIED);
-                }
                 pcompVersionService.removeVersionDownload(versionDownloadId, user.getId());
                 result.setData(true);
             } else {
@@ -286,10 +274,6 @@ public class PcompVersionController extends AbstractCachedController {
                 PcompSoftware pcompSoftware = pcompSoftwareService.fetchSoftware(pcompVersion.getPcompSoftwareId());
                 Subject currentUser = SecurityUtils.getSubject();
                 User user = (User) currentUser.getPrincipal();
-                if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId()
-                        .equals(pcompVersion.getCreatedBy())) {
-                    throw new PcompException(Constants.PERMISSION_DENIED);
-                }
                 if (!StrUtils.isNull(platform)) {
                     PcompVersionPlatformDownload pcompVersionPlatformDownload = pcompVersionService
                             .fetchVersionDownload(versionDownloadId);
@@ -334,10 +318,6 @@ public class PcompVersionController extends AbstractCachedController {
                 PcompSoftware pcompSoftware = pcompSoftwareService.fetchSoftware(pcompVersion.getPcompSoftwareId());
                 Subject currentUser = SecurityUtils.getSubject();
                 User user = (User) currentUser.getPrincipal();
-                if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId()
-                        .equals(pcompVersion.getCreatedBy())) {
-                    throw new PcompException(Constants.PERMISSION_DENIED);
-                }
                 if (!StrUtils.isNull(platform)) {
                     PcompVersionPlatformDownload pcompVersionPlatformDownload = new PcompVersionPlatformDownload();
                     pcompVersionPlatformDownload.setPlatform(platform);
@@ -381,10 +361,6 @@ public class PcompVersionController extends AbstractCachedController {
                 PcompSoftware pcompSoftware = pcompSoftwareService.fetchSoftware(pcompVersion.getPcompSoftwareId());
                 Subject currentUser = SecurityUtils.getSubject();
                 User user = (User) currentUser.getPrincipal();
-                if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId()
-                        .equals(pcompVersion.getCreatedBy())) {
-                    throw new PcompException(Constants.PERMISSION_DENIED);
-                }
                 pcompVersionService.removeVersionDocument(versionDocumentId, user.getId());
                 result.setData(true);
             } else {
@@ -415,10 +391,6 @@ public class PcompVersionController extends AbstractCachedController {
                 PcompSoftware pcompSoftware = pcompSoftwareService.fetchSoftware(pcompVersion.getPcompSoftwareId());
                 Subject currentUser = SecurityUtils.getSubject();
                 User user = (User) currentUser.getPrincipal();
-                if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId()
-                        .equals(pcompVersion.getCreatedBy())) {
-                    throw new PcompException(Constants.PERMISSION_DENIED);
-                }
                 if (!StrUtils.isNull(description)) {
                     PcompVersionDoucumentDownload pcompVersionDoucumentDownload = pcompVersionService
                             .fetchVersionDocument(versionDocumentId);
@@ -463,10 +435,6 @@ public class PcompVersionController extends AbstractCachedController {
                 PcompSoftware pcompSoftware = pcompSoftwareService.fetchSoftware(pcompVersion.getPcompSoftwareId());
                 Subject currentUser = SecurityUtils.getSubject();
                 User user = (User) currentUser.getPrincipal();
-                if (!user.getId().equals(pcompSoftware.getCreatedBy()) && !user.getId()
-                        .equals(pcompVersion.getCreatedBy())) {
-                    throw new PcompException(Constants.PERMISSION_DENIED);
-                }
                 if (!StrUtils.isNull(description)) {
                     PcompVersionDoucumentDownload pcompVersionDoucumentDownload = new PcompVersionDoucumentDownload();
                     pcompVersionDoucumentDownload.setDescription(description);
