@@ -1,5 +1,6 @@
 package com.sf.sfpp.pcomp.common.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -7,7 +8,7 @@ import java.util.Date;
  * @version 1.0.0
  * @date 2016年9月14日下午2:32:18
  */
-public class UserHistoryMessageVo {
+public class UserHistoryMessageVo implements Serializable {
     private String id;
     
     private String name;
