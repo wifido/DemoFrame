@@ -173,6 +173,24 @@ public class PcompSoftwareManager extends EventManager {
         resource.setRemark("全部权限");
     }
 
+    public Page getAllAvailableInternalSoftwaresOrderByCreatedTime(int pageNumber) {
+        if (pageNumber != Constants.ALL_PAGE_NUMBER) {
+            PageHelper.startPage(pageNumber, PcompConstants.NUMBER_PER_PAGE);
+        } else {
+            PageHelper.startPage(1, Integer.MAX_VALUE);
+        }
+        return (Page<PcompSoftware>) pcompSoftwareMapper.selectAllAcailableInternalOrderByCreatedTime();
+    }
+
+    public Page getAllAvailableOpenSoftwaresOrderByCreatedTime(int pageNumber) {
+        if (pageNumber != Constants.ALL_PAGE_NUMBER) {
+            PageHelper.startPage(pageNumber, PcompConstants.NUMBER_PER_PAGE);
+        } else {
+            PageHelper.startPage(1, Integer.MAX_VALUE);
+        }
+        return (Page<PcompSoftware>) pcompSoftwareMapper.selectAllAcailableOpenOrderByCreatedTime();
+    }
+
     private class DeletePcompVersionLogicallyWork implements Runnable {
         private final String pcompSoftwareId;
         private final int userId;

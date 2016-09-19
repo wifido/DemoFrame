@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -69,10 +70,10 @@ public class UserController extends AbstractCachedController {
 
     @ResponseBody
     @RequestMapping(value = "user/getUserInfo", method = RequestMethod.GET)
-    public JsonResult<User> getUserInfo(HttpServletRequest request) {
+    public JsonResult<User> getUserInfo(@RequestParam("userId") String userid) {
         JsonResult<User> userJsonResult = new JsonResult<>();
         try {
-            int userId = Integer.parseInt(request.getParameter("userId"));
+            int userId = Integer.parseInt(userid);
             User user = getPureUserInfo(userService.getUserByUserId(userId));
             userJsonResult.setData(user);
         }catch (NullPointerException we){

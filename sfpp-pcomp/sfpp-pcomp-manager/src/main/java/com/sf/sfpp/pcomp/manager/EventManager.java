@@ -42,4 +42,6 @@ public abstract class EventManager {
         resourceIds.add(resource.getResourceId());
         resourceMapper.insertRoleResourceList(StrUtils.makeString(role.getRoleId()), resourceIds);
     }
+
+
 }

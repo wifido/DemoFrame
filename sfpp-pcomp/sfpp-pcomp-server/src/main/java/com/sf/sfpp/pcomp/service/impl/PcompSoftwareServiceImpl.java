@@ -36,6 +36,16 @@ public class PcompSoftwareServiceImpl implements PcompSoftwareService {
     }
 
     @Override
+    public PageInfo<PcompSoftware> fetchAllInternalSoftwaresOrderByCreatedTime(int pageNumber) throws PcompException {
+        return pcompSoftwareManager.getAllAvailableInternalSoftwaresOrderByCreatedTime(pageNumber).toPageInfo();
+    }
+
+    @Override
+    public PageInfo<PcompSoftware> fetchAllOpenSoftwaresOrderByCreatedTime(int pageNumber) throws PcompException {
+        return pcompSoftwareManager.getAllAvailableOpenSoftwaresOrderByCreatedTime(pageNumber).toPageInfo();
+    }
+
+    @Override
     public PcompSoftware fetchSoftware(String softwareId) throws PcompException {
         try {
             return pcompSoftwareManager.getPcompSoftwareByPcompSoftwareId(softwareId);
