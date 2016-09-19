@@ -29,10 +29,10 @@ public interface UserService {
     /***
      * 通过用户名获取权限资源
      *
-     * @param username
+     * @param userNo
      * @return
      */
-    List<String> getPermissionsByUserName(String username) throws Exception;
+    List<String> getPermissionsByUserNo(String userNo) throws Exception;
 
     List<User> getAllUsers() throws Exception;
 

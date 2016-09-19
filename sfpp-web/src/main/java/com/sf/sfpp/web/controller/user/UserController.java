@@ -114,7 +114,7 @@ public class UserController extends AbstractCachedController {
         JsonResult<List<String>> userJsonResult = new JsonResult<>();
         try {
             int userId = Integer.parseInt(userid);
-            userJsonResult.setData(userService.getPermissionsByUserName(userService.getUserByUserId(userId).getUserNo()));
+            userJsonResult.setData(userService.getPermissionsByUserNo(userService.getUserByUserId(userId).getUserNo()));
         } catch (Exception e) {
             String stackTrace = ExceptionUtils.getStackTrace(e);
             log.warn(stackTrace);

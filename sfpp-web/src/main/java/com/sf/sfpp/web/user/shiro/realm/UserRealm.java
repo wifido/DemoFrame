@@ -50,7 +50,7 @@ public class UserRealm extends AuthorizingRealm {
         if (user != null) {
             List<String> pers;
             try {
-                pers = userService.getPermissionsByUserName(user.getUserNo());
+                pers = userService.getPermissionsByUserNo(user.getUserNo());
                 if (pers != null && !pers.isEmpty()) {
                     SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
                     for (String each : pers) {

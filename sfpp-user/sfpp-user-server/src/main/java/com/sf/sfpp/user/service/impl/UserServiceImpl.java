@@ -45,17 +45,17 @@ public class UserServiceImpl implements UserService {
     /***
      * 通过用户名获取权限资源
      *
-     * @param username
+     * @param userNo
      * @return
      */
-    public List<String> getPermissionsByUserName(String username) throws Exception {
-        User user = getUserByUserNo(username);
+    public List<String> getPermissionsByUserNo(String userNo) throws Exception {
+        User user = getUserByUserNo(userNo);
         if (user == null) {
             return null;
         }
         List<String> list = new ArrayList<String>();
 
-        List<Resource> resource = resourceManager.getResourceByUserNo(username);
+        List<Resource> resource = resourceManager.getResourceByUserNo(userNo);
         for (Resource r : resource) {
             list.add(r.getResourceUrl());
         }
