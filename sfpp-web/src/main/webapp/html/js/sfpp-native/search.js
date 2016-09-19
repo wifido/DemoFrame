@@ -18,20 +18,11 @@ $(document).ready(function () {
         content.append(resultDiv);
         var articles = $("article");
         for (i = 0; i < articles.length; i++) {
-            if (i < 20) {
-                $(articles[i]).fadeIn(i * 250);
-            } else {
-                $(articles[i]).fadeIn(i * 500);
-            }
+            $(articles[i]).delay(i*200).queue(function(){
+                $(this).attr("style","");
+                $(this).addClass('animated bounce');
+            });
         }
-        articles.hover(
-            function(){
-                $(this).addClass("animated tada");
-            },
-            function(){
-                $(this).removeClass("animated tada");
-            }
-        );
         return false;
     });
 });

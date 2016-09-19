@@ -313,7 +313,7 @@
         }
         blink();
         function blink() {
-            var divs = $("div[class*=col-xs-6][class*=col-sm-4][class*=col-md-3][class*=col-lg-2]");
+            var divs = $("div[class*=col-xs-6][class*=col-sm-4][class*=col-md-3][class*=col-lg-2][style*=display]");
             for (i = 0; i < divs.length; i++) {
                 $(divs[i]).delay(i*200).queue(function(){
                     $(this).attr("style","");
