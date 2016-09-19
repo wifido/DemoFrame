@@ -257,6 +257,7 @@
                     setTimeout(function () {
                         $("#refreshPcompKindAllSoftwares").attr("class", "pull-right text-muted m-t-lg");
                     }, 1000);
+                    imgHover();
                 }
         );
         $("#refreshPcompKindLatestSoftwares").click(
@@ -266,6 +267,7 @@
                     setTimeout(function () {
                         $("#refreshPcompKindLatestSoftwares").attr("class", "pull-right text-muted m-t-lg");
                     }, 1000);
+                    imgHover();
                 }
         );
         $("#refreshPcompKindHotestSoftwares").click(
@@ -275,6 +277,7 @@
                     setTimeout(function () {
                         $("#refreshPcompKindHotestSoftwares").attr("class", "pull-right text-muted m-t-lg");
                     }, 1000);
+                    imgHover();
                 }
         );
 
@@ -347,11 +350,10 @@
             $("pcompKindLatestSoftwares").html(html);
             var pcompSoftwareMatrixItem = $(".col-xs-6.col-sm-4.col-md-4.col-lg-4");
             for (i = 0; i < pcompSoftwareMatrixItem.length; i++) {
-                var time = i * 500;
-                if (time >= 5000) {
-                    time = 5000;
-                }
-                $(pcompSoftwareMatrixItem[i]).fadeIn(time);
+                $(pcompSoftwareMatrixItem[i]).delay(i*200).queue(function(){
+                    $(this).attr("style","");
+                    $(this).addClass('animated bounce');
+                });
             }
         }
 
@@ -372,11 +374,10 @@
             $("pcompKindHotestSoftwares").html(html);
             var pcompSoftwareListItem = $("a.list-group-item.clearfix");
             for (i = 0; i < pcompSoftwareListItem.length; i++) {
-                var time = i * 500;
-                if (time >= 5000) {
-                    time = 5000;
-                }
-                $(pcompSoftwareListItem[i]).fadeIn(time);
+                $(pcompSoftwareListItem[i]).delay(i*200).queue(function(){
+                    $(this).attr("style","");
+                    $(this).addClass('animated bounce');
+                });
             }
         }
     });
@@ -415,11 +416,10 @@
         $("pcompKindAllSoftwares").html(html);
         var pcompKindMatrixItem = $(".col-xs-6.col-sm-4.col-md-3.col-lg-2");
         for (i = 0; i < pcompKindMatrixItem.length; i++) {
-            var time = i * 500;
-            if (time >= 5000) {
-                time = 5000;
-            }
-            $(pcompKindMatrixItem[i]).fadeIn(time);
+            $(pcompKindMatrixItem[i]).delay(i*200).queue(function(){
+                $(this).attr("style","");
+                $(this).addClass('animated bounce');
+            });
         }
         html = "";
         for (i = data.firstPage; i <= data.lastPage; i++) {

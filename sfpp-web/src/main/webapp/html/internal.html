@@ -315,12 +315,12 @@
         function blink() {
             var divs = $("div[class*=col-xs-6][class*=col-sm-4][class*=col-md-3][class*=col-lg-2]");
             for (i = 0; i < divs.length; i++) {
-                if (i < 20) {
-                    $(divs[i]).fadeIn(i * 250);
-                } else {
-                    $(divs[i]).fadeIn(5000);
-                }
+                $(divs[i]).delay(i*200).queue(function(){
+                    $(this).attr("style","");
+                    $(this).addClass('animated bounce');
+                });
             }
+            imgHover();
         }
 
         $("button[class*=btn][class*=btn-success][class*=btn-rounded][class*=kind]").click(function () {
