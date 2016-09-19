@@ -3,7 +3,7 @@ package com.sf.sfpp.pcomp.common.model;
 import java.io.Serializable;
 import java.util.Date;
 
-public class PcompTitle extends UserHistoryMessageVo implements Serializable {
+public class PcompTitle implements Serializable {
     private String id;
 
     private String name;
