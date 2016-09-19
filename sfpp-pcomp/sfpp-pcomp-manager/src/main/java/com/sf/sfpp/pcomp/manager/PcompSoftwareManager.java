@@ -149,6 +149,9 @@ public class PcompSoftwareManager extends EventManager {
         pcompSoftware.setModifiedBy(userId);
         pcompSoftware.setModifiedTime(new Date());
         boolean b = pcompSoftwareMapper.updateByPrimaryKey(pcompSoftware) >= 0;
+        Resource resource = resourceMapper.selectResourceByUrl(getResourceUrl(pcompSoftwareId));
+        resource.setIsDeleted(true);
+        resourceMapper.updateByPrimaryKey(resource);
         if (b) {
             kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey).send(StrUtils
                     .makeString(PcompConstants.PCOMP_SOFTWARE, Constants.KAFKA_TYPE_SEPARATOR,
@@ -166,11 +169,23 @@ public class PcompSoftwareManager extends EventManager {
                         ":", id);
     }
 
-    @Override
-    public void modifyResource(Resource resource, String id) {
-        resource.setResourceType(PcompConstants.PCOMP_SOFTWARE);
-        resource.setResourceName(id);
-        resource.setRemark("全部权限");
+
+    public Page getAllAvailableInternalSoftwaresOrderByCreatedTime(int pageNumber) {
+        if (pageNumber != Constants.ALL_PAGE_NUMBER) {
+            PageHelper.startPage(pageNumber, PcompConstants.NUMBER_PER_PAGE);
+        } else {
+            PageHelper.startPage(1, Integer.MAX_VALUE);
+        }
+        return (Page<PcompSoftware>) pcompSoftwareMapper.selectAllAcailableInternalOrderByCreatedTime();
+    }
+
+    public Page getAllAvailableOpenSoftwaresOrderByCreatedTime(int pageNumber) {
+        if (pageNumber != Constants.ALL_PAGE_NUMBER) {
+            PageHelper.startPage(pageNumber, PcompConstants.NUMBER_PER_PAGE);
+        } else {
+            PageHelper.startPage(1, Integer.MAX_VALUE);
+        }
+        return (Page<PcompSoftware>) pcompSoftwareMapper.selectAllAcailableOpenOrderByCreatedTime();
     }
 
     private class DeletePcompVersionLogicallyWork implements Runnable {
@@ -187,6 +202,9 @@ public class PcompSoftwareManager extends EventManager {
             List<String> pcompVersionIds = pcompVersionMapper.selectAvailableIDBySoftwareId(pcompSoftwareId);
             for (String pcompVersionId : pcompVersionIds) {
                 try {
+                    Resource resource = resourceMapper.selectResourceByUrl(pcompVersionManager.getResourceUrl(pcompVersionId));
+                    resource.setIsDeleted(true);
+                    resourceMapper.updateByPrimaryKey(resource);
                     pcompVersionManager.deletePcompVersionLogically(pcompVersionId, userId);
                 } catch (Exception e) {
                     log.warn(ExceptionUtils.getStackTrace(e));

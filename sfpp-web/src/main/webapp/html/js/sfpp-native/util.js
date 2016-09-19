@@ -72,3 +72,11 @@ $.fn.extend({
     }
 
 });
+
+function imgHover(){
+    $("img").hover(function(){
+        $(this).addClass('animated tada');
+    },function(){
+        $(this).removeClass('animated tada');
+    });
+}

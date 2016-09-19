@@ -26,6 +26,24 @@ public interface PcompSoftwareService {
     PageInfo<PcompSoftware> fetchAllSoftwaresSeparatelyByKind(String kindId, int pageNumber) throws PcompException;
 
     /**
+     * 查询所有的内部组件，按创建时间排序，具有分页
+     *
+     * @param pageNumber
+     * @return
+     * @throws PcompException
+     */
+    PageInfo<PcompSoftware> fetchAllInternalSoftwaresOrderByCreatedTime(int pageNumber) throws PcompException;
+
+    /**
+     * 查询所有的开放软件，按创建时间排序，具有分页
+     *
+     * @param pageNumber
+     * @return
+     * @throws PcompException
+     */
+    PageInfo<PcompSoftware> fetchAllOpenSoftwaresOrderByCreatedTime(int pageNumber) throws PcompException;
+
+    /**
      * 根据software的id获取这个software的详细信息
      *
      * @param softwareId

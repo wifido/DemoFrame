@@ -77,13 +77,6 @@ public class PcompTitleManager extends EventManager {
         return StrUtils.makeString(":sfpp:pcomp:",pcompTitleId);
     }
 
-    @Override
-    public void modifyResource(Resource resource, String id) {
-        resource.setResourceType(PcompConstants.PCOMP_TITLE);
-        resource.setResourceName(id);
-        resource.setRemark("全部权限");
-    }
-
     public boolean addPcompTitle(PcompTitle pcompTitle) throws KafkaException {
         boolean b = pcompTitleMapper.insertSelective(pcompTitle) > 0;
         pcompTitle = pcompTitleMapper.selectByPrimaryKey(pcompTitle.getId());
@@ -104,11 +97,13 @@ public class PcompTitleManager extends EventManager {
         pcompTitle.setModifiedBy(userId);
         pcompTitle.setModifiedTime(new Date());
         boolean b = pcompTitleMapper.updateByPrimaryKey(pcompTitle) >= 0;
+        Resource resource = resourceMapper.selectResourceByUrl(getResourceUrl(pcompTitleId));
+        resource.setIsDeleted(true);
+        resourceMapper.updateByPrimaryKey(resource);
         if (b) {
             kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
                     .send(StrUtils.makeString(PcompConstants.PCOMP_TITLE, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompTitle)));
         }
-
         DeletePcompKindLogicallyWork deletePcompKindLogicallyWork = new DeletePcompKindLogicallyWork(pcompTitleId, userId);
         executorService.submit(deletePcompKindLogicallyWork);
         return b;
@@ -143,6 +138,9 @@ public class PcompTitleManager extends EventManager {
             List<String> pcompKinds = pcompKindMapper.selectAvailabeleKindsIDByTitleID(pcompTileId);
             for (String pcompKind : pcompKinds) {
                 try {
+                    Resource resource = resourceMapper.selectResourceByUrl(pcompKindManager.getResourceUrl(pcompKind));
+                    resource.setIsDeleted(true);
+                    resourceMapper.updateByPrimaryKey(resource);
                     pcompKindManager.deletePcompKindLogically(pcompKind, userId);
                 } catch (Exception e) {
                     log.warn(ExceptionUtils.getStackTrace(e));

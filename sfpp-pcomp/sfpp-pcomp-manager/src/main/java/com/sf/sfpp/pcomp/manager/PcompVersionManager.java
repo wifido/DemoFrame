@@ -133,6 +133,9 @@ public class PcompVersionManager extends EventManager{
         pcompVersion.setModifiedTime(new Date());
         pcompVersion.setModifiedBy(userId);
         boolean b = pcompVersionMapper.updateByPrimaryKey(pcompVersion) >= 0;
+        Resource resource = resourceMapper.selectResourceByUrl(getResourceUrl(pcompVersionId));
+        resource.setIsDeleted(true);
+        resourceMapper.updateByPrimaryKey(resource);
         if (b) {
             kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
                     .send(StrUtils.makeString(PcompConstants.PCOMP_VERSION, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompVersion)));
@@ -161,13 +164,6 @@ public class PcompVersionManager extends EventManager{
         return StrUtils
                 .makeString(pcompSoftwareManager.getResourceUrl(getPcompVersionByPcompVersionId(id).getPcompSoftwareId()), ":",
                         id);
-    }
-
-    @Override
-    public void modifyResource(Resource resource, String id) {
-        resource.setResourceType(PcompConstants.PCOMP_VERSION);
-        resource.setResourceName(id);
-        resource.setRemark("全部权限");
     }
 
     private class UpdatePcompSoftwareModifiedTimeWork implements Runnable {
