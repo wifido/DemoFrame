@@ -5,8 +5,9 @@ import com.sf.sfpp.common.dto.JsonResult;
 import com.sf.sfpp.common.utils.ExceptionUtils;
 import com.sf.sfpp.user.dao.domain.User;
 import com.sf.sfpp.user.dao.domain.UserHistory;
-import com.sf.sfpp.user.service.UserService;
+import com.sf.sfpp.user.service.ResourceService;
 import com.sf.sfpp.user.service.UserHistoryService;
+import com.sf.sfpp.user.service.UserService;
 import com.sf.sfpp.web.controller.common.AbstractCachedController;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author Hash Zhang
@@ -30,6 +32,8 @@ import javax.servlet.http.HttpServletRequest;
 public class UserController extends AbstractCachedController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private ResourceService resourceService;
 
     @Autowired
     private UserHistoryService userHistoryService;
@@ -104,4 +108,18 @@ public class UserController extends AbstractCachedController {
         return userHistoryJsonResult;
     }
 
+    @ResponseBody
+    @RequestMapping(value = "user/getUserPermissions", method = RequestMethod.GET)
+    public JsonResult<List<String>> getUserPermissions(@RequestParam("userId") String userid) {
+        JsonResult<List<String>> userJsonResult = new JsonResult<>();
+        try {
+            int userId = Integer.parseInt(userid);
+            userJsonResult.setData(userService.getPermissionsByUserName(userService.getUserByUserId(userId).getUserNo()));
+        } catch (Exception e) {
+            String stackTrace = ExceptionUtils.getStackTrace(e);
+            log.warn(stackTrace);
+            userJsonResult.setMessage(stackTrace);
+        }
+        return userJsonResult;
+    }
 }

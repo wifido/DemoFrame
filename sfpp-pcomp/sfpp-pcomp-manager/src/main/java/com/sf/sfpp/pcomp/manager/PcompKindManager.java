@@ -134,6 +134,9 @@ public class PcompKindManager extends EventManager {
         pcompKind.setModifiedBy(userId);
         pcompKind.setModifiedTime(new Date());
         boolean b = pcompKindMapper.updateByPrimaryKey(pcompKind) >= 0;
+        Resource resource = resourceMapper.selectResourceByUrl(getResourceUrl(pcompKindId));
+        resource.setIsDeleted(true);
+        resourceMapper.updateByPrimaryKey(resource);
         if (b) {
             kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey).send(StrUtils
                     .makeString(PcompConstants.PCOMP_KIND, Constants.KAFKA_TYPE_SEPARATOR,
@@ -163,13 +166,6 @@ public class PcompKindManager extends EventManager {
                         kindId);
     }
 
-    @Override
-    public void modifyResource(Resource resource, String id) {
-        resource.setResourceType(PcompConstants.PCOMP_KIND);
-        resource.setResourceName(id);
-        resource.setRemark("全部权限");
-    }
-
     private class DeletePcompSoftwareLogicallyWork implements Runnable {
         private final String pcompKindId;
         private final int userId;
@@ -184,6 +180,9 @@ public class PcompKindManager extends EventManager {
             List<String> pcompSoftwaresIds = pcompSoftwareMapper.selectAllAvailableIdByKindId(pcompKindId);
             for (String pcompSoftwaresId : pcompSoftwaresIds) {
                 try {
+                    Resource resource = resourceMapper.selectResourceByUrl(pcompSoftwareManager.getResourceUrl(pcompSoftwaresId));
+                    resource.setIsDeleted(true);
+                    resourceMapper.updateByPrimaryKey(resource);
                     pcompSoftwareManager.deletePcompSoftwareByPcompSoftwareIdLogically(pcompSoftwaresId, userId);
                 } catch (Exception e) {
                     log.warn(ExceptionUtils.getStackTrace(e));
