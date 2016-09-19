@@ -150,8 +150,10 @@ public class PcompSoftwareManager extends EventManager {
         pcompSoftware.setModifiedTime(new Date());
         boolean b = pcompSoftwareMapper.updateByPrimaryKey(pcompSoftware) >= 0;
         Resource resource = resourceMapper.selectResourceByUrl(getResourceUrl(pcompSoftwareId));
-        resource.setIsDeleted(true);
-        resourceMapper.updateByPrimaryKey(resource);
+        if (resource != null) {
+            resource.setIsDeleted(true);
+            resourceMapper.updateByPrimaryKey(resource);
+        }
         if (b) {
             kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey).send(StrUtils
                     .makeString(PcompConstants.PCOMP_SOFTWARE, Constants.KAFKA_TYPE_SEPARATOR,
@@ -203,8 +205,10 @@ public class PcompSoftwareManager extends EventManager {
             for (String pcompVersionId : pcompVersionIds) {
                 try {
                     Resource resource = resourceMapper.selectResourceByUrl(pcompVersionManager.getResourceUrl(pcompVersionId));
-                    resource.setIsDeleted(true);
-                    resourceMapper.updateByPrimaryKey(resource);
+                    if (resource != null) {
+                        resource.setIsDeleted(true);
+                        resourceMapper.updateByPrimaryKey(resource);
+                    }
                     pcompVersionManager.deletePcompVersionLogically(pcompVersionId, userId);
                 } catch (Exception e) {
                     log.warn(ExceptionUtils.getStackTrace(e));

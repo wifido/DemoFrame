@@ -98,8 +98,10 @@ public class PcompTitleManager extends EventManager {
         pcompTitle.setModifiedTime(new Date());
         boolean b = pcompTitleMapper.updateByPrimaryKey(pcompTitle) >= 0;
         Resource resource = resourceMapper.selectResourceByUrl(getResourceUrl(pcompTitleId));
-        resource.setIsDeleted(true);
-        resourceMapper.updateByPrimaryKey(resource);
+        if (resource != null) {
+            resource.setIsDeleted(true);
+            resourceMapper.updateByPrimaryKey(resource);
+        }
         if (b) {
             kafkaConnectionPool.getKafkaConnection(kafkaConnectionKey)
                     .send(StrUtils.makeString(PcompConstants.PCOMP_TITLE, Constants.KAFKA_TYPE_SEPARATOR, JSON.toJSONString(pcompTitle)));
@@ -139,8 +141,10 @@ public class PcompTitleManager extends EventManager {
             for (String pcompKind : pcompKinds) {
                 try {
                     Resource resource = resourceMapper.selectResourceByUrl(pcompKindManager.getResourceUrl(pcompKind));
-                    resource.setIsDeleted(true);
-                    resourceMapper.updateByPrimaryKey(resource);
+                    if (resource != null) {
+                        resource.setIsDeleted(true);
+                        resourceMapper.updateByPrimaryKey(resource);
+                    }
                     pcompKindManager.deletePcompKindLogically(pcompKind, userId);
                 } catch (Exception e) {
                     log.warn(ExceptionUtils.getStackTrace(e));
