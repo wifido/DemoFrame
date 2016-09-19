@@ -24,6 +24,14 @@ $(document).ready(function () {
                 $(articles[i]).fadeIn(i * 500);
             }
         }
+        articles.hover(
+            function(){
+                $(this).addClass("animated tada");
+            },
+            function(){
+                $(this).removeClass("animated tada");
+            }
+        );
         return false;
     });
 });

@@ -18,6 +18,7 @@ import com.sf.sfpp.pcomp.service.PcompTitleService;
 import com.sf.sfpp.user.dao.domain.User;
 import com.sf.sfpp.web.common.PathConstants;
 import com.sf.sfpp.web.controller.common.AbstractCachedController;
+import com.sf.sfpp.web.controller.user.UserController;
 import com.sf.sfpp.web.controller.user.UserRightController;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
@@ -31,6 +32,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -45,6 +50,8 @@ public class PcompSoftwareController extends AbstractCachedController {
 
     @Autowired
     private UserRightController userRightController;
+    @Autowired
+    private UserController userController;
     @Autowired
     private PcompTitleService pcompTitleService;
 
@@ -131,6 +138,55 @@ public class PcompSoftwareController extends AbstractCachedController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "pcomp/software/internal/history",
+            method = RequestMethod.GET)
+    public JsonResult<PageInfo<PcompSoftware>> getInternalSoftwareHistory(HttpServletRequest request) {
+        JsonResult<PageInfo<PcompSoftware>> result = new JsonResult<>();
+        try {
+            String pageNumber = request.getParameter("pageNumber");
+            PageInfo<PcompSoftware> list = pcompSoftwareService
+                    .fetchAllInternalSoftwaresOrderByCreatedTime(Integer.parseInt(pageNumber));
+            List<PcompSoftware> pcompSoftwareList = new ArrayList<>();
+            for (PcompSoftware pcompSoftware : list.getList()) {
+                if (userRightController.getHasViewPcompSoftwareRight(pcompSoftware.getId()).getData()) {
+                    pcompSoftwareList.add(new PcompSoftwareHistoryItem(pcompSoftware, userController));
+                }
+            }
+            list.setList(pcompSoftwareList);
+            result.setData(list);
+        } catch (Exception e) {
+            log.warn(ExceptionUtils.getStackTrace(e));
+            result.setMessage(e.getMessage());
+        }
+
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "pcomp/software/open/history",
+            method = RequestMethod.GET)
+    public JsonResult<PageInfo<PcompSoftware>> getOpenSoftwareHistory(HttpServletRequest request) {
+        JsonResult<PageInfo<PcompSoftware>> result = new JsonResult<>();
+        try {
+            String pageNumber = request.getParameter("pageNumber");
+            PageInfo<PcompSoftware> list = pcompSoftwareService
+                    .fetchAllOpenSoftwaresOrderByCreatedTime(Integer.parseInt(pageNumber));
+            for (PcompSoftware pcompSoftware : list.getList()) {
+                if (userRightController.getHasViewPcompSoftwareRight(pcompSoftware.getId()).getData()) {
+                    list.getList().add(new PcompSoftwareHistoryItem(pcompSoftware, userController));
+                }
+                list.getList().remove(pcompSoftware);
+            }
+            result.setData(list);
+        } catch (Exception e) {
+            log.warn(ExceptionUtils.getStackTrace(e));
+            result.setMessage(e.getMessage());
+        }
+
+        return result;
+    }
+
+    @ResponseBody
     @RequestMapping(value = "pcomp/software/getAllByKind",
             method = RequestMethod.GET)
     public JsonResult<PageInfo<PcompSoftware>> getAllSoftwareByKind(HttpServletRequest request) {
@@ -162,7 +218,7 @@ public class PcompSoftwareController extends AbstractCachedController {
             String pcompSoftwareId = request.getParameter("pcompSoftwareId");
             if (userRightController.getHasViewPcompSoftwareRight(pcompSoftwareId).getData()) {
                 result.setData(pcompSoftwareService.fetchSoftware(pcompSoftwareId));
-            }else{
+            } else {
                 result.setData(null);
                 result.setMessage("Permission Denied");
             }
@@ -251,6 +307,7 @@ public class PcompSoftwareController extends AbstractCachedController {
                     modified = true;
                 }
                 if (modified) {
+                    pcompSoftware.setModifiedBy(((User) SecurityUtils.getSubject().getPrincipal()).getId());
                 }
                 pcompSoftwareService.updateSoftware(pcompSoftware);
                 result.setData(true);
@@ -286,5 +343,88 @@ public class PcompSoftwareController extends AbstractCachedController {
             log.warn(ExceptionUtils.getStackTrace(e));
         }
         return result;
+    }
+}
+
+class PcompSoftwareHistoryItem extends PcompSoftware {
+    private String id;
+    private String name;
+    private String title;
+    private String log;
+    private String createTime;
+    private String avatar;
+
+    public PcompSoftwareHistoryItem(PcompSoftware pcompSoftware, UserController userController) {
+        setId(pcompSoftware.getId());
+        setName(pcompSoftware.getName());
+        setTitle(pcompSoftware.getCreatedTime());
+        setLog(userController.getUserInfo(StrUtils.makeString(pcompSoftware.getCreatedBy())).getData().getUserNo());
+        setCreateTime(pcompSoftware.getCreatedTime());
+        setAvatar(pcompSoftware.getAvatar());
+    }
+
+    private static ThreadLocal<DateFormat> threadLocal1 = new ThreadLocal<DateFormat>() {
+        @Override
+        protected DateFormat initialValue() {
+            return new SimpleDateFormat("dd/MM/yyyy");
+        }
+    };
+
+    private static ThreadLocal<DateFormat> threadLocal2 = new ThreadLocal<DateFormat>() {
+        @Override
+        protected DateFormat initialValue() {
+            return new SimpleDateFormat("MM月dd日");
+        }
+    };
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLog() {
+        return log;
+    }
+
+    public void setLog(String userNo) {
+        this.log = StrUtils.makeString(userNo, " 发布了 ", this.name);
+    }
+
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createdtime) {
+        this.createTime = threadLocal1.get().format(createdtime);
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(Date createdTime) {
+        this.title = threadLocal2.get().format(createdTime);
+    }
+
+    @Override
+    public String getAvatar() {
+        return avatar;
+    }
+
+    @Override
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

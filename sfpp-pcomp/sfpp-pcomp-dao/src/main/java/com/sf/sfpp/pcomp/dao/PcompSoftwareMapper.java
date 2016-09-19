@@ -18,6 +18,10 @@ public interface PcompSoftwareMapper {
 
     List<PcompSoftware> selectAllAvailableByKindId(String pcomp_kind_id);
 
+    List<PcompSoftware> selectAllAcailableInternalOrderByCreatedTime();
+
+    List<PcompSoftware> selectAllAcailableOpenOrderByCreatedTime();
+
     List<PcompSoftware> selectLatest();
 
     List<String> selectAllAvailableIdByKindId(String pcomp_kind_id);

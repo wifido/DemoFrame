@@ -41,6 +41,26 @@
     order by modified_time desc
   </select>
 
+  <select id="selectAllAcailableInternalOrderByCreatedTime" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from pcomp_software
+    where is_deleted = 0
+    and pcomp_kind_id in
+      (select id from pcomp_kind where pcomp_title_id = '0000000000000000000000000000000000000000')
+    order by created_time
+  </select>
+
+  <select id="selectAllAcailableOpenOrderByCreatedTime" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from pcomp_software
+    where is_deleted = 0
+    and pcomp_kind_id not in
+    (select id from pcomp_kind where pcomp_title_id = '0000000000000000000000000000000000000000')
+    order by created_time
+  </select>
+
   <select id="selectByUniqueKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
     <include refid="Base_Column_List" />
@@ -78,7 +98,7 @@
       introduction_short, introduction
       )
     values (#{id,jdbcType=VARCHAR}, #{pcompKindId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{avatar,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}, #{createdTime,jdbcType=TIMESTAMP}, 
+      #{avatar,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}, #{createdTime,jdbcType=TIMESTAMP},
       #{createdBy,jdbcType=INTEGER}, #{modifiedTime,jdbcType=TIMESTAMP}, #{modifiedBy,jdbcType=INTEGER}, 
       #{introductionShort,jdbcType=LONGVARCHAR}, #{introduction,jdbcType=LONGVARCHAR}
       )

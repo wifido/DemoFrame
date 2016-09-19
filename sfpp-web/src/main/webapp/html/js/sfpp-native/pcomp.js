@@ -823,6 +823,38 @@ $.pcomp.software = {
         });
         return a;
     },
+    getInternalHistory: function (pageNumber) {
+        var a = "";
+        $.ajax({
+            url: getContextPath() + "/pcomp/software/internal/history?pageNumber=" + pageNumber,
+            async: false,
+            success: function (response) {
+                if (!isNull(response.message)) {
+                    alert(response.message);
+                    return;
+                } else {
+                    a = response.data
+                }
+            }
+        });
+        return a;
+    },
+    getOpenHistory: function (pageNumber) {
+        var a = "";
+        $.ajax({
+            url: getContextPath() + "/pcomp/software/open/history?pageNumber=" + pageNumber,
+            async: false,
+            success: function (response) {
+                if (!isNull(response.message)) {
+                    alert(response.message);
+                    return;
+                } else {
+                    a = response.data
+                }
+            }
+        });
+        return a;
+    },
     updateSoftwareIntroduction: function (softwareId, introduction) {
         $.ajaxFileUpload
         (
