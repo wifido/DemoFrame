@@ -45,14 +45,24 @@ public class UserOperate {
 	    userHistory.setUserId(userHistoryMessageVo.getModifiedBy());
 	    userHistory.setTargetId(userHistoryMessageVo.getId());
 	    userHistory.setCreatedTime(userHistoryMessageVo.getModifiedTime());
+	    userHistory.setModifiedTime(userHistoryMessageVo.getModifiedTime());
+	    userHistory.setCreatedBy(userHistoryMessageVo.getModifiedBy());
+	    userHistory.setModifiedBy(userHistoryMessageVo.getModifiedBy());
 	    
 	    String action = getAction(userHistoryMessageVo);
 	    userHistory.setAction(action);
-	    
 	    userHistory.setTargetKind(messageType);
-	    
-	    String descrition = getDescription(action,userHistoryMessageVo,messageType);
-	    userHistory.setDescription(descrition);
+	    String description = null;
+	    if(messageType.equals(PcompConstants.PCOMP_SOFTWARE)){
+	        description = getDescription1(action,userHistoryMessageVo,PcompConstants.PCOMP_SOFTWARE_ZH,userHistoryMessageVo.getId(),userHistoryMessageVo.getName());
+	    }else if(messageType.equals(PcompConstants.PCOMP_VERSION)){
+	        description = getDescription1(action,userHistoryMessageVo,PcompConstants.PCOMP_VERSION_ZH,userHistoryMessageVo.getPcompSoftwareId(),userHistoryMessageVo.getVersionNumber());
+	    }else if(messageType.equals(PcompConstants.PCOMP_TITLE)){
+	        description = getDescription2(action,userHistoryMessageVo,PcompConstants.PCOMP_TITLE_ZH);
+	    }else if(messageType.equals(PcompConstants.PCOMP_KIND)){
+	        description = getDescription2(action,userHistoryMessageVo,PcompConstants.PCOMP_KIND_ZH);
+	    }
+	    userHistory.setDescription(description);
 	    return userHistory;
 	}
 	
@@ -64,42 +74,35 @@ public class UserOperate {
 	 * @param userHistoryMessageVo
 	 * @return String 
 	 */
-	static String getDescription(String action,UserHistoryMessageVo userHistoryMessageVo,String type){
+	static String getDescription1(String action,UserHistoryMessageVo userHistoryMessageVo,String type,String pcompSoftwareId,String name){
 	    String description =null;
 	    if (DELETE.equals(action)) {
-	        description = "删除了\""+userHistoryMessageVo.getName()+"\""+toChinese(type);
+	        description = "删除了\""+userHistoryMessageVo.getName()+"\""+type;
         } else {
             if (ADD.equals(action)) {
-                description = "<a href=\"../pcomp/index?pcomp_title="+userHistoryMessageVo.getId()+"\">"+"添加了\""+userHistoryMessageVo.getName()+"\""+toChinese(type)+"</a>";
+                description = "<a href=\"../html/pcompSoftware.html?pcompSoftwareId="+pcompSoftwareId+"\">"+"添加了\""+name+"\""+type+"</a>";
             } else {
-                description = "<a href=\"../pcomp/index?pcomp_title="+userHistoryMessageVo.getId()+"\">"+"更新了\""+userHistoryMessageVo.getName()+"\""+toChinese(type)+"</a>";
+                description = "<a href=\"../html/pcompSoftware.html?pcompSoftwareId="+pcompSoftwareId+"\">"+"更新了\""+name+"\""+type+"</a>";
             }
         }
 	    return description;
 	}
-	/**
-	 * 将类型转换成中文
-	 * @return String
-	 */
-	
-	static String toChinese(String message){
-	    String str = null;
-	    switch (message) {
-        case PcompConstants.PCOMP_TITLE:
-            str = PcompConstants.PCOMP_TITLE_ZH;
-            break;
-        case PcompConstants.PCOMP_KIND:
-            str = PcompConstants.PCOMP_KIND_ZH;
-            break;
-        case PcompConstants.PCOMP_SOFTWARE:
-            str =  PcompConstants.PCOMP_SOFTWARE_ZH;
-            break;
-        case PcompConstants.PCOMP_VERSION:
-            str =  PcompConstants.PCOMP_VERSION_ZH;
-            break;
+
+	static String getDescription2(String action,UserHistoryMessageVo userHistoryMessageVo,String type){
+        String description =null;
+        if (DELETE.equals(action)) {
+            description = "删除了\""+userHistoryMessageVo.getName()+"\""+type;
+        } else {
+            if (ADD.equals(action)) {
+                description = "添加了\""+userHistoryMessageVo.getName()+"\""+type;
+            } else {
+                description = "更新了\""+userHistoryMessageVo.getName()+"\""+type;
+            }
         }
-	    return str;
-	}
+        return description;
+    }
+
+	
 	
 	/**
 	 * 获取用户操作类型action字段（增/删/改） 
