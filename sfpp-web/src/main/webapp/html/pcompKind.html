@@ -246,7 +246,8 @@
     var pcompKindId = getUrlParam("pcompKindId");
     var pcompKind = $.pcomp.kind.getByKindId(pcompKindId);
     $(document).ready(function () {
-        $("userNo").html(($.user.get()).userNo);
+        var user = $.user.get();
+        $("userNo").html(user.userName+"("+user.userNo+")");
         displayPcompKindAllSoftwares(1);
         displayPcompKindLatestSoftwares();
         displayPcompKindHotestSoftwares();

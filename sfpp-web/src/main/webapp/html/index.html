@@ -136,6 +136,7 @@
                             <section class="scrollable padder-lg w-f-md" id="bjax-target">
                                 <a href="#" class="pull-right text-muted m-t-lg" id="refreshPcompSoftwareHistory"><i
                                         class="icon-refresh i-lg  inline"></i></a>
+
                                 <h2 class="font-thin m-b">内部组件发布历史</h2>
 
                                 <div class="row row-sm">
@@ -168,7 +169,7 @@
                                                 class="icon-refresh i-lg  inline"></i></a>
 
                                         <h3 class="font-thin">最新软件<span class="musicbar animate inline m-l-sm"
-                                                                          style="width:20px;height:20px">
+                                                                        style="width:20px;height:20px">
                     <span class="bar1 a1 bg-primary lter"></span>
                     <span class="bar2 a2 bg-info lt"></span>
                     <span class="bar3 a3 bg-success"></span>
@@ -218,7 +219,8 @@
 <script src="js/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
-        $("userNo").html(($.user.get()).userNo);
+        var user = $.user.get();
+        $("userNo").html(user.userName + "(" + user.userNo + ")");
         refreshPcompKindMatrixItem();
         refreshPcompSoftwareMatrixItem();
         refreshPcompSoftwareListItem();
@@ -274,10 +276,10 @@
             $("pcompKindMatrixItem").html(html);
             var pcompKindMatrixItem = $(".col-xs-6.col-sm-4.col-md-3.col-lg-2");
             for (i = 0; i < pcompKindMatrixItem.length; i++) {
-                    $(pcompKindMatrixItem[i]).delay(i*200).queue(function(){
-                        $(this).attr("style","");
-                        $(this).addClass('animated bounce');
-                    });
+                $(pcompKindMatrixItem[i]).delay(i * 200).queue(function () {
+                    $(this).attr("style", "");
+                    $(this).addClass('animated bounce');
+                });
             }
             imgHover();
         };
@@ -296,8 +298,8 @@
             $("pcompSoftwareMatrixItem").html(html);
             var pcompSoftwareMatrixItem = $(".col-xs-6.col-sm-4.col-md-4.col-lg-4");
             for (i = 0; i < pcompSoftwareMatrixItem.length; i++) {
-                $(pcompSoftwareMatrixItem[i]).delay(i*200).queue(function(){
-                    $(this).attr("style","");
+                $(pcompSoftwareMatrixItem[i]).delay(i * 200).queue(function () {
+                    $(this).attr("style", "");
                     $(this).addClass('animated bounce');
                 });
             }
@@ -314,13 +316,13 @@
             var data = $.pcomp.software.getHot();
             for (i = 0; i < data.length; i++) {
                 var b = $.user.getUserInfo(data[i].createdBy);
-                html += list_item_1 + getHtmlPath() + '/pcompSoftware.html?pcompSoftwareId=' + data[i].id + list_item_2 + (i + 1) + list_item_3 + data[i].avatar + list_item_4 + data[i].name + list_item_5 + b.userNo + list_item_6;
+                html += list_item_1 + getHtmlPath() + '/pcompSoftware.html?pcompSoftwareId=' + data[i].id + list_item_2 + (i + 1) + list_item_3 + data[i].avatar + list_item_4 + data[i].name + list_item_5 + b.userName + "(" + b.userNo + ")" + list_item_6;
             }
             $("pcompSoftwareListItem").html(html);
             var pcompSoftwareListItem = $("a.list-group-item.clearfix");
             for (i = 0; i < pcompSoftwareListItem.length; i++) {
-                $(pcompSoftwareListItem[i]).delay(i*200).queue(function(){
-                    $(this).attr("style","");
+                $(pcompSoftwareListItem[i]).delay(i * 200).queue(function () {
+                    $(this).attr("style", "");
                     $(this).addClass('animated bounce');
                 });
             }
@@ -331,15 +333,14 @@
             var allInternal = $.pcomp.software.getInternalHistory(-1).list;
             var html = '';
             for (i = 0; i < allInternal.length; i++) {
-                html += "<div class='item animated bounceIn' data-id='" +allInternal[i].createTime + "'data-description='" + allInternal[i].log + "'> <a class='image_rollover_bottom con_borderImage' data-description='ZOOM IN'href='" + getHtmlPath()+"/pcompSoftware.html?pcompSoftwareId="+allInternal[i].id + "' rel='lightbox[timeline]'> <img src='" + allInternal[i].avatar + "' alt=''/></a><h2>" + allInternal[i].title + "</h2>"
+                html += "<div class='item animated bounceIn' data-id='" + allInternal[i].createTime + "'data-description='" + allInternal[i].log + "'> <a class='image_rollover_bottom con_borderImage' data-description='ZOOM IN'href='" + getHtmlPath() + "/pcompSoftware.html?pcompSoftwareId=" + allInternal[i].id + "' rel='lightbox[timeline]'> <img src='" + allInternal[i].avatar + "' alt=''/></a><h2>" + allInternal[i].title + "</h2>"
                         + "<span>" + allInternal[i].log + "</span></div>";
             }
             $("#PcompHistory").html(html);
             $("#scroller .items").cycle({
                 fx: 'scrollUp'
             });
-            $('.timelineLight').timeline({
-            });
+            $('.timelineLight').timeline({});
             $("div[class=t_controles]").remove();
             imgHover();
         }

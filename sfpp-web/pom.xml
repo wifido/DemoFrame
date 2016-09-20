@@ -228,7 +228,7 @@
                             <descriptors>
                                 <descriptor>src/main/assembly/dev/assembly.xml</descriptor>
                             </descriptors>
-                            <finalName>${artifactId}</finalName>
+                            <finalName>sfpp-web</finalName>
                         </configuration>
                     </execution>
                     <execution>
@@ -242,7 +242,7 @@
                             <descriptors>
                                 <descriptor>src/main/assembly/prod/assembly.xml</descriptor>
                             </descriptors>
-                            <finalName>${artifactId}</finalName>
+                            <finalName>sfpp-web</finalName>
                         </configuration>
                     </execution>
                 </executions>

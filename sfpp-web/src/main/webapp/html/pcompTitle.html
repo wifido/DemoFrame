@@ -150,7 +150,8 @@
 <script>
     $(document).ready(function initialize() {
         var pcompTitles = $.pcomp.title.getAll();
-        $("userNo").html(($.user.get()).userNo);
+        var user = $.user.get();
+        $("userNo").html(user.userName+"("+user.userNo+")");
         var isPcompAdmin =  $.pcomp.userRight.getIsPcompAdmin();
         var content = $("#bjax-target");
         content.empty();

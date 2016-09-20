@@ -179,7 +179,8 @@
 <script src="plugins/bootstrap3-fileinput/js/fileinput.min.js"></script>
 <script>
     $(document).ready(function initialize() {
-        $("userNo").html(($.user.get()).userNo);
+        var user = $.user.get();
+        $("userNo").html(user.userName+"("+user.userNo+")");
         var matrix_item_2 = "<a href=\"";
         var matrix_item_3 = "\"><img src=\"";
         var matrix_item_4 = "\" alt=\"\" class=\"r r-2x img-full\"></a></div><div class=\"padder-v\"><a href=\"";

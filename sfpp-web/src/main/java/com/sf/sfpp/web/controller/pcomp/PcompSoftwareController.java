@@ -358,7 +358,8 @@ class PcompSoftwareHistoryItem extends PcompSoftware {
         setId(pcompSoftware.getId());
         setName(pcompSoftware.getName());
         setTitle(pcompSoftware.getCreatedTime());
-        setLog(userController.getUserInfo(StrUtils.makeString(pcompSoftware.getCreatedBy())).getData().getUserNo());
+        User user = userController.getUserInfo(StrUtils.makeString(pcompSoftware.getCreatedBy())).getData();
+        setLog(user.getUserNo(),user.getUserName());
         setCreateTime(pcompSoftware.getCreatedTime());
         setAvatar(pcompSoftware.getAvatar());
     }
@@ -397,10 +398,9 @@ class PcompSoftwareHistoryItem extends PcompSoftware {
         return log;
     }
 
-    public void setLog(String userNo) {
-        this.log = StrUtils.makeString(userNo, " 发布了 ", this.name);
+    public void setLog(String userNo, String userName) {
+        this.log = StrUtils.makeString(userName, "(", userNo, ")", " 发布了 ", this.name);
     }
-
 
     public String getCreateTime() {
         return createTime;

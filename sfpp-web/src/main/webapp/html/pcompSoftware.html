@@ -258,7 +258,8 @@
         var button = $("#submitButton");
         var edit = $("i[class*=icon-pencil]");
 //        页面初始化
-        $("userNo").html(($.user.get()).userNo);
+        var user = $.user.get();
+        $("userNo").html(user.userName+"("+user.userNo+")");
         var pcompSoftware;
         var pcompVersions;
         var title = $("#title");
