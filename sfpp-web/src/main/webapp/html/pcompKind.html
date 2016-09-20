@@ -408,10 +408,10 @@
 
 
         if ($.pcomp.userRight.getHasModifyKindRight(pcompKindId)) {
-            titleHtml += "<button class='btn btn-success btn-rounded'>修改本分类</button><button class='btn btn-danger btn-rounded'>删除本分类</button>";
+            titleHtml += "<button class='btn btn-success btn-rounded'><i class='icon-pencil'></i>修改本分类</button><button class='btn btn-danger btn-rounded'><i class='icon-trash'></i>删除本分类</button>";
         }
         if ($.pcomp.userRight.getHasAddSoftwareRight(pcompKindId)) {
-            titleHtml += "<button class='btn btn-info btn-rounded'>添加新开放软件</button>";
+            titleHtml += "<button class='btn btn-info btn-rounded'><i class='icon-plus'></i>添加新开放软件</button>";
         }
         $("pcompKindAllSoftwaresTitle").html(titleHtml);
         $("pcompKindAllSoftwares").html(html);

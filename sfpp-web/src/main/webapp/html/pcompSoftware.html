@@ -265,7 +265,7 @@
         var title = $("#title");
         var allList;
         if ($.pcomp.userRight.getHasAddVersionRight(pcompSoftwareId)) {
-            var button1 = $("<button class='btn btn-info btn-rounded'>添加新版本</button>");
+            var button1 = $("<button class='btn btn-info btn-rounded'><i class='icon-plus'></i>添加新版本</button>");
             title.after(button1);
             button1.click(function () {
                 var dialogDiv = $("[role=dialog]");
@@ -402,7 +402,7 @@
                 $(this).parent().parent().attr("class", "active");
                 var html = pcompSoftware.name + " - " + pcompVersions[id].versionNumber;
                 if ($.pcomp.userRight.getHasModifyVersionRight(pcompVersions[getVersionId(this)].id)) {
-                    html += "<button class='btn btn-success btn-rounded'>修改</button><button class='btn btn-danger btn-rounded'>删除</button>";
+                    html += "<button class='btn btn-success btn-rounded'><i class='icon-pencil'></i>修改</button><button class='btn btn-danger btn-rounded'><i class='icon-trash'></i>删除</button>";
                     button.next().remove();
                     button.after($("<i class='icon-pencil i-lg '>编辑</i>"));
                     edit = $("i[class*=icon-pencil]");
@@ -571,7 +571,7 @@
             var h2 = $("<h2>软件下载：</h2>");
             div.append(h2);
             if ($.pcomp.userRight.getHasModifyVersionRight(pcompVersion.id)) {
-                var button = $("<button class='btn btn-primary software' id='addSoftware'>增加</button>");
+                var button = $("<button class='btn btn-primary software' id='addSoftware'><i class='icon-plus'></i>增加</button>");
                 h2.append(button);
             }
             var table = $("<table></table>");
@@ -591,7 +591,7 @@
                 td.append(a);
                 tr.append(td);
                 if ($.pcomp.userRight.getHasModifyVersionRight(pcompVersion.id)) {
-                    td = $("<td><button class='btn btn-success software'id='" + i + "' >修改</button><button class='btn btn-danger software' id='" + i + "'>删除</button></td>");
+                    td = $("<td><button class='btn btn-success software'id='" + i + "' ><i class='icon-pencil'></i>修改</button><button class='btn btn-danger software' id='" + i + "'><i class='icon-trash'></i>删除</button></td>");
                     tr.append(td);
                 }
                 tbody.append(tr);
@@ -599,7 +599,7 @@
             var h2 = $("<h2>文档下载：</h2>");
             div.append(h2);
             if ($.pcomp.userRight.getHasModifyVersionRight( pcompVersion.id)) {
-                var button = $("<button class='btn btn-primary document' id='addDocument'>增加</button>");
+                var button = $("<button class='btn btn-primary document' id='addDocument'><i class='icon-plus'></i>增加</button>");
                 h2.append(button);
             }
             table = $("<table></table>");
@@ -619,7 +619,7 @@
                 td.append(a);
                 tr.append(td);
                 if ($.pcomp.userRight.getHasModifyVersionRight( pcompVersion.id)) {
-                    td = $("<td><button class='btn btn-success document'id='" + i + "'>修改</button><button class='btn btn-danger document'id='" + i + "' >删除</button></td>");
+                    td = $("<td><button class='btn btn-success document'id='" + i + "'><i class='icon-pencil'></i>修改</button><button class='btn btn-danger document'id='" + i + "' ><i class='icon-trash'></i>删除</button></td>");
                     tr.append(td);
                 }
                 tbody.append(tr);

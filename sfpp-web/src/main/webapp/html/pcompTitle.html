@@ -157,7 +157,7 @@
         content.empty();
         content.append($("<h1><b>开放软件</b>-<small>开源软件共享平台</small></h1><hr/>"));
         if (isPcompAdmin) {
-            content.append($("<button class='btn btn-info btn-rounded title'>添加新主题</button>"));
+            content.append($("<button class='btn btn-info btn-rounded title'><i class='icon-plus'></i>添加新主题</button>"));
             $("button[class*=btn][class*=btn-info][class*=btn-rounded][class*=title]").click(function () {
                 var dialogDiv = $("[role=dialog]");
                 dialogDiv.remove();
@@ -195,9 +195,9 @@
             var h2 = "<h2 class='font-thin m-b'>" + pcompTitles[i].name;
             h2 += "<span class='musicbar animate inline m-l-sm' style='width:20px;height:20px'><span class='bar1 a1 bg-primary lter'></span><span class='bar2 a2 bg-info lt'></span><span class='bar3 a3 bg-success'></span><span class='bar4 a4 bg-warning dk'></span><span class='bar5 a5 bg-danger dker'></span></span>";
             if ($.pcomp.userRight.getHasModifyTitleRight(pcompTitles[i].id)) {
-                h2 += "<button class='btn btn-success btn-rounded title'id='" + i + "'>修改本主题</button><button class='btn btn-danger btn-rounded title'id='" + i + "'>删除本主题</button>";
+                h2 += "<button class='btn btn-success btn-rounded title'id='" + i + "'><i class='icon-pencil'></i>修改本主题</button><button class='btn btn-danger btn-rounded title'id='" + i + "'><i class='icon-trash'></i>删除本主题</button>";
             } if ($.pcomp.userRight.getHasAddKindRight(pcompTitles[i].id)) {
-                h2 += "<button class='btn btn-info btn-rounded kind' id='" + i + "'>添加新分类</button>";
+                h2 += "<button class='btn btn-info btn-rounded kind' id='" + i + "'><i class='icon-plus'></i>添加新分类</button>";
             }
             h2 += "</h2>";
             h2 = $(h2);
