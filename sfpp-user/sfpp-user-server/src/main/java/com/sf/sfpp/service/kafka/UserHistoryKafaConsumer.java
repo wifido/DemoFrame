@@ -45,8 +45,9 @@ public class UserHistoryKafaConsumer {
 			UserHistory userHistory = new UserHistory();
 			for (String message : list) {
 				    userHistory = UserOperate.getUserHistory(message);
+				    userHistoryService.addUserHistory(userHistory);
 				}
-				userHistoryService.addUserHistory(userHistory);
+				
 		}
 	}
 }
